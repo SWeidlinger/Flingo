@@ -33,8 +33,7 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth(),
             text = "Welcome to Flingo!",
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography
-                .headlineMedium
+            style = MaterialTheme.typography.headlineMedium
         )
     }
 }
