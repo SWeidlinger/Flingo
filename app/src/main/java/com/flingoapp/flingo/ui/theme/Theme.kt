@@ -17,9 +17,9 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = FlingoPrimary,
+    secondary = FlingoSecondary,
+    tertiary = FlingoTertiary
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -45,12 +45,14 @@ fun FlingoTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
+
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
+    //TODO: remove once dark mode is implemented
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = LightColorScheme,
         typography = Typography,
         content = content
     )
