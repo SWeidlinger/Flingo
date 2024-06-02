@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.flingoapp.flingo.ui.components
+package com.flingoapp.flingo.ui.components.common
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -25,12 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
-
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GameConceptPageIndicator(
+fun CustomPageIndicator(
     modifier: Modifier = Modifier,
     pagerState: PagerState,
-    gameConceptList: List<String>
+    pageNames: List<String>,
+    selectedColor: Color = MaterialTheme.colorScheme.primary,
+    unselectedColor: Color = Color.LightGray
 ) {
     Row(
         modifier
@@ -41,7 +43,7 @@ fun GameConceptPageIndicator(
     ) {
         repeat(pagerState.pageCount) { iteration ->
             val isCurrentPage = pagerState.currentPage == iteration
-            val color = if (isCurrentPage) MaterialTheme.colorScheme.primary else Color.LightGray
+            val color = if (isCurrentPage) selectedColor else unselectedColor
 
             //TODO: add animation
             Box(
@@ -54,7 +56,7 @@ fun GameConceptPageIndicator(
                 if (isCurrentPage) {
                     Text(
                         modifier = Modifier.padding(8.dp),
-                        text = gameConceptList[iteration],
+                        text = pageNames[iteration],
                         color = Color.White
                     )
                 }
@@ -65,11 +67,11 @@ fun GameConceptPageIndicator(
 
 @Preview(showBackground = true)
 @Composable
-private fun GameConceptPageIndicatorPreview() {
+private fun CustomPageIndicatorPreview() {
     FlingoTheme {
-        GameConceptPageIndicator(
+        CustomPageIndicator(
             pagerState = rememberPagerState(pageCount = { 3 }),
-            gameConceptList = listOf("Game Concept 1", "Game Concept 2", "Game Concept 3")
+            pageNames = listOf("Page 1", "Page 2", "Page 3")
         )
     }
 }

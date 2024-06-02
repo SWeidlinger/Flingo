@@ -1,0 +1,112 @@
+{
+  "name": "Jakob",
+  "created": "2024-06-01",
+  "language": "de",
+  "profileImage": "",
+  "currentReadingStreak": 23,
+  "books": [
+    {
+      "author": "sebastian",
+      "date": "2024-05-28",
+      "language": "de",
+      "version": "1.0",
+      "title": "Game Concept 1",
+      "description": "Das ist eine Beispielimplementierung für das erste Spielkonzept.",
+      "coverImage": "",
+      "levels": [
+        {
+          "levelId": "1",
+          "levelTitle": "Level 1",
+          "levelDescription": "Entferne das unnötige Wort.",
+          "levelCoverImage": "",
+          "levelCompleted": true,
+          "challenges": [
+            {
+              "challengeId": "1",
+              "challengeType": "remove_word",
+              "difficulty": "easy",
+              "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
+              "images": [],
+              "answer": "fangen",
+              "hint": "Was machen Maulwürfe?",
+              "feedback": {
+                "correct": "Super! Maulwürfe fangen nicht, sondern werfen Hügel auf.",
+                "incorrect": "Versuchs nochmal! Was machen Maulwürfe nicht?"
+              },
+              "timeLimit": 30,
+              "score": 10
+            }
+          ]
+        },
+        {
+          "levelId": "2",
+          "levelTitle": "Level 2",
+          "levelDescription": "Entferne das unnötige Wort.",
+          "levelCoverImage": "",
+          "levelCompleted": false,
+          "challenges": [
+            {
+              "challengeId": "2",
+              "challengeType": "remove_word",
+              "difficulty": "medium",
+              "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
+              "images": [],
+              "answer": "Astronauten",
+              "hint": "Wer spielt üblicherweise in einem Orchester?",
+              "feedback": {
+                "correct": "Super! Astronauten gehören nicht in ein Orchester.",
+                "incorrect": "Nicht ganz. Denk über die Aufgaben der Berufe nach."
+              },
+              "timeLimit": 45,
+              "score": 20
+            }
+          ]
+        },
+        {
+          "levelId": "3",
+          "levelTitle": "Level 3",
+          "levelDescription": "Entferne das unnötige Wort.",
+          "levelCoverImage": "",
+          "levelCompleted": false,
+          "challenges": [
+            {
+              "challengeId": "2",
+              "challengeType": "remove_word",
+              "difficulty": "medium",
+              "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
+              "images": [],
+              "answer": "Astronauten",
+              "hint": "Wer spielt üblicherweise in einem Orchester?",
+              "feedback": {
+                "correct": "Super! Astronauten gehören nicht in ein Orchester.",
+                "incorrect": "Nicht ganz. Denk über die Aufgaben der Berufe nach."
+              },
+              "timeLimit": 45,
+              "score": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "author": "sebastian",
+      "date": "2024-06-01",
+      "language": "de",
+      "version": "1.0",
+      "title": "Game Concept 2",
+      "description": "Das ist eine Beispielimplementierung für das zweite Spielkonzept.",
+      "coverImage": "",
+      "levels": []
+    },
+    {
+      "author": "sebastian",
+      "date": "2024-06-01",
+      "language": "de",
+      "version": "1.0",
+      "title": "Game Concept 3",
+      "description": "Das ist eine Beispielimplementierung für das dritte Spielkonzept.",
+      "coverImage": "",
+      "levels": []
+    }
+  ]
+}

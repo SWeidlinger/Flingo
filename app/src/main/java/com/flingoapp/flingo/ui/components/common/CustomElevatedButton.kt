@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components
+package com.flingoapp.flingo.ui.components.common
 
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
@@ -6,10 +6,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -22,10 +25,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.flingoapp.flingo.ui.theme.FlingoTheme
 
-enum class ButtonState { Pressed, Idle }
+object CustomElevatedButtonDefault {
+    val MinWidth = 58.dp
+    val MinHeight = 64.dp
+}
 
 @Composable
 fun CustomElevatedButton(
@@ -34,6 +42,9 @@ fun CustomElevatedButton(
     elevation: Dp,
     color: Color = MaterialTheme.colorScheme.primary,
     shadowColor: Color = Color.Black.copy(alpha = 0.30f),
+    enabled: Boolean = true,
+    isPressed: Boolean = false,
+    disabledColor: Color = Color.LightGray.copy(alpha = 0.75f),
     animateButtonClick: Boolean = true,
     //TODO: disabled for now since it causes lags
 //    clickSound: Int? = R.raw.button_click,
@@ -63,28 +74,76 @@ fun CustomElevatedButton(
 
     Box(
         modifier = modifier
+            .defaultMinSize(CustomElevatedButtonDefault.MinWidth, CustomElevatedButtonDefault.MinHeight)
             .clip(shape)
             .background(shadowColor)
-            .offset(y = if (buttonState == ButtonState.Pressed) 0.dp else (-elevation))
+            .offset(y = if (buttonState == ButtonState.Pressed || !enabled || isPressed) 0.dp else (-elevation))
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .matchParentSize()
                 .clip(shape)
                 .background(color)
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
                     onClick = {
+                        if (!enabled) return@clickable
+
                         if (animateButtonClick) {
                             buttonState = ButtonState.Pressed
                         }
                         onClick()
                     }
+                )
+                .padding(
+                    top = 24.dp,
+                    bottom = 12.dp,
+                    start = 24.dp,
+                    end = 24.dp
                 ),
             contentAlignment = Alignment.Center
         ) {
-            buttonContent()
+            // TODO: discuss if this offset should be kept
+            // used to alleviate the content shift a bit (not sure yet if this should be kept)
+            Box(
+                modifier = Modifier.offset(
+                    y = if (buttonState == ButtonState.Pressed || !enabled || isPressed) -(elevation / 2) else 0.dp
+                )
+            ) {
+                buttonContent()
+            }
         }
+
+        if (!enabled) {
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .background(disabledColor)
+            )
+        }
+    }
+}
+
+enum class ButtonState { Pressed, Idle }
+
+@Preview(showBackground = true)
+@Composable
+private fun CustomElevatedButtonPreview() {
+    FlingoTheme {
+        CustomElevatedButton(
+            modifier = Modifier
+                .width(200.dp),
+            enabled = true,
+            isPressed = false,
+            shape = RoundedCornerShape(50.dp),
+            elevation = 10.dp,
+            color = Color.LightGray,
+            animateButtonClick = true,
+            onClick = {},
+            buttonContent = {
+                Text(text = "Click Me!")
+            }
+        )
     }
 }

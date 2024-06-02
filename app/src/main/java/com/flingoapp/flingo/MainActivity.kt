@@ -9,8 +9,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
-import com.flingoapp.flingo.data.viewmodels.main.MainViewModel
 import com.flingoapp.flingo.data.viewmodels.ViewModelFactory
+import com.flingoapp.flingo.data.viewmodels.main.MainIntent
+import com.flingoapp.flingo.data.viewmodels.main.MainViewModel
 import com.flingoapp.flingo.ui.TopLevelComposable
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
@@ -23,6 +24,10 @@ class MainActivity : ComponentActivity() {
 
         mainViewModel =
             ViewModelProvider(this, ViewModelFactory())[MainViewModel::class.java]
+
+        val userJson = this.assets.open("mock_user.json").bufferedReader().use { it.readText() }
+
+        mainViewModel.onAction(MainIntent.OnMockFetchData(userJson))
 
         setContent {
             FlingoTheme {

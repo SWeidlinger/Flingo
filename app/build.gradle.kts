@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -37,7 +38,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.5"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
@@ -65,10 +66,15 @@ dependencies {
 
     //navigation
     implementation(libs.androidx.navigation.compose)
+    //Kotlin Serialization for Type Safe Navigation
+    implementation(libs.kotlinx.serialization.json)
 
     //GSON
     implementation(libs.gson)
 
     //Lottie
     implementation(libs.lottie.compose)
+
+    //Coil
+    implementation(libs.coil)
 }

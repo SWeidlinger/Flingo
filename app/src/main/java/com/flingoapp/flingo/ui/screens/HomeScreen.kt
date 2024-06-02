@@ -1,24 +1,19 @@
 package com.flingoapp.flingo.ui.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
@@ -29,48 +24,55 @@ import androidx.compose.ui.util.lerp
 import com.flingoapp.flingo.data.viewmodels.main.MainIntent
 import com.flingoapp.flingo.data.viewmodels.main.MainUiState
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.components.CustomElevatedButton
+import com.flingoapp.flingo.ui.components.BookItem
+import com.flingoapp.flingo.ui.navigation.NavigationDestination
+import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
-@SuppressLint("ReturnFromAwaitPointerEventScope")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     mainUiStateFlow: StateFlow<MainUiState>,
-    onAction: (MainIntent) -> Unit
+    onAction: (MainIntent) -> Unit,
+    onNavigate: (NavigationIntent) -> Unit
 ) {
     val TAG = "HomeScreen"
 
     val mainUiState by mainUiStateFlow.collectAsState()
+    val userBooks = mainUiState.userData?.books ?: emptyList()
 
-    val gameConceptList = listOf("Concept 1", "Concept 2", "Concept 3")
-
-    val pagerState = rememberPagerState(pageCount = { gameConceptList.size })
+    val pagerState = rememberPagerState(pageCount = { userBooks.size })
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
-    val coroutineScope = rememberCoroutineScope()
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
+    if (userBooks.isEmpty()) {
+        Text(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center),
+            text = "User has no books!",
+            style = MaterialTheme.typography.headlineLarge.copy(
+                fontSize = 64.sp,
+                fontWeight = FontWeight.Bold
+            ),
+            textAlign = TextAlign.Center
+        )
+    } else {
         val pageSpacing = (screenWidth / 2)
-        val cardSize = pageSpacing * 0.75f
+        val bookSize = pageSpacing * 0.75f
 
         HorizontalPager(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
             pageSpacing = -(pageSpacing * 1.05f),
             state = pagerState
-        ) { selectedPage ->
+        ) { pageIndex ->
             val pageOffset = (
-                    (pagerState.currentPage - selectedPage) + pagerState.currentPageOffsetFraction).absoluteValue
+                    (pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction).absoluteValue
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -92,52 +94,39 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CustomElevatedButton(
-                    modifier = Modifier.size(cardSize),
-                    shape = RoundedCornerShape(50.dp),
-                    color = Color.LightGray,
-                    elevation = 20.dp,
-                    animateButtonClick = selectedPage == pagerState.currentPage,
+                BookItem(
+                    itemSize = bookSize,
+                    pagerState = pagerState,
+                    bookIndex = pageIndex,
+                    currentBookItem = userBooks[pageIndex],
                     onClick = {
-                        if (selectedPage != pagerState.currentPage) {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(selectedPage)
-                            }
-                        } else {
-//                            onAction(MainIntent.NavigateToGameScreen)
-                        }
-                    },
-                    buttonContent = {
-                        Text(
-                            text = gameConceptList[selectedPage],
-                            style = MaterialTheme.typography.headlineLarge.copy(
-                                fontSize = 64.sp,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            textAlign = TextAlign.Center
+                        //TODO: use once compose navigation side effect for weird pager scrolling behavior is fixed
+//                        val levelSelection = NavigationDestination.LevelSelection(
+//                            bookIndex = pageIndex
+//                        )
+
+                        onNavigate(
+                            NavigationIntent.NavigateToLevelSelection(
+                                levelSelection = NavigationDestination.LevelSelection,
+                                bookIndex = pageIndex
+                            )
                         )
-                    },
+                    }
                 )
             }
         }
-
-//        GameConceptPageIndicator(
-//            modifier = Modifier
-//                .align(Alignment.BottomCenter)
-//                .padding(bottom = 8.dp),
-//            pagerState = pagerState,
-//            gameConceptList = gameConceptList
-//        )
     }
 }
 
+//TODO: create mock user for previews
 @CustomPreview
 @Composable
 private fun HomeScreenPreview() {
     FlingoTheme {
         HomeScreen(
             mainUiStateFlow = MutableStateFlow(MainUiState()),
-            onAction = {}
+            onAction = {},
+            onNavigate = {}
         )
     }
 }

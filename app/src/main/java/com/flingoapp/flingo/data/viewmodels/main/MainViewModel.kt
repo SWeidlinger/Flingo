@@ -1,7 +1,8 @@
 package com.flingoapp.flingo.data.viewmodels.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.flingoapp.flingo.data.models.User
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -18,15 +19,23 @@ class MainViewModel : ViewModel() {
                 updateUiState(_uiState.value.copy(isLoading = true))
             }
 
-            is MainIntent.Navigate -> {
-                Log.e(TAG, "This should never be displayed, handle navigation in navigation composable!")
-            }
-
-            is MainIntent.NavigateUp -> {
-                Log.e(TAG, "This should never be displayed, handle navigation in navigation composable!")
-            }
+            is MainIntent.OnMockFetchData -> mockFetchBockData(action.json)
         }
     }
+
+    private fun mockFetchBockData(json: String) {
+        updateUiState(_uiState.value.copy(isLoading = true))
+
+        val user = Gson().fromJson(json, User::class.java)
+
+        updateUiState(
+            _uiState.value.copy(
+                isLoading = false,
+                userData = user
+            )
+        )
+    }
+
 
     private fun updateUiState(newUiState: MainUiState) {
         _uiState.update { newUiState }
