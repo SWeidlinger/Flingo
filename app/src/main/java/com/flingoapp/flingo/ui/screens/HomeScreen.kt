@@ -10,8 +10,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -28,20 +26,17 @@ import com.flingoapp.flingo.ui.components.BookItem
 import com.flingoapp.flingo.ui.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
-    mainUiStateFlow: StateFlow<MainUiState>,
+    mainUiState: MainUiState,
     onAction: (MainIntent) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
     val TAG = "HomeScreen"
 
-    val mainUiState by mainUiStateFlow.collectAsState()
     val userBooks = mainUiState.userData?.books ?: emptyList()
 
     val pagerState = rememberPagerState(pageCount = { userBooks.size })
@@ -124,7 +119,7 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     FlingoTheme {
         HomeScreen(
-            mainUiStateFlow = MutableStateFlow(MainUiState()),
+            mainUiState = MainUiState(),
             onAction = {},
             onNavigate = {}
         )

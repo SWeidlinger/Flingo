@@ -6,13 +6,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -23,25 +22,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.ui.theme.FlingoTheme
 
-object CustomElevatedButtonDefault {
-    val MinWidth = 58.dp
-    val MinHeight = 64.dp
-}
+/**
+ * Created by Sebastian on 04.06.2024.
+ */
 
 @Composable
-fun CustomElevatedButton(
+fun CustomIconButton(
     modifier: Modifier = Modifier,
-    shape: RoundedCornerShape,
-    elevation: Dp,
-    color: Color = MaterialTheme.colorScheme.primary,
-    shadowColor: Color = Color.Black.copy(alpha = 0.30f),
+    size: Dp = 75.dp,
+    iconTint: Color = Color.Black.copy(alpha = 0.3f),
+    backgroundColor: Color = Color.Black.copy(alpha = 0.5f),
+    shadowColor: Color = Color.Black.copy(alpha = 0.3f),
+    icon: ImageVector,
+    iconPainter: Painter? = null,
+    iconContentDescription: String,
+    elevation: Dp = 7.dp,
     enabled: Boolean = true,
     isPressed: Boolean = false,
     disabledColor: Color = Color.LightGray.copy(alpha = 0.75f),
@@ -49,8 +53,7 @@ fun CustomElevatedButton(
     //TODO: disabled for now since it causes lags
 //    clickSound: Int? = R.raw.button_click,
     clickSound: Int? = null,
-    onClick: () -> Unit,
-    buttonContent: @Composable () -> Unit
+    onClick: () -> Unit
 ) {
     val mediaPlayer: MediaPlayer? = clickSound?.let { MediaPlayer.create(LocalContext.current, it) }
 
@@ -74,8 +77,8 @@ fun CustomElevatedButton(
 
     Box(
         modifier = modifier
-            .defaultMinSize(CustomElevatedButtonDefault.MinWidth, CustomElevatedButtonDefault.MinHeight)
-            .clip(shape)
+            .size(size)
+            .clip(CircleShape)
             .background(shadowColor)
             .clickable(
                 interactionSource = interactionSource,
@@ -86,6 +89,7 @@ fun CustomElevatedButton(
                     if (animateButtonClick) {
                         buttonState = ButtonState.Pressed
                     }
+
                     onClick()
                 }
             )
@@ -93,9 +97,9 @@ fun CustomElevatedButton(
     ) {
         Box(
             modifier = Modifier
-                .matchParentSize()
-                .clip(shape)
-                .background(color)
+                .fillMaxSize()
+                .clip(CircleShape)
+                .background(backgroundColor)
                 .padding(
                     top = 24.dp,
                     bottom = 12.dp,
@@ -110,39 +114,41 @@ fun CustomElevatedButton(
                     y = if (buttonState == ButtonState.Pressed || !enabled || isPressed) -(elevation / 2) else 0.dp
                 )
             ) {
-                buttonContent()
-            }
-        }
+                if (iconPainter != null) {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .scale(1.3f),
+                        painter = iconPainter,
+                        contentDescription = iconContentDescription,
+                        tint = iconTint
+                    )
+                } else {
+                    Icon(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .scale(1.3f),
+                        imageVector = icon,
+                        contentDescription = iconContentDescription,
+                        tint = iconTint
+                    )
+                }
 
-        if (!enabled) {
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(disabledColor)
-            )
+            }
+
+            if (!enabled) {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .background(disabledColor)
+                )
+            }
         }
     }
 }
 
-enum class ButtonState { Pressed, Idle }
-
-@Preview(showBackground = true)
+@Preview
 @Composable
-private fun CustomElevatedButtonPreview() {
-    FlingoTheme {
-        CustomElevatedButton(
-            modifier = Modifier
-                .width(200.dp),
-            enabled = true,
-            isPressed = false,
-            shape = RoundedCornerShape(50.dp),
-            elevation = 10.dp,
-            color = Color.LightGray,
-            animateButtonClick = true,
-            onClick = {},
-            buttonContent = {
-                Text(text = "Click Me!")
-            }
-        )
-    }
+private fun CustomIconButtonPreview() {
+
 }

@@ -2,7 +2,9 @@ package com.flingoapp.flingo.ui.navigation
 
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -26,8 +28,10 @@ fun NavHostComposable(
         startDestination = startDestination
     ) {
         composable(NavigationDestination.Home.route) {
+            val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
+
             HomeScreen(
-                mainUiStateFlow = mainViewModel.uiState,
+                mainUiState = mainUiState,
                 onAction = { action -> mainViewModel.onAction(action) },
                 onNavigate = { destination -> processNavigation(destination, navController) }
             )
@@ -40,10 +44,11 @@ fun NavHostComposable(
             })
         ) { backStackEntry ->
             val bookIndex = backStackEntry.arguments?.getInt("bookIndex") ?: return@composable
+            val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
             LevelSelectionScreen(
                 bookIndex = bookIndex,
-                mainUiStateFlow = mainViewModel.uiState,
+                mainUiState = mainUiState,
                 onAction = { action -> mainViewModel.onAction(action) },
                 onNavigate = { destination -> processNavigation(destination, navController) }
             )
@@ -65,8 +70,10 @@ fun NavHostComposable(
 //        startDestination = startDestination
 //    ) {
 //        composable<NavigationDestination.Home> {
+//            val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
+//
 //            HomeScreen(
-//                mainUiStateFlow = mainViewModel.uiState,
+//                mainUiState = mainUiState,
 ////                navController = navController,
 //                onAction = { action -> mainViewModel.onAction(action) },
 //                onNavigate = { destination -> processNavigation(destination, navController) }
@@ -76,9 +83,11 @@ fun NavHostComposable(
 //        composable<NavigationDestination.LevelSelection> { backStackEntry ->
 //            val args = backStackEntry.toRoute<NavigationDestination.LevelSelection>()
 //
+//            val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
+//
 //            LevelSelectionScreen(
 //                bookIndex = args.bookIndex,
-//                mainUiStateFlow = mainViewModel.uiState,
+//                mainUiState = mainUiState,
 //                onAction = { action -> mainViewModel.onAction(action) },
 //                onNavigate = { destination -> processNavigation(destination, navController) }
 //            )
