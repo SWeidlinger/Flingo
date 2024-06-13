@@ -1,6 +1,5 @@
 package com.flingoapp.flingo.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -58,7 +57,6 @@ fun BookItem(
         animateButtonClick = bookIndex == pagerState.currentPage,
         isPressed = bookIndex != pagerState.currentPage,
         onClick = {
-            Log.e("Book Item", "Bookindex $bookIndex, CurrentPage ${pagerState.currentPage}")
             if (bookIndex != pagerState.currentPage) {
                 coroutineScope.launch {
                     pagerState.animateScrollToPage(bookIndex)
