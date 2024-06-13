@@ -85,6 +85,30 @@
               "score": 20
             }
           ]
+        },
+        {
+          "levelId": "4",
+          "levelTitle": "Level 4",
+          "levelDescription": "Entferne das unnötige Wort.",
+          "levelCoverImage": "",
+          "levelCompleted": false,
+          "challenges": [
+            {
+              "challengeId": "2",
+              "challengeType": "remove_word",
+              "difficulty": "medium",
+              "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
+              "images": [],
+              "answer": "Astronauten",
+              "hint": "Wer spielt üblicherweise in einem Orchester?",
+              "feedback": {
+                "correct": "Super! Astronauten gehören nicht in ein Orchester.",
+                "incorrect": "Nicht ganz. Denk über die Aufgaben der Berufe nach."
+              },
+              "timeLimit": 45,
+              "score": 20
+            }
+          ]
         }
       ]
     },

@@ -1,36 +1,42 @@
 package com.flingoapp.flingo.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.viewmodels.main.MainIntent
 import com.flingoapp.flingo.data.viewmodels.main.MainUiState
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.components.common.CustomIconButton
+import com.flingoapp.flingo.ui.components.common.CustomElevatedButton
+import com.flingoapp.flingo.ui.components.common.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import kotlin.random.Random
 
 @Composable
 fun LevelSelectionScreen(
@@ -40,57 +46,25 @@ fun LevelSelectionScreen(
     onNavigate: (NavigationIntent) -> Unit
 ) {
     val currentBook = mainUiState.userData?.books?.get(bookIndex)
+    val levels = currentBook?.levels
+    val levelButtonOffsetList = mutableListOf<Float>()
+    levels?.size?.let {
+        repeat(it) {
+            levelButtonOffsetList.add(Random.nextFloat())
+        }
+    }
 
     Scaffold(
-        modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
         topBar = {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = currentBook?.title ?: "Book Title",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.CenterHorizontally),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.headlineLarge
-                )
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    CustomIconButton(
-                        icon = Icons.AutoMirrored.Filled.ArrowBack,
-                        iconContentDescription = "Back",
-                        backgroundColor = Color.LightGray,
-                        onClick = { onNavigate(NavigationIntent.NavigateUp()) }
-                    )
-
-                    Row {
-                        CustomIconButton(
-                            icon = Icons.Default.Star,
-                            iconPainter = painterResource(id = R.drawable.kid_star),
-                            iconContentDescription = "Settings",
-                            backgroundColor = Color.LightGray,
-                            onClick = { }
-                        )
-
-                        Spacer(modifier = Modifier.padding(12.dp))
-
-                        CustomIconButton(
-                            icon = Icons.Default.Settings,
-                            iconContentDescription = "Back",
-                            backgroundColor = Color.LightGray,
-                            onClick = { }
-                        )
-                    }
-                }
-            }
+            CustomTopBar(
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
+                title = currentBook?.title ?: "Book Title",
+                navigateUp = { onNavigate(NavigationIntent.NavigateUp()) },
+                onSettingsClick = {},
+                onAwardClick = {}
+            )
         }) { innerPadding ->
-        if (currentBook?.levels.isNullOrEmpty()) {
+        if (levels.isNullOrEmpty()) {
             Text(
                 modifier = Modifier
                     .padding(innerPadding)
@@ -99,8 +73,75 @@ fun LevelSelectionScreen(
                 text = "No levels found for book $bookIndex",
             )
         } else {
-            LazyRow(modifier = Modifier.padding(innerPadding)) {
+            var lazyRowHeight by remember { mutableStateOf(0.dp) }
+            val levelButtonSize = 300
+            val maxButtonOffset = lazyRowHeight - (levelButtonSize.dp * 2f)
+            val levelButtonCoordinateHashMap = HashMap<Int, Offset>()
 
+            //TODO: fix layout shifting, could be because of globally position being called more than once
+            LazyRow(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+                    .onGloballyPositioned { layoutCoordinates ->
+                        lazyRowHeight = layoutCoordinates.size.height.dp
+                    }
+                    .drawBehind {
+                        val pathEffect = PathEffect.dashPathEffect(floatArrayOf(50f, 25f), 0f)
+
+                        for (i in 0 until levelButtonCoordinateHashMap.size - 1) {
+                            val firstButtonCoordinates = levelButtonCoordinateHashMap[i]
+                            val secondButtonCoordinates = levelButtonCoordinateHashMap[i + 1]
+
+                            if (firstButtonCoordinates == null || secondButtonCoordinates == null) return@drawBehind
+
+                            val centerButtonCoordinate = Offset(
+                                x = firstButtonCoordinates.x + (levelButtonSize / 2),
+                                y = firstButtonCoordinates.y + (levelButtonSize / 2)
+                            )
+                            val centerSecondButtonCoordinate = Offset(
+                                x = secondButtonCoordinates.x + (levelButtonSize / 2),
+                                y = secondButtonCoordinates.y + (levelButtonSize / 2)
+                            )
+
+                            drawLine(
+                                color = Color.Gray,
+                                start = centerButtonCoordinate,
+                                end = centerSecondButtonCoordinate,
+                                pathEffect = pathEffect,
+                                strokeWidth = 5f,
+                                cap = StrokeCap.Round
+                            )
+                        }
+                    },
+                contentPadding = PaddingValues(20.dp),
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.spacedBy(125.dp)
+            ) {
+                itemsIndexed(levels) { index, level ->
+                    CustomElevatedButton(
+                        modifier = Modifier
+                            .size(levelButtonSize.dp)
+                            .offset(y = maxButtonOffset * levelButtonOffsetList[index])
+                            .onGloballyPositioned { layoutCoordinates ->
+                                Log.e(
+                                    "LEVELSELECTION",
+                                    "Button coordinates $index: ${layoutCoordinates.positionInParent()}"
+                                )
+                                levelButtonCoordinateHashMap[index] = layoutCoordinates.positionInParent()
+                            },
+                        shape = CircleShape,
+                        elevation = 15.dp,
+                        color = Color.LightGray,
+                        onClick = { /*TODO*/ },
+                        buttonContent = {
+                            Text(
+                                text = level.title,
+                                style = MaterialTheme.typography.headlineLarge
+                            )
+                        }
+                    )
+                }
             }
         }
     }
