@@ -90,11 +90,11 @@ fun BookItem(
                     textAlign = TextAlign.Center
                 )
 
-                val noLevelsProvided = currentBookItem.levels.isEmpty()
-                val maxAmountLevels =
-                    if (noLevelsProvided) "-" else currentBookItem.levels.size.toString()
-                val levelsCompleted =
-                    if (noLevelsProvided) "-" else currentBookItem.levels.count { it.completed }.toString()
+                val noChaptersProvided = currentBookItem.chapters.isEmpty()
+                val maxAmountChapters =
+                    if (noChaptersProvided) "-" else currentBookItem.chapters.size.toString()
+                val chaptersCompleted =
+                    if (noChaptersProvided) "-" else currentBookItem.chapters.count { it.completed }.toString()
 
                 Column(
                     modifier = Modifier.weight(1f),
@@ -102,7 +102,7 @@ fun BookItem(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "$levelsCompleted/$maxAmountLevels completed",
+                        text = "$chaptersCompleted/$maxAmountChapters completed",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontSize = 28.sp,
                             fontWeight = FontWeight.Medium
@@ -134,8 +134,8 @@ fun BookItem(
 
                         }
 
-                        val completedPercentage = if (!noLevelsProvided) {
-                            levelsCompleted.toFloat() / maxAmountLevels.toFloat()
+                        val completedPercentage = if (!noChaptersProvided) {
+                            chaptersCompleted.toFloat() / maxAmountChapters.toFloat()
                         } else {
                             0f
                         }
@@ -181,7 +181,7 @@ private fun BookItemPreview() {
                 title = "Title",
                 description = "Description",
                 coverImage = "CoverImage",
-                levels = arrayListOf()
+                chapters = arrayListOf()
             ),
             onClick = {}
         )

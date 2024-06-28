@@ -1,10 +1,12 @@
 package com.flingoapp.flingo.data.models.book
 
+import com.flingoapp.flingo.EnumDeserializer
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 
-data class Challenge(
-    @SerializedName("challengeId") val id: String,
-    @SerializedName("challengeType") val type: String,
+data class Page(
+    @SerializedName("pageId") val id: String,
+    @JsonAdapter(EnumDeserializer::class) @SerializedName("pageType") val type: PageType,
     @SerializedName("difficulty") val difficulty: String,
     @SerializedName("content") val content: String,
     @SerializedName("images") var images: ArrayList<String>? = arrayListOf(),
@@ -15,8 +17,9 @@ data class Challenge(
     @SerializedName("score") var score: Int? = null
 )
 
-enum class ChallengeType {
+enum class PageType {
     REMOVE_WORD,
     CONTEXT_BASED_QUESTIONS,
     CHANGE_CHARACTER,
+    READ
 }

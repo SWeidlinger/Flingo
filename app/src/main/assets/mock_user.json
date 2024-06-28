@@ -10,20 +10,21 @@
       "date": "2024-05-28",
       "language": "de",
       "version": "1.0",
-      "title": "Game Concept 1",
+      "title": "Wort Chaos",
       "description": "Das ist eine Beispielimplementierung für das erste Spielkonzept.",
       "coverImage": "",
-      "levels": [
+      "chapters": [
         {
-          "levelId": "1",
-          "levelTitle": "Level 1",
-          "levelDescription": "Entferne das unnötige Wort.",
-          "levelCoverImage": "",
-          "levelCompleted": true,
-          "challenges": [
+          "chapterId": "1",
+          "chapterTitle": "Chapter 1",
+          "chapterDescription": "Entferne das unnötige Wort.",
+          "chapterCoverImage": "",
+          "chapterType": "challenge",
+          "chapterCompleted": true,
+          "pages": [
             {
-              "challengeId": "1",
-              "challengeType": "remove_word",
+              "pageId": "1",
+              "pageType": "remove_word",
               "difficulty": "easy",
               "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
               "images": [],
@@ -39,15 +40,16 @@
           ]
         },
         {
-          "levelId": "2",
-          "levelTitle": "Level 2",
-          "levelDescription": "Entferne das unnötige Wort.",
-          "levelCoverImage": "",
-          "levelCompleted": false,
-          "challenges": [
+          "chapterId": "2",
+          "chapterTitle": "Chapter 2",
+          "chapterDescription": "Entferne das unnötige Wort.",
+          "chapterCoverImage": "",
+          "chapterType": "challenge",
+          "chapterCompleted": false,
+          "pages": [
             {
-              "challengeId": "2",
-              "challengeType": "remove_word",
+              "pageId": "2",
+              "pageType": "remove_word",
               "difficulty": "medium",
               "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
               "images": [],
@@ -63,15 +65,41 @@
           ]
         },
         {
-          "levelId": "3",
-          "levelTitle": "Level 3",
-          "levelDescription": "Entferne das unnötige Wort.",
-          "levelCoverImage": "",
-          "levelCompleted": false,
-          "challenges": [
+          "chapterId": "3",
+          "chapterTitle": "Chapter 3",
+          "chapterDescription": "Lies die Geschichte.",
+          "chapterCoverImage": "",
+          "chapterType": "read",
+          "chapterCompleted": false,
+          "pages": [
             {
-              "challengeId": "2",
-              "challengeType": "remove_word",
+              "pageId": "2",
+              "pageType": "read",
+              "difficulty": "medium",
+              "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.",
+              "images": [],
+              "answer": "",
+              "hint": "",
+              "feedback": {
+                "correct": "",
+                "incorrect": ""
+              },
+              "timeLimit": null,
+              "score": null
+            }
+          ]
+        },
+        {
+          "chapterId": "4",
+          "chapterTitle": "Chapter 4",
+          "chapterDescription": "Entferne das unnötige Wort.",
+          "chapterCoverImage": "",
+          "chapterType": "challenge",
+          "chapterCompleted": false,
+          "pages": [
+            {
+              "pageId": "2",
+              "pageType": "remove_word",
               "difficulty": "medium",
               "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
               "images": [],
@@ -87,15 +115,16 @@
           ]
         },
         {
-          "levelId": "4",
-          "levelTitle": "Level 4",
-          "levelDescription": "Entferne das unnötige Wort.",
-          "levelCoverImage": "",
-          "levelCompleted": false,
-          "challenges": [
+          "chapterId": "5",
+          "chapterTitle": "Chapter 5",
+          "chapterDescription": "Entferne das unnötige Wort.",
+          "chapterCoverImage": "",
+          "chapterType": "challenge",
+          "chapterCompleted": false,
+          "pages": [
             {
-              "challengeId": "2",
-              "challengeType": "remove_word",
+              "pageId": "2",
+              "pageType": "remove_word",
               "difficulty": "medium",
               "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
               "images": [],
@@ -120,7 +149,7 @@
       "title": "Game Concept 2",
       "description": "Das ist eine Beispielimplementierung für das zweite Spielkonzept.",
       "coverImage": "",
-      "levels": []
+      "chapters": []
     },
     {
       "author": "sebastian",
@@ -130,7 +159,7 @@
       "title": "Game Concept 3",
       "description": "Das ist eine Beispielimplementierung für das dritte Spielkonzept.",
       "coverImage": "",
-      "levels": []
+      "chapters": []
     }
   ]
 }

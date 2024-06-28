@@ -6,13 +6,13 @@
   "title": "Game Concept 1",
   "description": "Das ist eine Beispielimplementierung für das erste Spielkonzept.",
   "coverImage": [],
-  "levels": [
+  "chapters": [
     {
-      "levelId": "1",
-      "levelTitle": "Level 1",
-      "levelDescription": "Entferne das unnötige Wort.",
-      "levelCoverImage": "",
-      "levelCompleted": true,
+      "chapterId": "1",
+      "chapterTitle": "chapter 1",
+      "chapterDescription": "Entferne das unnötige Wort.",
+      "chapterCoverImage": "",
+      "chapterCompleted": true,
       "challenges": [
         {
           "challengeId": "1",
@@ -32,11 +32,11 @@
       ]
     },
     {
-      "levelId": "2",
-      "levelTitle": "Level 2",
-      "levelDescription": "Entferne das unnötige Wort.",
-      "levelCoverImage": "",
-      "levelCompleted": false,
+      "chapterId": "2",
+      "chapterTitle": "chapter 2",
+      "chapterDescription": "Entferne das unnötige Wort.",
+      "chapterCoverImage": "",
+      "chapterCompleted": false,
       "challenges": [
         {
           "challengeId": "2",

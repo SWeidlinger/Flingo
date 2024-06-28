@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.data.viewmodels.main
+package com.flingoapp.flingo.viewmodels.main
 
 import androidx.lifecycle.ViewModel
 import com.flingoapp.flingo.data.models.User
@@ -20,6 +20,8 @@ class MainViewModel : ViewModel() {
             }
 
             is MainIntent.OnMockFetchData -> mockFetchBockData(action.json)
+            is MainIntent.OnBookSelected -> selectBook(action.bookIndex)
+            is MainIntent.OnChapterSelected -> selectChapter(action.chapterIndex)
         }
     }
 
@@ -36,6 +38,24 @@ class MainViewModel : ViewModel() {
         )
     }
 
+    private fun selectBook(bookIndex: Int) {
+        val currentBook = _uiState.value.userData?.books?.get(bookIndex)
+
+        if (currentBook == null) {
+            updateUiState(_uiState.value.copy(isError = true))
+        } else {
+            updateUiState(_uiState.value.copy(isError = false, currentBook = currentBook))
+        }
+    }
+
+    private fun selectChapter(chapterIndex: Int) {
+        val currentBook = _uiState.value.currentBook
+        if (currentBook != null) {
+            updateUiState(_uiState.value.copy(currentChapter = currentBook.chapters[chapterIndex]))
+        } else {
+            updateUiState(_uiState.value.copy(isError = true))
+        }
+    }
 
     private fun updateUiState(newUiState: MainUiState) {
         _uiState.update { newUiState }

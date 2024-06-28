@@ -19,13 +19,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import com.flingoapp.flingo.data.viewmodels.main.MainIntent
-import com.flingoapp.flingo.data.viewmodels.main.MainUiState
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.components.BookItem
 import com.flingoapp.flingo.ui.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.main.MainUiState
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -101,8 +101,8 @@ fun HomeScreen(
 //                        )
 
                         onNavigate(
-                            NavigationIntent.NavigateToLevelSelection(
-                                levelSelection = NavigationDestination.LevelSelection,
+                            NavigationIntent.NavigateToChapterSelection(
+                                chapterSelection = NavigationDestination.ChapterSelection,
                                 bookIndex = pageIndex
                             )
                         )

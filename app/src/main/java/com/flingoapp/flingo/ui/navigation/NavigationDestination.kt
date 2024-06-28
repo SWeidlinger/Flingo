@@ -2,7 +2,8 @@ package com.flingoapp.flingo.ui.navigation
 
 sealed class NavigationDestination(var route: String) {
     data object Home : NavigationDestination("home")
-    data object LevelSelection : NavigationDestination("level_selection")
+    data object ChapterSelection : NavigationDestination("chapter_selection")
+    data object Chapter : NavigationDestination("chapter")
 }
 
 //TODO: use once compose navigation side effect for weird pager scrolling behavior is fixed

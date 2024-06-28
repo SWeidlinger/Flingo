@@ -29,28 +29,26 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.data.viewmodels.main.MainIntent
-import com.flingoapp.flingo.data.viewmodels.main.MainUiState
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.components.common.CustomElevatedButton
 import com.flingoapp.flingo.ui.components.common.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.main.MainUiState
 import kotlin.random.Random
 
 @Composable
-fun LevelSelectionScreen(
-    bookIndex: Int,
+fun ChapterSelectionScreen(
     mainUiState: MainUiState,
     onAction: (MainIntent) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
-    val currentBook = mainUiState.userData?.books?.get(bookIndex)
-    val levels = currentBook?.levels
-    val levelButtonOffsetList = mutableListOf<Float>()
-    levels?.size?.let {
+    val chapters = mainUiState.currentBook?.chapters
+    val chapterButtonOffsetList = mutableListOf<Float>()
+    chapters?.size?.let {
         repeat(it) {
-            levelButtonOffsetList.add(Random.nextFloat())
+            chapterButtonOffsetList.add(Random.nextFloat())
         }
     }
 
@@ -58,25 +56,25 @@ fun LevelSelectionScreen(
         topBar = {
             CustomTopBar(
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
-                title = currentBook?.title ?: "Book Title",
+                title = mainUiState.currentBook?.title ?: "Book Title",
                 navigateUp = { onNavigate(NavigationIntent.NavigateUp()) },
                 onSettingsClick = {},
                 onAwardClick = {}
             )
         }) { innerPadding ->
-        if (levels.isNullOrEmpty()) {
+        if (chapters.isNullOrEmpty()) {
             Text(
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center),
-                text = "No levels found for book $bookIndex",
+                text = "No chapters found for book ${mainUiState.currentBook?.title}",
             )
         } else {
             var lazyRowHeight by remember { mutableStateOf(0.dp) }
-            val levelButtonSize = 300
-            val maxButtonOffset = lazyRowHeight - (levelButtonSize.dp * 2f)
-            val levelButtonCoordinateHashMap = remember { HashMap<Int, Offset>() }
+            val chapterButtonSize = 300
+            val maxButtonOffset = lazyRowHeight - (chapterButtonSize.dp * 2f)
+            val chapterButtonCoordinateHashMap = remember { HashMap<Int, Offset>() }
 
             //TODO: fix layout shifting, could be because of globally position being called more than once
             LazyRow(
@@ -89,19 +87,19 @@ fun LevelSelectionScreen(
                     .drawBehind {
                         val pathEffect = PathEffect.dashPathEffect(floatArrayOf(50f, 25f), 0f)
 
-                        for (i in 0 until levelButtonCoordinateHashMap.size - 1) {
-                            val firstButtonCoordinates = levelButtonCoordinateHashMap[i]
-                            val secondButtonCoordinates = levelButtonCoordinateHashMap[i + 1]
+                        for (i in 0 until chapterButtonCoordinateHashMap.size - 1) {
+                            val firstButtonCoordinates = chapterButtonCoordinateHashMap[i]
+                            val secondButtonCoordinates = chapterButtonCoordinateHashMap[i + 1]
 
                             if (firstButtonCoordinates == null || secondButtonCoordinates == null) return@drawBehind
 
                             val centerButtonCoordinate = Offset(
-                                x = firstButtonCoordinates.x + (levelButtonSize / 2),
-                                y = firstButtonCoordinates.y + (levelButtonSize / 2)
+                                x = firstButtonCoordinates.x + (chapterButtonSize / 2),
+                                y = firstButtonCoordinates.y + (chapterButtonSize / 2)
                             )
                             val centerSecondButtonCoordinate = Offset(
-                                x = secondButtonCoordinates.x + (levelButtonSize / 2),
-                                y = secondButtonCoordinates.y + (levelButtonSize / 2)
+                                x = secondButtonCoordinates.x + (chapterButtonSize / 2),
+                                y = secondButtonCoordinates.y + (chapterButtonSize / 2)
                             )
 
                             drawLine(
@@ -118,17 +116,17 @@ fun LevelSelectionScreen(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.spacedBy(125.dp)
             ) {
-                itemsIndexed(levels) { index, level ->
+                itemsIndexed(chapters) { index, chapter ->
                     CustomElevatedButton(
                         modifier = Modifier
-                            .size(levelButtonSize.dp)
-                            .offset(y = maxButtonOffset * levelButtonOffsetList[index])
+                            .size(chapterButtonSize.dp)
+                            .offset(y = maxButtonOffset * chapterButtonOffsetList[index])
                             .onGloballyPositioned { layoutCoordinates ->
                                 Log.e(
-                                    "LEVELSELECTION",
+                                    "CHAPTERSELECTION",
                                     "Button coordinates $index: ${layoutCoordinates.positionInParent()}"
                                 )
-                                levelButtonCoordinateHashMap[index] = layoutCoordinates.positionInParent()
+                                chapterButtonCoordinateHashMap[index] = layoutCoordinates.positionInParent()
                             },
                         shape = CircleShape,
                         elevation = 15.dp,
@@ -136,7 +134,7 @@ fun LevelSelectionScreen(
                         onClick = { /*TODO*/ },
                         buttonContent = {
                             Text(
-                                text = level.title,
+                                text = chapter.title,
                                 style = MaterialTheme.typography.headlineLarge
                             )
                         }
@@ -151,8 +149,7 @@ fun LevelSelectionScreen(
 @Composable
 private fun LevelSelectionScreenPreview() {
     FlingoTheme {
-        LevelSelectionScreen(
-            bookIndex = 2,
+        ChapterSelectionScreen(
             mainUiState = MainUiState(),
             onAction = {},
             onNavigate = {}

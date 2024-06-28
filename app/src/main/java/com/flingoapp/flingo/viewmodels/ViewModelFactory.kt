@@ -1,8 +1,8 @@
-package com.flingoapp.flingo.data.viewmodels
+package com.flingoapp.flingo.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.flingoapp.flingo.data.viewmodels.main.MainViewModel
+import com.flingoapp.flingo.viewmodels.main.MainViewModel
 
 class ViewModelFactory() :
     ViewModelProvider.NewInstanceFactory() {

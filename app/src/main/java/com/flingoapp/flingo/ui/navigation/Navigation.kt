@@ -11,9 +11,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.flingoapp.flingo.data.viewmodels.main.MainViewModel
+import com.flingoapp.flingo.data.models.book.ChapterType
+import com.flingoapp.flingo.ui.screens.ChallengeScreen
+import com.flingoapp.flingo.ui.screens.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screens.HomeScreen
-import com.flingoapp.flingo.ui.screens.LevelSelectionScreen
+import com.flingoapp.flingo.ui.screens.ReadScreen
+import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.main.MainViewModel
 
 @Composable
 fun NavHostComposable(
@@ -38,20 +42,51 @@ fun NavHostComposable(
         }
 
         composable(
-            route = NavigationDestination.LevelSelection.route + "/{bookIndex}",
+            route = NavigationDestination.ChapterSelection.route + "/{bookIndex}",
             arguments = listOf(navArgument("bookIndex") {
                 type = NavType.IntType
             })
         ) { backStackEntry ->
             val bookIndex = backStackEntry.arguments?.getInt("bookIndex") ?: return@composable
+            mainViewModel.onAction(MainIntent.OnBookSelected(bookIndex))
+
             val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
-            LevelSelectionScreen(
-                bookIndex = bookIndex,
+            ChapterSelectionScreen(
                 mainUiState = mainUiState,
                 onAction = { action -> mainViewModel.onAction(action) },
                 onNavigate = { destination -> processNavigation(destination, navController) }
             )
+        }
+
+        composable(
+            route = NavigationDestination.Chapter.route + "/{chapterIndex}",
+            arguments = listOf(navArgument("chapterIndex") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val chapterIndex = backStackEntry.arguments?.getInt("chapterIndex") ?: return@composable
+            mainViewModel.onAction(MainIntent.OnChapterSelected(chapterIndex))
+
+            val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
+
+            val chapterType = mainUiState.currentChapter?.type ?: return@composable
+
+            when (chapterType) {
+                ChapterType.CHALLENGE -> {
+                    ChallengeScreen(
+                        mainUiState = mainUiState,
+                        onAction = { action -> mainViewModel.onAction(action) },
+                        onNavigate = { destination -> processNavigation(destination, navController) }
+                    )
+                }
+
+                ChapterType.READ -> {
+                    ReadScreen(
+                        mainUiState = mainUiState,
+                        onAction = { action -> mainViewModel.onAction(action) },
+                        onNavigate = { destination -> processNavigation(destination, navController) }
+                    )
+                }
+            }
         }
     }
 }
@@ -105,8 +140,8 @@ private fun processNavigation(
             navController.navigate(intent.home.route)
         }
 
-        is NavigationIntent.NavigateToLevelSelection -> {
-            navController.navigate(intent.levelSelection.route + "/${intent.bookIndex}")
+        is NavigationIntent.NavigateToChapterSelection -> {
+            navController.navigate(intent.chapterSelection.route + "/${intent.bookIndex}")
         }
 
         is NavigationIntent.NavigateUp -> {

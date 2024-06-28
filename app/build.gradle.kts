@@ -79,4 +79,7 @@ dependencies {
 
     //extended icons
     implementation(libs.androidx.material.icons.extended)
+
+    //hilt dependency injection
+    implementation(libs.androidx.hilt.navigation.compose)
 }

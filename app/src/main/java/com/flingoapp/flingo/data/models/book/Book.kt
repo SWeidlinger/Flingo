@@ -10,5 +10,5 @@ data class Book(
     @SerializedName("title") val title: String,
     @SerializedName("description") val description: String,
     @SerializedName("coverImage") var coverImage: String? = null,
-    @SerializedName("levels") val levels: ArrayList<Level> = arrayListOf()
+    @SerializedName("chapters") val chapters: ArrayList<Chapter> = arrayListOf()
 )
