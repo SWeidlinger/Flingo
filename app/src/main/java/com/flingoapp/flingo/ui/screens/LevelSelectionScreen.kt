@@ -76,7 +76,7 @@ fun LevelSelectionScreen(
             var lazyRowHeight by remember { mutableStateOf(0.dp) }
             val levelButtonSize = 300
             val maxButtonOffset = lazyRowHeight - (levelButtonSize.dp * 2f)
-            val levelButtonCoordinateHashMap = HashMap<Int, Offset>()
+            val levelButtonCoordinateHashMap = remember { HashMap<Int, Offset>() }
 
             //TODO: fix layout shifting, could be because of globally position being called more than once
             LazyRow(
