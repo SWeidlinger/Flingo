@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
 data class Page(
     @SerializedName("pageId") val id: String,
     @JsonAdapter(EnumDeserializer::class) @SerializedName("pageType") val type: PageType,
+    @SerializedName("pageCompleted") var completed: Boolean,
     @SerializedName("difficulty") val difficulty: String,
     @SerializedName("content") val content: String,
     @SerializedName("images") var images: ArrayList<String>? = arrayListOf(),

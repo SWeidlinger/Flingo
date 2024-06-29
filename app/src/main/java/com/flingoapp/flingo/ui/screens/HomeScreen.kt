@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.components.BookItem
-import com.flingoapp.flingo.ui.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
@@ -65,9 +64,9 @@ fun HomeScreen(
             verticalAlignment = Alignment.CenterVertically,
             pageSpacing = -(pageSpacing * 1.05f),
             state = pagerState
-        ) { pageIndex ->
+        ) { bookIndex ->
             val pageOffset = (
-                    (pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction).absoluteValue
+                    (pagerState.currentPage - bookIndex) + pagerState.currentPageOffsetFraction).absoluteValue
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -92,8 +91,8 @@ fun HomeScreen(
                 BookItem(
                     itemSize = bookSize,
                     pagerState = pagerState,
-                    bookIndex = pageIndex,
-                    currentBookItem = userBooks[pageIndex],
+                    bookIndex = bookIndex,
+                    currentBookItem = userBooks[bookIndex],
                     onClick = {
                         //TODO: use once compose navigation side effect for weird pager scrolling behavior is fixed
 //                        val levelSelection = NavigationDestination.LevelSelection(
@@ -102,8 +101,7 @@ fun HomeScreen(
 
                         onNavigate(
                             NavigationIntent.NavigateToChapterSelection(
-                                chapterSelection = NavigationDestination.ChapterSelection,
-                                bookIndex = pageIndex
+                                bookIndex = bookIndex
                             )
                         )
                     }

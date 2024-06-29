@@ -11,7 +11,7 @@ data class Chapter(
     @SerializedName("chapterDescription") val description: String,
     @SerializedName("chapterCoverImage") var coverImage: String? = null,
     @SerializedName("chapterCompleted") var completed: Boolean,
-    @SerializedName("chapterChallenges") var pages: ArrayList<Page>? = arrayListOf()
+    @SerializedName("pages") var pages: ArrayList<Page>? = arrayListOf()
 )
 
 enum class ChapterType {

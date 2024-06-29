@@ -3,8 +3,13 @@ package com.flingoapp.flingo.ui.navigation
 sealed class NavigationIntent {
     data class NavigateToHome(val home: NavigationDestination.Home) : NavigationIntent()
     data class NavigateToChapterSelection(
-        val chapterSelection: NavigationDestination.ChapterSelection,
+        val chapterSelection: NavigationDestination.ChapterSelection = NavigationDestination.ChapterSelection,
         val bookIndex: Int
+    ) : NavigationIntent()
+
+    data class NavigateToChapter(
+        val chapter: NavigationDestination.Chapter = NavigationDestination.Chapter,
+        val chapterIndex: Int
     ) : NavigationIntent()
 
     data class NavigateUp(val customBackAction: () -> Unit = {}) : NavigationIntent()

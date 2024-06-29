@@ -144,6 +144,10 @@ private fun processNavigation(
             navController.navigate(intent.chapterSelection.route + "/${intent.bookIndex}")
         }
 
+        is NavigationIntent.NavigateToChapter -> {
+            navController.navigate(intent.chapter.route + "/${intent.chapterIndex}")
+        }
+
         is NavigationIntent.NavigateUp -> {
             intent.customBackAction()
             navController.navigateUp()

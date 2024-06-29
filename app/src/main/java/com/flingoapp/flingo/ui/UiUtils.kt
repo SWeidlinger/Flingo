@@ -13,11 +13,14 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.core.graphics.ColorUtils
 
 @Preview(showBackground = true, device = Devices.TABLET)
 annotation class CustomPreview
@@ -30,6 +33,14 @@ fun Int.pxToDp() = with(LocalDensity.current) { this@pxToDp.toDp() }
 
 @Composable
 fun TextUnit.spToDp() = with(LocalDensity.current) { this@spToDp.toDp() }
+
+fun Color.darken(factor: Float): Color {
+    return Color(ColorUtils.blendARGB(this.toArgb(), Color.Black.toArgb(), factor))
+}
+
+fun Color.lighten(factor: Float): Color {
+    return Color(ColorUtils.blendARGB(this.toArgb(), Color.White.toArgb(), factor))
+}
 
 fun Modifier.innerShadow(
     shape: Shape,
@@ -68,3 +79,44 @@ fun Modifier.innerShadow(
         canvas.restore()
     }
 }
+
+fun TextLayoutResult.getBoundingBoxesForRange(start: Int, end: Int): List<Rect> {
+    var prevRect: Rect? = null
+    var firstLineCharRect: Rect? = null
+    val boundingBoxes = mutableListOf<Rect>()
+    for (i in start..end) {
+        val rect = getBoundingBox(i)
+        val isLastRect = i == end
+
+        // single char case
+        if (isLastRect && firstLineCharRect == null) {
+            firstLineCharRect = rect
+            prevRect = rect
+        }
+
+        // `rect.right` is zero for the last space in each line
+        // looks like an issue to me, reported: https://issuetracker.google.com/issues/197146630
+        if (!isLastRect && rect.right == 0f) continue
+
+        if (firstLineCharRect == null) {
+            firstLineCharRect = rect
+        } else if (prevRect != null) {
+            if (prevRect.bottom != rect.bottom || isLastRect) {
+                boundingBoxes.add(
+                    firstLineCharRect.copy(right = prevRect.right)
+                )
+                firstLineCharRect = rect
+            }
+        }
+        prevRect = rect
+    }
+    return boundingBoxes
+}
+
+fun Rect.inflate(verticalDelta: Float, horizontalDelta: Float) =
+    Rect(
+        left = left - horizontalDelta,
+        top = top - verticalDelta,
+        right = right + horizontalDelta,
+        bottom = bottom + verticalDelta,
+    )

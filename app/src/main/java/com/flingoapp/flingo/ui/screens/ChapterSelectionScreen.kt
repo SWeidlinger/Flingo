@@ -29,10 +29,13 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.dp
+import com.flingoapp.flingo.data.models.book.ChapterType
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.components.common.CustomElevatedButton
 import com.flingoapp.flingo.ui.components.common.CustomTopBar
+import com.flingoapp.flingo.ui.darken
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
+import com.flingoapp.flingo.ui.theme.FlingoPrimary
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
@@ -130,8 +133,13 @@ fun ChapterSelectionScreen(
                             },
                         shape = CircleShape,
                         elevation = 15.dp,
-                        color = Color.LightGray,
-                        onClick = { /*TODO*/ },
+                        color = if (chapter.type == ChapterType.READ) Color.LightGray else FlingoPrimary,
+                        shadowColor =
+                        if (chapter.type == ChapterType.READ) Color.Black.copy(alpha = 0.30f)
+                        else FlingoPrimary.darken(0.3f),
+                        onClick = {
+                            onNavigate(NavigationIntent.NavigateToChapter(chapterIndex = index))
+                        },
                         buttonContent = {
                             Text(
                                 text = chapter.title,
