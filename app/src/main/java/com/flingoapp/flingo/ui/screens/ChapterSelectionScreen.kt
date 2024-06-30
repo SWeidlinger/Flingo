@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -28,12 +27,12 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.models.book.ChapterType
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.components.common.CustomElevatedButton
-import com.flingoapp.flingo.ui.components.common.CustomTopBar
-import com.flingoapp.flingo.ui.darken
+import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
+import com.flingoapp.flingo.ui.components.common.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoPrimary
 import com.flingoapp.flingo.ui.theme.FlingoTheme
@@ -47,8 +46,10 @@ fun ChapterSelectionScreen(
     onAction: (MainIntent) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
-    val chapters = mainUiState.currentBook?.chapters
-    val chapterButtonOffsetList = mutableListOf<Float>()
+    val chapters = remember { mainUiState.currentBook?.chapters }
+    val chapterButtonOffsetList = remember { mutableListOf<Float>() }
+
+    //TODO: replace with fixed offsets in JSON
     chapters?.size?.let {
         repeat(it) {
             chapterButtonOffsetList.add(Random.nextFloat())
@@ -58,7 +59,6 @@ fun ChapterSelectionScreen(
     Scaffold(
         topBar = {
             CustomTopBar(
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
                 title = mainUiState.currentBook?.title ?: "Book Title",
                 navigateUp = { onNavigate(NavigationIntent.NavigateUp()) },
                 onSettingsClick = {},
@@ -79,7 +79,7 @@ fun ChapterSelectionScreen(
             val maxButtonOffset = lazyRowHeight - (chapterButtonSize.dp * 2f)
             val chapterButtonCoordinateHashMap = remember { HashMap<Int, Offset>() }
 
-            //TODO: fix layout shifting, could be because of globally position being called more than once
+            //TODO: fix paths not scrolling and add some variation to it not just straight line
             LazyRow(
                 modifier = Modifier
                     .padding(innerPadding)
@@ -122,7 +122,6 @@ fun ChapterSelectionScreen(
                 itemsIndexed(chapters) { index, chapter ->
                     CustomElevatedButton(
                         modifier = Modifier
-                            .size(chapterButtonSize.dp)
                             .offset(y = maxButtonOffset * chapterButtonOffsetList[index])
                             .onGloballyPositioned { layoutCoordinates ->
                                 Log.e(
@@ -131,19 +130,18 @@ fun ChapterSelectionScreen(
                                 )
                                 chapterButtonCoordinateHashMap[index] = layoutCoordinates.positionInParent()
                             },
+                        size = DpSize(chapterButtonSize.dp, chapterButtonSize.dp),
                         shape = CircleShape,
                         elevation = 15.dp,
-                        color = if (chapter.type == ChapterType.READ) Color.LightGray else FlingoPrimary,
-                        shadowColor =
-                        if (chapter.type == ChapterType.READ) Color.Black.copy(alpha = 0.30f)
-                        else FlingoPrimary.darken(0.3f),
+                        backgroundColor = if (chapter.type == ChapterType.READ) Color.LightGray else FlingoPrimary,
                         onClick = {
                             onNavigate(NavigationIntent.NavigateToChapter(chapterIndex = index))
                         },
                         buttonContent = {
                             Text(
                                 text = chapter.title,
-                                style = MaterialTheme.typography.headlineLarge
+                                style = MaterialTheme.typography.headlineLarge,
+                                color = if (chapter.type == ChapterType.CHALLENGE) Color.White else Color.Black
                             )
                         }
                     )

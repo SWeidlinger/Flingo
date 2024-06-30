@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components.common
+package com.flingoapp.flingo.ui.components.common.topbar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.R
+import com.flingoapp.flingo.ui.components.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
 @Composable
@@ -33,7 +34,9 @@ fun CustomTopBar(
     onAwardClick: () -> Unit
 ) {
     Box(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp, vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(

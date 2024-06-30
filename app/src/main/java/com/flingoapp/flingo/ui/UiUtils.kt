@@ -5,13 +5,17 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawOutline
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
@@ -20,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 
 @Preview(showBackground = true, device = Devices.TABLET)
@@ -120,3 +125,30 @@ fun Rect.inflate(verticalDelta: Float, horizontalDelta: Float) =
         right = right + horizontalDelta,
         bottom = bottom + verticalDelta,
     )
+
+@Composable
+fun Modifier.customOutline(
+    outlineColor: Color,
+    surfaceColor: Color,
+    startOffset: Dp,
+    outlineWidth: Dp,
+    radius: Dp = 1.dp
+) = drawBehind {
+    val startOffsetPx = startOffset.toPx()
+    val outlineWidthPx = outlineWidth.toPx()
+    val radiusPx = radius.toPx()
+    drawRoundRect(
+        color = outlineColor,
+        topLeft = Offset(0f, 0f),
+        size = size,
+        cornerRadius = CornerRadius(radiusPx, radiusPx),
+        style = Fill
+    )
+    drawRoundRect(
+        color = surfaceColor,
+        topLeft = Offset(startOffsetPx, outlineWidthPx),
+        size = Size(size.width - startOffsetPx - outlineWidthPx, size.height - outlineWidthPx * 2),
+        cornerRadius = CornerRadius(radiusPx - outlineWidthPx, radiusPx - outlineWidthPx),
+        style = Fill
+    )
+}

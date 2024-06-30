@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.models.book.Book
-import com.flingoapp.flingo.ui.components.common.CustomElevatedButton
+import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.innerShadow
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlinx.coroutines.launch
@@ -52,7 +52,7 @@ fun BookItem(
     CustomElevatedButton(
         modifier = modifier.size(itemSize),
         shape = RoundedCornerShape(50.dp),
-        color = Color(0xFFE0E0E0),
+        backgroundColor = Color(0xFFE0E0E0),
         elevation = 20.dp,
         animateButtonClick = bookIndex == pagerState.currentPage,
         isPressed = bookIndex != pagerState.currentPage,

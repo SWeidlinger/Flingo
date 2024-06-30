@@ -27,7 +27,7 @@ import com.flingoapp.flingo.ui.lighten
 import com.flingoapp.flingo.ui.theme.FlingoPrimary
 
 @Composable
-fun CustomReadText(
+fun CustomHighlightedText(
     modifier: Modifier = Modifier,
     content: List<String>,
     currentWordIndex: Int,

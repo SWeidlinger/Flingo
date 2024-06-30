@@ -25,12 +25,13 @@
             {
               "pageId": "1",
               "pageType": "remove_word",
+              "pageDescription": "Lies den Satz und klicke auf das unpassende Wort!",
               "pageCompleted": "false",
               "difficulty": "easy",
               "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
               "images": [],
               "answer": "fangen",
-              "hint": "Was machen Maulwürfe?",
+              "hint": "Sind Maulwürfe gut im Fangen?",
               "feedback": {
                 "correct": "Super! Maulwürfe fangen nicht, sondern werfen Hügel auf.",
                 "incorrect": "Versuchs nochmal! Was machen Maulwürfe nicht?"
@@ -49,14 +50,15 @@
           "chapterCompleted": false,
           "pages": [
             {
-              "pageId": "2",
+              "pageId": "1",
               "pageType": "remove_word",
+              "pageDescription": "Lies den Satz und klicke auf das unpassende Wort!",
               "pageCompleted": "false",
               "difficulty": "medium",
               "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
               "images": [],
               "answer": "Astronauten",
-              "hint": "Wer spielt üblicherweise in einem Orchester?",
+              "hint": "Wie nennt man jemanden der ins Weltall fliegt?",
               "feedback": {
                 "correct": "Super! Astronauten gehören nicht in ein Orchester.",
                 "incorrect": "Nicht ganz. Denk über die Aufgaben der Berufe nach."
@@ -77,6 +79,7 @@
             {
               "pageId": "1",
               "pageType": "read",
+              "pageDescription": "",
               "pageCompleted": "false",
               "difficulty": "medium",
               "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.",
@@ -93,6 +96,7 @@
             {
               "pageId": "2",
               "pageType": "read",
+              "pageDescription": "",
               "pageCompleted": "false",
               "difficulty": "medium",
               "content": "In dem Dorf lebte auch eine kleines Pony namens Peppi, das sehr unglücklich war.",
@@ -109,6 +113,7 @@
             {
               "pageId": "3",
               "pageType": "read",
+              "pageDescription": "",
               "pageCompleted": "false",
               "difficulty": "easy",
               "content": "Es hatte früher einem alten Mann gehört.",
@@ -133,14 +138,15 @@
           "chapterCompleted": false,
           "pages": [
             {
-              "pageId": "2",
+              "pageId": "1",
               "pageType": "remove_word",
+              "pageDescription": "Lies den Satz und klicke auf das unpassende Wort!",
               "pageCompleted": "false",
               "difficulty": "medium",
               "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
               "images": [],
               "answer": "Astronauten",
-              "hint": "Wer spielt üblicherweise in einem Orchester?",
+              "hint": "Wie nennt man jemanden der ins Weltall fliegt?",
               "feedback": {
                 "correct": "Super! Astronauten gehören nicht in ein Orchester.",
                 "incorrect": "Nicht ganz. Denk über die Aufgaben der Berufe nach."
@@ -159,14 +165,15 @@
           "chapterCompleted": false,
           "pages": [
             {
-              "pageId": "2",
+              "pageId": "1",
               "pageType": "remove_word",
+              "pageDescription": "Lies den Satz und klicke auf das unpassende Wort!",
               "pageCompleted": "false",
               "difficulty": "medium",
               "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
               "images": [],
               "answer": "Astronauten",
-              "hint": "Wer spielt üblicherweise in einem Orchester?",
+              "hint": "Wie nennt man jemanden der ins Weltall fliegt?",
               "feedback": {
                 "correct": "Super! Astronauten gehören nicht in ein Orchester.",
                 "incorrect": "Nicht ganz. Denk über die Aufgaben der Berufe nach."

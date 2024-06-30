@@ -11,6 +11,6 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val FlingoPrimary = Color(0xFF31ABFF)
-val FlingoSecondary = Color(0xFFFECE00)
+val FlingoSecondary = Color(0xFFf7904d)
 val FlingoTertiary = Color(0xFF01A452)
 val FlingoText = Color(0xFF44423F)

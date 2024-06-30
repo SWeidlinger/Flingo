@@ -25,8 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.ui.components.common.CustomPageIndicator
-import com.flingoapp.flingo.ui.components.common.CustomReadText
-import com.flingoapp.flingo.ui.components.common.CustomTopBar
+import com.flingoapp.flingo.ui.components.common.CustomHighlightedText
+import com.flingoapp.flingo.ui.components.common.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
@@ -48,7 +48,6 @@ fun ReadScreen(
 
     Scaffold(topBar = {
         CustomTopBar(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
             title = mainUiState.currentChapter?.title ?: "Chapter Title",
             navigateUp = { onNavigate(NavigationIntent.NavigateUp()) },
             onSettingsClick = {},
@@ -116,7 +115,7 @@ fun ReadScreen(
                         contentDescription = "Additional Image"
                     )
 
-                    CustomReadText(
+                    CustomHighlightedText(
                         modifier = Modifier
                             .weight(1f)
                             .padding(top = 64.dp, start = 64.dp, end = 64.dp),

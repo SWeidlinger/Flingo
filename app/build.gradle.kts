@@ -82,4 +82,7 @@ dependencies {
 
     //hilt dependency injection
     implementation(libs.androidx.hilt.navigation.compose)
+
+    //constraint layout
+    implementation(libs.androidx.constraintlayout.compose)
 }

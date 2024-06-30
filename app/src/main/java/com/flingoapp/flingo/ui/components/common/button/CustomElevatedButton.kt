@@ -1,7 +1,8 @@
-package com.flingoapp.flingo.ui.components.common
+package com.flingoapp.flingo.ui.components.common.button
 
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -9,7 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,26 +25,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.flingoapp.flingo.ui.darken
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
 object CustomElevatedButtonDefault {
     val MinWidth = 58.dp
-    val MinHeight = 64.dp
+    val MinHeight = 72.dp
 }
 
 @Composable
 fun CustomElevatedButton(
     modifier: Modifier = Modifier,
+    size: DpSize? = null,
     shape: RoundedCornerShape,
-    elevation: Dp,
-    color: Color = MaterialTheme.colorScheme.primary,
-    shadowColor: Color = Color.Black.copy(alpha = 0.30f),
+    addOutline: Boolean = false,
+    elevation: Dp = 20.dp,
+    backgroundColor: Color = MaterialTheme.colorScheme.primary,
+    shadowColor: Color = backgroundColor.darken(0.2f),
     enabled: Boolean = true,
     isPressed: Boolean = false,
+    pressedColor: Color = backgroundColor,
     disabledColor: Color = Color.LightGray.copy(alpha = 0.75f),
     animateButtonClick: Boolean = true,
     //TODO: disabled for now since it causes lags
@@ -59,6 +67,8 @@ fun CustomElevatedButton(
     val interactionSource = remember { MutableInteractionSource() }
     val isButtonPressed by interactionSource.collectIsPressedAsState()
 
+    var buttonContentSize by remember { mutableStateOf(IntSize.Zero) }
+
     if (isButtonPressed) {
         buttonState = ButtonState.Pressed
         LaunchedEffect(key1 = Unit) {
@@ -72,8 +82,25 @@ fun CustomElevatedButton(
         }
     }
 
+    val customSizeModifier = if (size != null) {
+        modifier.size(size)
+    } else {
+        modifier
+    }
+
+    val customSizeButtonContentModifier = if (size != null) {
+        Modifier.size(size)
+    } else {
+        Modifier
+    }
+
     Box(
-        modifier = modifier
+        modifier = customSizeModifier
+            //somehow also changing color to transparent is needed for outline to not be shown
+            .border(
+                if (addOutline) 1.dp else 0.dp, if (addOutline) shadowColor else Color.Transparent,
+                shape
+            )
             .defaultMinSize(CustomElevatedButtonDefault.MinWidth, CustomElevatedButtonDefault.MinHeight)
             .clip(shape)
             .background(shadowColor)
@@ -92,10 +119,17 @@ fun CustomElevatedButton(
             .offset(y = if (buttonState == ButtonState.Pressed || !enabled || isPressed) 0.dp else (-elevation))
     ) {
         Box(
-            modifier = Modifier
-                .matchParentSize()
+            modifier = customSizeButtonContentModifier
+                .border(
+                    if (addOutline) 1.dp else 0.dp,
+                    if (addOutline) shadowColor else Color.Transparent,
+                    shape
+                )
+                .onGloballyPositioned { layoutCoordinates ->
+                    buttonContentSize = layoutCoordinates.size
+                }
                 .clip(shape)
-                .background(color)
+                .background(if (isPressed) pressedColor else backgroundColor)
                 .padding(
                     top = 24.dp,
                     bottom = 12.dp,
@@ -131,13 +165,12 @@ enum class ButtonState { Pressed, Idle }
 private fun CustomElevatedButtonPreview() {
     FlingoTheme {
         CustomElevatedButton(
-            modifier = Modifier
-                .width(200.dp),
+            size = DpSize(150.dp, 75.dp),
             enabled = true,
             isPressed = false,
             shape = RoundedCornerShape(50.dp),
             elevation = 10.dp,
-            color = Color.LightGray,
+            backgroundColor = Color.LightGray,
             animateButtonClick = true,
             onClick = {},
             buttonContent = {

@@ -1,9 +1,9 @@
 package com.flingoapp.flingo.ui
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.flingoapp.flingo.ui.navigation.NavHostComposable
@@ -14,11 +14,9 @@ fun TopLevelComposable(
     mainViewModel: MainViewModel,
     navHostController: NavHostController = rememberNavController()
 ) {
-    Scaffold() { padding ->
-        NavHostComposable(
-            modifier = Modifier.padding(padding),
-            navController = navHostController,
-            mainViewModel = mainViewModel
-        )
-    }
+    NavHostComposable(
+        modifier = Modifier.padding(vertical = 16.dp),
+        navController = navHostController,
+        mainViewModel = mainViewModel
+    )
 }

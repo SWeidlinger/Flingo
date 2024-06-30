@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components.common
+package com.flingoapp.flingo.ui.components.common.button
 
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.flingoapp.flingo.ui.darken
 
 /**
  * Created by Sebastian on 04.06.2024.
@@ -41,7 +42,7 @@ fun CustomIconButton(
     size: Dp = 75.dp,
     iconTint: Color = Color.Black.copy(alpha = 0.3f),
     backgroundColor: Color = Color.Black.copy(alpha = 0.5f),
-    shadowColor: Color = Color.Black.copy(alpha = 0.3f),
+    shadowColor: Color = backgroundColor.darken(0.2f),
     icon: ImageVector,
     iconPainter: Painter? = null,
     iconContentDescription: String,
