@@ -23,9 +23,9 @@ private val LightColorScheme = lightColorScheme(
 )
 
 private val FlingoLightColorScheme = lightColorScheme(
-    primary = FlingoPrimary,
-    secondary = FlingoSecondary,
-    tertiary = FlingoTertiary
+    primary = FlingoColors.Primary,
+    secondary = FlingoColors.Secondary,
+    tertiary = FlingoColors.Tertiary
 )
 
 @Composable

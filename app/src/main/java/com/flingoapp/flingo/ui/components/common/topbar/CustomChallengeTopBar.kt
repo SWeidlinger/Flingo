@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.QuestionMark
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
@@ -23,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.ui.components.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.components.common.button.CustomIconButton
-import com.flingoapp.flingo.ui.theme.FlingoSecondary
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import java.util.Locale
 
@@ -76,7 +76,7 @@ fun CustomChallengeTopBar(
         CustomIconButton(
             icon = Icons.Default.QuestionMark,
             iconContentDescription = "Hint",
-            backgroundColor = FlingoSecondary,
+            backgroundColor = MaterialTheme.colorScheme.secondary,
             onClick = {
                 isSpeaking = false
                 if (tts.value?.isSpeaking == true) {

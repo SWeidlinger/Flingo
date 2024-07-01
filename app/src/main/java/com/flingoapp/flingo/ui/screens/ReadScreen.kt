@@ -24,8 +24,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.R
-import com.flingoapp.flingo.ui.components.common.CustomPageIndicator
 import com.flingoapp.flingo.ui.components.common.CustomHighlightedText
+import com.flingoapp.flingo.ui.components.common.CustomPageIndicator
 import com.flingoapp.flingo.ui.components.common.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
@@ -51,7 +51,11 @@ fun ReadScreen(
             title = mainUiState.currentChapter?.title ?: "Chapter Title",
             navigateUp = { onNavigate(NavigationIntent.NavigateUp()) },
             onSettingsClick = {},
-            onAwardClick = {}
+            onAwardClick = {
+                //TODO: remove after testing
+                mainUiState.currentChapter.isCompleted = true
+                onNavigate(NavigationIntent.NavigateUp())
+            }
         )
     }) { innerPadding ->
         Column(
@@ -106,6 +110,11 @@ fun ReadScreen(
                                 if (currentWordIndex < content.size - 1) {
                                     currentWordIndex += 1
                                 } else if (pagerState.currentPage < pagerState.pageCount) {
+                                    if (pagerState.currentPage == pagerState.pageCount - 1) {
+                                        mainUiState.currentChapter.isCompleted = true
+                                        onNavigate(NavigationIntent.NavigateUp())
+                                    }
+
                                     coroutineScope.launch {
                                         pagerState.animateScrollToPage(page + 1)
                                     }

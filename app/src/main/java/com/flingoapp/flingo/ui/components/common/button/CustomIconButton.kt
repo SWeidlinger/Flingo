@@ -40,7 +40,7 @@ import com.flingoapp.flingo.ui.darken
 fun CustomIconButton(
     modifier: Modifier = Modifier,
     size: Dp = 75.dp,
-    iconTint: Color = Color.Black.copy(alpha = 0.3f),
+    iconTint: Color = Color.Black.copy(alpha = 0.4f),
     backgroundColor: Color = Color.Black.copy(alpha = 0.5f),
     shadowColor: Color = backgroundColor.darken(0.2f),
     icon: ImageVector,

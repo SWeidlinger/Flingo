@@ -24,14 +24,13 @@ import androidx.compose.ui.text.withStyle
 import com.flingoapp.flingo.ui.getBoundingBoxesForRange
 import com.flingoapp.flingo.ui.inflate
 import com.flingoapp.flingo.ui.lighten
-import com.flingoapp.flingo.ui.theme.FlingoPrimary
 
 @Composable
 fun CustomHighlightedText(
     modifier: Modifier = Modifier,
     content: List<String>,
     currentWordIndex: Int,
-    highlightColor: Color = FlingoPrimary,
+    highlightColor: Color = MaterialTheme.colorScheme.primary,
     textStyle: TextStyle = MaterialTheme.typography.headlineLarge
 ) {
     val unreadWords = remember { content.subList(1, content.size).toMutableList() }

@@ -2,18 +2,25 @@ package com.flingoapp.flingo.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,11 +41,10 @@ import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.components.common.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
-import com.flingoapp.flingo.ui.theme.FlingoPrimary
+import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
-import kotlin.random.Random
 
 @Composable
 fun ChapterSelectionScreen(
@@ -47,22 +53,21 @@ fun ChapterSelectionScreen(
     onNavigate: (NavigationIntent) -> Unit
 ) {
     val chapters = remember { mainUiState.currentBook?.chapters }
-    val chapterButtonOffsetList = remember { mutableListOf<Float>() }
-
-    //TODO: replace with fixed offsets in JSON
-    chapters?.size?.let {
-        repeat(it) {
-            chapterButtonOffsetList.add(Random.nextFloat())
-        }
-    }
+    //TODO: remove after testing
+    var unlockAll by remember { mutableStateOf(false) }
+    var showPath by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             CustomTopBar(
                 title = mainUiState.currentBook?.title ?: "Book Title",
                 navigateUp = { onNavigate(NavigationIntent.NavigateUp()) },
-                onSettingsClick = {},
-                onAwardClick = {}
+                onSettingsClick = {
+                    unlockAll = !unlockAll
+                },
+                onAwardClick = {
+                    showPath = !showPath
+                }
             )
         }) { innerPadding ->
         if (chapters.isNullOrEmpty()) {
@@ -88,6 +93,9 @@ fun ChapterSelectionScreen(
                         lazyRowHeight = layoutCoordinates.size.height.dp
                     }
                     .drawBehind {
+                        if (!showPath) {
+                            return@drawBehind
+                        }
                         val pathEffect = PathEffect.dashPathEffect(floatArrayOf(50f, 25f), 0f)
 
                         for (i in 0 until chapterButtonCoordinateHashMap.size - 1) {
@@ -120,9 +128,19 @@ fun ChapterSelectionScreen(
                 horizontalArrangement = Arrangement.spacedBy(125.dp)
             ) {
                 itemsIndexed(chapters) { index, chapter ->
+                    val isChapterLocked by remember {
+                        derivedStateOf {
+                            if (index == 0 || unlockAll) {
+                                false
+                            } else {
+                                !chapters[index - 1].isCompleted
+                            }
+                        }
+                    }
+
                     CustomElevatedButton(
                         modifier = Modifier
-                            .offset(y = maxButtonOffset * chapterButtonOffsetList[index])
+                            .offset(y = maxButtonOffset * chapter.positionOffset)
                             .onGloballyPositioned { layoutCoordinates ->
                                 Log.e(
                                     "CHAPTERSELECTION",
@@ -133,16 +151,60 @@ fun ChapterSelectionScreen(
                         size = DpSize(chapterButtonSize.dp, chapterButtonSize.dp),
                         shape = CircleShape,
                         elevation = 15.dp,
-                        backgroundColor = if (chapter.type == ChapterType.READ) Color.LightGray else FlingoPrimary,
+                        isPressed = chapter.isCompleted,
+                        enabled = !isChapterLocked,
+                        backgroundColor =
+                        if (chapter.isCompleted) {
+                            FlingoColors.Success
+                        } else {
+                            if (chapter.type == ChapterType.READ)
+                                Color.LightGray
+                            else
+                                MaterialTheme.colorScheme.primary
+                        },
                         onClick = {
                             onNavigate(NavigationIntent.NavigateToChapter(chapterIndex = index))
                         },
                         buttonContent = {
-                            Text(
-                                text = chapter.title,
-                                style = MaterialTheme.typography.headlineLarge,
-                                color = if (chapter.type == ChapterType.CHALLENGE) Color.White else Color.Black
-                            )
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                if (chapter.isCompleted) {
+                                    Icon(
+                                        modifier = Modifier
+                                            .size((chapterButtonSize / 1.75).dp),
+                                        tint = Color.White,
+                                        imageVector = Icons.Default.Check,
+                                        contentDescription = "Chapter finished"
+                                    )
+                                } else if (isChapterLocked) {
+                                    Icon(
+                                        modifier = Modifier.size((chapterButtonSize / 1.75).dp),
+                                        tint =
+                                        if (chapter.type == ChapterType.CHALLENGE)
+                                            Color.White
+                                        else
+                                            Color.Black,
+                                        imageVector = Icons.Default.Lock,
+                                        contentDescription = "Chapter Locked"
+                                    )
+                                }
+
+                                Text(
+                                    text = chapter.title,
+                                    style = MaterialTheme.typography.headlineLarge,
+                                    color =
+                                    if (chapter.isCompleted) {
+                                        Color.White
+                                    } else {
+                                        if (chapter.type == ChapterType.CHALLENGE)
+                                            Color.White
+                                        else
+                                            Color.Black
+                                    }
+                                )
+                            }
                         }
                     )
                 }

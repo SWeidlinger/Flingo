@@ -13,7 +13,7 @@ val Typography = Typography(
         fontSize = 32.sp,
         lineHeight = 40.sp,
         letterSpacing = 0.sp,
-        color = FlingoText
+        color = FlingoColors.Text
     ),
     headlineMedium = TextStyle(
         fontFamily = FontFamily.Default,
@@ -21,7 +21,7 @@ val Typography = Typography(
         fontSize = 28.sp,
         lineHeight = 40.sp,
         letterSpacing = 0.sp,
-        color = FlingoText
+        color = FlingoColors.Text
     ),
     headlineSmall = TextStyle(
         fontFamily = FontFamily.Default,
@@ -29,7 +29,7 @@ val Typography = Typography(
         fontSize = 24.sp,
         lineHeight = 40.sp,
         letterSpacing = 0.sp,
-        color = FlingoText
+        color = FlingoColors.Text
     ),
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
@@ -37,6 +37,6 @@ val Typography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
-        color = FlingoText
+        color = FlingoColors.Text
     )
 )

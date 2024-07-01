@@ -10,7 +10,8 @@ data class Chapter(
     @JsonAdapter(EnumDeserializer::class) @SerializedName("chapterType") val type: ChapterType,
     @SerializedName("chapterDescription") val description: String,
     @SerializedName("chapterCoverImage") var coverImage: String? = null,
-    @SerializedName("chapterCompleted") var completed: Boolean,
+    @SerializedName("chapterPositionOffset") val positionOffset: Float,
+    @SerializedName("chapterCompleted") var isCompleted: Boolean,
     @SerializedName("pages") var pages: ArrayList<Page>? = arrayListOf()
 )
 

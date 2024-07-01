@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.ui.darken
-import com.flingoapp.flingo.ui.theme.FlingoText
+import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
 @Composable
@@ -29,7 +29,7 @@ fun CustomElevatedTextButton(
     showSpeakerIcon: Boolean = false,
     isPressed: Boolean = false,
     pressedColor: Color = Color.White,
-    textColor: Color = FlingoText,
+    textColor: Color = FlingoColors.Text,
     addOutline: Boolean = true,
     isTextStrikethrough: Boolean = false,
     onClick: () -> Unit

@@ -85,4 +85,7 @@ dependencies {
 
     //constraint layout
     implementation(libs.androidx.constraintlayout.compose)
+
+    //confetti
+    implementation (libs.konfetti.compose)
 }

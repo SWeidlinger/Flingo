@@ -15,12 +15,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -49,12 +54,16 @@ fun BookItem(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
+    val noChaptersProvided = remember { currentBookItem.chapters.isEmpty() }
+
     CustomElevatedButton(
         modifier = modifier.size(itemSize),
         shape = RoundedCornerShape(50.dp),
         backgroundColor = Color(0xFFE0E0E0),
         elevation = 20.dp,
         animateButtonClick = bookIndex == pagerState.currentPage,
+        enabled = !noChaptersProvided,
+        disabledColor = Color.LightGray.copy(alpha = 0.25f),
         isPressed = bookIndex != pagerState.currentPage,
         onClick = {
             if (bookIndex != pagerState.currentPage) {
@@ -66,88 +75,91 @@ fun BookItem(
             }
         },
         buttonContent = {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 24.dp, start = 8.dp, end = 8.dp),
-                verticalArrangement = Arrangement.SpaceAround,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    modifier = Modifier.weight(2f),
-                    painter = painterResource(id = R.drawable.flingo_red),
-                    contentDescription = "Book Image Cover"
-                )
 
-                Text(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(top = 24.dp),
-                    text = currentBookItem.title,
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontSize = 48.sp,
-                    ),
-                    textAlign = TextAlign.Center
-                )
-
-                val noChaptersProvided = currentBookItem.chapters.isEmpty()
-                val maxAmountChapters =
-                    if (noChaptersProvided) "-" else currentBookItem.chapters.size.toString()
-                val chaptersCompleted =
-                    if (noChaptersProvided) "-" else currentBookItem.chapters.count { it.completed }.toString()
-
+            Box(contentAlignment = Alignment.Center) {
                 Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 24.dp, start = 8.dp, end = 8.dp)
+                        .blur(if (noChaptersProvided) 10.dp else 0.dp),
+                    verticalArrangement = Arrangement.SpaceAround,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Image(
+                        modifier = Modifier.weight(2f),
+                        painter = painterResource(id = R.drawable.flingo_red),
+                        contentDescription = "Book Image Cover"
+                    )
+
                     Text(
-                        text = "$chaptersCompleted/$maxAmountChapters completed",
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontSize = 28.sp,
-                            fontWeight = FontWeight.Medium
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(top = 24.dp),
+                        text = currentBookItem.title,
+                        style = MaterialTheme.typography.headlineLarge.copy(
+                            fontSize = 48.sp,
                         ),
                         textAlign = TextAlign.Center
                     )
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 12.dp)
-                            .height(35.dp)
+                    val maxAmountChapters =
+                        if (noChaptersProvided) "-" else currentBookItem.chapters.size.toString()
+                    val chaptersCompleted =
+                        if (noChaptersProvided) "-" else currentBookItem.chapters.count { it.isCompleted }
+                            .toString()
+
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clip(RoundedCornerShape(50.dp))
-                                .background(Color.White)
-                                .innerShadow(
-                                    shape = RoundedCornerShape(50.dp),
-                                    color = Color.Black.copy(alpha = 0.5f),
-                                    offsetY = 2.dp,
-                                    offsetX = 2.dp,
-                                    blur = 1.dp,
-                                    spread = 2.dp
-                                ),
-                            contentAlignment = Alignment.CenterStart,
-                        ) {
-
-                        }
-
-                        val completedPercentage = if (!noChaptersProvided) {
-                            chaptersCompleted.toFloat() / maxAmountChapters.toFloat()
-                        } else {
-                            0f
-                        }
+                        Text(
+                            text = "$chaptersCompleted/$maxAmountChapters completed",
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.Medium
+                            ),
+                            textAlign = TextAlign.Center
+                        )
 
                         Box(
                             modifier = Modifier
-                                .fillMaxHeight()
-                                .fillMaxWidth(completedPercentage)
-                                .clip(RoundedCornerShape(50.dp))
-                                .background(MaterialTheme.colorScheme.tertiary),
-                            contentAlignment = Alignment.TopCenter
+                                .fillMaxWidth()
+                                .padding(top = 12.dp)
+                                .height(35.dp)
                         ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(Color.White)
+                                    .innerShadow(
+                                        shape = RoundedCornerShape(50.dp),
+                                        color = Color.Black.copy(alpha = 0.5f),
+                                        offsetY = 2.dp,
+                                        offsetX = 2.dp,
+                                        blur = 1.dp,
+                                        spread = 2.dp
+                                    ),
+                                contentAlignment = Alignment.CenterStart,
+                            ) {
+
+                            }
+
+                            val completedPercentage = if (!noChaptersProvided) {
+                                chaptersCompleted.toFloat() / maxAmountChapters.toFloat()
+                            } else {
+                                0f
+                            }
+
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .fillMaxWidth(completedPercentage)
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(MaterialTheme.colorScheme.tertiary),
+                                contentAlignment = Alignment.TopCenter
+                            ) {
 //                            Box(
 //                                modifier = Modifier
 //                                    .fillMaxHeight(0.15f)
@@ -156,8 +168,18 @@ fun BookItem(
 //                                    .clip(RoundedCornerShape(50.dp))
 //                                    .background(Color.White.copy(alpha = 0.7f))
 //                            )
+                            }
                         }
                     }
+                }
+
+                if (noChaptersProvided) {
+                    Icon(
+                        modifier = Modifier.size((itemSize.value / 1.75).dp),
+                        tint = Color.Black,
+                        imageVector = Icons.Default.Lock,
+                        contentDescription = "Chapter Locked"
+                    )
                 }
             }
         }
