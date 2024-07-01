@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.ui.darken
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
@@ -30,6 +31,7 @@ fun CustomElevatedTextButton(
     isPressed: Boolean = false,
     pressedColor: Color = Color.White,
     textColor: Color = FlingoColors.Text,
+    fontSize: Int = 48,
     addOutline: Boolean = true,
     isTextStrikethrough: Boolean = false,
     onClick: () -> Unit
@@ -53,6 +55,7 @@ fun CustomElevatedTextButton(
                     textAlign = TextAlign.Center,
                     text = text,
                     style = MaterialTheme.typography.headlineLarge.copy(
+                        fontSize = fontSize.sp,
                         textDecoration = if (isTextStrikethrough) TextDecoration.LineThrough else TextDecoration.None
                     ),
                     color = textColor

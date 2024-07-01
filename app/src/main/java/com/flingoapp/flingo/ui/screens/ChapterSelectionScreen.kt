@@ -36,6 +36,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.models.book.ChapterType
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
@@ -193,7 +194,7 @@ fun ChapterSelectionScreen(
 
                                 Text(
                                     text = chapter.title,
-                                    style = MaterialTheme.typography.headlineLarge,
+                                    style = MaterialTheme.typography.headlineLarge.copy(fontSize = 42.sp),
                                     color =
                                     if (chapter.isCompleted) {
                                         Color.White

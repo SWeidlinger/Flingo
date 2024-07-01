@@ -69,7 +69,7 @@ fun CustomPageIndicator(
                 if (isCurrentPage) {
                     Text(
                         modifier = Modifier
-                            .padding(12.dp)
+                            .padding(8.dp)
                             .align(Alignment.Center),
                         text = "${iteration + 1}",
                         color = Color.White,

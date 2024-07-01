@@ -114,7 +114,7 @@ fun BookItem(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "$chaptersCompleted/$maxAmountChapters completed",
+                            text = "$chaptersCompleted/$maxAmountChapters abgeschlossen",
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = 28.sp,
                                 fontWeight = FontWeight.Medium

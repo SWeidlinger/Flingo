@@ -52,6 +52,7 @@ fun CustomHomeScreenTopBar(
         ) {
             // back navigation
             CustomElevatedTextButton(
+                fontSize = 32,
                 text = userName,
                 onClick = { onUserClick() }
             )
