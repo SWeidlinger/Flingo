@@ -33,9 +33,25 @@ import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.ui.darken
 
 /**
- * Created by Sebastian on 04.06.2024.
+ * Custom icon button used specifically for the icon buttons used in the top app bar
+ *
+ * @param modifier
+ * @param size
+ * @param iconTint
+ * @param backgroundColor
+ * @param shadowColor
+ * @param icon
+ * @param iconPainter
+ * @param iconContentDescription
+ * @param elevation
+ * @param enabled
+ * @param isPressed
+ * @param disabledColor
+ * @param animateButtonClick
+ * @param clickSound currently not used as current implementation is quite resource heavy
+ * @param onClick
+ * @receiver
  */
-
 @Composable
 fun CustomIconButton(
     modifier: Modifier = Modifier,

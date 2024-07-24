@@ -42,6 +42,16 @@ import com.flingoapp.flingo.ui.innerShadow
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlinx.coroutines.launch
 
+/**
+ * Book item used to display the different books on the [com.flingoapp.flingo.ui.screens.HomeScreen]
+ *
+ * @param modifier
+ * @param itemSize
+ * @param pagerState
+ * @param bookIndex
+ * @param currentBookItem
+ * @param onClick
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BookItem(

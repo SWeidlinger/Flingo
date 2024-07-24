@@ -41,6 +41,15 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import java.util.concurrent.TimeUnit
 
+/**
+ * Challenge screen used to display the different kind of challenges
+ *
+ * @param mainUiState
+ * @param onAction
+ * @param onNavigate
+ * @receiver
+ * @receiver
+ */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChallengeScreen(

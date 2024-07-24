@@ -40,6 +40,26 @@ object CustomElevatedButtonDefault {
     val MinHeight = 72.dp
 }
 
+/**
+ * Custom elevated button, used to mimic an actual button press, by using elevation and a darker shade to
+ * symbolize depth
+ *
+ * @param modifier
+ * @param size specified size of the button, if null [buttonContent] will specify size of button
+ * @param shape of the button
+ * @param addOutline if outline should be added to button
+ * @param elevation
+ * @param backgroundColor
+ * @param shadowColor
+ * @param enabled
+ * @param isPressed if the button should appear to be pressed
+ * @param pressedColor
+ * @param disabledColor
+ * @param animateButtonClick
+ * @param clickSound currently not used as current implementation is quite resource heavy
+ * @param onClick
+ * @param buttonContent content which should be shown inside of the button
+ */
 @Composable
 fun CustomElevatedButton(
     modifier: Modifier = Modifier,
@@ -158,7 +178,22 @@ fun CustomElevatedButton(
     }
 }
 
-enum class ButtonState { Pressed, Idle }
+/**
+ * Button state
+ *
+ */
+enum class ButtonState {
+    /**
+     * Pressed
+     *
+     */
+    Pressed,
+
+    /**
+     * Idle
+     *
+     */
+    Idle }
 
 @Preview(showBackground = true)
 @Composable

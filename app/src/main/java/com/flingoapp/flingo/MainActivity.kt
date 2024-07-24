@@ -15,6 +15,11 @@ import com.flingoapp.flingo.viewmodels.ViewModelFactory
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainViewModel
 
+/**
+ * Main activity
+ *
+ * @constructor Create empty Main activity
+ */
 class MainActivity : ComponentActivity() {
     private lateinit var mainViewModel: MainViewModel
 

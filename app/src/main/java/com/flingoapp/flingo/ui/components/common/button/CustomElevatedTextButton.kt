@@ -22,6 +22,23 @@ import com.flingoapp.flingo.ui.darken
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
+/**
+ * Custom elevated text button, specifically created to be used with text, offers streamlined approach by
+ * using [CustomElevatedButton] and add additional improvement useful for showing text in such a button
+ *
+ * @param modifier
+ * @param text
+ * @param elevation
+ * @param showSpeakerIcon used for the description of the pages as these are read aloud, additional
+ * indication is shown by a speaker icon
+ * @param isPressed
+ * @param pressedColor
+ * @param textColor
+ * @param fontSize
+ * @param addOutline
+ * @param isTextStrikethrough if the text should appear struck through
+ * @param onClick
+ */
 @Composable
 fun CustomElevatedTextButton(
     modifier: Modifier = Modifier,

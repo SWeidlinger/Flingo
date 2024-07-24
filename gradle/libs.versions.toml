@@ -10,13 +10,14 @@ coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.2"
-activityCompose = "1.9.0"
+lifecycleRuntimeKtx = "2.8.4"
+activityCompose = "1.9.1"
 composeBom = "2024.06.00"
 lottieCompose = "6.1.0"
-materialIconsExtended = "1.7.0-beta04"
+materialIconsExtended = "1.7.0-beta06"
 navigationCompose = "2.7.7"
 serialization = "1.6.3"
+jetbrainsDokka = "1.9.20"
 
 [libraries]
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
@@ -49,3 +50,4 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+jetbrains-dokka = { id = "org.jetbrains.dokka", version.ref = "jetbrainsDokka" }

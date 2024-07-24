@@ -25,6 +25,15 @@ import com.flingoapp.flingo.ui.getBoundingBoxesForRange
 import com.flingoapp.flingo.ui.inflate
 import com.flingoapp.flingo.ui.lighten
 
+/**
+ * Custom highlighted text used for reading page type to allow highlighting of the word
+ *
+ * @param modifier
+ * @param content
+ * @param currentWordIndex
+ * @param highlightColor
+ * @param textStyle
+ */
 @Composable
 fun CustomHighlightedText(
     modifier: Modifier = Modifier,

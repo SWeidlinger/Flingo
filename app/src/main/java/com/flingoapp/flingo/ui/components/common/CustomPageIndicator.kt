@@ -33,6 +33,14 @@ import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.ui.pxToDp
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
+/**
+ * Custom page indicator, used for displaying the amount of pages in a chapter
+ *
+ * @param modifier
+ * @param pagerState
+ * @param selectedColor
+ * @param unselectedColor
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CustomPageIndicator(

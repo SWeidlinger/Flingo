@@ -9,6 +9,12 @@ import androidx.navigation.compose.rememberNavController
 import com.flingoapp.flingo.ui.navigation.NavHostComposable
 import com.flingoapp.flingo.viewmodels.main.MainViewModel
 
+/**
+ * Top level composable of the app, used to initialize the navigation graph
+ *
+ * @param mainViewModel
+ * @param navHostController
+ */
 @Composable
 fun TopLevelComposable(
     mainViewModel: MainViewModel,

@@ -34,6 +34,15 @@ import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
 import kotlinx.coroutines.launch
 
+/**
+ * Read screen used to display chapters with the [com.flingoapp.flingo.data.models.book.ChapterType.READ] type
+ *
+ * @param mainUiState
+ * @param onAction
+ * @param onNavigate
+ * @receiver
+ * @receiver
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ReadScreen(

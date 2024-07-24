@@ -19,6 +19,14 @@ import com.flingoapp.flingo.ui.screens.ReadScreen
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainViewModel
 
+/**
+ * Nav host composable
+ *
+ * @param modifier
+ * @param navController
+ * @param startDestination
+ * @param mainViewModel
+ */
 @Composable
 fun NavHostComposable(
     modifier: Modifier = Modifier,
@@ -130,6 +138,13 @@ fun NavHostComposable(
 //    }
 //}
 
+/**
+ * Function used to handle the [NavigationIntent] from the onNavigate lambda parameter present on the
+ * different screen
+ *
+ * @param intent
+ * @param navController
+ */
 private fun processNavigation(
     intent: NavigationIntent,
     navController: NavController

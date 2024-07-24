@@ -25,6 +25,16 @@ import com.flingoapp.flingo.R
 import com.flingoapp.flingo.ui.components.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
+/**
+ * Custom top bar, basic implementation of the TopBar which is used in [CustomChallengeTopBar] and
+ * [CustomHomeScreenTopBar]
+ *
+ * @param modifier
+ * @param title
+ * @param navigateUp
+ * @param onSettingsClick
+ * @param onAwardClick
+ */
 @Composable
 fun CustomTopBar(
     modifier: Modifier = Modifier,

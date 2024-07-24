@@ -28,6 +28,14 @@ private val FlingoLightColorScheme = lightColorScheme(
     tertiary = FlingoColors.Tertiary
 )
 
+/**
+ * Flingo theme which is currently used in the app, no darkTheme is currently implemented
+ *
+ * @param darkTheme
+ * @param dynamicColor
+ * @param content
+ * @receiver
+ */
 @Composable
 fun FlingoTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

@@ -27,6 +27,16 @@ import com.flingoapp.flingo.ui.components.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import java.util.Locale
 
+/**
+ * Custom challenge top bar, used for challenges as it offers text to speech functionality for reading the
+ * description of the level out loud
+ *
+ * @param modifier
+ * @param description
+ * @param hint
+ * @param navigateUp
+ * @receiver
+ */
 @Composable
 fun CustomChallengeTopBar(
     modifier: Modifier = Modifier,
@@ -93,6 +103,11 @@ fun CustomChallengeTopBar(
     }
 }
 
+/**
+ * Remember text to speech, used to handle the text to speech object, as well as creating and disposing of it
+ *
+ * @return TextToSpeech object
+ */
 @Composable
 fun rememberTextToSpeech(): MutableState<TextToSpeech?> {
     val context = LocalContext.current

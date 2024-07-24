@@ -6,8 +6,11 @@ import com.google.gson.JsonElement
 import java.lang.reflect.Type
 
 /**
- * Generic JsonAdapter that convert strings to enum during JSON deserialization
- * */
+ * Enum deserializer to deserialize data from JSON into enum
+ *
+ * @param T
+ * @constructor Create empty Enum deserializer
+ */
 class EnumDeserializer<T : Enum<T>>() : JsonDeserializer<T> {
     override fun deserialize(
         json: JsonElement?, typeOfT: Type?,

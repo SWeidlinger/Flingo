@@ -22,6 +22,16 @@ import com.flingoapp.flingo.ui.components.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.components.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
+/**
+ * Custom home screen top bar, used specifically for the HomeScreen, currently not showing the streak as it
+ * is not implemented as of now
+ *
+ * @param modifier
+ * @param userName
+ * @param onUserClick
+ * @param onSettingsClick
+ * @param onAwardClick
+ */
 @Composable
 fun CustomHomeScreenTopBar(
     modifier: Modifier = Modifier,

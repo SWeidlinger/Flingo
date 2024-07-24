@@ -47,6 +47,13 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
 
+/**
+ * Chapter selection screen used to select a chapter from a book
+ *
+ * @param mainUiState
+ * @param onAction
+ * @param onNavigate
+ */
 @Composable
 fun ChapterSelectionScreen(
     mainUiState: MainUiState,

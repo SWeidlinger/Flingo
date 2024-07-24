@@ -1,5 +1,11 @@
 package com.flingoapp.flingo.ui.navigation
 
+/**
+ * Navigation destination for the app
+ *
+ * @property route
+ * @constructor Create new NavigationDestination object
+ */
 sealed class NavigationDestination(var route: String) {
     data object Home : NavigationDestination("home")
     data object ChapterSelection : NavigationDestination("chapter_selection")

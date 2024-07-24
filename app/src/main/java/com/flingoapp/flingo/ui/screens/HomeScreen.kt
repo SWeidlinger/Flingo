@@ -41,6 +41,13 @@ import nl.dionsegijn.konfetti.core.emitter.Emitter
 import java.util.concurrent.TimeUnit
 import kotlin.math.absoluteValue
 
+/**
+ * Home screen
+ *
+ * @param mainUiState
+ * @param onAction
+ * @param onNavigate
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(

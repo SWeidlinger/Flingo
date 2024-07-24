@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.jetbrains.dokka)
 }
 
 android {
@@ -87,5 +88,5 @@ dependencies {
     implementation(libs.androidx.constraintlayout.compose)
 
     //confetti
-    implementation (libs.konfetti.compose)
+    implementation(libs.konfetti.compose)
 }

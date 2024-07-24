@@ -27,26 +27,65 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 
+/**
+ * Custom preview to show the background and change the device to being a tablet
+ *
+ * @constructor Create empty Custom preview
+ */
 @Preview(showBackground = true, device = Devices.TABLET)
 annotation class CustomPreview
 
+/**
+ * Helper function to convert dp to px
+ *
+ */
 @Composable
 fun Dp.dpToPx() = with(LocalDensity.current) { this@dpToPx.toPx() }
 
+/**
+ * Helper function to convert px to dp
+ *
+ */
 @Composable
 fun Int.pxToDp() = with(LocalDensity.current) { this@pxToDp.toDp() }
 
+/**
+ * Helper function to convert sp to dp
+ *
+ */
 @Composable
 fun TextUnit.spToDp() = with(LocalDensity.current) { this@spToDp.toDp() }
 
+/**
+ * Helper function to darken a color
+ *
+ * @param factor
+ * @return
+ */
 fun Color.darken(factor: Float): Color {
     return Color(ColorUtils.blendARGB(this.toArgb(), Color.Black.toArgb(), factor))
 }
 
+/**
+ * Helper function to lighten a color
+ *
+ * @param factor
+ * @return
+ */
 fun Color.lighten(factor: Float): Color {
     return Color(ColorUtils.blendARGB(this.toArgb(), Color.White.toArgb(), factor))
 }
 
+/**
+ * Helper function to create an inner shadow for given object
+ *
+ * @param shape
+ * @param color
+ * @param blur
+ * @param offsetY
+ * @param offsetX
+ * @param spread
+ */
 fun Modifier.innerShadow(
     shape: Shape,
     color: Color,
@@ -85,6 +124,13 @@ fun Modifier.innerShadow(
     }
 }
 
+/**
+ * Helper function to get bounding boxes of a text composable
+ *
+ * @param start
+ * @param end
+ * @return
+ */
 fun TextLayoutResult.getBoundingBoxesForRange(start: Int, end: Int): List<Rect> {
     var prevRect: Rect? = null
     var firstLineCharRect: Rect? = null
@@ -118,6 +164,12 @@ fun TextLayoutResult.getBoundingBoxesForRange(start: Int, end: Int): List<Rect> 
     return boundingBoxes
 }
 
+/**
+ * Helper function to inflate the rectangle of a given boundingBox
+ *
+ * @param verticalDelta
+ * @param horizontalDelta
+ */
 fun Rect.inflate(verticalDelta: Float, horizontalDelta: Float) =
     Rect(
         left = left - horizontalDelta,
@@ -126,6 +178,15 @@ fun Rect.inflate(verticalDelta: Float, horizontalDelta: Float) =
         bottom = bottom + verticalDelta,
     )
 
+/**
+ * Helper function to create a custom outline, which allows changing the width of the individual corners
+ *
+ * @param outlineColor
+ * @param surfaceColor
+ * @param startOffset
+ * @param outlineWidth
+ * @param radius
+ */
 @Composable
 fun Modifier.customOutline(
     outlineColor: Color,
