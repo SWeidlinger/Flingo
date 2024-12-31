@@ -11,9 +11,10 @@ import java.lang.reflect.Type
  * @param T
  * @constructor Create empty Enum deserializer
  */
-class EnumDeserializer<T : Enum<T>>() : JsonDeserializer<T> {
+class EnumDeserializer<T : Enum<T>> : JsonDeserializer<T> {
     override fun deserialize(
-        json: JsonElement?, typeOfT: Type?,
+        json: JsonElement?,
+        typeOfT: Type?,
         context: JsonDeserializationContext?
     ): T? {
         return json?.asString?.let {

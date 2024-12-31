@@ -1,22 +1,31 @@
 package com.flingoapp.flingo.ui.navigation
 
-/**
- * Navigation destination for the app
- *
- * @property route
- * @constructor Create new NavigationDestination object
- */
-sealed class NavigationDestination(var route: String) {
-    data object Home : NavigationDestination("home")
-    data object ChapterSelection : NavigationDestination("chapter_selection")
-    data object Chapter : NavigationDestination("chapter")
-}
+import kotlinx.serialization.Serializable
 
-//TODO: use once compose navigation side effect for weird pager scrolling behavior is fixed
-//sealed class NavigationDestination {
-//    @Serializable
-//    data object Home : NavigationDestination()
-//
-//    @Serializable
-//    data class LevelSelection(val bookIndex: Int) : NavigationDestination()
-//}
+/**
+ * Navigation destination
+ *
+ * @constructor Create empty Navigation destination
+ */
+sealed class NavigationDestination {
+    @Serializable
+    data object Home : NavigationDestination()
+
+    /**
+     * Chapter selection
+     *
+     * @property bookIndex
+     * @constructor Create empty Chapter selection
+     */
+    @Serializable
+    data class ChapterSelection(val bookIndex: Int) : NavigationDestination()
+
+    /**
+     * Chapter
+     *
+     * @property chapterIndex
+     * @constructor Create empty Chapter
+     */
+    @Serializable
+    data class Chapter(val chapterIndex: Int) : NavigationDestination()
+}

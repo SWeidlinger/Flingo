@@ -7,36 +7,12 @@ package com.flingoapp.flingo.ui.navigation
  */
 sealed class NavigationIntent {
     /**
-     * Navigate to home
+     * Navigate to screen
      *
-     * @property home
+     * @property destination
      * @constructor Create empty Navigate to home
      */
-    data class NavigateToHome(val home: NavigationDestination.Home) : NavigationIntent()
-
-    /**
-     * Navigate to chapter selection
-     *
-     * @property chapterSelection
-     * @property bookIndex
-     * @constructor Create empty Navigate to chapter selection
-     */
-    data class NavigateToChapterSelection(
-        val chapterSelection: NavigationDestination.ChapterSelection = NavigationDestination.ChapterSelection,
-        val bookIndex: Int
-    ) : NavigationIntent()
-
-    /**
-     * Navigate to chapter
-     *
-     * @property chapter
-     * @property chapterIndex
-     * @constructor Create empty Navigate to chapter
-     */
-    data class NavigateToChapter(
-        val chapter: NavigationDestination.Chapter = NavigationDestination.Chapter,
-        val chapterIndex: Int
-    ) : NavigationIntent()
+    data class Screen(val destination: NavigationDestination) : NavigationIntent()
 
     /**
      * Navigate up
@@ -44,5 +20,5 @@ sealed class NavigationIntent {
      * @property customBackAction
      * @constructor Create empty Navigate up
      */
-    data class NavigateUp(val customBackAction: () -> Unit = {}) : NavigationIntent()
+    data class Up(val customBackAction: () -> Unit = {}) : NavigationIntent()
 }

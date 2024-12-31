@@ -58,13 +58,13 @@ fun ReadScreen(
 
     Scaffold(topBar = {
         CustomTopBar(
-            title = mainUiState.currentChapter?.title ?: "Chapter Title",
-            navigateUp = { onNavigate(NavigationIntent.NavigateUp()) },
+            title = mainUiState.currentChapter.title,
+            navigateUp = { onNavigate(NavigationIntent.Up()) },
             onSettingsClick = {},
             onAwardClick = {
                 //TODO: remove after testing
                 mainUiState.currentChapter.isCompleted = true
-                onNavigate(NavigationIntent.NavigateUp())
+                onNavigate(NavigationIntent.Up())
             }
         )
     }) { innerPadding ->
@@ -122,7 +122,7 @@ fun ReadScreen(
                                 } else if (pagerState.currentPage < pagerState.pageCount) {
                                     if (pagerState.currentPage == pagerState.pageCount - 1) {
                                         mainUiState.currentChapter.isCompleted = true
-                                        onNavigate(NavigationIntent.NavigateUp())
+                                        onNavigate(NavigationIntent.Up())
                                     }
 
                                     coroutineScope.launch {

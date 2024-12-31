@@ -41,6 +41,7 @@ import com.flingoapp.flingo.data.models.book.ChapterType
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.components.common.topbar.CustomTopBar
+import com.flingoapp.flingo.ui.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
@@ -69,7 +70,7 @@ fun ChapterSelectionScreen(
         topBar = {
             CustomTopBar(
                 title = mainUiState.currentBook?.title ?: "Book Title",
-                navigateUp = { onNavigate(NavigationIntent.NavigateUp()) },
+                navigateUp = { onNavigate(NavigationIntent.Up()) },
                 onSettingsClick = {
                     unlockAll = !unlockAll
                 },
@@ -171,7 +172,11 @@ fun ChapterSelectionScreen(
                                 MaterialTheme.colorScheme.primary
                         },
                         onClick = {
-                            onNavigate(NavigationIntent.NavigateToChapter(chapterIndex = index))
+                            onNavigate(
+                                NavigationIntent.Screen(
+                                    destination = NavigationDestination.Chapter(chapterIndex = index)
+                                )
+                            )
                         },
                         buttonContent = {
                             Column(

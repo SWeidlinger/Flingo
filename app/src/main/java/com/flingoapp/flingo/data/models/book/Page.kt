@@ -44,6 +44,12 @@ data class Page(
  */
 enum class PageType {
     /**
+     * Reading page
+     *
+     */
+    READ,
+
+    /**
      * Remove Word type
      *
      */

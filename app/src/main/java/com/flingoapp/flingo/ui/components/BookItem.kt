@@ -52,7 +52,6 @@ import kotlinx.coroutines.launch
  * @param currentBookItem
  * @param onClick
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BookItem(
     modifier: Modifier = Modifier,
@@ -72,9 +71,8 @@ fun BookItem(
         backgroundColor = Color(0xFFE0E0E0),
         elevation = 20.dp,
         animateButtonClick = bookIndex == pagerState.currentPage,
-        enabled = !noChaptersProvided,
         disabledColor = Color.LightGray.copy(alpha = 0.25f),
-        isPressed = bookIndex != pagerState.currentPage,
+        isPressed = bookIndex != pagerState.currentPage || noChaptersProvided,
         onClick = {
             if (bookIndex != pagerState.currentPage) {
                 coroutineScope.launch {
@@ -85,7 +83,6 @@ fun BookItem(
             }
         },
         buttonContent = {
-
             Box(contentAlignment = Alignment.Center) {
                 Column(
                     modifier = Modifier

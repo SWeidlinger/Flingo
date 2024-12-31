@@ -92,7 +92,7 @@ fun ChallengeScreen(
         CustomChallengeTopBar(
             description = pages[0].description ?: "Chapter Title",
             hint = pages[0].hint,
-            navigateUp = { onNavigate(NavigationIntent.NavigateUp()) }
+            navigateUp = { onNavigate(NavigationIntent.Up()) }
         )
     }) { innerPadding ->
         Box {
@@ -139,7 +139,7 @@ fun ChallengeScreen(
                     onClick = {
                         if (isCorrectAnswer == true) {
                             mainUiState.currentChapter.isCompleted = true
-                            onNavigate(NavigationIntent.NavigateUp())
+                            onNavigate(NavigationIntent.Up())
                         } else if (currentSelectedWord != "") {
                             if (currentSelectedWord.removeSuffix(",") == pages[0].answer) {
                                 buttonColor = FlingoColors.Success

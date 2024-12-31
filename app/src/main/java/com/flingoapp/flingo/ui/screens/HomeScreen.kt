@@ -1,12 +1,13 @@
 package com.flingoapp.flingo.ui.screens
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -29,6 +30,7 @@ import androidx.compose.ui.util.lerp
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.components.BookItem
 import com.flingoapp.flingo.ui.components.common.topbar.CustomHomeScreenTopBar
+import com.flingoapp.flingo.ui.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
@@ -48,7 +50,6 @@ import kotlin.math.absoluteValue
  * @param onAction
  * @param onNavigate
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     mainUiState: MainUiState,
@@ -57,7 +58,7 @@ fun HomeScreen(
 ) {
     val TAG = "HomeScreen"
 
-    val userBooks = mainUiState.userData?.books ?: emptyList()
+    val userBooks = remember { mainUiState.userData?.books ?: emptyList() }
 
     val pagerState = rememberPagerState(pageCount = { userBooks.size })
 
@@ -92,20 +93,22 @@ fun HomeScreen(
         } else {
             val pageSpacing = (screenWidth / 2)
             val bookSize = pageSpacing * 0.75f
+            val horizontalOffsetPager = pageSpacing - (bookSize / 2)
 
             HorizontalPager(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding),
                 verticalAlignment = Alignment.CenterVertically,
-                pageSpacing = -(pageSpacing * 1.05f),
-                state = pagerState
+                contentPadding = PaddingValues(start = horizontalOffsetPager, end = horizontalOffsetPager),
+                pageSize = PageSize.Fixed(pageSpacing),
+                state = pagerState,
             ) { bookIndex ->
                 val pageOffset = (
                         (pagerState.currentPage - bookIndex) + pagerState.currentPageOffsetFraction).absoluteValue
+
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
                         .graphicsLayer {
                             alpha = lerp(
                                 start = 0.5f,
@@ -130,14 +133,9 @@ fun HomeScreen(
                         bookIndex = bookIndex,
                         currentBookItem = userBooks[bookIndex],
                         onClick = {
-                            //TODO: use once compose navigation side effect for weird pager scrolling behavior is fixed
-//                        val levelSelection = NavigationDestination.LevelSelection(
-//                            bookIndex = pageIndex
-//                        )
-
                             onNavigate(
-                                NavigationIntent.NavigateToChapterSelection(
-                                    bookIndex = bookIndex
+                                NavigationIntent.Screen(
+                                    destination = NavigationDestination.ChapterSelection(bookIndex = bookIndex)
                                 )
                             )
                         }
