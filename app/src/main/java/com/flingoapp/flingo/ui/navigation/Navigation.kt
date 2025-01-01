@@ -52,9 +52,9 @@ fun NavHostComposable(
 
         composable<NavigationDestination.ChapterSelection> { backStackEntry ->
             val args = backStackEntry.toRoute<NavigationDestination.ChapterSelection>()
+            mainViewModel.onAction(MainIntent.OnBookSelected(args.bookIndex))
 
             val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
-            mainViewModel.onAction(MainIntent.OnBookSelected(args.bookIndex))
 
             ChapterSelectionScreen(
                 mainUiState = mainUiState,

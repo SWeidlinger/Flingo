@@ -22,9 +22,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -61,8 +63,12 @@ fun ChapterSelectionScreen(
     onAction: (MainIntent) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
-    val chapters = remember { mainUiState.currentBook?.chapters }
-    //TODO: remove after testing
+    //convert to mutableStateList so recomposition happens when list changes
+    val chapters = remember {
+        mainUiState.currentBook?.chapters?.toMutableStateList() ?: mutableStateListOf()
+    }
+
+//TODO: remove after testing
     var unlockAll by remember { mutableStateOf(false) }
     var showPath by remember { mutableStateOf(false) }
 
@@ -79,7 +85,7 @@ fun ChapterSelectionScreen(
                 }
             )
         }) { innerPadding ->
-        if (chapters.isNullOrEmpty()) {
+        if (chapters.isEmpty()) {
             Text(
                 modifier = Modifier
                     .padding(innerPadding)
