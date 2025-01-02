@@ -93,6 +93,10 @@ fun NavHostComposable(
                         }
                     )
                 }
+
+                ChapterType.MIXED -> {
+                    //TODO: not yet implemented, might be removed
+                }
             }
         }
     }

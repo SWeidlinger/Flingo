@@ -1,6 +1,8 @@
 package com.flingoapp.flingo.data.models.book
 
 import com.flingoapp.flingo.EnumDeserializer
+import com.flingoapp.flingo.data.models.book.page.Page
+import com.flingoapp.flingo.data.models.book.page.PageDeserializer
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 
@@ -25,12 +27,12 @@ data class Chapter(
     @SerializedName("chapterCoverImage") var coverImage: String? = null,
     @SerializedName("chapterPositionOffset") val positionOffset: Float,
     @SerializedName("chapterCompleted") var isCompleted: Boolean,
-    @SerializedName("pages") var pages: ArrayList<Page>? = arrayListOf()
+    @JsonAdapter(PageDeserializer::class) @SerializedName("pages") var pages: ArrayList<Page>? = arrayListOf()
 )
 
 /**
- * Chapter type enum can either be a challenge type or read type, this enum is used for future proofing and
- * allow easy addition of new chapter types
+ * Chapter type enum can either be a challenge, read or mixed type, this enum is used for future proofing and
+ * allowing easy addition of new chapter types
  *
  */
 enum class ChapterType {
@@ -44,5 +46,11 @@ enum class ChapterType {
      * Read type
      *
      */
-    READ
+    READ,
+
+    /**
+     * Mixed type can contain both challenge and read types
+     *
+     */
+    MIXED
 }

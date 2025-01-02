@@ -1,6 +1,5 @@
 package com.flingoapp.flingo.ui.screens
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -25,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
+import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.ui.components.common.CustomHighlightedText
 import com.flingoapp.flingo.ui.components.common.CustomPageIndicator
 import com.flingoapp.flingo.ui.components.common.topbar.CustomTopBar
@@ -43,7 +43,6 @@ import kotlinx.coroutines.launch
  * @receiver
  * @receiver
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ReadScreen(
     mainUiState: MainUiState,
@@ -81,11 +80,12 @@ fun ReadScreen(
                 userScrollEnabled = false
             ) { page ->
                 val currentPage = pages[page]
+                val details = currentPage.details as PageDetails.ReadPageDetails
 
-                val content = currentPage.content.split(" ")
+                val content = details.content.split(" ")
                 var currentWordIndex by remember { mutableIntStateOf(0) }
 
-                val image = when (currentPage.images?.get(0)) {
+                val image = when (details.images?.get(0)) {
                     "circus_image" -> {
                         painterResource(id = R.drawable.circus_image)
                     }
