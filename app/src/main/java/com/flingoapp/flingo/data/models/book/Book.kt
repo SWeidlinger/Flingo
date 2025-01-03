@@ -1,6 +1,7 @@
 package com.flingoapp.flingo.data.models.book
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Book data class represents the most outer level of the JSON object
@@ -15,13 +16,14 @@ import com.google.gson.annotations.SerializedName
  * @property chapters of this book
  * @constructor Create new Book object
  */
+@Serializable
 data class Book(
-    @SerializedName("author") val author: String,
-    @SerializedName("date") val date: String,
-    @SerializedName("language") val language: String,
-    @SerializedName("version") val version: String,
-    @SerializedName("title") val title: String,
-    @SerializedName("description") val description: String,
-    @SerializedName("coverImage") var coverImage: String? = null,
-    @SerializedName("chapters") val chapters: ArrayList<Chapter> = arrayListOf()
+    @SerialName("author") val author: String,
+    @SerialName("date") val date: String,
+    @SerialName("language") val language: String,
+    @SerialName("version") val version: String,
+    @SerialName("title") val title: String,
+    @SerialName("description") val description: String,
+    @SerialName("coverImage") var coverImage: String? = null,
+    @SerialName("chapters") val chapters: ArrayList<Chapter> = arrayListOf()
 )

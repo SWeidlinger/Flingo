@@ -28,7 +28,7 @@ fun PaperSnippet(
     var offsetY by remember { mutableFloatStateOf(0f) }
 
     val snippetShape = GenericShape { size, _ ->
-        val frayAmount = 20
+        val frayAmount = 25
         val stepX = size.width / frayAmount
         val stepY = size.height / frayAmount
 
@@ -86,6 +86,6 @@ fun PaperSnippet(
 @Composable
 private fun PaperSnippetPreview() {
     FlingoTheme {
-        PaperSnippet(text = "Test")
+        PaperSnippet(text = "Hallo das ist ein Test-Snippet")
     }
 }

@@ -2,6 +2,7 @@ package com.flingoapp.flingo.data.models
 
 import com.flingoapp.flingo.data.models.book.Book
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
 /**
  * User data class
@@ -14,6 +15,7 @@ import com.google.gson.annotations.SerializedName
  * @property books of this user
  * @constructor Create new User object
  */
+@Serializable
 data class User(
     @SerializedName("name") val name: String,
     @SerializedName("created") val created: String,

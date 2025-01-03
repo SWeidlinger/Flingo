@@ -1,6 +1,7 @@
 package com.flingoapp.flingo.data.models.book
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Feedback data class
@@ -8,7 +9,8 @@ import com.google.gson.annotations.SerializedName
  * @property correct string showed, if page got completed correctly
  * @property incorrect string showed, if page got completed incorrectly
  */
+@Serializable
 data class Feedback(
-    @SerializedName("correct") var correct: String? = null,
-    @SerializedName("incorrect") var incorrect: String? = null
+    @SerialName("correct") var correct: String? = null,
+    @SerialName("incorrect") var incorrect: String? = null
 )

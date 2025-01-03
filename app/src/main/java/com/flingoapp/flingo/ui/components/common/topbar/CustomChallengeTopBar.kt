@@ -32,7 +32,7 @@ import java.util.Locale
  * description of the level out loud
  *
  * @param modifier
- * @param description
+ * @param taskDefinition
  * @param hint
  * @param navigateUp
  * @receiver
@@ -40,7 +40,7 @@ import java.util.Locale
 @Composable
 fun CustomChallengeTopBar(
     modifier: Modifier = Modifier,
-    description: String,
+    taskDefinition: String,
     hint: String,
     navigateUp: () -> Unit
 ) {
@@ -67,7 +67,7 @@ fun CustomChallengeTopBar(
                 .padding(horizontal = 16.dp)
                 .weight(1f),
             elevation = 5.dp,
-            text = description,
+            text = taskDefinition,
             showSpeakerIcon = true,
             onClick = {
                 isSpeaking = false
@@ -76,7 +76,7 @@ fun CustomChallengeTopBar(
                     isSpeaking = false
                 } else {
                     tts.value?.speak(
-                        description, TextToSpeech.QUEUE_FLUSH, null, ""
+                        taskDefinition, TextToSpeech.QUEUE_FLUSH, null, ""
                     )
                     isSpeaking = true
                 }
@@ -136,7 +136,7 @@ fun rememberTextToSpeech(): MutableState<TextToSpeech?> {
 private fun CustomChallengeTopBarPreview() {
     FlingoTheme {
         CustomChallengeTopBar(
-            description = "Lies den Satz und klicke auf das unpassende Wort!",
+            taskDefinition = "Lies den Satz und klicke auf das unpassende Wort!",
             hint = "",
             navigateUp = { /*TODO*/ }
         )

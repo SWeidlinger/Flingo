@@ -1,10 +1,8 @@
 package com.flingoapp.flingo.data.models.book
 
-import com.flingoapp.flingo.EnumDeserializer
 import com.flingoapp.flingo.data.models.book.page.Page
-import com.flingoapp.flingo.data.models.book.page.PageDeserializer
-import com.google.gson.annotations.JsonAdapter
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Chapter data class representing one chapter in a book
@@ -19,15 +17,16 @@ import com.google.gson.annotations.SerializedName
  * @property pages available in this chapter
  * @constructor Create new Chapter object
  */
+@Serializable
 data class Chapter(
-    @SerializedName("chapterId") val id: String,
-    @SerializedName("chapterTitle") val title: String,
-    @JsonAdapter(EnumDeserializer::class) @SerializedName("chapterType") val type: ChapterType,
-    @SerializedName("chapterDescription") val description: String,
-    @SerializedName("chapterCoverImage") var coverImage: String? = null,
-    @SerializedName("chapterPositionOffset") val positionOffset: Float,
-    @SerializedName("chapterCompleted") var isCompleted: Boolean,
-    @JsonAdapter(PageDeserializer::class) @SerializedName("pages") var pages: ArrayList<Page>? = arrayListOf()
+    @SerialName("chapterId") val id: String,
+    @SerialName("chapterTitle") val title: String,
+    @SerialName("chapterType") val type: ChapterType,
+    @SerialName("chapterDescription") val description: String,
+    @SerialName("chapterCoverImage") var coverImage: String? = null,
+    @SerialName("chapterPositionOffset") val positionOffset: Float,
+    @SerialName("chapterCompleted") var isCompleted: Boolean,
+    @SerialName("pages") var pages: ArrayList<Page>? = arrayListOf()
 )
 
 /**
@@ -35,22 +34,26 @@ data class Chapter(
  * allowing easy addition of new chapter types
  *
  */
+@Serializable
 enum class ChapterType {
     /**
      * Challenge type
      *
      */
+    @SerialName("challenge")
     CHALLENGE,
 
     /**
      * Read type
      *
      */
+    @SerialName("read")
     READ,
 
     /**
      * Mixed type can contain both challenge and read types
      *
      */
+    @SerialName("mixed")
     MIXED
 }

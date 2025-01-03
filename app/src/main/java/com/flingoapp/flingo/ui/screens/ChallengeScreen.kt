@@ -1,7 +1,6 @@
 package com.flingoapp.flingo.ui.screens
 
 import android.util.Log
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -15,6 +14,7 @@ import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.data.models.book.page.PageType
 import com.flingoapp.flingo.ui.components.common.topbar.CustomChallengeTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
+import com.flingoapp.flingo.ui.screens.challengeTypes.OrderStoryChallenge
 import com.flingoapp.flingo.ui.screens.challengeTypes.RemoveWordChallenge
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
@@ -29,7 +29,6 @@ import com.flingoapp.flingo.viewmodels.main.MainUiState
  * @receiver
  * @receiver
  */
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChallengeScreen(
     mainUiState: MainUiState,
@@ -51,7 +50,7 @@ fun ChallengeScreen(
 
         Scaffold(topBar = {
             CustomChallengeTopBar(
-                description = currentPage.description,
+                taskDefinition = currentPage.taskDefinition,
                 hint = currentPage.hint,
                 navigateUp = { onNavigate(NavigationIntent.Up()) }
             )
@@ -68,7 +67,12 @@ fun ChallengeScreen(
                 }
 
                 PageType.CONTEXT_BASED_QUESTIONS -> TODO()
-                PageType.ORDER_STORY -> TODO()
+                PageType.ORDER_STORY -> {
+                    OrderStoryChallenge(
+
+                    )
+                }
+
                 else -> {
                     Log.e("ChallengeScreen", "Invalid PageType")
                 }

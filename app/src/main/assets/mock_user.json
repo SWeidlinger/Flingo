@@ -38,6 +38,7 @@
               "taskDefinition": "",
               "pageType": "read",
               "pageDetails": {
+                "pageType": "read",
                 "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.",
                 "images": [
                   "circus_image"
@@ -59,6 +60,7 @@
               "taskDefinition": "",
               "pageType": "read",
               "pageDetails": {
+                "pageType": "read",
                 "content": "In dem Dorf lebte auch eine kleines Pony namens Peppi, das sehr unglücklich war.",
                 "images": [
                   "pony"
@@ -80,6 +82,7 @@
               "taskDefinition": "",
               "pageType": "read",
               "pageDetails": {
+                "pageType": "read",
                 "content": "Es hatte früher einem alten Mann gehört.",
                 "images": [
                   "old_man"
@@ -112,6 +115,7 @@
               "taskDefinition": "Lies den Satz und klicke auf das unpassende Wort!",
               "pageType": "remove_word",
               "pageDetails": {
+                "pageType": "remove_word",
                 "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
                 "answer": "fangen"
               }
@@ -142,6 +146,7 @@
               "taskDefinition": "Lies den Satz und klicke auf das unpassende Wort!",
               "pageType": "remove_word",
               "pageDetails": {
+                "pageType": "remove_word",
                 "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
                 "answer": "Astronauten"
               }

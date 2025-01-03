@@ -1,9 +1,8 @@
 package com.flingoapp.flingo.data.models.book.page
 
-import com.flingoapp.flingo.EnumDeserializer
 import com.flingoapp.flingo.data.models.book.Feedback
-import com.google.gson.annotations.JsonAdapter
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Page data class
@@ -19,16 +18,17 @@ import com.google.gson.annotations.SerializedName
  * @property score for this page
  * @constructor Create new Page object
  */
+@Serializable
 data class Page(
-    @SerializedName("pageId") val id: String,
-    @SerializedName("pageDescription") val description: String,
-    @SerializedName("pageCompleted") var isCompleted: Boolean,
-    @SerializedName("difficulty") val difficulty: String,
-    @SerializedName("hint") val hint: String,
-    @SerializedName("timeLimit") var timeLimit: Int? = null,
-    @SerializedName("score") var score: Int? = null,
-    @SerializedName("feedback") var feedback: Feedback? = null,
-    @SerializedName("taskDefinition") val taskDefinition: String = "",
-    @JsonAdapter(EnumDeserializer::class) @SerializedName("pageType") val type: PageType,
-    @JsonAdapter(PageDetailsDeserializer::class) @SerializedName("pageDetails") val details: PageDetails
+    @SerialName("pageId") val id: String,
+    @SerialName("pageDescription") val description: String,
+    @SerialName("pageCompleted") var isCompleted: Boolean,
+    @SerialName("difficulty") val difficulty: String,
+    @SerialName("hint") val hint: String,
+    @SerialName("timeLimit") var timeLimit: Int? = null,
+    @SerialName("score") var score: Int? = null,
+    @SerialName("feedback") var feedback: Feedback? = null,
+    @SerialName("taskDefinition") val taskDefinition: String = "",
+    @SerialName("pageType") val type: PageType,
+    @Serializable(with = PageDetailsSerializer::class) @SerialName("pageDetails") val details: PageDetails
 )
