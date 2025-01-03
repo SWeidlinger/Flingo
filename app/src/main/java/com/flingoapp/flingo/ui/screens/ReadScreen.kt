@@ -85,7 +85,7 @@ fun ReadScreen(
                 val content = details.content.split(" ")
                 var currentWordIndex by remember { mutableIntStateOf(0) }
 
-                val image = when (details.images?.get(0)) {
+                val image = when (details.images[0]) {
                     "circus_image" -> {
                         painterResource(id = R.drawable.circus_image)
                     }

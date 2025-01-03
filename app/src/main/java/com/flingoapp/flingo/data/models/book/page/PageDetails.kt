@@ -15,7 +15,7 @@ sealed class PageDetails {
     @Serializable
     data class ReadPageDetails(
         val content: String,
-        val images: List<String>
+        val images: ArrayList<String>
     ) : PageDetails()
 
     @Serializable
@@ -29,7 +29,7 @@ object PageDetailsSerializer : KSerializer<PageDetails> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("PageDetails")
 
     override fun deserialize(decoder: Decoder): PageDetails {
-        require(decoder is JsonDecoder) // Der Decoder muss ein JsonDecoder sein
+        require(decoder is JsonDecoder)
         val element = decoder.decodeJsonElement()
         val jsonObject = element.jsonObject
 
