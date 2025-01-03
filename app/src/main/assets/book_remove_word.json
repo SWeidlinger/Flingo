@@ -18,54 +18,69 @@
       "pages": [
         {
           "pageId": "1",
-          "pageType": "read",
           "pageDescription": "",
           "pageCompleted": false,
           "difficulty": "medium",
-          "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.",
-          "images": ["circus_image"],
-          "answer": "",
           "hint": "",
+          "timeLimit": null,
+          "score": null,
           "feedback": {
             "correct": "",
             "incorrect": ""
           },
-          "timeLimit": null,
-          "score": null
+          "taskDefinition": "",
+          "pageType": "read",
+          "pageDetails": {
+            "pageType": "read",
+            "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.",
+            "images": [
+              "circus_image"
+            ]
+          }
         },
         {
           "pageId": "2",
-          "pageType": "read",
           "pageDescription": "",
           "pageCompleted": false,
           "difficulty": "medium",
-          "content": "In dem Dorf lebte auch eine kleines Pony namens Peppi, das sehr unglücklich war.",
-          "images": ["pony"],
-          "answer": "",
           "hint": "",
+          "timeLimit": null,
+          "score": null,
           "feedback": {
             "correct": "",
             "incorrect": ""
           },
-          "timeLimit": null,
-          "score": null
+          "taskDefinition": "",
+          "pageType": "read",
+          "pageDetails": {
+            "pageType": "read",
+            "content": "In dem Dorf lebte auch eine kleines Pony namens Peppi, das sehr unglücklich war.",
+            "images": [
+              "pony"
+            ]
+          }
         },
         {
           "pageId": "3",
-          "pageType": "read",
           "pageDescription": "",
           "pageCompleted": false,
           "difficulty": "easy",
-          "content": "Es hatte früher einem alten Mann gehört.",
-          "images": ["old_man"],
-          "answer": "",
           "hint": "",
+          "timeLimit": null,
+          "score": null,
           "feedback": {
             "correct": "",
             "incorrect": ""
           },
-          "timeLimit": null,
-          "score": null
+          "taskDefinition": "",
+          "pageType": "read",
+          "pageDetails": {
+            "pageType": "read",
+            "content": "Es hatte früher einem alten Mann gehört.",
+            "images": [
+              "old_man"
+            ]
+          }
         }
       ]
     },
@@ -80,20 +95,23 @@
       "pages": [
         {
           "pageId": "1",
-          "pageType": "remove_word",
-          "pageDescription": "Lies den Satz und klicke auf das unpassende Wort!",
+          "pageDescription": "",
           "pageCompleted": false,
           "difficulty": "easy",
-          "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
-          "images": [],
-          "answer": "fangen",
           "hint": "Sind Maulwürfe gut im Fangen?",
+          "timeLimit": 30,
+          "score": 10,
           "feedback": {
             "correct": "Super! Maulwürfe fangen nicht, sondern werfen Hügel auf.",
             "incorrect": "Versuchs nochmal! Was machen Maulwürfe nicht?"
           },
-          "timeLimit": 30,
-          "score": 10
+          "taskDefinition": "Lies den Satz und klicke auf das unpassende Wort!",
+          "pageType": "remove_word",
+          "pageDetails": {
+            "pageType": "remove_word",
+            "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
+            "answer": "fangen"
+          }
         }
       ]
     },
@@ -108,48 +126,23 @@
       "pages": [
         {
           "pageId": "1",
-          "pageType": "remove_word",
-          "pageDescription": "Lies den Satz und klicke auf das unpassende Wort!",
+          "pageDescription": "",
           "pageCompleted": false,
           "difficulty": "medium",
-          "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
-          "images": [],
-          "answer": "Astronauten",
           "hint": "Wie nennt man jemanden der ins Weltall fliegt?",
+          "timeLimit": 45,
+          "score": 20,
           "feedback": {
             "correct": "Super! Astronauten gehören nicht in ein Orchester.",
             "incorrect": "Nicht ganz. Denk über die Aufgaben der Berufe nach."
           },
-          "timeLimit": 45,
-          "score": 20
-        }
-      ]
-    },
-    {
-      "chapterId": "4",
-      "chapterTitle": "Kapitel 4",
-      "chapterDescription": "Entferne das unnötige Wort.",
-      "chapterCoverImage": "",
-      "chapterPositionOffset": 0.1,
-      "chapterType": "challenge",
-      "chapterCompleted": false,
-      "pages": [
-        {
-          "pageId": "1",
+          "taskDefinition": "Lies den Satz und klicke auf das unpassende Wort!",
           "pageType": "remove_word",
-          "pageDescription": "Lies den Satz und klicke auf das unpassende Wort!",
-          "pageCompleted": false,
-          "difficulty": "medium",
-          "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
-          "images": [],
-          "answer": "Astronauten",
-          "hint": "Wie nennt man jemanden der ins Weltall fliegt?",
-          "feedback": {
-            "correct": "Super! Astronauten gehören nicht in ein Orchester.",
-            "incorrect": "Nicht ganz. Denk über die Aufgaben der Berufe nach."
-          },
-          "timeLimit": 45,
-          "score": 20
+          "pageDetails": {
+            "pageType": "remove_word",
+            "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
+            "answer": "Astronauten"
+          }
         }
       ]
     }

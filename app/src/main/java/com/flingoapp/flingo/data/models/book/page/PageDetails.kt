@@ -23,6 +23,17 @@ sealed class PageDetails {
         val content: String,
         val answer: String
     ) : PageDetails()
+
+    @Serializable
+    data class OrderStoryPageDetails(
+        val content: ArrayList<Content>,
+        val correctOrder: ArrayList<Int>
+    ) : PageDetails() {
+        companion object {
+            @Serializable
+            data class Content(val id: Int, val text: String)
+        }
+    }
 }
 
 object PageDetailsSerializer : KSerializer<PageDetails> {
@@ -37,9 +48,18 @@ object PageDetailsSerializer : KSerializer<PageDetails> {
             ?: throw IllegalArgumentException("Missing pageType in PageDetails")
 
         return when (pageType) {
-            "read" -> decoder.json.decodeFromJsonElement(PageDetails.ReadPageDetails.serializer(), element)
+            "read" -> decoder.json.decodeFromJsonElement(
+                PageDetails.ReadPageDetails.serializer(),
+                element
+            )
+
             "remove_word" -> decoder.json.decodeFromJsonElement(
                 PageDetails.RemoveWordPageDetails.serializer(),
+                element
+            )
+
+            "order_story" -> decoder.json.decodeFromJsonElement(
+                PageDetails.OrderStoryPageDetails.serializer(),
                 element
             )
 
@@ -56,6 +76,11 @@ object PageDetailsSerializer : KSerializer<PageDetails> {
 
             is PageDetails.RemoveWordPageDetails -> encoder.encodeSerializableValue(
                 PageDetails.RemoveWordPageDetails.serializer(),
+                value
+            )
+
+            is PageDetails.OrderStoryPageDetails -> encoder.encodeSerializableValue(
+                PageDetails.OrderStoryPageDetails.serializer(),
                 value
             )
         }
