@@ -1,0 +1,55 @@
+{
+  "author": "sebastian",
+  "date": "2024-06-01",
+  "language": "de",
+  "version": "1.0",
+  "title": "Game Concept 2",
+  "description": "Das ist eine Beispielimplementierung für das zweite Spielkonzept.",
+  "coverImage": [],
+  "chapters": [
+    {
+      "chapterId": "1",
+      "chapterTitle": "Kapitel 1",
+      "chapterDescription": "Beantworte diese Fragen über den gelesenen Text!",
+      "chapterCoverImage": "",
+      "chapterPositionOffset": 0.6,
+      "chapterType": "challenge",
+      "chapterCompleted": false,
+      "pages": [
+        {
+          "pageId": "1",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "easy",
+          "hint": "TODO",
+          "timeLimit": 30,
+          "score": 10,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Beantworte diese Fragen über den gelesenen Text!",
+          "pageType": "quiz",
+          "pageDetails": {
+            "pageType": "quiz",
+            "quizType": "trueOrFalse",
+            "question": "Nimmt Luna ein Ruder?",
+            "answers": [
+              {
+                "id": 1,
+                "answer": "Ja"
+              },
+              {
+                "id": 2,
+                "answer": "Nein"
+              }
+            ],
+            "correctAnswers": [
+              1
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

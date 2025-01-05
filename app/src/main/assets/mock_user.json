@@ -160,10 +160,55 @@
       "date": "2024-06-01",
       "language": "de",
       "version": "1.0",
-      "title": "Game Concept 2",
+      "title": "Fragenhagel",
       "description": "Das ist eine Beispielimplementierung für das zweite Spielkonzept.",
       "coverImage": "",
-      "chapters": []
+      "chapters": [
+        {
+          "chapterId": "1",
+          "chapterTitle": "Kapitel 1",
+          "chapterDescription": "Beantworte diese Fragen über den gelesenen Text!",
+          "chapterCoverImage": "",
+          "chapterPositionOffset": 0.6,
+          "chapterType": "challenge",
+          "chapterCompleted": false,
+          "pages": [
+            {
+              "pageId": "1",
+              "pageDescription": "",
+              "pageCompleted": false,
+              "difficulty": "easy",
+              "hint": "TODO",
+              "timeLimit": 30,
+              "score": 10,
+              "feedback": {
+                "correct": "",
+                "incorrect": ""
+              },
+              "taskDefinition": "Beantworte diese Fragen über den gelesenen Text!",
+              "pageType": "quiz",
+              "pageDetails": {
+                "pageType": "quiz",
+                "quizType": "trueOrFalse",
+                "question": "Nimmt Luna ein Ruder?",
+                "answers": [
+                  {
+                    "id": 1,
+                    "answer": "Ja"
+                  },
+                  {
+                    "id": 2,
+                    "answer": "Nein"
+                  }
+                ],
+                "correctAnswers": [
+                  1
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "author": "sebastian",
@@ -192,8 +237,8 @@
               "timeLimit": 30,
               "score": 10,
               "feedback": {
-                "correct": "Super! Maulwürfe fangen nicht, sondern werfen Hügel auf.",
-                "incorrect": "Versuchs nochmal! Was machen Maulwürfe nicht?"
+                "correct": "",
+                "incorrect": ""
               },
               "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
               "pageType": "order_story",
@@ -222,6 +267,160 @@
                   4,
                   3,
                   2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "chapterId": "2",
+          "chapterTitle": "Kapitel 2",
+          "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
+          "chapterCoverImage": "",
+          "chapterPositionOffset": 0.2,
+          "chapterType": "challenge",
+          "chapterCompleted": false,
+          "pages": [
+            {
+              "pageId": "1",
+              "pageDescription": "",
+              "pageCompleted": false,
+              "difficulty": "easy",
+              "hint": "TODO",
+              "timeLimit": 30,
+              "score": 10,
+              "feedback": {
+                "correct": "",
+                "incorrect": ""
+              },
+              "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
+              "pageType": "order_story",
+              "pageDetails": {
+                "pageType": "order_story",
+                "content": [
+                  {
+                    "id": 1,
+                    "text": "Triton hält einen Sonnenschirm, während die Sonne scheint."
+                  },
+                  {
+                    "id": 2,
+                    "text": "Luna nimmt ein Ruder in die Hand."
+                  },
+                  {
+                    "id": 3,
+                    "text": "Calypso angelt, und blaue Fische schwimmen über ein Fass."
+                  }
+                ],
+                "correctOrder": [
+                  1,
+                  3,
+                  2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "chapterId": "3",
+          "chapterTitle": "Kapitel 3",
+          "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
+          "chapterCoverImage": "",
+          "chapterPositionOffset": 0.2,
+          "chapterType": "challenge",
+          "chapterCompleted": false,
+          "pages": [
+            {
+              "pageId": "1",
+              "pageDescription": "",
+              "pageCompleted": false,
+              "difficulty": "easy",
+              "hint": "TODO",
+              "timeLimit": 30,
+              "score": 10,
+              "feedback": {
+                "correct": "",
+                "incorrect": ""
+              },
+              "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
+              "pageType": "order_story",
+              "pageDetails": {
+                "pageType": "order_story",
+                "content": [
+                  {
+                    "id": 1,
+                    "text": "Triton hält einen Sonnenschirm, während die Sonne scheint."
+                  },
+                  {
+                    "id": 2,
+                    "text": "Luna nimmt ein Ruder in die Hand."
+                  }
+                ],
+                "correctOrder": [
+                  1,
+                  2
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "chapterId": "4",
+          "chapterTitle": "Kapitel 4",
+          "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
+          "chapterCoverImage": "",
+          "chapterPositionOffset": 0.2,
+          "chapterType": "challenge",
+          "chapterCompleted": false,
+          "pages": [
+            {
+              "pageId": "1",
+              "pageDescription": "",
+              "pageCompleted": false,
+              "difficulty": "easy",
+              "hint": "TODO",
+              "timeLimit": 30,
+              "score": 10,
+              "feedback": {
+                "correct": "",
+                "incorrect": ""
+              },
+              "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
+              "pageType": "order_story",
+              "pageDetails": {
+                "pageType": "order_story",
+                "content": [
+                  {
+                    "id": 1,
+                    "text": "Triton hält einen Sonnenschirm, während die Sonne scheint."
+                  },
+                  {
+                    "id": 2,
+                    "text": "Luna nimmt ein Ruder in die Hand."
+                  },
+                  {
+                    "id": 3,
+                    "text": "Calypso angelt, und blaue Fische schwimmen über ein Fass."
+                  },
+                  {
+                    "id": 4,
+                    "text": "Calypso angelt, und blaue Fische schwimmen über ein."
+                  },
+                  {
+                    "id": 5,
+                    "text": "Calypso angelt, und blaue Fische schwimmen über Fass."
+                  },
+                  {
+                    "id": 6,
+                    "text": "Calypso angelt, und blaue Fische schwimmen ein Fass."
+                  }
+                ],
+                "correctOrder": [
+                  1,
+                  3,
+                  2,
+                  4,
+                  5,
+                  6
                 ]
               }
             }

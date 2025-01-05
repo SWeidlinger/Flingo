@@ -1,6 +1,7 @@
 package com.flingoapp.flingo.data.models.book.page
 
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
@@ -31,7 +32,34 @@ sealed class PageDetails {
     ) : PageDetails() {
         companion object {
             @Serializable
-            data class Content(val id: Int, val text: String)
+            data class Content(
+                val id: Int,
+                val text: String
+            )
+        }
+    }
+
+    @Serializable
+    data class QuizPageDetails(
+        val quizType: QuizType,
+        val question: String,
+        val answers: ArrayList<Answer>
+    ) : PageDetails() {
+        companion object {
+            @Serializable
+            enum class QuizType {
+                @SerialName("trueOrFalse")
+                TRUE_OR_FALSE,
+
+                @SerialName("singleChoice")
+                SINGLE_CHOICE
+            }
+
+            @Serializable
+            data class Answer(
+                val id: Int,
+                val answer: String
+            )
         }
     }
 }
@@ -63,6 +91,11 @@ object PageDetailsSerializer : KSerializer<PageDetails> {
                 element
             )
 
+            "quiz" -> decoder.json.decodeFromJsonElement(
+                PageDetails.QuizPageDetails.serializer(),
+                element
+            )
+
             else -> throw IllegalArgumentException("Unknown pageType: $pageType")
         }
     }
@@ -81,6 +114,11 @@ object PageDetailsSerializer : KSerializer<PageDetails> {
 
             is PageDetails.OrderStoryPageDetails -> encoder.encodeSerializableValue(
                 PageDetails.OrderStoryPageDetails.serializer(),
+                value
+            )
+
+            is PageDetails.QuizPageDetails -> encoder.encodeSerializableValue(
+                PageDetails.QuizPageDetails.serializer(),
                 value
             )
         }

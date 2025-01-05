@@ -14,8 +14,9 @@ import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.data.models.book.page.PageType
 import com.flingoapp.flingo.ui.components.common.topbar.CustomChallengeTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
-import com.flingoapp.flingo.ui.screens.challengeTypes.OrderStoryChallenge
-import com.flingoapp.flingo.ui.screens.challengeTypes.RemoveWordChallenge
+import com.flingoapp.flingo.ui.screens.challengeContent.OrderStoryChallengeContent
+import com.flingoapp.flingo.ui.screens.challengeContent.QuizChallengeContent
+import com.flingoapp.flingo.ui.screens.challengeContent.RemoveWordChallengeContent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
@@ -58,7 +59,7 @@ fun ChallengeScreen(
 
             when (currentPage.type) {
                 PageType.REMOVE_WORD -> {
-                    RemoveWordChallenge(
+                    RemoveWordChallengeContent(
                         modifier = Modifier.padding(innerPadding),
                         mainUiState = mainUiState,
                         onNavigate = onNavigate,
@@ -66,10 +67,21 @@ fun ChallengeScreen(
                     )
                 }
 
-                PageType.CONTEXT_BASED_QUESTIONS -> TODO()
-                PageType.ORDER_STORY -> {
-                    OrderStoryChallenge(
+                PageType.QUIZ -> {
+                    QuizChallengeContent(
+                        modifier = Modifier.padding(innerPadding),
+                        mainUiState = mainUiState,
+                        onNavigate = onNavigate,
+                        pageDetails = currentPage.details as PageDetails.QuizPageDetails
+                    )
+                }
 
+                PageType.ORDER_STORY -> {
+                    OrderStoryChallengeContent(
+                        modifier = Modifier.padding(innerPadding),
+                        mainUiState = mainUiState,
+                        onNavigate = onNavigate,
+                        pageDetails = currentPage.details as PageDetails.OrderStoryPageDetails
                     )
                 }
 

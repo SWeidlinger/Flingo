@@ -115,11 +115,12 @@ private fun processNavigation(
 ) {
     when (intent) {
         is NavigationIntent.Screen -> {
-            Log.i("MyNavHost", "Navigating to ${intent.destination.javaClass.simpleName}")
+            Log.i("Navigation", "Navigating to ${intent.destination.javaClass.simpleName}")
             navController.navigate(intent.destination)
         }
+
         is NavigationIntent.Up -> {
-            Log.i("MyNavHost", "Navigating up")
+            Log.i("Navigation", "Navigating up")
             intent.customBackAction.invoke()
             navController.navigateUp()
         }

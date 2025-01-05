@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.screens.challengeTypes
+package com.flingoapp.flingo.ui.screens.challengeContent
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun RemoveWordChallenge(
+fun RemoveWordChallengeContent(
     modifier: Modifier = Modifier,
     mainUiState: MainUiState,
     onNavigate: (NavigationIntent) -> Unit,

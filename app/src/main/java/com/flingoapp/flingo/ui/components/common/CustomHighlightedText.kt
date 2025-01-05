@@ -54,7 +54,7 @@ fun CustomHighlightedText(
 
         readWords.add(currentWord)
         currentWord = content[currentWordIndex]
-        unreadWords.removeAt(0)
+        unreadWords.first()
 
         prevWordIndex = currentWordIndex
     }

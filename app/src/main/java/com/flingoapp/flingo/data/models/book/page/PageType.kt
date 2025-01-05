@@ -29,8 +29,8 @@ enum class PageType {
      * Context Based Questions type
      *
      */
-    @SerialName("context_based_questions")
-    CONTEXT_BASED_QUESTIONS,
+    @SerialName("quiz")
+    QUIZ,
 
     /**
      * Order Story type
