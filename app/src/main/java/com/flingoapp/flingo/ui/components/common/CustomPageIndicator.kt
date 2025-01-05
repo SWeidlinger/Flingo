@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
@@ -41,7 +40,6 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
  * @param selectedColor
  * @param unselectedColor
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CustomPageIndicator(
     modifier: Modifier = Modifier,
@@ -51,8 +49,7 @@ fun CustomPageIndicator(
 ) {
     Row(
         modifier
-            .wrapContentHeight()
-            .fillMaxWidth(),
+            .wrapContentHeight(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

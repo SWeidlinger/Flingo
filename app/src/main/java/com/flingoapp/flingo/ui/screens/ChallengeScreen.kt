@@ -1,17 +1,35 @@
 package com.flingoapp.flingo.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.data.models.book.page.PageType
+import com.flingoapp.flingo.ui.components.common.CustomPageIndicator
+import com.flingoapp.flingo.ui.components.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.components.common.topbar.CustomChallengeTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.screens.challengeContent.OrderStoryChallengeContent
@@ -20,6 +38,7 @@ import com.flingoapp.flingo.ui.screens.challengeContent.RemoveWordChallengeConte
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
+import kotlinx.coroutines.launch
 
 /**
  * Challenge screen used to display the different kind of challenges
@@ -46,47 +65,127 @@ fun ChallengeScreen(
             text = "No pages for chapter ${mainUiState.currentChapter?.title}"
         )
     } else {
-        //TODO: remove when pager for multiple pages is implemented
-        val currentPage = pages[0]
+        val pagerState = rememberPagerState { pages.size }
+        val currentPage by remember {
+            derivedStateOf {
+                pages[pagerState.currentPage]
+            }
+        }
 
-        Scaffold(topBar = {
-            CustomChallengeTopBar(
-                taskDefinition = currentPage.taskDefinition,
-                hint = currentPage.hint,
-                navigateUp = { onNavigate(NavigationIntent.Up()) }
-            )
-        }) { innerPadding ->
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                CustomChallengeTopBar(
+                    taskDefinition = currentPage.taskDefinition,
+                    hint = currentPage.hint,
+                    navigateUp = { onNavigate(NavigationIntent.Up()) }
+                )
+            }, bottomBar = {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    val coroutineScope = rememberCoroutineScope()
 
-            when (currentPage.type) {
-                PageType.REMOVE_WORD -> {
-                    RemoveWordChallengeContent(
-                        modifier = Modifier.padding(innerPadding),
-                        mainUiState = mainUiState,
-                        onNavigate = onNavigate,
-                        pageDetails = currentPage.details as PageDetails.RemoveWordPageDetails
-                    )
+                    if (pages.size > 1) {
+                        if (currentPage.type == PageType.QUIZ) {
+                            val isFirstPage by remember {
+                                derivedStateOf { pagerState.currentPage == 0 }
+                            }
+
+                            CustomIconButton(
+                                modifier = Modifier
+                                    .padding(start = 24.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                icon = Icons.AutoMirrored.Default.ArrowBack,
+                                iconContentDescription = "Previous Question",
+                                backgroundColor = Color.LightGray,
+                                enabled = !isFirstPage
+                            ) {
+                                if (isFirstPage) return@CustomIconButton
+                                val previousPage = pagerState.currentPage - 1
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(previousPage)
+                                }
+                            }
+                        }
+
+                        CustomPageIndicator(
+                            modifier = Modifier,
+                            pagerState = pagerState
+                        )
+
+                        if (currentPage.type == PageType.QUIZ) {
+                            val isLastPage by remember {
+                                derivedStateOf { pagerState.currentPage + 1 == pagerState.pageCount }
+                            }
+
+                            CustomIconButton(
+                                modifier = Modifier
+                                    .padding(end = 24.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                icon = Icons.AutoMirrored.Default.ArrowForward,
+                                iconContentDescription = "Next Question",
+                                backgroundColor = Color.LightGray,
+                                enabled = !isLastPage
+                            ) {
+                                if (isLastPage) return@CustomIconButton
+                                val nextPage = pagerState.currentPage + 1
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(nextPage)
+                                }
+                            }
+                        }
+                    }
                 }
+            }) { innerPadding ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+                HorizontalPager(
+                    modifier = Modifier.fillMaxSize(),
+                    state = pagerState
+                ) { pageIndex ->
+                    val pageInPager = pages[pageIndex]
 
-                PageType.QUIZ -> {
-                    QuizChallengeContent(
-                        modifier = Modifier.padding(innerPadding),
-                        mainUiState = mainUiState,
-                        onNavigate = onNavigate,
-                        pageDetails = currentPage.details as PageDetails.QuizPageDetails
-                    )
-                }
+                    when (pageInPager.type) {
+                        PageType.REMOVE_WORD -> {
+                            RemoveWordChallengeContent(
+                                modifier = Modifier.fillMaxSize(),
+                                mainUiState = mainUiState,
+                                onNavigate = onNavigate,
+                                pageDetails = pageInPager.details as PageDetails.RemoveWordPageDetails
+                            )
+                        }
 
-                PageType.ORDER_STORY -> {
-                    OrderStoryChallengeContent(
-                        modifier = Modifier.padding(innerPadding),
-                        mainUiState = mainUiState,
-                        onNavigate = onNavigate,
-                        pageDetails = currentPage.details as PageDetails.OrderStoryPageDetails
-                    )
-                }
+                        PageType.QUIZ -> {
+                            QuizChallengeContent(
+                                modifier = Modifier.fillMaxSize(),
+                                mainUiState = mainUiState,
+                                onNavigate = onNavigate,
+                                pageDetails = pageInPager.details as PageDetails.QuizPageDetails,
+                                pagerState = pagerState
+                            )
+                        }
 
-                else -> {
-                    Log.e("ChallengeScreen", "Invalid PageType")
+                        PageType.ORDER_STORY -> {
+                            OrderStoryChallengeContent(
+                                modifier = Modifier.fillMaxSize(),
+                                mainUiState = mainUiState,
+                                onNavigate = onNavigate,
+                                pageDetails = pageInPager.details as PageDetails.OrderStoryPageDetails
+                            )
+                        }
+
+                        else -> {
+                            Log.e("ChallengeScreen", "Invalid PageType")
+                        }
+                    }
                 }
             }
         }

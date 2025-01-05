@@ -185,7 +185,7 @@
                 "correct": "",
                 "incorrect": ""
               },
-              "taskDefinition": "Beantworte diese Fragen über den gelesenen Text!",
+              "taskDefinition": "Wähle die passende Antwort aus!",
               "pageType": "quiz",
               "pageDetails": {
                 "pageType": "quiz",
@@ -199,6 +199,47 @@
                   {
                     "id": 2,
                     "answer": "Nein"
+                  }
+                ],
+                "correctAnswers": [
+                  1
+                ]
+              }
+            },
+            {
+              "pageId": "2",
+              "pageDescription": "",
+              "pageCompleted": false,
+              "difficulty": "easy",
+              "hint": "TODO",
+              "timeLimit": 30,
+              "score": 10,
+              "feedback": {
+                "correct": "",
+                "incorrect": ""
+              },
+              "taskDefinition": "Wähle die passende Antwort aus!",
+              "pageType": "quiz",
+              "pageDetails": {
+                "pageType": "quiz",
+                "quizType": "singleChoice",
+                "question": "Wieviele blaue Fische schwimmen über ein Fass?",
+                "answers": [
+                  {
+                    "id": 1,
+                    "answer": "2"
+                  },
+                  {
+                    "id": 2,
+                    "answer": "1"
+                  },
+                  {
+                    "id": 3,
+                    "answer": "3"
+                  },
+                  {
+                    "id": 4,
+                    "answer": "4"
                   }
                 ],
                 "correctAnswers": [

@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.ui.components.common.button
 
+import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -52,6 +54,7 @@ import com.flingoapp.flingo.ui.darken
  * @param onClick
  * @receiver
  */
+@SuppressLint("UseOfNonLambdaOffsetOverload")
 @Composable
 fun CustomIconButton(
     modifier: Modifier = Modifier,
@@ -63,6 +66,7 @@ fun CustomIconButton(
     iconPainter: Painter? = null,
     iconContentDescription: String,
     elevation: Dp = 7.dp,
+    shape: Shape = CircleShape,
     enabled: Boolean = true,
     isPressed: Boolean = false,
     disabledColor: Color = Color.LightGray.copy(alpha = 0.75f),
@@ -95,7 +99,7 @@ fun CustomIconButton(
     Box(
         modifier = modifier
             .size(size)
-            .clip(CircleShape)
+            .clip(shape)
             .background(shadowColor)
             .clickable(
                 interactionSource = interactionSource,
@@ -115,7 +119,7 @@ fun CustomIconButton(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clip(CircleShape)
+                .clip(shape)
                 .background(backgroundColor)
                 .padding(
                     top = 24.dp,

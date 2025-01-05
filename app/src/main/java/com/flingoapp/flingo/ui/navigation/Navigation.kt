@@ -16,6 +16,7 @@ import com.flingoapp.flingo.ui.screens.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screens.HomeScreen
 import com.flingoapp.flingo.ui.screens.ReadScreen
 import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.main.MainUiState
 import com.flingoapp.flingo.viewmodels.main.MainViewModel
 
 /**
@@ -41,13 +42,31 @@ fun NavHostComposable(
         composable<NavigationDestination.Home> {
             val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
-            HomeScreen(
-                mainUiState = mainUiState,
+            //TODO: remove after testing
+            val wantedBook = mainUiState.userData?.books?.get(1)
+            val wantedChapter = wantedBook?.chapters?.first()
+
+            val testUiState = MainUiState(
+                userData = mainUiState.userData,
+                currentBook = wantedBook,
+                currentChapter = wantedChapter
+            )
+
+            ChallengeScreen(
+                mainUiState = testUiState,
                 onAction = { action -> mainViewModel.onAction(action) },
                 onNavigate = { destination ->
                     processNavigation(destination, navController)
                 }
             )
+
+//            HomeScreen(
+//                mainUiState = mainUiState,
+//                onAction = { action -> mainViewModel.onAction(action) },
+//                onNavigate = { destination ->
+//                    processNavigation(destination, navController)
+//                }
+//            )
         }
 
         composable<NavigationDestination.ChapterSelection> { backStackEntry ->
