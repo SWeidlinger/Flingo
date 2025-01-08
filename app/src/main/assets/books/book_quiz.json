@@ -37,15 +37,14 @@
             "answers": [
               {
                 "id": 1,
-                "answer": "Ja"
+                "answer": "Ja",
+                "isCorrect": true
               },
               {
                 "id": 2,
-                "answer": "Nein"
+                "answer": "Nein",
+                "isCorrect": false
               }
-            ],
-            "correctAnswers": [
-              1
             ]
           }
         }

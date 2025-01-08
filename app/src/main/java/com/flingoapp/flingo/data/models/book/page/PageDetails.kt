@@ -58,7 +58,8 @@ sealed class PageDetails {
             @Serializable
             data class Answer(
                 val id: Int,
-                val answer: String
+                val answer: String,
+                val isCorrect: Boolean
             )
         }
     }

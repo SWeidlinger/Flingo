@@ -7,20 +7,23 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,13 +31,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.data.models.book.page.PageType
+import com.flingoapp.flingo.ui.components.challengeContent.OrderStoryChallengeContent
+import com.flingoapp.flingo.ui.components.challengeContent.QuizChallengeContent
+import com.flingoapp.flingo.ui.components.challengeContent.RemoveWordChallengeContent
 import com.flingoapp.flingo.ui.components.common.CustomPageIndicator
 import com.flingoapp.flingo.ui.components.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.components.common.topbar.CustomChallengeTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
-import com.flingoapp.flingo.ui.screens.challengeContent.OrderStoryChallengeContent
-import com.flingoapp.flingo.ui.screens.challengeContent.QuizChallengeContent
-import com.flingoapp.flingo.ui.screens.challengeContent.RemoveWordChallengeContent
+import com.flingoapp.flingo.ui.pxToDp
+import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
@@ -72,70 +77,78 @@ fun ChallengeScreen(
             }
         }
 
+        var taskDefinitionWidth by remember {
+            mutableIntStateOf(0)
+        }
+
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
                 CustomChallengeTopBar(
                     taskDefinition = currentPage.taskDefinition,
                     hint = currentPage.hint,
-                    navigateUp = { onNavigate(NavigationIntent.Up()) }
+                    navigateUp = { onNavigate(NavigationIntent.Up()) },
+                    taskDefinitionWidth = { width ->
+                        taskDefinitionWidth = width
+                    }
                 )
             }, bottomBar = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    val coroutineScope = rememberCoroutineScope()
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .width(taskDefinitionWidth.pxToDp())
+                            .padding(bottom = 8.dp, top = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        val coroutineScope = rememberCoroutineScope()
 
-                    if (pages.size > 1) {
-                        if (currentPage.type == PageType.QUIZ) {
-                            val isFirstPage by remember {
-                                derivedStateOf { pagerState.currentPage == 0 }
-                            }
+                        if (pages.size > 1) {
+                            if (currentPage.type == PageType.QUIZ) {
+                                val isFirstPage by remember {
+                                    derivedStateOf { pagerState.currentPage == 0 }
+                                }
 
-                            CustomIconButton(
-                                modifier = Modifier
-                                    .padding(start = 24.dp),
-                                shape = RoundedCornerShape(16.dp),
-                                icon = Icons.AutoMirrored.Default.ArrowBack,
-                                iconContentDescription = "Previous Question",
-                                backgroundColor = Color.LightGray,
-                                enabled = !isFirstPage
-                            ) {
-                                if (isFirstPage) return@CustomIconButton
-                                val previousPage = pagerState.currentPage - 1
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(previousPage)
+                                CustomIconButton(
+                                    modifier = Modifier,
+                                    shape = RoundedCornerShape(24.dp),
+                                    icon = Icons.AutoMirrored.Default.KeyboardArrowLeft,
+                                    iconContentDescription = "Previous Question",
+                                    backgroundColor = if (isFirstPage) Color.LightGray else FlingoColors.Primary,
+                                    enabled = !isFirstPage
+                                ) {
+                                    if (isFirstPage) return@CustomIconButton
+                                    val previousPage = pagerState.currentPage - 1
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(previousPage)
+                                    }
                                 }
                             }
-                        }
 
-                        CustomPageIndicator(
-                            modifier = Modifier,
-                            pagerState = pagerState
-                        )
+                            CustomPageIndicator(
+                                modifier = Modifier,
+                                pagerState = pagerState
+                            )
 
-                        if (currentPage.type == PageType.QUIZ) {
-                            val isLastPage by remember {
-                                derivedStateOf { pagerState.currentPage + 1 == pagerState.pageCount }
-                            }
+                            if (currentPage.type == PageType.QUIZ) {
+                                val isLastPage by remember {
+                                    derivedStateOf { pagerState.currentPage + 1 == pagerState.pageCount }
+                                }
 
-                            CustomIconButton(
-                                modifier = Modifier
-                                    .padding(end = 24.dp),
-                                shape = RoundedCornerShape(16.dp),
-                                icon = Icons.AutoMirrored.Default.ArrowForward,
-                                iconContentDescription = "Next Question",
-                                backgroundColor = Color.LightGray,
-                                enabled = !isLastPage
-                            ) {
-                                if (isLastPage) return@CustomIconButton
-                                val nextPage = pagerState.currentPage + 1
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(nextPage)
+                                CustomIconButton(
+                                    modifier = Modifier,
+                                    shape = RoundedCornerShape(24.dp),
+                                    icon = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                                    iconContentDescription = "Next Question",
+                                    backgroundColor = if (isLastPage) Color.LightGray else FlingoColors.Primary,
+                                    enabled = !isLastPage
+                                ) {
+                                    if (isLastPage) return@CustomIconButton
+                                    val nextPage = pagerState.currentPage + 1
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(nextPage)
+                                    }
                                 }
                             }
                         }
@@ -169,7 +182,8 @@ fun ChallengeScreen(
                                 mainUiState = mainUiState,
                                 onNavigate = onNavigate,
                                 pageDetails = pageInPager.details as PageDetails.QuizPageDetails,
-                                pagerState = pagerState
+                                taskDefinitionTopBarWidth = taskDefinitionWidth.pxToDp(),
+                                onAction = onAction
                             )
                         }
 
@@ -178,7 +192,8 @@ fun ChallengeScreen(
                                 modifier = Modifier.fillMaxSize(),
                                 mainUiState = mainUiState,
                                 onNavigate = onNavigate,
-                                pageDetails = pageInPager.details as PageDetails.OrderStoryPageDetails
+                                pageDetails = pageInPager.details as PageDetails.OrderStoryPageDetails,
+                                onAction = onAction
                             )
                         }
 

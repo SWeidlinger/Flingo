@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,8 @@ fun CustomChallengeTopBar(
     modifier: Modifier = Modifier,
     taskDefinition: String,
     hint: String,
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
+    taskDefinitionWidth: (Int) -> Unit = { },
 ) {
     val tts = rememberTextToSpeech()
     var isSpeaking by remember { mutableStateOf(false) }
@@ -52,7 +54,7 @@ fun CustomChallengeTopBar(
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 16.dp),
         verticalAlignment = Alignment.Top,
-        horizontalArrangement = Arrangement.SpaceAround
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // back navigation
         CustomIconButton(
@@ -64,8 +66,10 @@ fun CustomChallengeTopBar(
 
         CustomElevatedTextButton(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .weight(1f),
+                .weight(1f)
+                .onGloballyPositioned { layoutCoordinates ->
+                    taskDefinitionWidth(layoutCoordinates.size.width)
+                },
             elevation = 5.dp,
             text = taskDefinition,
             showSpeakerIcon = true,

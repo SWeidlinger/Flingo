@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.screens.challengeContent
+package com.flingoapp.flingo.ui.components.challengeContent
 
 import android.content.ClipData
 import android.content.ClipDescription
@@ -47,6 +47,7 @@ import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.lighten
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
+import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
 import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -60,7 +61,8 @@ fun OrderStoryChallengeContent(
     modifier: Modifier = Modifier,
     mainUiState: MainUiState,
     onNavigate: (NavigationIntent) -> Unit,
-    pageDetails: PageDetails.OrderStoryPageDetails
+    pageDetails: PageDetails.OrderStoryPageDetails,
+    onAction: (MainIntent) -> Unit,
 ) {
     val startingSnippetMap = remember {
         mutableStateMapOf<Int, PageDetails.OrderStoryPageDetails.Companion.Content?>()

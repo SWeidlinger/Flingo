@@ -82,7 +82,7 @@ fun CustomElevatedButton(
 ) {
     val mediaPlayer: MediaPlayer? = clickSound?.let { MediaPlayer.create(LocalContext.current, it) }
 
-    var buttonState by remember { mutableStateOf(ButtonState.Idle) }
+    var buttonState by remember { mutableStateOf(ButtonState.IDLE) }
 
     val interactionSource = remember { MutableInteractionSource() }
     val isButtonPressed by interactionSource.collectIsPressedAsState()
@@ -90,14 +90,14 @@ fun CustomElevatedButton(
     var buttonContentSize by remember { mutableStateOf(IntSize.Zero) }
 
     if (isButtonPressed) {
-        buttonState = ButtonState.Pressed
+        buttonState = ButtonState.PRESSED
         LaunchedEffect(key1 = Unit) {
             mediaPlayer?.start()
         }
 
         DisposableEffect(Unit) {
             onDispose {
-                buttonState = ButtonState.Idle
+                buttonState = ButtonState.IDLE
             }
         }
     }
@@ -106,12 +106,6 @@ fun CustomElevatedButton(
         modifier.size(size)
     } else {
         modifier
-    }
-
-    val customSizeButtonContentModifier = if (size != null) {
-        Modifier.size(size)
-    } else {
-        Modifier
     }
 
     Box(
@@ -131,15 +125,15 @@ fun CustomElevatedButton(
                     if (!enabled) return@clickable
 
                     if (animateButtonClick) {
-                        buttonState = ButtonState.Pressed
+                        buttonState = ButtonState.PRESSED
                     }
                     onClick()
                 }
             )
-            .offset(y = if (buttonState == ButtonState.Pressed || !enabled || isPressed) 0.dp else (-elevation))
+            .offset(y = if (buttonState == ButtonState.PRESSED || !enabled || isPressed) 0.dp else (-elevation))
     ) {
         Box(
-            modifier = customSizeButtonContentModifier
+            modifier = customSizeModifier
                 .border(
                     if (addOutline) 1.dp else 0.dp,
                     if (addOutline) shadowColor else Color.Transparent,
@@ -161,7 +155,7 @@ fun CustomElevatedButton(
             // used to alleviate the content shift a bit
             Box(
                 modifier = Modifier.offset(
-                    y = if (buttonState == ButtonState.Pressed || !enabled || isPressed) -(elevation / 2) else 0.dp
+                    y = if (buttonState == ButtonState.PRESSED || !enabled || isPressed) -(elevation / 2) else 0.dp
                 )
             ) {
                 buttonContent()
@@ -183,17 +177,9 @@ fun CustomElevatedButton(
  *
  */
 enum class ButtonState {
-    /**
-     * Pressed
-     *
-     */
-    Pressed,
-
-    /**
-     * Idle
-     *
-     */
-    Idle }
+    PRESSED,
+    IDLE
+}
 
 @Preview(showBackground = true)
 @Composable

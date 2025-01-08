@@ -2,6 +2,7 @@ package com.flingoapp.flingo.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -153,7 +154,8 @@ fun ChapterSelectionScreen(
                         }
                     }
 
-                    CustomElevatedButton(
+                    //Box used to not apply offset to the button, as it can mess up the layout
+                    Box(
                         modifier = Modifier
                             .offset(y = maxButtonOffset * chapter.positionOffset)
                             .onGloballyPositioned { layoutCoordinates ->
@@ -161,71 +163,75 @@ fun ChapterSelectionScreen(
                                     "CHAPTERSELECTION",
                                     "Button coordinates $index: ${layoutCoordinates.positionInParent()}"
                                 )
-                                chapterButtonCoordinateHashMap[index] = layoutCoordinates.positionInParent()
+                                chapterButtonCoordinateHashMap[index] =
+                                    layoutCoordinates.positionInParent()
+                            }
+                    ) {
+                        CustomElevatedButton(
+                            size = DpSize(chapterButtonSize.dp, chapterButtonSize.dp),
+                            shape = CircleShape,
+                            elevation = 15.dp,
+                            isPressed = chapter.isCompleted,
+                            enabled = !isChapterLocked,
+                            backgroundColor =
+                            if (chapter.isCompleted) {
+                                FlingoColors.Success
+                            } else {
+                                if (chapter.type == ChapterType.READ)
+                                    Color.LightGray
+                                else
+                                    MaterialTheme.colorScheme.primary
                             },
-                        size = DpSize(chapterButtonSize.dp, chapterButtonSize.dp),
-                        shape = CircleShape,
-                        elevation = 15.dp,
-                        isPressed = chapter.isCompleted,
-                        enabled = !isChapterLocked,
-                        backgroundColor =
-                        if (chapter.isCompleted) {
-                            FlingoColors.Success
-                        } else {
-                            if (chapter.type == ChapterType.READ)
-                                Color.LightGray
-                            else
-                                MaterialTheme.colorScheme.primary
-                        },
-                        onClick = {
-                            onNavigate(
-                                NavigationIntent.Screen(
-                                    destination = NavigationDestination.Chapter(chapterIndex = index)
-                                )
-                            )
-                        },
-                        buttonContent = {
-                            Column(
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                if (chapter.isCompleted) {
-                                    Icon(
-                                        modifier = Modifier
-                                            .size((chapterButtonSize / 1.75).dp),
-                                        tint = Color.White,
-                                        imageVector = Icons.Default.Check,
-                                        contentDescription = "Chapter finished"
+                            onClick = {
+                                onNavigate(
+                                    NavigationIntent.Screen(
+                                        destination = NavigationDestination.Chapter(chapterIndex = index)
                                     )
-                                } else if (isChapterLocked) {
-                                    Icon(
-                                        modifier = Modifier.size((chapterButtonSize / 1.75).dp),
-                                        tint =
-                                        if (chapter.type == ChapterType.CHALLENGE)
+                                )
+                            },
+                            buttonContent = {
+                                Column(
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    if (chapter.isCompleted) {
+                                        Icon(
+                                            modifier = Modifier
+                                                .size((chapterButtonSize / 1.75).dp),
+                                            tint = Color.White,
+                                            imageVector = Icons.Default.Check,
+                                            contentDescription = "Chapter finished"
+                                        )
+                                    } else if (isChapterLocked) {
+                                        Icon(
+                                            modifier = Modifier.size((chapterButtonSize / 1.75).dp),
+                                            tint =
+                                            if (chapter.type == ChapterType.CHALLENGE)
+                                                Color.White
+                                            else
+                                                Color.Black,
+                                            imageVector = Icons.Default.Lock,
+                                            contentDescription = "Chapter Locked"
+                                        )
+                                    }
+
+                                    Text(
+                                        text = chapter.title,
+                                        style = MaterialTheme.typography.headlineLarge.copy(fontSize = 42.sp),
+                                        color =
+                                        if (chapter.isCompleted) {
                                             Color.White
-                                        else
-                                            Color.Black,
-                                        imageVector = Icons.Default.Lock,
-                                        contentDescription = "Chapter Locked"
+                                        } else {
+                                            if (chapter.type == ChapterType.CHALLENGE)
+                                                Color.White
+                                            else
+                                                Color.Black
+                                        }
                                     )
                                 }
-
-                                Text(
-                                    text = chapter.title,
-                                    style = MaterialTheme.typography.headlineLarge.copy(fontSize = 42.sp),
-                                    color =
-                                    if (chapter.isCompleted) {
-                                        Color.White
-                                    } else {
-                                        if (chapter.type == ChapterType.CHALLENGE)
-                                            Color.White
-                                        else
-                                            Color.Black
-                                    }
-                                )
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }

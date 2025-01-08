@@ -63,13 +63,14 @@ fun CustomIconButton(
     backgroundColor: Color = Color.Black.copy(alpha = 0.5f),
     shadowColor: Color = backgroundColor.darken(0.2f),
     icon: ImageVector,
+    iconScale: Float = 1.3f,
     iconPainter: Painter? = null,
     iconContentDescription: String,
     elevation: Dp = 7.dp,
     shape: Shape = CircleShape,
     enabled: Boolean = true,
     isPressed: Boolean = false,
-    disabledColor: Color = Color.LightGray.copy(alpha = 0.75f),
+    disabledColor: Color = backgroundColor.copy(alpha = 0.75f),
     animateButtonClick: Boolean = true,
     //TODO: disabled for now since it causes lags
 //    clickSound: Int? = R.raw.button_click,
@@ -78,20 +79,20 @@ fun CustomIconButton(
 ) {
     val mediaPlayer: MediaPlayer? = clickSound?.let { MediaPlayer.create(LocalContext.current, it) }
 
-    var buttonState by remember { mutableStateOf(ButtonState.Idle) }
+    var buttonState by remember { mutableStateOf(ButtonState.IDLE) }
 
     val interactionSource = remember { MutableInteractionSource() }
     val isButtonPressed by interactionSource.collectIsPressedAsState()
 
     if (isButtonPressed) {
-        buttonState = ButtonState.Pressed
+        buttonState = ButtonState.PRESSED
         LaunchedEffect(key1 = Unit) {
             mediaPlayer?.start()
         }
 
         DisposableEffect(Unit) {
             onDispose {
-                buttonState = ButtonState.Idle
+                buttonState = ButtonState.IDLE
             }
         }
     }
@@ -108,13 +109,13 @@ fun CustomIconButton(
                     if (!enabled) return@clickable
 
                     if (animateButtonClick) {
-                        buttonState = ButtonState.Pressed
+                        buttonState = ButtonState.PRESSED
                     }
 
                     onClick()
                 }
             )
-            .offset(y = if (buttonState == ButtonState.Pressed || !enabled || isPressed) 0.dp else (-elevation))
+            .offset(y = if (buttonState == ButtonState.PRESSED || !enabled || isPressed) 0.dp else (-elevation))
     ) {
         Box(
             modifier = Modifier
@@ -132,14 +133,14 @@ fun CustomIconButton(
             // used to alleviate the content shift a bit
             Box(
                 modifier = Modifier.offset(
-                    y = if (buttonState == ButtonState.Pressed || !enabled || isPressed) -(elevation / 2) else 0.dp
+                    y = if (buttonState == ButtonState.PRESSED || !enabled || isPressed) -(elevation / 2) else 0.dp
                 )
             ) {
                 if (iconPainter != null) {
                     Icon(
                         modifier = Modifier
                             .fillMaxSize()
-                            .scale(1.3f),
+                            .scale(iconScale),
                         painter = iconPainter,
                         contentDescription = iconContentDescription,
                         tint = iconTint
@@ -148,7 +149,7 @@ fun CustomIconButton(
                     Icon(
                         modifier = Modifier
                             .fillMaxSize()
-                            .scale(1.3f),
+                            .scale(iconScale),
                         imageVector = icon,
                         contentDescription = iconContentDescription,
                         tint = iconTint

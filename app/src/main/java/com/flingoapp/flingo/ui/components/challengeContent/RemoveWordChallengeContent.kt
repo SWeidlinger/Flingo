@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.screens.challengeContent
+package com.flingoapp.flingo.ui.components.challengeContent
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
