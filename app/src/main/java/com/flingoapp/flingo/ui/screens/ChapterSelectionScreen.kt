@@ -69,7 +69,7 @@ fun ChapterSelectionScreen(
         mainUiState.currentBook?.chapters?.toMutableStateList() ?: mutableStateListOf()
     }
 
-//TODO: remove after testing
+    //TODO: remove after testing
     var unlockAll by remember { mutableStateOf(false) }
     var showPath by remember { mutableStateOf(false) }
 
@@ -143,7 +143,8 @@ fun ChapterSelectionScreen(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.spacedBy(125.dp)
             ) {
-                itemsIndexed(chapters) { index, chapter ->
+                itemsIndexed(chapters, key = { _, chapter -> chapter.id })
+                { index, chapter ->
                     val isChapterLocked by remember {
                         derivedStateOf {
                             if (index == 0 || unlockAll) {

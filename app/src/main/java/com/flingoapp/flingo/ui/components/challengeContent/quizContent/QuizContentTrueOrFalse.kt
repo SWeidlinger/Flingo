@@ -52,6 +52,7 @@ fun QuizContentTrueOrFalse(
         pageDetails.answers.forEachIndexed { index, answer ->
             val isButtonTrue = index == 0
 
+            //TODO: could maybe use an animated border and long press to be selected
             CustomIconButton(
                 modifier = Modifier,
                 size = availableButtonHeight.pxToDp(),

@@ -22,7 +22,7 @@ sealed class MainIntent {
      * @property bookIndex
      * @constructor Create empty On book selected
      */
-    data class OnBookSelected(val bookIndex: Int): MainIntent()
+    data class OnBookSelected(val bookIndex: Int) : MainIntent()
 
     /**
      * Intent for when a chapter is selected
@@ -30,5 +30,7 @@ sealed class MainIntent {
      * @property chapterIndex
      * @constructor Create empty On chapter selected
      */
-    data class OnChapterSelected(val chapterIndex: Int): MainIntent()
+    data class OnChapterSelected(val chapterIndex: Int) : MainIntent()
+
+    data object OnCurrentChapterCompleted : MainIntent()
 }

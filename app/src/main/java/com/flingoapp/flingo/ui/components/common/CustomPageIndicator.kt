@@ -48,8 +48,7 @@ fun CustomPageIndicator(
     unselectedColor: Color = Color.LightGray
 ) {
     Row(
-        modifier
-            .wrapContentHeight(),
+        modifier.wrapContentHeight(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

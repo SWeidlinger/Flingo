@@ -142,7 +142,7 @@ private fun CustomChallengeTopBarPreview() {
         CustomChallengeTopBar(
             taskDefinition = "Lies den Satz und klicke auf das unpassende Wort!",
             hint = "",
-            navigateUp = { /*TODO*/ }
+            navigateUp = {}
         )
     }
 }

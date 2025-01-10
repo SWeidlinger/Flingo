@@ -16,7 +16,6 @@ import com.flingoapp.flingo.ui.screens.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screens.HomeScreen
 import com.flingoapp.flingo.ui.screens.ReadScreen
 import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainUiState
 import com.flingoapp.flingo.viewmodels.main.MainViewModel
 
 /**
@@ -43,30 +42,31 @@ fun NavHostComposable(
             val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
             //TODO: remove after testing
-            val wantedBook = mainUiState.userData?.books?.get(1)
-            val wantedChapter = wantedBook?.chapters?.first()
-
-            val testUiState = MainUiState(
-                userData = mainUiState.userData,
-                currentBook = wantedBook,
-                currentChapter = wantedChapter
-            )
-
-            ChallengeScreen(
-                mainUiState = testUiState,
-                onAction = { action -> mainViewModel.onAction(action) },
-                onNavigate = { destination ->
-                    processNavigation(destination, navController)
-                }
-            )
-
-//            HomeScreen(
-//                mainUiState = mainUiState,
+            // used to launch with specific chapter and book selected
+//            val wantedBook = mainUiState.userData?.books?.get(1)
+//            val wantedChapter = wantedBook?.chapters?.first()
+//
+//            val testUiState = MainUiState(
+//                userData = mainUiState.userData,
+//                currentBook = wantedBook,
+//                currentChapter = wantedChapter
+//            )
+//
+//            ChallengeScreen(
+//                mainUiState = testUiState,
 //                onAction = { action -> mainViewModel.onAction(action) },
 //                onNavigate = { destination ->
 //                    processNavigation(destination, navController)
 //                }
 //            )
+
+            HomeScreen(
+                mainUiState = mainUiState,
+                onAction = { action -> mainViewModel.onAction(action) },
+                onNavigate = { destination ->
+                    processNavigation(destination, navController)
+                }
+            )
         }
 
         composable<NavigationDestination.ChapterSelection> { backStackEntry ->
@@ -114,7 +114,7 @@ fun NavHostComposable(
                 }
 
                 ChapterType.MIXED -> {
-                    //TODO: not yet implemented, might be removed
+                    //TODO: not yet implemented, might not be needed
                 }
             }
         }

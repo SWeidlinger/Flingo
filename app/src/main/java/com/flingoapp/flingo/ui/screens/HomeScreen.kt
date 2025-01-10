@@ -71,7 +71,7 @@ fun HomeScreen(
         CustomHomeScreenTopBar(
             userName = mainUiState.userData?.name.toString(),
             onUserClick = {
-                //TODO: remove
+                //TODO: remove if showUser is implemented
                 shootConfetti = true
             },
             onSettingsClick = {},
@@ -143,7 +143,7 @@ fun HomeScreen(
                 }
             }
 
-            //TODO: remove
+            //TODO: remove if showUser is implemented
             if (shootConfetti) {
                 LaunchedEffect(key1 = shootConfetti) {
                     delay(3000)
@@ -164,7 +164,6 @@ fun HomeScreen(
     }
 }
 
-//TODO: create mock user for previews
 @CustomPreview
 @Composable
 private fun HomeScreenPreview() {

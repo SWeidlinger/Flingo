@@ -53,7 +53,6 @@ fun FlingoTheme(
         else -> LightColorScheme
     }
 
-    //TODO: discuss if dark mode is needed
     MaterialTheme(
         colorScheme = FlingoLightColorScheme,
         typography = Typography,

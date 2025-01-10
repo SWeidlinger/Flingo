@@ -272,7 +272,7 @@ fun OrderStoryChallengeContent(
                             isCorrectAnswer = pageDetails.correctOrder == resultOrder
 
                             if (isCorrectAnswer == true) {
-                                buttonColor = FlingoColors.Tertiary
+                                buttonColor = FlingoColors.Success
                             }
                         }
                     },

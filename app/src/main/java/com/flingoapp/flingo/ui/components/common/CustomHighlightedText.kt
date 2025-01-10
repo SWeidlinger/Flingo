@@ -86,10 +86,12 @@ fun CustomHighlightedText(
         }
     }
 
+    //TODO: replace ClickableText with basic text
     ClickableText(
         modifier = modifier
             .drawBehind {
-                //TODO: add animated bounding box
+                //TODO: add animated bounding box morphing and moving in place to make it more dynamic and
+                // playful
                 drawPath(
                     path = currentWordBoundingBoxPath,
                     style = Fill,

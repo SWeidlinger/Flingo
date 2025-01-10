@@ -102,8 +102,9 @@ private fun CustomTopBarPreview() {
     FlingoTheme {
         CustomTopBar(
             title = "Title",
-            navigateUp = { /*TODO*/ },
-            onSettingsClick = { /*TODO*/ },
-            onAwardClick = {})
+            navigateUp = {},
+            onSettingsClick = {},
+            onAwardClick = {}
+        )
     }
 }

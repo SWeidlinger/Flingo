@@ -1,6 +1,8 @@
 package com.flingoapp.flingo.ui.components.common.button
 
 import android.media.MediaPlayer
+import android.util.Log
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -8,6 +10,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,7 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -34,6 +40,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.ui.darken
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 object CustomElevatedButtonDefault {
     val MinWidth = 58.dp
@@ -74,7 +82,11 @@ fun CustomElevatedButton(
     pressedColor: Color = backgroundColor,
     disabledColor: Color = Color.LightGray.copy(alpha = 0.75f),
     animateButtonClick: Boolean = true,
-    //TODO: disabled for now since it causes lags
+    //TODO: investigate why this duration is not the actual one
+    // seems to depend on which device it is run on
+    buttonPressDurationMilli: Int = 0,
+    progressAnimationType: ButtonProgressAnimationType = ButtonProgressAnimationType.LEFT_TO_RIGHT,
+    //TODO: disabled for now since it causes system stutters, fix before using
 //    clickSound: Int? = R.raw.button_click,
     clickSound: Int? = null,
     onClick: () -> Unit,
@@ -89,15 +101,50 @@ fun CustomElevatedButton(
 
     var buttonContentSize by remember { mutableStateOf(IntSize.Zero) }
 
+    val isTimedButton by remember {
+        derivedStateOf {
+            buttonPressDurationMilli != 0
+        }
+    }
+
+    //in 100ms steps
+    var currentButtonPressedDuration by remember { mutableFloatStateOf(0f) }
+
+    val buttonProgress by animateFloatAsState(
+        targetValue = (currentButtonPressedDuration / buttonPressDurationMilli),
+        label = "button progress"
+    )
+
+    var isButtonPressCompleted by remember {
+        mutableStateOf(false)
+    }
+
     if (isButtonPressed) {
         buttonState = ButtonState.PRESSED
         LaunchedEffect(key1 = Unit) {
             mediaPlayer?.start()
         }
 
+        if (isTimedButton) {
+            LaunchedEffect(Unit) {
+                while (currentButtonPressedDuration < buttonPressDurationMilli) {
+                    delay(10.milliseconds)
+                    currentButtonPressedDuration += 10
+                }
+
+                Log.i("CustomElevatedButton", "ButtonPressDuration reached")
+                isButtonPressCompleted = true
+                onClick()
+            }
+        }
+
         DisposableEffect(Unit) {
             onDispose {
                 buttonState = ButtonState.IDLE
+                if (!isButtonPressCompleted) {
+                    //don't reset if buttonPress is already completed
+                    currentButtonPressedDuration = 0f
+                }
             }
         }
     }
@@ -112,8 +159,9 @@ fun CustomElevatedButton(
         modifier = customSizeModifier
             //somehow also changing color to transparent is needed for outline to not be shown
             .border(
-                if (addOutline) 1.dp else 0.dp, if (addOutline) shadowColor else Color.Transparent,
-                shape
+                width = if (addOutline) 1.dp else 0.dp,
+                color = if (addOutline) shadowColor else Color.Transparent,
+                shape = shape
             )
             .defaultMinSize(CustomElevatedButtonDefault.MinWidth, CustomElevatedButtonDefault.MinHeight)
             .clip(shape)
@@ -127,7 +175,10 @@ fun CustomElevatedButton(
                     if (animateButtonClick) {
                         buttonState = ButtonState.PRESSED
                     }
-                    onClick()
+
+                    if (!isTimedButton) {
+                        onClick()
+                    }
                 }
             )
             .offset(y = if (buttonState == ButtonState.PRESSED || !enabled || isPressed) 0.dp else (-elevation))
@@ -143,20 +194,60 @@ fun CustomElevatedButton(
                     buttonContentSize = layoutCoordinates.size
                 }
                 .clip(shape)
-                .background(if (isPressed) pressedColor else backgroundColor)
-                .padding(
-                    top = 24.dp,
-                    bottom = 12.dp,
-                    start = 24.dp,
-                    end = 24.dp
-                ),
+                .background(if (isPressed) pressedColor else backgroundColor),
             contentAlignment = Alignment.Center
         ) {
+            if (isTimedButton) {
+                //TODO: ask if this random animation mechanism should be kept or not
+                if (progressAnimationType == ButtonProgressAnimationType.END_TO_CENTER) {
+                    // reverse center animation
+                    Box(
+                        Modifier
+                            .align(Alignment.CenterStart)
+                            .fillMaxHeight()
+                            .fillMaxWidth(buttonProgress * 0.5f)
+                            .background(pressedColor)
+                    )
+
+                    Box(
+                        Modifier
+                            .align(Alignment.CenterEnd)
+                            .fillMaxHeight()
+                            .fillMaxWidth(buttonProgress * 0.5f)
+                            .background(pressedColor)
+                    )
+                } else {
+                    val animation: Alignment =
+                        when (progressAnimationType) {
+                            ButtonProgressAnimationType.LEFT_TO_RIGHT -> Alignment.CenterStart
+                            ButtonProgressAnimationType.CENTER_TO_END -> Alignment.Center
+                            ButtonProgressAnimationType.RIGHT_TO_LEFT -> Alignment.CenterEnd
+                            else -> Alignment.CenterStart
+                        }
+
+                    Box(
+                        Modifier
+                            .align(animation)
+                            .fillMaxHeight()
+                            .fillMaxWidth(buttonProgress)
+                            .background(pressedColor)
+                    )
+                }
+            }
+
             // used to alleviate the content shift a bit
             Box(
-                modifier = Modifier.offset(
-                    y = if (buttonState == ButtonState.PRESSED || !enabled || isPressed) -(elevation / 2) else 0.dp
-                )
+                modifier = Modifier
+                    .padding(
+                        top = 24.dp,
+                        bottom = 12.dp,
+                        start = 24.dp,
+                        end = 24.dp
+                    )
+                    .offset(
+                        y = if (buttonState == ButtonState.PRESSED || !enabled || isPressed) -(elevation / 2)
+                        else 0.dp
+                    )
             ) {
                 buttonContent()
             }
@@ -179,6 +270,13 @@ fun CustomElevatedButton(
 enum class ButtonState {
     PRESSED,
     IDLE
+}
+
+enum class ButtonProgressAnimationType {
+    LEFT_TO_RIGHT,
+    RIGHT_TO_LEFT,
+    CENTER_TO_END,
+    END_TO_CENTER
 }
 
 @Preview(showBackground = true)
