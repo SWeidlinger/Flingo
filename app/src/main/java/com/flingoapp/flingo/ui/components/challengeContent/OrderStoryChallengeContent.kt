@@ -102,13 +102,18 @@ fun OrderStoryChallengeContent(
         if (moveToResultMap) {
             val indexStartingMap =
                 getMapIdForContent(content = snippet, map = startingSnippetMap) ?: return false
+
+            //to replace existing snippet with the new snippet and vice versa
+            val currentSnippetAtDraggedPlace = resultSnippetMap[dragPosition]
             resultSnippetMap[dragPosition] = snippet
-            startingSnippetMap[indexStartingMap] = null
+            startingSnippetMap[indexStartingMap] = currentSnippetAtDraggedPlace
             indexCurrentDragStartList = -1
         } else {
             val indexResultMap = getMapIdForContent(content = snippet, map = resultSnippetMap) ?: return false
+
+            val currentSnippetAtDraggedPlace = startingSnippetMap[dragPosition]
             startingSnippetMap[dragPosition] = snippet
-            resultSnippetMap[indexResultMap] = null
+            resultSnippetMap[indexResultMap] = currentSnippetAtDraggedPlace
             indexCurrentDragResultList = -1
         }
 
