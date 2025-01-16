@@ -45,7 +45,6 @@ class MainViewModel : ViewModel() {
     private fun mockFetchBookData(json: String) {
         updateUiState(_uiState.value.copy(isLoading = true))
 
-//        val user = Gson().fromJson(json, User::class.java)
         val deserializer = Json {
             ignoreUnknownKeys = true
         }

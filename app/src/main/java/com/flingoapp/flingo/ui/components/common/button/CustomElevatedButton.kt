@@ -217,19 +217,35 @@ fun CustomElevatedButton(
                             .background(pressedColor)
                     )
                 } else {
+                    var isVerticalAnimation = false
                     val animation: Alignment =
                         when (progressAnimationType) {
                             ButtonProgressAnimationType.LEFT_TO_RIGHT -> Alignment.CenterStart
                             ButtonProgressAnimationType.CENTER_TO_END -> Alignment.Center
                             ButtonProgressAnimationType.RIGHT_TO_LEFT -> Alignment.CenterEnd
+                            ButtonProgressAnimationType.BOTTOM_TO_TOP -> {
+                                isVerticalAnimation = true
+                                Alignment.BottomCenter
+                            }
+
+                            ButtonProgressAnimationType.TOP_TO_BOTTOM -> {
+                                isVerticalAnimation = true
+                                Alignment.TopCenter
+                            }
+
+                            ButtonProgressAnimationType.CENTER_TO_TOP_AND_BOTTOM -> {
+                                isVerticalAnimation = true
+                                Alignment.Center
+                            }
+
                             else -> Alignment.CenterStart
                         }
 
                     Box(
                         Modifier
                             .align(animation)
-                            .fillMaxHeight()
-                            .fillMaxWidth(buttonProgress)
+                            .fillMaxHeight(if (isVerticalAnimation) buttonProgress else 1f)
+                            .fillMaxWidth(if (isVerticalAnimation) 1f else buttonProgress)
                             .background(pressedColor)
                     )
                 }
@@ -276,7 +292,10 @@ enum class ButtonProgressAnimationType {
     LEFT_TO_RIGHT,
     RIGHT_TO_LEFT,
     CENTER_TO_END,
-    END_TO_CENTER
+    END_TO_CENTER,
+    TOP_TO_BOTTOM,
+    BOTTOM_TO_TOP,
+    CENTER_TO_TOP_AND_BOTTOM
 }
 
 @Preview(showBackground = true)

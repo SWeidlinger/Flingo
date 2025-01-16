@@ -36,7 +36,8 @@ fun QuizContentSingleChoice(
     mainUiState: MainUiState,
     pageDetails: PageDetails.QuizPageDetails,
     onAction: (MainIntent) -> Unit,
-    onQuestionAnswered: (correctAnswer: Boolean) -> Unit
+    buttonProgressAnimationType: ButtonProgressAnimationType = ButtonProgressAnimationType.LEFT_TO_RIGHT,
+    onQuestionAnswered: (correctAnswer: Boolean) -> Unit,
 ) {
     var flowRowHeight by remember { mutableIntStateOf(0) }
 
@@ -52,8 +53,6 @@ fun QuizContentSingleChoice(
         verticalArrangement = Arrangement.SpaceAround,
         maxLines = 2
     ) {
-        val buttonProgressAnimationType = remember { ButtonProgressAnimationType.entries.random() }
-
         pageDetails.answers.forEachIndexed { index, answer ->
             //wrapped in box in order to stop customElevatedButton from changing from modifiers
             Box(
@@ -91,6 +90,7 @@ fun QuizContentSingleChoice(
                             if (answer.isCorrect) FlingoColors.Success
                             else FlingoColors.Error
                         }
+
                         isQuestionAnswered -> Color.LightGray
                         else -> FlingoColors.Primary
                     },

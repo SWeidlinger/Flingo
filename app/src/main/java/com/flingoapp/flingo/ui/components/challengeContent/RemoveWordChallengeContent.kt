@@ -43,7 +43,8 @@ fun RemoveWordChallengeContent(
     modifier: Modifier = Modifier,
     mainUiState: MainUiState,
     onNavigate: (NavigationIntent) -> Unit,
-    pageDetails: PageDetails.RemoveWordPageDetails
+    pageDetails: PageDetails.RemoveWordPageDetails,
+    onPageCompleted: (score: Int) -> Unit
 ) {
     var currentSelectedWord by remember { mutableStateOf("") }
     var isCorrectAnswer: Boolean? by remember { mutableStateOf(null) }

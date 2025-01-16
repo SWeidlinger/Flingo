@@ -28,6 +28,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
@@ -50,6 +51,7 @@ import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.emitter.Emitter
@@ -63,7 +65,10 @@ fun OrderStoryChallengeContent(
     onNavigate: (NavigationIntent) -> Unit,
     pageDetails: PageDetails.OrderStoryPageDetails,
     onAction: (MainIntent) -> Unit,
+    onPageCompleted: (score: Int) -> Unit
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     val startingSnippetMap = remember {
         mutableStateMapOf<Int, PageDetails.OrderStoryPageDetails.Companion.Content?>()
     }
@@ -120,6 +125,13 @@ fun OrderStoryChallengeContent(
         return true
     }
 
+    fun resetChallenge() {
+        repeat(pageDetails.content.size) { index ->
+            resultSnippetMap[index] = null
+            startingSnippetMap[index] = pageDetails.content[index]
+        }
+    }
+
     val allSnippetsInResultMap by remember {
         derivedStateOf {
             resultSnippetMap.filterValues { it == null }.isEmpty()
@@ -135,9 +147,11 @@ fun OrderStoryChallengeContent(
     LaunchedEffect(key1 = isCorrectAnswer) {
         if (isCorrectAnswer == false) {
             buttonColor = FlingoColors.Error
+            continueButtonText = "Leider falsch"
             isContinueButtonEnabled = false
-            delay(1000)
+            delay(2000)
             buttonColor = FlingoColors.Primary
+            continueButtonText = "Fertig"
             isCorrectAnswer = null
             isContinueButtonEnabled = true
         } else if (isCorrectAnswer == true) {
@@ -278,6 +292,11 @@ fun OrderStoryChallengeContent(
 
                             if (isCorrectAnswer == true) {
                                 buttonColor = FlingoColors.Success
+                            } else {
+                                coroutineScope.launch {
+                                    delay(2000)
+                                    resetChallenge()
+                                }
                             }
                         }
                     },
@@ -310,8 +329,13 @@ fun OrderStoryChallengeContent(
                         .fillMaxWidth()
                         .weight(1f)
                         .border(
-                            width = 1.dp,
-                            color = Color.Black,
+                            width = 2.dp,
+                            color =
+                            when (isCorrectAnswer) {
+                                true -> FlingoColors.Success
+                                false -> FlingoColors.Error
+                                else -> FlingoColors.Text
+                            },
                             shape = RoundedCornerShape(16.dp)
                         )
                         .zIndex(0f)

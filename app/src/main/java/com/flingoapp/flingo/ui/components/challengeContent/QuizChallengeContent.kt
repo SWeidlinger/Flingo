@@ -1,7 +1,9 @@
 package com.flingoapp.flingo.ui.components.challengeContent
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.ui.components.challengeContent.quizContent.QuizContentSingleChoice
 import com.flingoapp.flingo.ui.components.challengeContent.quizContent.QuizContentTrueOrFalse
+import com.flingoapp.flingo.ui.components.common.button.ButtonProgressAnimationType
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodels.main.MainIntent
@@ -44,13 +47,18 @@ fun QuizChallengeContent(
     onNavigate: (NavigationIntent) -> Unit,
     onAction: (MainIntent) -> Unit,
     pageDetails: PageDetails.QuizPageDetails,
-    taskDefinitionTopBarWidth: Dp
+    taskDefinitionTopBarWidth: Dp,
+    onPageCompleted: (score: Int) -> Unit
 ) {
     var textBoxBorderColor by remember { mutableStateOf(FlingoColors.Text) }
     var isAnswerCorrect by remember { mutableStateOf(false) }
     var latestTouchPointOffset by remember { mutableStateOf(Offset.Zero) }
 
+    //TODO: remove after testing
+    var buttonProgressAnimationType by remember { mutableStateOf(ButtonProgressAnimationType.entries.random()) }
+
     Box(modifier = Modifier.pointerInput(Unit) {
+        // get position of last press to move possible confetti source to that position
         awaitPointerEventScope {
             while (true) {
                 val event = awaitPointerEvent()
@@ -81,7 +89,24 @@ fun QuizChallengeContent(
                     )
             ) {
                 Text(
-                    modifier = Modifier.align(Alignment.Center),
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .clickable {
+                            //TODO: remove just used for testing reasons
+                            val currentAnimationIndex =
+                                ButtonProgressAnimationType.entries.find { it == buttonProgressAnimationType }?.ordinal
+                                    ?: 0
+                            val nextAnimationIndex =
+                                (currentAnimationIndex + 1) % ButtonProgressAnimationType.entries.size
+
+                            buttonProgressAnimationType =
+                                ButtonProgressAnimationType.entries[nextAnimationIndex]
+
+                            Log.i(
+                                "QuizChallengeContent",
+                                "Current Button animation:$buttonProgressAnimationType"
+                            )
+                        },
                     text = pageDetails.question,
                     color = FlingoColors.Text,
                     fontSize = 36.sp
@@ -106,6 +131,7 @@ fun QuizChallengeContent(
                                 } else {
                                     FlingoColors.Error
                                 }
+                            onPageCompleted(0)
                         }
                     )
                 }
@@ -119,6 +145,7 @@ fun QuizChallengeContent(
                         pageDetails = pageDetails,
                         mainUiState = mainUiState,
                         onAction = onAction,
+                        buttonProgressAnimationType = buttonProgressAnimationType,
                         onQuestionAnswered = { isCorrectAnswer ->
                             isAnswerCorrect = isCorrectAnswer
                             textBoxBorderColor =
@@ -127,6 +154,7 @@ fun QuizChallengeContent(
                                 } else {
                                     FlingoColors.Error
                                 }
+                            onPageCompleted(0)
                         }
                     )
                 }

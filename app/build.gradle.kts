@@ -69,9 +69,6 @@ dependencies {
     //Kotlin Serialization for Type Safe Navigation
     implementation(libs.kotlinx.serialization.json)
 
-    //GSON
-    implementation(libs.gson)
-
     //Lottie
     implementation(libs.lottie.compose)
 
