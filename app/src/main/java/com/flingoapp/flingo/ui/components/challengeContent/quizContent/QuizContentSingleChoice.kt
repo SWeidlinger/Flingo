@@ -22,7 +22,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
-import com.flingoapp.flingo.ui.components.common.button.ButtonProgressAnimationType
+import com.flingoapp.flingo.ui.components.common.button.ButtonProgressAnimation
 import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.pxToDp
 import com.flingoapp.flingo.ui.theme.FlingoColors
@@ -36,7 +36,7 @@ fun QuizContentSingleChoice(
     mainUiState: MainUiState,
     pageDetails: PageDetails.QuizPageDetails,
     onAction: (MainIntent) -> Unit,
-    buttonProgressAnimationType: ButtonProgressAnimationType = ButtonProgressAnimationType.LEFT_TO_RIGHT,
+    buttonProgressAnimation: ButtonProgressAnimation = ButtonProgressAnimation.LEFT_TO_RIGHT,
     onQuestionAnswered: (correctAnswer: Boolean) -> Unit,
 ) {
     var flowRowHeight by remember { mutableIntStateOf(0) }
@@ -95,7 +95,7 @@ fun QuizContentSingleChoice(
                         else -> FlingoColors.Primary
                     },
                     isPressed = isQuestionAnswered,
-                    progressAnimationType = buttonProgressAnimationType,
+                    progressAnimationType = buttonProgressAnimation,
                     elevation = 12.dp,
                     onClick = {
                         isQuestionAnswered = true

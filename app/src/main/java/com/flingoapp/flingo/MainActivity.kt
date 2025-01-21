@@ -34,8 +34,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             FlingoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize())
-                { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     TopLevelComposable(
                         modifier = Modifier.padding(innerPadding),
                         mainViewModel = mainViewModel

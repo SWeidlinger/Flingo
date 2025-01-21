@@ -28,4 +28,12 @@ sealed class NavigationDestination {
      */
     @Serializable
     data class Chapter(val chapterIndex: Int) : NavigationDestination()
+
+    /**
+     * Challenge finished screen
+     *
+     * @constructor Create empty ChapterFinished
+     */
+    @Serializable
+    data object ChallengeFinished : NavigationDestination()
 }

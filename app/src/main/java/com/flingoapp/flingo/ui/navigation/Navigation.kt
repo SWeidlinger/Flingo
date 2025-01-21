@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.flingoapp.flingo.data.models.book.ChapterType
+import com.flingoapp.flingo.ui.screens.ChallengeFinishedScreen
 import com.flingoapp.flingo.ui.screens.ChallengeScreen
 import com.flingoapp.flingo.ui.screens.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screens.HomeScreen
@@ -117,6 +118,20 @@ fun NavHostComposable(
                     //TODO: not yet implemented, might not be needed
                 }
             }
+        }
+
+        composable<NavigationDestination.ChallengeFinished> { backStackEntry ->
+            val args = backStackEntry.toRoute<NavigationDestination.ChallengeFinished>()
+
+            val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
+
+            ChallengeFinishedScreen(
+                mainUiState = mainUiState,
+                onAction = { action -> mainViewModel.onAction(action) },
+                onNavigate = { destination ->
+                    processNavigation(destination, navController)
+                }
+            )
         }
     }
 }

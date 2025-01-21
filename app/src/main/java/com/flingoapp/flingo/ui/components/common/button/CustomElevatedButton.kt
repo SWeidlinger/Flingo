@@ -85,7 +85,7 @@ fun CustomElevatedButton(
     //TODO: investigate why this duration is not the actual one
     // seems to depend on which device it is run on
     buttonPressDurationMilli: Int = 0,
-    progressAnimationType: ButtonProgressAnimationType = ButtonProgressAnimationType.LEFT_TO_RIGHT,
+    progressAnimationType: ButtonProgressAnimation = ButtonProgressAnimation.LEFT_TO_RIGHT,
     //TODO: disabled for now since it causes system stutters, fix before using
 //    clickSound: Int? = R.raw.button_click,
     clickSound: Int? = null,
@@ -93,6 +93,8 @@ fun CustomElevatedButton(
     buttonContent: @Composable () -> Unit
 ) {
     val mediaPlayer: MediaPlayer? = clickSound?.let { MediaPlayer.create(LocalContext.current, it) }
+
+//    val elevationPixel = elevation.dpToPx().toInt()
 
     var buttonState by remember { mutableStateOf(ButtonState.IDLE) }
 
@@ -181,6 +183,16 @@ fun CustomElevatedButton(
                     }
                 }
             )
+//            .offset {
+//                val y =
+//                    if (buttonState == ButtonState.PRESSED || !enabled || isPressed) 0
+//                    else (-elevationPixel)
+//
+//                IntOffset(0, y)
+//            }
+            //TODO: should be replaced with remembered offset as seen above, current problem is that the
+            // content shift is not correctly alleviated, therefore it is not implemented yet, until a
+            // solution for this problem is found
             .offset(y = if (buttonState == ButtonState.PRESSED || !enabled || isPressed) 0.dp else (-elevation))
     ) {
         Box(
@@ -199,7 +211,7 @@ fun CustomElevatedButton(
         ) {
             if (isTimedButton) {
                 //TODO: ask if this random animation mechanism should be kept or not
-                if (progressAnimationType == ButtonProgressAnimationType.END_TO_CENTER) {
+                if (progressAnimationType == ButtonProgressAnimation.END_TO_CENTER) {
                     // reverse center animation
                     Box(
                         Modifier
@@ -220,20 +232,20 @@ fun CustomElevatedButton(
                     var isVerticalAnimation = false
                     val animation: Alignment =
                         when (progressAnimationType) {
-                            ButtonProgressAnimationType.LEFT_TO_RIGHT -> Alignment.CenterStart
-                            ButtonProgressAnimationType.CENTER_TO_END -> Alignment.Center
-                            ButtonProgressAnimationType.RIGHT_TO_LEFT -> Alignment.CenterEnd
-                            ButtonProgressAnimationType.BOTTOM_TO_TOP -> {
+                            ButtonProgressAnimation.LEFT_TO_RIGHT -> Alignment.CenterStart
+                            ButtonProgressAnimation.CENTER_TO_END -> Alignment.Center
+                            ButtonProgressAnimation.RIGHT_TO_LEFT -> Alignment.CenterEnd
+                            ButtonProgressAnimation.BOTTOM_TO_TOP -> {
                                 isVerticalAnimation = true
                                 Alignment.BottomCenter
                             }
 
-                            ButtonProgressAnimationType.TOP_TO_BOTTOM -> {
+                            ButtonProgressAnimation.TOP_TO_BOTTOM -> {
                                 isVerticalAnimation = true
                                 Alignment.TopCenter
                             }
 
-                            ButtonProgressAnimationType.CENTER_TO_TOP_AND_BOTTOM -> {
+                            ButtonProgressAnimation.CENTER_TO_TOP_AND_BOTTOM -> {
                                 isVerticalAnimation = true
                                 Alignment.Center
                             }
@@ -260,6 +272,13 @@ fun CustomElevatedButton(
                         start = 24.dp,
                         end = 24.dp
                     )
+//                    .offset {
+//                        val y =
+//                            if (buttonState == ButtonState.PRESSED || !enabled || isPressed) 0
+//                            else (-elevationPixel / 2)
+//
+//                        IntOffset(0, y)
+//                    }
                     .offset(
                         y = if (buttonState == ButtonState.PRESSED || !enabled || isPressed) -(elevation / 2)
                         else 0.dp
@@ -288,7 +307,7 @@ enum class ButtonState {
     IDLE
 }
 
-enum class ButtonProgressAnimationType {
+enum class ButtonProgressAnimation {
     LEFT_TO_RIGHT,
     RIGHT_TO_LEFT,
     CENTER_TO_END,

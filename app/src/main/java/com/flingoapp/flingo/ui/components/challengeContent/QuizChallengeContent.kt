@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.ui.components.challengeContent.quizContent.QuizContentSingleChoice
 import com.flingoapp.flingo.ui.components.challengeContent.quizContent.QuizContentTrueOrFalse
-import com.flingoapp.flingo.ui.components.common.button.ButtonProgressAnimationType
+import com.flingoapp.flingo.ui.components.common.button.ButtonProgressAnimation
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodels.main.MainIntent
@@ -55,7 +55,7 @@ fun QuizChallengeContent(
     var latestTouchPointOffset by remember { mutableStateOf(Offset.Zero) }
 
     //TODO: remove after testing
-    var buttonProgressAnimationType by remember { mutableStateOf(ButtonProgressAnimationType.entries.random()) }
+    var buttonProgressAnimation by remember { mutableStateOf(ButtonProgressAnimation.entries.random()) }
 
     Box(modifier = Modifier.pointerInput(Unit) {
         // get position of last press to move possible confetti source to that position
@@ -94,17 +94,17 @@ fun QuizChallengeContent(
                         .clickable {
                             //TODO: remove just used for testing reasons
                             val currentAnimationIndex =
-                                ButtonProgressAnimationType.entries.find { it == buttonProgressAnimationType }?.ordinal
+                                ButtonProgressAnimation.entries.find { it == buttonProgressAnimation }?.ordinal
                                     ?: 0
                             val nextAnimationIndex =
-                                (currentAnimationIndex + 1) % ButtonProgressAnimationType.entries.size
+                                (currentAnimationIndex + 1) % ButtonProgressAnimation.entries.size
 
-                            buttonProgressAnimationType =
-                                ButtonProgressAnimationType.entries[nextAnimationIndex]
+                            buttonProgressAnimation =
+                                ButtonProgressAnimation.entries[nextAnimationIndex]
 
                             Log.i(
                                 "QuizChallengeContent",
-                                "Current Button animation:$buttonProgressAnimationType"
+                                "Current Button animation:$buttonProgressAnimation"
                             )
                         },
                     text = pageDetails.question,
@@ -145,7 +145,7 @@ fun QuizChallengeContent(
                         pageDetails = pageDetails,
                         mainUiState = mainUiState,
                         onAction = onAction,
-                        buttonProgressAnimationType = buttonProgressAnimationType,
+                        buttonProgressAnimation = buttonProgressAnimation,
                         onQuestionAnswered = { isCorrectAnswer ->
                             isAnswerCorrect = isCorrectAnswer
                             textBoxBorderColor =

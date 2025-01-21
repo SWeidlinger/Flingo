@@ -110,7 +110,8 @@ fun ChallengeScreen(
                         taskDefinitionWidth = width
                     }
                 )
-            }, bottomBar = {
+            },
+            bottomBar = {
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Row(
                         modifier = Modifier
@@ -172,7 +173,8 @@ fun ChallengeScreen(
                         }
                     }
                 }
-            }) { innerPadding ->
+            }
+        ) { innerPadding ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
