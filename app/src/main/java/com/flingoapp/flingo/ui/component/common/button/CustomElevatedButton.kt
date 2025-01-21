@@ -26,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.ui.darken
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
 object CustomElevatedButtonDefault {
@@ -92,6 +94,8 @@ fun CustomElevatedButton(
     onClick: () -> Unit,
     buttonContent: @Composable () -> Unit
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     val mediaPlayer: MediaPlayer? = clickSound?.let { MediaPlayer.create(LocalContext.current, it) }
 
 //    val elevationPixel = elevation.dpToPx().toInt()
@@ -165,7 +169,10 @@ fun CustomElevatedButton(
                 color = if (addOutline) shadowColor else Color.Transparent,
                 shape = shape
             )
-            .defaultMinSize(CustomElevatedButtonDefault.MinWidth, CustomElevatedButtonDefault.MinHeight)
+            .defaultMinSize(
+                CustomElevatedButtonDefault.MinWidth,
+                CustomElevatedButtonDefault.MinHeight
+            )
             .clip(shape)
             .background(shadowColor)
             .clickable(
@@ -176,6 +183,14 @@ fun CustomElevatedButton(
 
                     if (animateButtonClick) {
                         buttonState = ButtonState.PRESSED
+
+                        if (isTimedButton) {
+                            // reset button on short press if it is a timed button
+                            coroutineScope.launch {
+                                delay(50)
+                                buttonState = ButtonState.IDLE
+                            }
+                        }
                     }
 
                     if (!isTimedButton) {
