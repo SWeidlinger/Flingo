@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components.common
+package com.flingoapp.flingo.ui.component.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures

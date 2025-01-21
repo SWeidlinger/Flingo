@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.screens
+package com.flingoapp.flingo.ui.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

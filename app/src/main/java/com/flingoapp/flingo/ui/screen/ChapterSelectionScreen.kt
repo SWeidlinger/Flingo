@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.screens
+package com.flingoapp.flingo.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.models.book.ChapterType
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
-import com.flingoapp.flingo.ui.components.common.topbar.CustomTopBar
+import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
+import com.flingoapp.flingo.ui.component.common.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors

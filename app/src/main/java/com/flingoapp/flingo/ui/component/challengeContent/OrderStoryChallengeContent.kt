@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components.challengeContent
+package com.flingoapp.flingo.ui.component.challengeContent
 
 import android.content.ClipData
 import android.content.ClipDescription
@@ -43,8 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.flingoapp.flingo.data.models.book.page.PageDetails
-import com.flingoapp.flingo.ui.components.common.PaperSnippet
-import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
+import com.flingoapp.flingo.ui.component.common.PaperSnippet
+import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.lighten
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors

@@ -11,11 +11,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.flingoapp.flingo.data.models.book.ChapterType
-import com.flingoapp.flingo.ui.screens.ChallengeFinishedScreen
-import com.flingoapp.flingo.ui.screens.ChallengeScreen
-import com.flingoapp.flingo.ui.screens.ChapterSelectionScreen
-import com.flingoapp.flingo.ui.screens.HomeScreen
-import com.flingoapp.flingo.ui.screens.ReadScreen
+import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
+import com.flingoapp.flingo.ui.screen.ChallengeScreen
+import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
+import com.flingoapp.flingo.ui.screen.HomeScreen
+import com.flingoapp.flingo.ui.screen.ReadScreen
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainViewModel
 

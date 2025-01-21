@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.screens
+package com.flingoapp.flingo.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.models.book.page.PageDetails
-import com.flingoapp.flingo.ui.components.common.CustomHighlightedText
-import com.flingoapp.flingo.ui.components.common.CustomPageIndicator
-import com.flingoapp.flingo.ui.components.common.topbar.CustomTopBar
+import com.flingoapp.flingo.ui.component.common.CustomHighlightedText
+import com.flingoapp.flingo.ui.component.common.CustomPageIndicator
+import com.flingoapp.flingo.ui.component.common.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent

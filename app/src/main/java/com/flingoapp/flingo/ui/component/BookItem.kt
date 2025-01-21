@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components
+package com.flingoapp.flingo.ui.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -37,13 +37,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.models.book.Book
-import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
+import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.innerShadow
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlinx.coroutines.launch
 
 /**
- * Book item used to display the different books on the [com.flingoapp.flingo.ui.screens.HomeScreen]
+ * Book item used to display the different books on the [com.flingoapp.flingo.ui.screen.HomeScreen]
  *
  * @param modifier
  * @param itemSize

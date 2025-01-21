@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components.common.topbar
+package com.flingoapp.flingo.ui.component.common.topbar
 
 import android.speech.tts.TextToSpeech
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +23,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.ui.components.common.button.CustomElevatedTextButton
-import com.flingoapp.flingo.ui.components.common.button.CustomIconButton
+import com.flingoapp.flingo.ui.component.common.button.CustomElevatedTextButton
+import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import java.util.Locale
 

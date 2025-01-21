@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components.common.button
+package com.flingoapp.flingo.ui.component.common.button
 
 import android.media.MediaPlayer
 import android.util.Log

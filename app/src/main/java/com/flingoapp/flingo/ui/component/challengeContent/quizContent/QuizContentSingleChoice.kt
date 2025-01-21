@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components.challengeContent.quizContent
+package com.flingoapp.flingo.ui.component.challengeContent.quizContent
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,8 +22,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
-import com.flingoapp.flingo.ui.components.common.button.ButtonProgressAnimation
-import com.flingoapp.flingo.ui.components.common.button.CustomElevatedButton
+import com.flingoapp.flingo.ui.component.common.button.ButtonProgressAnimation
+import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.pxToDp
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodels.main.MainIntent

@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.screens
+package com.flingoapp.flingo.ui.screen
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -34,12 +34,12 @@ import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.models.book.page.Page
 import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.data.models.book.page.PageType
-import com.flingoapp.flingo.ui.components.challengeContent.OrderStoryChallengeContent
-import com.flingoapp.flingo.ui.components.challengeContent.QuizChallengeContent
-import com.flingoapp.flingo.ui.components.challengeContent.RemoveWordChallengeContent
-import com.flingoapp.flingo.ui.components.common.CustomPageIndicator
-import com.flingoapp.flingo.ui.components.common.button.CustomIconButton
-import com.flingoapp.flingo.ui.components.common.topbar.CustomChallengeTopBar
+import com.flingoapp.flingo.ui.component.challengeContent.OrderStoryChallengeContent
+import com.flingoapp.flingo.ui.component.challengeContent.QuizChallengeContent
+import com.flingoapp.flingo.ui.component.challengeContent.RemoveWordChallengeContent
+import com.flingoapp.flingo.ui.component.common.CustomPageIndicator
+import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
+import com.flingoapp.flingo.ui.component.common.topbar.CustomChallengeTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.pxToDp
 import com.flingoapp.flingo.ui.theme.FlingoColors

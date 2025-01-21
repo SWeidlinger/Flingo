@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components.challengeContent
+package com.flingoapp.flingo.ui.component.challengeContent
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -27,9 +27,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
-import com.flingoapp.flingo.ui.components.challengeContent.quizContent.QuizContentSingleChoice
-import com.flingoapp.flingo.ui.components.challengeContent.quizContent.QuizContentTrueOrFalse
-import com.flingoapp.flingo.ui.components.common.button.ButtonProgressAnimation
+import com.flingoapp.flingo.ui.component.challengeContent.quizContent.QuizContentSingleChoice
+import com.flingoapp.flingo.ui.component.challengeContent.quizContent.QuizContentTrueOrFalse
+import com.flingoapp.flingo.ui.component.common.button.ButtonProgressAnimation
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodels.main.MainIntent

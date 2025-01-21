@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components.challengeContent.quizContent
+package com.flingoapp.flingo.ui.component.challengeContent.quizContent
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
-import com.flingoapp.flingo.ui.components.common.button.CustomIconButton
+import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.pxToDp
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodels.main.MainIntent

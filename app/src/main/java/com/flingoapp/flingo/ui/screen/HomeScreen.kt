@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.screens
+package com.flingoapp.flingo.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.components.BookItem
-import com.flingoapp.flingo.ui.components.common.topbar.CustomHomeScreenTopBar
+import com.flingoapp.flingo.ui.component.BookItem
+import com.flingoapp.flingo.ui.component.common.topbar.CustomHomeScreenTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme

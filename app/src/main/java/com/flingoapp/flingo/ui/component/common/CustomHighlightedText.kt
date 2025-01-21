@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.components.common
+package com.flingoapp.flingo.ui.component.common
 
 import android.util.Log
 import androidx.compose.foundation.text.ClickableText
