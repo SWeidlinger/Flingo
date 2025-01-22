@@ -4,6 +4,7 @@
   "language": "de",
   "profileImage": "",
   "currentReadingStreak": 23,
+  "selectedInterests": [],
   "books": [
     {
       "author": "sebastian",

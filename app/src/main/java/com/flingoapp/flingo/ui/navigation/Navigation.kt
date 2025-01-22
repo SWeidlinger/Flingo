@@ -15,6 +15,7 @@ import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
 import com.flingoapp.flingo.ui.screen.ChallengeScreen
 import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screen.HomeScreen
+import com.flingoapp.flingo.ui.screen.InterestSelectionScreen
 import com.flingoapp.flingo.ui.screen.ReadScreen
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainViewModel
@@ -72,7 +73,7 @@ fun NavHostComposable(
 
         composable<NavigationDestination.ChapterSelection> { backStackEntry ->
             val args = backStackEntry.toRoute<NavigationDestination.ChapterSelection>()
-            mainViewModel.onAction(MainIntent.OnBookSelected(args.bookIndex))
+            mainViewModel.onAction(MainIntent.OnBookSelect(args.bookIndex))
 
             val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -87,7 +88,7 @@ fun NavHostComposable(
 
         composable<NavigationDestination.Chapter> { backStackEntry ->
             val args = backStackEntry.toRoute<NavigationDestination.Chapter>()
-            mainViewModel.onAction(MainIntent.OnChapterSelected(args.chapterIndex))
+            mainViewModel.onAction(MainIntent.OnChapterSelect(args.chapterIndex))
 
             val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -126,6 +127,20 @@ fun NavHostComposable(
             val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
 
             ChallengeFinishedScreen(
+                mainUiState = mainUiState,
+                onAction = { action -> mainViewModel.onAction(action) },
+                onNavigate = { destination ->
+                    processNavigation(destination, navController)
+                }
+            )
+        }
+
+        composable<NavigationDestination.InterestSelection> { backStackEntry ->
+            val args = backStackEntry.toRoute<NavigationDestination.ChallengeFinished>()
+
+            val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
+
+            InterestSelectionScreen(
                 mainUiState = mainUiState,
                 onAction = { action -> mainViewModel.onAction(action) },
                 onNavigate = { destination ->

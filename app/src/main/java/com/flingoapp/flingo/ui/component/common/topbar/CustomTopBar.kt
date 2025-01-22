@@ -40,6 +40,7 @@ fun CustomTopBar(
     modifier: Modifier = Modifier,
     title: String,
     navigateUp: () -> Unit,
+    hideAwardAndSettings: Boolean = false,
     onSettingsClick: () -> Unit,
     onAwardClick: () -> Unit
 ) {
@@ -71,25 +72,27 @@ fun CustomTopBar(
                 onClick = { navigateUp() }
             )
 
-            Row {
-                // award button
-                CustomIconButton(
-                    icon = Icons.Default.Star,
-                    iconPainter = painterResource(id = R.drawable.kid_star),
-                    iconContentDescription = "Awards",
-                    backgroundColor = MaterialTheme.colorScheme.secondary,
-                    onClick = { onAwardClick() }
-                )
+            if (!hideAwardAndSettings) {
+                Row {
+                    // award button
+                    CustomIconButton(
+                        icon = Icons.Default.Star,
+                        iconPainter = painterResource(id = R.drawable.kid_star),
+                        iconContentDescription = "Awards",
+                        backgroundColor = MaterialTheme.colorScheme.secondary,
+                        onClick = { onAwardClick() }
+                    )
 
-                Spacer(modifier = Modifier.padding(12.dp))
+                    Spacer(modifier = Modifier.padding(12.dp))
 
-                // settings button
-                CustomIconButton(
-                    icon = Icons.Default.Settings,
-                    iconContentDescription = "Settings",
-                    backgroundColor = Color.LightGray,
-                    onClick = { onSettingsClick() }
-                )
+                    // settings button
+                    CustomIconButton(
+                        icon = Icons.Default.Settings,
+                        iconContentDescription = "Settings",
+                        backgroundColor = Color.LightGray,
+                        onClick = { onSettingsClick() }
+                    )
+                }
             }
         }
     }

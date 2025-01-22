@@ -32,8 +32,16 @@ sealed class NavigationDestination {
     /**
      * Challenge finished screen
      *
-     * @constructor Create empty ChapterFinished
+     * @constructor Create empty ChallengeFinished
      */
     @Serializable
     data object ChallengeFinished : NavigationDestination()
+
+    /**
+     * Interest selection screen
+     *
+     * @constructor Create empty InterestSelection
+     */
+    @Serializable
+    data object InterestSelection : NavigationDestination()
 }

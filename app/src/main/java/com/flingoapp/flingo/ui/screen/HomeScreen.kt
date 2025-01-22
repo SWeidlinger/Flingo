@@ -71,8 +71,9 @@ fun HomeScreen(
         CustomHomeScreenTopBar(
             userName = mainUiState.userData?.name.toString(),
             onUserClick = {
+                onNavigate(NavigationIntent.Screen(NavigationDestination.InterestSelection))
                 //TODO: remove if showUser is implemented
-                shootConfetti = true
+//                shootConfetti = true
             },
             onSettingsClick = {},
             onAwardClick = {}
@@ -100,7 +101,10 @@ fun HomeScreen(
                     .fillMaxSize()
                     .padding(innerPadding),
                 verticalAlignment = Alignment.CenterVertically,
-                contentPadding = PaddingValues(start = horizontalOffsetPager, end = horizontalOffsetPager),
+                contentPadding = PaddingValues(
+                    start = horizontalOffsetPager,
+                    end = horizontalOffsetPager
+                ),
                 pageSize = PageSize.Fixed(pageSpacing),
                 state = pagerState,
             ) { bookIndex ->

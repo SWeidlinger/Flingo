@@ -22,5 +22,7 @@ data class User(
     @SerialName("language") val language: String,
     @SerialName("profileImage") var profileImage: String? = null,
     @SerialName("currentReadingStreak") var currentReadingStreak: Int = 0,
+    @SerialName("currentReadingStreak") var currentReadingStreak: Int,
+    @SerialName("selectedInterests") val selectedInterests: ArrayList<String>,
     @SerialName("books") var books: ArrayList<Book>? = arrayListOf()
 )

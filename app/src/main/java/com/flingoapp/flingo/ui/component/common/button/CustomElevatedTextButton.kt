@@ -45,6 +45,7 @@ fun CustomElevatedTextButton(
     text: String,
     elevation: Dp = 10.dp,
     showSpeakerIcon: Boolean = false,
+    fill: Boolean = false,
     isPressed: Boolean = false,
     pressedColor: Color = Color.White,
     textColor: Color = FlingoColors.Text,
@@ -66,7 +67,7 @@ fun CustomElevatedTextButton(
         buttonContent = {
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = if (showSpeakerIcon) Modifier.fillMaxWidth() else Modifier
+                modifier = if (showSpeakerIcon || fill) Modifier.fillMaxWidth() else Modifier
             ) {
                 Text(
                     textAlign = TextAlign.Center,

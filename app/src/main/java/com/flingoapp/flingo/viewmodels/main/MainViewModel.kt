@@ -34,6 +34,10 @@ class MainViewModel : ViewModel() {
             is MainIntent.OnBookSelected -> selectBook(action.bookIndex)
             is MainIntent.OnChapterSelected -> selectChapter(action.chapterIndex)
             is MainIntent.OnCurrentChapterCompleted -> completeCurrentChapter()
+            is MainIntent.OnBookSelect -> selectBook(action.bookIndex)
+            is MainIntent.OnChapterSelect -> selectChapter(action.chapterIndex)
+            is MainIntent.OnCurrentChapterComplete -> completeCurrentChapter()
+            is MainIntent.OnInterestSelect -> selectInterest(action.selectedInterest)
         }
     }
 
@@ -96,6 +100,16 @@ class MainViewModel : ViewModel() {
         if (currentChapter != null) {
             updateUiState(_uiState.value.copy(currentChapter = currentChapter.copy(isCompleted = true)))
             Log.e(TAG, "current chapter completed")
+        } else {
+            updateUiState(_uiState.value.copy(isError = true))
+        }
+    }
+    //for now only supports 1 interest at a time
+    private fun selectInterest(selectedInterest: String) {
+        val userData = _uiState.value.userData
+        if (userData != null) {
+            val selectedInterests = arrayListOf(selectedInterest)
+            updateUiState(_uiState.value.copy(userData = userData.copy(selectedInterests = selectedInterests)))
         } else {
             updateUiState(_uiState.value.copy(isError = true))
         }
