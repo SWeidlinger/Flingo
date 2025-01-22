@@ -34,6 +34,8 @@ sealed class MainIntent {
 
     data object OnCurrentChapterComplete : MainIntent()
 
-    data object OnCurrentChapterCompleted : MainIntent()
+    data object OnUserLiveDecrease : MainIntent()
+    data object OnUserLiveIncrease : MainIntent()
+
     data class OnInterestSelect(val selectedInterest: String) : MainIntent()
 }

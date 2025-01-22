@@ -31,12 +31,11 @@ class MainViewModel : ViewModel() {
             }
 
             is MainIntent.OnMockFetchData -> mockFetchBookData(action.json)
-            is MainIntent.OnBookSelected -> selectBook(action.bookIndex)
-            is MainIntent.OnChapterSelected -> selectChapter(action.chapterIndex)
-            is MainIntent.OnCurrentChapterCompleted -> completeCurrentChapter()
             is MainIntent.OnBookSelect -> selectBook(action.bookIndex)
             is MainIntent.OnChapterSelect -> selectChapter(action.chapterIndex)
             is MainIntent.OnCurrentChapterComplete -> completeCurrentChapter()
+            is MainIntent.OnUserLiveIncrease -> increaseUserLives()
+            is MainIntent.OnUserLiveDecrease -> decreaseUserLives()
             is MainIntent.OnInterestSelect -> selectInterest(action.selectedInterest)
         }
     }
@@ -104,6 +103,29 @@ class MainViewModel : ViewModel() {
             updateUiState(_uiState.value.copy(isError = true))
         }
     }
+
+    private fun increaseUserLives() {
+        val userData = _uiState.value.userData
+        if (userData != null) {
+            updateUiState(_uiState.value.copy(userData = userData.copy(currentLives = userData.currentLives + 1)))
+        } else {
+            updateUiState(_uiState.value.copy(isError = true))
+        }
+
+        Log.e(TAG, "current user lives ${userData?.currentLives}")
+    }
+
+    private fun decreaseUserLives() {
+        val userData = _uiState.value.userData
+        if (userData != null) {
+            updateUiState(_uiState.value.copy(userData = userData.copy(currentLives = userData.currentLives - 1)))
+        } else {
+            updateUiState(_uiState.value.copy(isError = true))
+        }
+
+        Log.e(TAG, "current user lives ${userData?.currentLives}")
+    }
+
     //for now only supports 1 interest at a time
     private fun selectInterest(selectedInterest: String) {
         val userData = _uiState.value.userData

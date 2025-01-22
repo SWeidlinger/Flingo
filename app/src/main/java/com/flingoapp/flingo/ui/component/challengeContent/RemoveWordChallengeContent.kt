@@ -30,6 +30,7 @@ import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
+import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
 import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -43,6 +44,7 @@ fun RemoveWordChallengeContent(
     modifier: Modifier = Modifier,
     mainUiState: MainUiState,
     onNavigate: (NavigationIntent) -> Unit,
+    onAction: (MainIntent) -> Unit,
     pageDetails: PageDetails.RemoveWordPageDetails,
     onPageCompleted: (score: Int) -> Unit
 ) {
@@ -55,6 +57,7 @@ fun RemoveWordChallengeContent(
 
     LaunchedEffect(key1 = isCorrectAnswer) {
         if (isCorrectAnswer == false) {
+            continueButtonPressed = true
             buttonColor = FlingoColors.Error
             isContinueButtonEnabled = false
             delay(1000)
@@ -62,6 +65,7 @@ fun RemoveWordChallengeContent(
             buttonColor = FlingoColors.Primary
             isCorrectAnswer = null
             isContinueButtonEnabled = true
+            continueButtonPressed = false
         } else if (isCorrectAnswer == true) {
             continueButtonPressed = true
             delay(1000)
@@ -103,7 +107,7 @@ fun RemoveWordChallengeContent(
                         }
                     )
 
-                    Spacer(modifier = Modifier.padding(5.dp))
+                    Spacer(modifier = Modifier.padding(4.dp))
                 }
             }
 
@@ -120,6 +124,7 @@ fun RemoveWordChallengeContent(
                             isCorrectAnswer = true
                         } else {
                             isCorrectAnswer = false
+                            onAction(MainIntent.OnUserLiveDecrease)
                         }
                     }
                 },

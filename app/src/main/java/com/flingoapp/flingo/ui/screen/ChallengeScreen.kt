@@ -193,6 +193,7 @@ fun ChallengeScreen(
                                 mainUiState = mainUiState,
                                 onNavigate = onNavigate,
                                 pageDetails = pageInPager.details as PageDetails.RemoveWordPageDetails,
+                                onAction = onAction,
                                 onPageCompleted = { score ->
                                     pages[pagerState.currentPage].isCompleted = true
                                 }
