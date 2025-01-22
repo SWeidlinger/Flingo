@@ -101,6 +101,11 @@ fun CustomElevatedButton(
 //    val elevationPixel = elevation.dpToPx().toInt()
 
     var buttonState by remember { mutableStateOf(ButtonState.IDLE) }
+    //added for buttons to be able to reset when isPressed boolean is changed
+    // not sure if this is really efficient
+    LaunchedEffect(isPressed) {
+        buttonState = if (isPressed) ButtonState.PRESSED else ButtonState.IDLE
+    }
 
     val interactionSource = remember { MutableInteractionSource() }
     val isButtonPressed by interactionSource.collectIsPressedAsState()

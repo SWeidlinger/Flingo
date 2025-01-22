@@ -4,13 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
-import com.flingoapp.flingo.ui.TopLevelComposable
-import com.flingoapp.flingo.ui.theme.FlingoTheme
+import com.flingoapp.flingo.ui.FlingoApp
 import com.flingoapp.flingo.viewmodels.ViewModelFactory
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainViewModel
@@ -33,14 +28,7 @@ class MainActivity : ComponentActivity() {
         mainViewModel.onAction(MainIntent.OnMockFetchData(userJson))
 
         setContent {
-            FlingoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    TopLevelComposable(
-                        modifier = Modifier.padding(innerPadding),
-                        mainViewModel = mainViewModel
-                    )
-                }
-            }
+            FlingoApp(mainViewModel = mainViewModel)
         }
     }
 }
