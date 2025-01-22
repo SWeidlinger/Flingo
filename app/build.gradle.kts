@@ -26,7 +26,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -86,4 +89,10 @@ dependencies {
 
     //confetti
     implementation(libs.konfetti.compose)
+
+    //exploding composable
+    implementation(libs.explodingcomposable)
+
+    //rive
+    implementation(libs.rive.android)
 }

@@ -2,6 +2,7 @@ package com.flingoapp.flingo.ui.component.challengeContent
 
 import android.content.ClipData
 import android.content.ClipDescription
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.draganddrop.dragAndDropSource
@@ -88,6 +89,10 @@ fun OrderStoryChallengeContent(
     var indexCurrentDragStartList by remember { mutableIntStateOf(-1) }
     var indexCurrentDragResultList by remember { mutableIntStateOf(-1) }
 
+    // lock the current drag snippet to prevent it to changing into other snippet
+    // needed since without this the snippet could "disappear" when tapped with two fingers
+    var lockCurrentDragSnippet by remember { mutableStateOf(false) }
+
     fun moveSnippet(
         snippet: PageDetails.OrderStoryPageDetails.Companion.Content?,
         dragPosition: Int,
@@ -140,20 +145,18 @@ fun OrderStoryChallengeContent(
 
     var isCorrectAnswer: Boolean? by remember { mutableStateOf(null) }
     var buttonColor by remember { mutableStateOf(FlingoColors.Primary) }
-    var isContinueButtonEnabled by remember { mutableStateOf(true) }
     var continueButtonText by remember { mutableStateOf("Fertig") }
     var continueButtonPressed by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = isCorrectAnswer) {
         if (isCorrectAnswer == false) {
+            onAction(MainIntent.OnUserLiveDecrease)
             buttonColor = FlingoColors.Error
             continueButtonText = "Leider falsch"
-            isContinueButtonEnabled = false
             delay(2000)
             buttonColor = FlingoColors.Primary
             continueButtonText = "Fertig"
             isCorrectAnswer = null
-            isContinueButtonEnabled = true
         } else if (isCorrectAnswer == true) {
             continueButtonPressed = true
             delay(1000)
@@ -190,6 +193,8 @@ fun OrderStoryChallengeContent(
                             target = remember {
                                 object : DragAndDropTarget {
                                     override fun onDrop(event: DragAndDropEvent): Boolean {
+                                        Log.e("TEST", "onDrop")
+
                                         val draggedItemId =
                                             event.toAndroidDragEvent().clipData?.getItemAt(0)?.text
                                                 .toString()
@@ -219,6 +224,7 @@ fun OrderStoryChallengeContent(
                                             }
 
                                             indexCurrentDragStartList = -1
+                                            lockCurrentDragSnippet = false
                                         }
 
                                         return true
@@ -227,8 +233,18 @@ fun OrderStoryChallengeContent(
                                     override fun onEnded(event: DragAndDropEvent) {
                                         //to fix disappearing on invalid drops
                                         indexCurrentDragStartList = -1
+                                        lockCurrentDragSnippet = false
 
                                         super.onEnded(event)
+                                    }
+
+                                    override fun onMoved(event: DragAndDropEvent) {
+                                        if (!lockCurrentDragSnippet) {
+                                            indexCurrentDragStartList = index
+                                            lockCurrentDragSnippet = true
+                                        }
+
+                                        super.onMoved(event)
                                     }
                                 }
                             }
@@ -241,7 +257,6 @@ fun OrderStoryChallengeContent(
                                     .dragAndDropSource {
                                         detectTapGestures(
                                             onPress = { offset ->
-                                                indexCurrentDragStartList = index
                                                 startTransfer(
                                                     transferData = DragAndDropTransferData(
                                                         clipData = ClipData.newPlainText(
@@ -377,6 +392,7 @@ fun OrderStoryChallengeContent(
                                             }
 
                                             indexCurrentDragResultList = -1
+                                            lockCurrentDragSnippet = false
                                         }
 
                                         return true
@@ -385,8 +401,18 @@ fun OrderStoryChallengeContent(
                                     override fun onEnded(event: DragAndDropEvent) {
                                         //to fix disappearing on invalid drops
                                         indexCurrentDragResultList = -1
+                                        lockCurrentDragSnippet = false
 
                                         super.onEnded(event)
+                                    }
+
+                                    override fun onMoved(event: DragAndDropEvent) {
+                                        if (!lockCurrentDragSnippet) {
+                                            indexCurrentDragResultList = index
+                                            lockCurrentDragSnippet = true
+                                        }
+
+                                        super.onMoved(event)
                                     }
                                 }
                             }
@@ -408,7 +434,6 @@ fun OrderStoryChallengeContent(
                                 .dragAndDropSource {
                                     detectTapGestures(
                                         onPress = { offset ->
-                                            indexCurrentDragResultList = index
                                             startTransfer(
                                                 transferData = DragAndDropTransferData(
                                                     clipData = ClipData.newPlainText(

@@ -51,7 +51,6 @@ fun RemoveWordChallengeContent(
     var currentSelectedWord by remember { mutableStateOf("") }
     var isCorrectAnswer: Boolean? by remember { mutableStateOf(null) }
     var buttonColor by remember { mutableStateOf(FlingoColors.Primary) }
-    var isContinueButtonEnabled by remember { mutableStateOf(true) }
     var continueButtonText by remember { mutableStateOf("Fertig") }
     var continueButtonPressed by remember { mutableStateOf(false) }
 
@@ -59,12 +58,10 @@ fun RemoveWordChallengeContent(
         if (isCorrectAnswer == false) {
             continueButtonPressed = true
             buttonColor = FlingoColors.Error
-            isContinueButtonEnabled = false
             delay(1000)
             currentSelectedWord = ""
             buttonColor = FlingoColors.Primary
             isCorrectAnswer = null
-            isContinueButtonEnabled = true
             continueButtonPressed = false
         } else if (isCorrectAnswer == true) {
             continueButtonPressed = true
@@ -130,6 +127,7 @@ fun RemoveWordChallengeContent(
                 },
                 isPressed = continueButtonPressed,
                 backgroundColor = buttonColor,
+                enabled = currentSelectedWord != "",
                 buttonContent = {
                     Text(
                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp),

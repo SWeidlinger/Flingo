@@ -111,19 +111,17 @@ class MainViewModel : ViewModel() {
         } else {
             updateUiState(_uiState.value.copy(isError = true))
         }
-
-        Log.e(TAG, "current user lives ${userData?.currentLives}")
     }
 
     private fun decreaseUserLives() {
         val userData = _uiState.value.userData
         if (userData != null) {
-            updateUiState(_uiState.value.copy(userData = userData.copy(currentLives = userData.currentLives - 1)))
+            if (userData.currentLives > 0) {
+                updateUiState(_uiState.value.copy(userData = userData.copy(currentLives = userData.currentLives - 1)))
+            }
         } else {
             updateUiState(_uiState.value.copy(isError = true))
         }
-
-        Log.e(TAG, "current user lives ${userData?.currentLives}")
     }
 
     //for now only supports 1 interest at a time

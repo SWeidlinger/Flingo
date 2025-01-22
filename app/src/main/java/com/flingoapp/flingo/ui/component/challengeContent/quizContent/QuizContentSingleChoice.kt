@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.ui.component.common.button.ButtonProgressAnimation
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
-import com.flingoapp.flingo.ui.pxToDp
+import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
@@ -57,7 +57,7 @@ fun QuizContentSingleChoice(
             //wrapped in box in order to stop customElevatedButton from changing from modifiers
             Box(
                 modifier = Modifier
-                    .height((flowRowHeight / (pageDetails.answers.size / 2)).pxToDp())
+                    .height((flowRowHeight / (pageDetails.answers.size / 2)).toDp())
                     .fillMaxSize()
                     .weight(1f)
                     .fillMaxRowHeight()

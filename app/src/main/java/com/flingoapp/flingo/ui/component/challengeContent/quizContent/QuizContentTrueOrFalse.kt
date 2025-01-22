@@ -20,8 +20,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
-import com.flingoapp.flingo.ui.pxToDp
 import com.flingoapp.flingo.ui.theme.FlingoColors
+import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
 
@@ -47,7 +47,7 @@ fun QuizContentTrueOrFalse(
             }
             .wrapContentSize(Alignment.Center),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(availableButtonHeight.pxToDp() / 2)
+        horizontalArrangement = Arrangement.spacedBy(availableButtonHeight.toDp() / 2)
     ) {
         pageDetails.answers.forEachIndexed { index, answer ->
             val isButtonTrue = index == 0
@@ -55,7 +55,7 @@ fun QuizContentTrueOrFalse(
             //TODO: could maybe use an animated border and long press to be selected
             CustomIconButton(
                 modifier = Modifier,
-                size = availableButtonHeight.pxToDp(),
+                size = availableButtonHeight.toDp(),
                 shape = CircleShape,
                 elevation = 12.dp,
                 backgroundColor =

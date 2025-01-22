@@ -3,7 +3,6 @@ package com.flingoapp.flingo.ui.component.common.topbar
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -73,7 +72,7 @@ fun CustomTopBar(
             )
 
             if (!hideAwardAndSettings) {
-                Row {
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     // award button
                     CustomIconButton(
                         icon = Icons.Default.Star,
@@ -82,8 +81,6 @@ fun CustomTopBar(
                         backgroundColor = MaterialTheme.colorScheme.secondary,
                         onClick = { onAwardClick() }
                     )
-
-                    Spacer(modifier = Modifier.padding(12.dp))
 
                     // settings button
                     CustomIconButton(

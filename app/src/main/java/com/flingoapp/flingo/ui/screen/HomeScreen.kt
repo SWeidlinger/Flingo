@@ -70,6 +70,7 @@ fun HomeScreen(
     Scaffold(topBar = {
         CustomHomeScreenTopBar(
             userName = mainUiState.userData?.name.toString(),
+            currentStreak = mainUiState.userData?.currentReadingStreak ?: 0,
             onUserClick = {
                 onNavigate(NavigationIntent.Screen(NavigationDestination.InterestSelection))
                 //TODO: remove if showUser is implemented

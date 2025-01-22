@@ -3,6 +3,7 @@ package com.flingoapp.flingo.ui
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
+import androidx.annotation.RawRes
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -10,6 +11,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -19,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
@@ -39,12 +42,21 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.ColorUtils
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import app.rive.runtime.kotlin.RiveAnimationView
+import app.rive.runtime.kotlin.controllers.RiveFileController
+import app.rive.runtime.kotlin.core.Alignment
+import app.rive.runtime.kotlin.core.Fit
+import app.rive.runtime.kotlin.core.Loop
+import app.rive.runtime.kotlin.core.PlayableInstance
 import com.flingoapp.flingo.ui.theme.FlingoColors
 
 /**
@@ -60,21 +72,21 @@ annotation class CustomPreview
  *
  */
 @Composable
-fun Dp.dpToPx() = with(LocalDensity.current) { this@dpToPx.toPx() }
+fun Dp.toPx() = with(LocalDensity.current) { this@toPx.toPx() }
 
 /**
  * Helper function to convert px to dp
  *
  */
 @Composable
-fun Int.pxToDp() = with(LocalDensity.current) { this@pxToDp.toDp() }
+fun Int.toDp() = with(LocalDensity.current) { this@toDp.toDp() }
 
 /**
  * Helper function to convert sp to dp
  *
  */
 @Composable
-fun TextUnit.spToDp() = with(LocalDensity.current) { this@spToDp.toDp() }
+fun TextUnit.toDp() = with(LocalDensity.current) { this@toDp.toDp() }
 
 /**
  * Helper function to darken a color
@@ -316,4 +328,98 @@ fun Modifier.animatedBorder(
                 }
             }
         }
+}
+
+@Composable
+fun RiveAnimation(
+    modifier: Modifier = Modifier,
+    @RawRes resId: Int,
+    autoplay: Boolean = true,
+    artboardName: String? = null,
+    animationName: String? = null,
+    stateMachineName: String? = null,
+    fit: Fit = Fit.CONTAIN,
+    alignment: Alignment = Alignment.CENTER,
+    loop: Loop = Loop.AUTO,
+    notifyLoop: ((PlayableInstance) -> Unit)? = null,
+    notifyPause: ((PlayableInstance) -> Unit)? = null,
+    notifyPlay: ((PlayableInstance) -> Unit)? = null,
+    notifyStateChanged: ((String, String) -> Unit)? = null,
+    notifyStop: ((PlayableInstance) -> Unit)? = null,
+    update: (RiveAnimationView) -> Unit = { _ -> }
+) {
+    var riveAnimationView: RiveAnimationView? = null
+    var listener: RiveFileController.Listener? = null
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    if (LocalInspectionMode.current) { // For Developing only,
+//        Image(
+//            modifier = modifier.size(100.dp),
+//            painter = painterResource(id = R.drawable.rive_logo), //any image
+//            contentDescription = contentDescription
+//        )
+    } else {
+        listener = object : RiveFileController.Listener {
+            override fun notifyLoop(animation: PlayableInstance) {
+                notifyLoop?.invoke(animation)
+            }
+
+            override fun notifyPause(animation: PlayableInstance) {
+                notifyPause?.invoke(animation)
+            }
+
+            override fun notifyPlay(animation: PlayableInstance) {
+                notifyPlay?.invoke(animation)
+            }
+
+            override fun notifyStateChanged(
+                stateMachineName: String,
+                stateName: String
+            ) {
+                notifyStateChanged?.invoke(stateMachineName, stateName)
+            }
+
+            override fun notifyStop(animation: PlayableInstance) {
+                notifyStop?.invoke(animation)
+            }
+        }.takeIf {
+            (notifyLoop != null) || (notifyPause != null) ||
+                    (notifyPlay != null) || (notifyStateChanged != null) ||
+                    (notifyStop != null)
+        }
+
+        AndroidView(
+            modifier = modifier
+                .clipToBounds(),
+            factory = { context ->
+                riveAnimationView = RiveAnimationView(context).apply {
+                    setRiveResource(
+                        resId,
+                        artboardName,
+                        animationName,
+                        stateMachineName,
+                        autoplay,
+                        fit,
+                        alignment,
+                        loop
+                    )
+                }
+                listener?.let {
+                    riveAnimationView?.registerListener(it)
+                }
+                riveAnimationView!!
+            },
+            update = {
+                update.invoke(it)
+            }
+        )
+
+        DisposableEffect(lifecycleOwner) {
+            onDispose {
+                listener?.let {
+                    riveAnimationView?.unregisterListener(it)
+                }
+            }
+        }
+    }
 }

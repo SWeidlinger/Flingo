@@ -41,7 +41,7 @@ import com.flingoapp.flingo.ui.component.common.CustomPageIndicator
 import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.component.common.topbar.CustomChallengeTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
-import com.flingoapp.flingo.ui.pxToDp
+import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
@@ -116,7 +116,7 @@ fun ChallengeScreen(
                     Row(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .width(taskDefinitionWidth.pxToDp())
+                            .width(taskDefinitionWidth.toDp())
                             .padding(bottom = 8.dp, top = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
@@ -206,7 +206,7 @@ fun ChallengeScreen(
                                 mainUiState = mainUiState,
                                 onNavigate = onNavigate,
                                 pageDetails = pageInPager.details as PageDetails.QuizPageDetails,
-                                taskDefinitionTopBarWidth = taskDefinitionWidth.pxToDp(),
+                                taskDefinitionTopBarWidth = taskDefinitionWidth.toDp(),
                                 onAction = onAction,
                                 onPageCompleted = { pageScore ->
                                     pages[pagerState.currentPage].isCompleted = true

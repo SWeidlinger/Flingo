@@ -124,6 +124,9 @@ fun QuizChallengeContent(
                         mainUiState = mainUiState,
                         onAction = onAction,
                         onQuestionAnswered = { isCorrectAnswer ->
+                            if (!isCorrectAnswer) {
+                                onAction(MainIntent.OnUserLiveDecrease)
+                            }
                             isAnswerCorrect = isCorrectAnswer
                             textBoxBorderColor =
                                 if (isCorrectAnswer) {
@@ -147,6 +150,9 @@ fun QuizChallengeContent(
                         onAction = onAction,
                         buttonProgressAnimation = buttonProgressAnimation,
                         onQuestionAnswered = { isCorrectAnswer ->
+                            if (!isCorrectAnswer) {
+                                onAction(MainIntent.OnUserLiveDecrease)
+                            }
                             isAnswerCorrect = isCorrectAnswer
                             textBoxBorderColor =
                                 if (isCorrectAnswer) {
@@ -167,7 +173,10 @@ fun QuizChallengeContent(
                 modifier = Modifier.fillMaxSize(),
                 parties = listOf(
                     Party(
-                        position = Position.Absolute(latestTouchPointOffset.x, latestTouchPointOffset.y),
+                        position = Position.Absolute(
+                            latestTouchPointOffset.x,
+                            latestTouchPointOffset.y
+                        ),
                         emitter = Emitter(duration = 1000, TimeUnit.MILLISECONDS).perSecond(
                             500
                         )

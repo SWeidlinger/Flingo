@@ -14,7 +14,7 @@
       "version": "1.0",
       "title": "Wort Chaos",
       "description": "Das ist eine Beispielimplementierung für das erste Spielkonzept.",
-      "coverImage": "",
+      "coverImage": "flingo_red",
       "chapters": [
         {
           "chapterId": "1",
@@ -164,7 +164,7 @@
       "version": "1.0",
       "title": "Fragenhagel",
       "description": "Das ist eine Beispielimplementierung für das zweite Spielkonzept.",
-      "coverImage": "",
+      "coverImage": "flingo_orange",
       "chapters": [
         {
           "chapterId": "1",
@@ -260,7 +260,7 @@
       "version": "1.0",
       "title": "Durcheinander",
       "description": "Das ist eine Beispielimplementierung für das dritte Spielkonzept.",
-      "coverImage": "",
+      "coverImage": "flingo_blue",
       "chapters": [
         {
           "chapterId": "1",
