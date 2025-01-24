@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.screen
+package com.flingoapp.flingo.ui.screen.chapter
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -25,45 +25,41 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
+import com.flingoapp.flingo.data.models.book.Chapter
+import com.flingoapp.flingo.data.models.book.page.Page
 import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.ui.component.common.CustomHighlightedText
-import com.flingoapp.flingo.ui.component.common.CustomPageIndicator
+import com.flingoapp.flingo.ui.component.common.pageIndicator.CustomPageIndicator
 import com.flingoapp.flingo.ui.component.common.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainUiState
 import kotlinx.coroutines.launch
 
 /**
  * Read screen used to display chapters with the [com.flingoapp.flingo.data.models.book.ChapterType.READ] type
  *
- * @param mainUiState
- * @param onAction
  * @param onNavigate
  * @receiver
  * @receiver
  */
 @Composable
-fun ReadScreen(
-    mainUiState: MainUiState,
-    onAction: (MainIntent) -> Unit,
+fun ReadChapterContent(
+    chapter: Chapter,
+    pages: List<Page>,
     onNavigate: (NavigationIntent) -> Unit
 ) {
-    val pages = mainUiState.currentChapter?.pages ?: return
-
     val pagerState = rememberPagerState { pages.size }
 
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(topBar = {
         CustomTopBar(
-            title = mainUiState.currentChapter.title,
+            title = chapter.title,
             navigateUp = { onNavigate(NavigationIntent.Up()) },
             onSettingsClick = {},
             onAwardClick = {
                 //TODO: remove after testing
-                mainUiState.currentChapter.isCompleted = true
+                chapter.isCompleted = true
                 onNavigate(NavigationIntent.Up())
             }
         )
@@ -122,7 +118,7 @@ fun ReadScreen(
                                     currentWordIndex += 1
                                 } else if (pagerState.currentPage < pagerState.pageCount) {
                                     if (pagerState.currentPage == pagerState.pageCount - 1) {
-                                        mainUiState.currentChapter.isCompleted = true
+                                        chapter.isCompleted = true
                                         onNavigate(NavigationIntent.Up())
                                     }
 

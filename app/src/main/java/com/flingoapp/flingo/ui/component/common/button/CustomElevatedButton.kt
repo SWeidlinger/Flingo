@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.ui.darken
+import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -82,7 +83,7 @@ fun CustomElevatedButton(
     enabled: Boolean = true,
     isPressed: Boolean = false,
     pressedColor: Color = backgroundColor,
-    disabledColor: Color = Color.LightGray.copy(alpha = 0.75f),
+    disabledColor: Color = FlingoColors.LightGray.copy(alpha = 0.75f),
     animateButtonClick: Boolean = true,
     //TODO: investigate why this duration is not the actual one
     // seems to depend on which device it is run on

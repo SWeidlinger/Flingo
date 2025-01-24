@@ -31,7 +31,6 @@ import com.flingoapp.flingo.ui.component.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainUiState
 import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
@@ -42,7 +41,6 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun RemoveWordChallengeContent(
     modifier: Modifier = Modifier,
-    mainUiState: MainUiState,
     onNavigate: (NavigationIntent) -> Unit,
     onAction: (MainIntent) -> Unit,
     pageDetails: PageDetails.RemoveWordPageDetails,
@@ -113,12 +111,13 @@ fun RemoveWordChallengeContent(
                 shape = CircleShape,
                 onClick = {
                     if (isCorrectAnswer == true) {
-                        mainUiState.currentChapter?.isCompleted = true
                         onNavigate(NavigationIntent.Up())
                     } else if (currentSelectedWord != "") {
                         if (currentSelectedWord.removeSuffix(",") == pageDetails.answer) {
                             buttonColor = FlingoColors.Success
                             isCorrectAnswer = true
+                            //TODO: implement score calculation
+                            onPageCompleted(0)
                         } else {
                             isCorrectAnswer = false
                             onAction(MainIntent.OnUserLiveDecrease)

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.flingoapp.flingo.ui.component.common
+package com.flingoapp.flingo.ui.component.common.pageIndicator
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background

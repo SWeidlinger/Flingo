@@ -3,6 +3,8 @@ package com.flingoapp.flingo.viewmodels.main
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.flingoapp.flingo.data.models.User
+import com.flingoapp.flingo.data.models.book.Book
+import com.flingoapp.flingo.data.models.book.Chapter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -67,13 +69,22 @@ class MainViewModel : ViewModel() {
      * @param bookIndex
      */
     private fun selectBook(bookIndex: Int) {
-        val currentBook = _uiState.value.userData?.books?.get(bookIndex)
+        updateUiState(
+            _uiState.value.copy(
+                currentBookId = bookIndex,
+                isError = false
+            )
+        )
+    }
 
-        if (currentBook == null) {
+    fun getCurrentBook(): Book? {
+        val currentBookId = _uiState.value.currentBookId
+        if (currentBookId == null) {
+            Log.e(TAG, "currentBookId is null")
             updateUiState(_uiState.value.copy(isError = true))
-        } else {
-            updateUiState(_uiState.value.copy(isError = false, currentBook = currentBook))
+            return null
         }
+        return _uiState.value.userData?.books?.get(currentBookId)
     }
 
     /**
@@ -82,25 +93,30 @@ class MainViewModel : ViewModel() {
      * @param chapterIndex
      */
     private fun selectChapter(chapterIndex: Int) {
-        val currentBook = _uiState.value.currentBook
-        if (currentBook != null) {
-            updateUiState(_uiState.value.copy(currentChapter = currentBook.chapters[chapterIndex]))
-        } else {
-            updateUiState(_uiState.value.copy(isError = true))
-        }
+        updateUiState(
+            _uiState.value.copy(
+                currentChapterId = chapterIndex,
+                isError = false
+            )
+        )
     }
 
-    //TODO: fix uiState lists before usage, so it can be tracked by compose
-    // current problem on update of the uiState list changes do not propagate
-    // probably the case since of the custom classes in the uiState
-    private fun completeCurrentChapter() {
-        Log.e(TAG, "in completeCurrentChapter")
-        val currentChapter = _uiState.value.currentChapter
-        if (currentChapter != null) {
-            updateUiState(_uiState.value.copy(currentChapter = currentChapter.copy(isCompleted = true)))
-            Log.e(TAG, "current chapter completed")
-        } else {
+    fun getCurrentChapter(): Chapter? {
+        val currentBook = getCurrentBook()
+        val currentChapterId = _uiState.value.currentChapterId
+        if (currentBook == null || currentChapterId == null) {
+            Log.e(TAG, "${if (currentBook == null) "currentBook" else "currentChapterId"} is null")
             updateUiState(_uiState.value.copy(isError = true))
+            return null
+        }
+        return currentBook.chapters[currentChapterId]
+    }
+
+    private fun completeCurrentChapter() {
+        val currentChapter = getCurrentChapter()
+        if (currentChapter != null) {
+            currentChapter.isCompleted = true
+            Log.i(TAG, "current chapter completed")
         }
     }
 

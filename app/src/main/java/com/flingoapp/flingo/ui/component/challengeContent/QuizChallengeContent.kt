@@ -33,7 +33,6 @@ import com.flingoapp.flingo.ui.component.common.button.ButtonProgressAnimation
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainUiState
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -43,7 +42,6 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun QuizChallengeContent(
     modifier: Modifier = Modifier,
-    mainUiState: MainUiState,
     onNavigate: (NavigationIntent) -> Unit,
     onAction: (MainIntent) -> Unit,
     pageDetails: PageDetails.QuizPageDetails,
@@ -121,7 +119,6 @@ fun QuizChallengeContent(
                             .width(taskDefinitionTopBarWidth)
                             .weight(1f),
                         pageDetails = pageDetails,
-                        mainUiState = mainUiState,
                         onAction = onAction,
                         onQuestionAnswered = { isCorrectAnswer ->
                             if (!isCorrectAnswer) {
@@ -134,6 +131,7 @@ fun QuizChallengeContent(
                                 } else {
                                     FlingoColors.Error
                                 }
+                            //TODO: implement score calculation
                             onPageCompleted(0)
                         }
                     )
@@ -146,7 +144,6 @@ fun QuizChallengeContent(
                             .width(taskDefinitionTopBarWidth)
                             .weight(2f),
                         pageDetails = pageDetails,
-                        mainUiState = mainUiState,
                         onAction = onAction,
                         buttonProgressAnimation = buttonProgressAnimation,
                         onQuestionAnswered = { isCorrectAnswer ->
@@ -160,6 +157,7 @@ fun QuizChallengeContent(
                                 } else {
                                     FlingoColors.Error
                                 }
+                            //TODO: implement score calculation
                             onPageCompleted(0)
                         }
                     )

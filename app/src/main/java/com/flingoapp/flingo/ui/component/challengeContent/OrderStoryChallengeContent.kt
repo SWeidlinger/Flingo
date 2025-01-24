@@ -50,7 +50,6 @@ import com.flingoapp.flingo.ui.lighten
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainUiState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -62,7 +61,6 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun OrderStoryChallengeContent(
     modifier: Modifier = Modifier,
-    mainUiState: MainUiState,
     onNavigate: (NavigationIntent) -> Unit,
     pageDetails: PageDetails.OrderStoryPageDetails,
     onAction: (MainIntent) -> Unit,
@@ -298,7 +296,6 @@ fun OrderStoryChallengeContent(
                     shape = CircleShape,
                     onClick = {
                         if (isCorrectAnswer == true) {
-                            mainUiState.currentChapter?.isCompleted = true
                             onNavigate(NavigationIntent.Up())
                         } else {
                             val resultOrder = resultSnippetMap.values.map { it?.id ?: -1 }
@@ -307,6 +304,8 @@ fun OrderStoryChallengeContent(
 
                             if (isCorrectAnswer == true) {
                                 buttonColor = FlingoColors.Success
+                                //TODO: implement score calculation
+                                onPageCompleted(0)
                             } else {
                                 coroutineScope.launch {
                                     delay(2000)

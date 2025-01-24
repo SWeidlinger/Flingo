@@ -40,8 +40,8 @@ fun CustomTopBar(
     title: String,
     navigateUp: () -> Unit,
     hideAwardAndSettings: Boolean = false,
-    onSettingsClick: () -> Unit,
-    onAwardClick: () -> Unit
+    onAwardClick: () -> Unit,
+    onSettingsClick: () -> Unit
 ) {
     Box(
         modifier = modifier

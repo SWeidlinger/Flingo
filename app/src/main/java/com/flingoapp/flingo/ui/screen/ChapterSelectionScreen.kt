@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,11 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -39,6 +38,9 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.flingoapp.flingo.data.models.MockData
+import com.flingoapp.flingo.data.models.book.Book
+import com.flingoapp.flingo.data.models.book.Chapter
 import com.flingoapp.flingo.data.models.book.ChapterType
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
@@ -50,24 +52,54 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
 
+@Composable
+fun ChapterSelectionScreen(
+    mainUiState: MainUiState,
+    book: Book?,
+    onAction: (MainIntent) -> Unit,
+    onNavigate: (NavigationIntent) -> Unit
+) {
+    if (book == null) {
+        Log.e("Navigation", "Book (${mainUiState.currentBookId}) not found!")
+        Text(
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center),
+            text = "Book not found!"
+        )
+    } else {
+        if (book.chapters.isEmpty()) {
+            Log.e("Navigation", "Book (${mainUiState.currentBookId}) no chapters found!")
+            Text(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center),
+                text = "Chapters for this book not found!"
+            )
+        } else {
+            ChapterSelectionContent(
+                book = book,
+                chapters = book.chapters,
+                onAction = onAction,
+                onNavigate = onNavigate
+            )
+        }
+    }
+}
+
 /**
  * Chapter selection screen used to select a chapter from a book
  *
- * @param mainUiState
  * @param onAction
  * @param onNavigate
  */
 @Composable
-fun ChapterSelectionScreen(
-    mainUiState: MainUiState,
+private fun ChapterSelectionContent(
+    book: Book,
+    chapters: List<Chapter>,
     onAction: (MainIntent) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
-    //convert to mutableStateList so recomposition happens when list changes
-    val chapters = remember {
-        mainUiState.currentBook?.chapters?.toMutableStateList() ?: mutableStateListOf()
-    }
-
     //TODO: remove after testing
     var unlockAll by remember { mutableStateOf(false) }
     var showPath by remember { mutableStateOf(false) }
@@ -75,12 +107,12 @@ fun ChapterSelectionScreen(
     Scaffold(
         topBar = {
             CustomTopBar(
-                title = mainUiState.currentBook?.title ?: "Book Title",
+                title = book.title,
                 navigateUp = { onNavigate(NavigationIntent.Up()) },
-                onSettingsClick = {
+                onAwardClick = {
                     unlockAll = !unlockAll
                 },
-                onAwardClick = {
+                onSettingsClick = {
                     showPath = !showPath
                 }
             )
@@ -91,7 +123,7 @@ fun ChapterSelectionScreen(
                     .padding(innerPadding)
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center),
-                text = "No chapters found for book ${mainUiState.currentBook?.title}",
+                text = "No chapters found for book ${book.title}",
             )
         } else {
             var lazyRowHeight by remember { mutableStateOf(0.dp) }
@@ -142,15 +174,15 @@ fun ChapterSelectionScreen(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.spacedBy(125.dp)
             ) {
-                itemsIndexed(chapters, key = { _, chapter -> chapter.id })
-                { index, chapter ->
+                itemsIndexed(
+                    items = chapters,
+                    key = { _, chapter -> chapter.id }
+                ) { index, _ ->
+                    val chapter = chapters[index]
                     val isChapterLocked by remember {
                         derivedStateOf {
-                            if (index == 0 || unlockAll) {
-                                false
-                            } else {
-                                !chapters[index - 1].isCompleted
-                            }
+                            if (index == 0 || unlockAll) false
+                            else !chapters[index - 1].isCompleted
                         }
                     }
 
@@ -159,10 +191,6 @@ fun ChapterSelectionScreen(
                         modifier = Modifier
                             .offset(y = maxButtonOffset * chapter.positionOffset)
                             .onGloballyPositioned { layoutCoordinates ->
-//                                Log.e(
-//                                    "CHAPTERSELECTION",
-//                                    "Button coordinates $index: ${layoutCoordinates.positionInParent()}"
-//                                )
                                 chapterButtonCoordinateHashMap[index] =
                                     layoutCoordinates.positionInParent()
                             }
@@ -177,10 +205,8 @@ fun ChapterSelectionScreen(
                             if (chapter.isCompleted) {
                                 FlingoColors.Success
                             } else {
-                                if (chapter.type == ChapterType.READ)
-                                    Color.LightGray
-                                else
-                                    MaterialTheme.colorScheme.primary
+                                if (chapter.type == ChapterType.READ) FlingoColors.LightGray
+                                else MaterialTheme.colorScheme.primary
                             },
                             onClick = {
                                 onNavigate(
@@ -222,10 +248,8 @@ fun ChapterSelectionScreen(
                                         if (chapter.isCompleted) {
                                             Color.White
                                         } else {
-                                            if (chapter.type == ChapterType.CHALLENGE)
-                                                Color.White
-                                            else
-                                                Color.Black
+                                            if (chapter.type == ChapterType.CHALLENGE) Color.White
+                                            else FlingoColors.Text
                                         }
                                     )
                                 }
@@ -242,8 +266,9 @@ fun ChapterSelectionScreen(
 @Composable
 private fun LevelSelectionScreenPreview() {
     FlingoTheme {
-        ChapterSelectionScreen(
-            mainUiState = MainUiState(),
+        ChapterSelectionContent(
+            book = MockData.book,
+            chapters = MockData.book.chapters,
             onAction = {},
             onNavigate = {}
         )

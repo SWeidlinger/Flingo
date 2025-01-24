@@ -13,8 +13,9 @@ val Pink40 = Color(0xFF7D5260)
 object FlingoColors{
     val Primary = Color(0xFF31ABFF)
     val Secondary = Color(0xFFf7904d)
-    val Tertiary = Color(0xFF01A452)
+    val Tertiary = Color(0xFFF6B791)
     val Error = Color(0xFFFF1842)
     val Success = Color(0xFF01A452)
     val Text = Color(0xFF44423F)
+    val LightGray = Color(0xFFE0E0E0)
 }

@@ -70,9 +70,8 @@ fun FlingoApp(
                     mainViewModel = mainViewModel
                 )
 
+                //TODO: extract to composable and move to right place
                 val explosionController = rememberExplosionController()
-                //TODO: move to right place
-
                 var isLivesVisible by remember { mutableStateOf(true) }
 
                 Explodable(

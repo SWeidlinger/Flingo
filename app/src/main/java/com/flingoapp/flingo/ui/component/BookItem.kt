@@ -1,6 +1,5 @@
 package com.flingoapp.flingo.ui.component
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +20,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.models.book.Book
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.innerShadow
+import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlinx.coroutines.launch
 
@@ -65,15 +67,14 @@ fun BookItem(
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    val noChaptersProvided = remember { currentBookItem.chapters.isEmpty() }
+    val noChaptersProvided by remember { derivedStateOf { (currentBookItem.chapters.isEmpty()) } }
 
     CustomElevatedButton(
         modifier = modifier.size(itemSize),
         shape = RoundedCornerShape(50.dp),
-        backgroundColor = Color(0xFFE0E0E0),
+        backgroundColor = FlingoColors.LightGray,
         elevation = 20.dp,
         animateButtonClick = bookIndex == pagerState.currentPage,
-        disabledColor = Color.LightGray.copy(alpha = 0.25f),
         isPressed = bookIndex != pagerState.currentPage || noChaptersProvided,
         onClick = {
             if (bookIndex != pagerState.currentPage) {
@@ -172,17 +173,18 @@ fun BookItem(
                                     .fillMaxHeight()
                                     .fillMaxWidth(completedPercentage)
                                     .clip(RoundedCornerShape(50.dp))
-                                    .background(MaterialTheme.colorScheme.tertiary),
+                                    .background(FlingoColors.Success),
                                 contentAlignment = Alignment.TopCenter
                             ) {
-//                            Box(
-//                                modifier = Modifier
-//                                    .fillMaxHeight(0.15f)
-//                                    .fillMaxWidth(0.8f)
-//                                    .offset(y = 8.dp)
-//                                    .clip(RoundedCornerShape(50.dp))
-//                                    .background(Color.White.copy(alpha = 0.7f))
-//                            )
+                                // progress bar shine effect
+//                                Box(
+//                                    modifier = Modifier
+//                                        .fillMaxHeight(0.15f)
+//                                        .fillMaxWidth(0.8f)
+//                                        .offset(y = 8.dp)
+//                                        .clip(RoundedCornerShape(50.dp))
+//                                        .background(Color.White.copy(alpha = 0.7f))
+//                                )
                             }
                         }
                     }
@@ -201,7 +203,6 @@ fun BookItem(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true)
 @Composable
 private fun BookItemPreview() {

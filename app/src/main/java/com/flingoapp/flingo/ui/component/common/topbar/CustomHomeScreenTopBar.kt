@@ -37,6 +37,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
+import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.ui.toDp
 
@@ -84,7 +85,10 @@ fun CustomHomeScreenTopBar(
 
             Row(
                 modifier = Modifier
-                    .background(Color.LightGray, RoundedCornerShape(100.dp))
+                    .background(
+                        color = FlingoColors.LightGray,
+                        shape = RoundedCornerShape(100.dp)
+                    )
                     .height(iconButtonSize.height.toDp())
                     .padding(start = 12.dp, end = 20.dp),
                 verticalAlignment = Alignment.CenterVertically,

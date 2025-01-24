@@ -13,11 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -35,12 +30,6 @@ import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.main.MainIntent
 import com.flingoapp.flingo.viewmodels.main.MainUiState
-import kotlinx.coroutines.delay
-import nl.dionsegijn.konfetti.compose.KonfettiView
-import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.core.emitter.Emitter
-import java.util.concurrent.TimeUnit
 import kotlin.math.absoluteValue
 
 /**
@@ -58,26 +47,28 @@ fun HomeScreen(
 ) {
     val TAG = "HomeScreen"
 
-    val userBooks = remember { mainUiState.userData?.books ?: emptyList() }
+    val userBooks = mainUiState.userData?.books ?: emptyList()
+    val userName = mainUiState.userData?.name ?: "User"
+    val currentStreak = mainUiState.userData?.currentReadingStreak ?: 0
 
     val pagerState = rememberPagerState(pageCount = { userBooks.size })
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
-    var shootConfetti by remember { mutableStateOf(false) }
-
     Scaffold(topBar = {
         CustomHomeScreenTopBar(
-            userName = mainUiState.userData?.name.toString(),
-            currentStreak = mainUiState.userData?.currentReadingStreak ?: 0,
+            userName = userName,
+            currentStreak = currentStreak,
             onUserClick = {
                 onNavigate(NavigationIntent.Screen(NavigationDestination.InterestSelection))
-                //TODO: remove if showUser is implemented
-//                shootConfetti = true
             },
-            onSettingsClick = {},
-            onAwardClick = {}
+            onSettingsClick = {
+                //TODO: implement
+            },
+            onAwardClick = {
+                //TODO: implement
+            }
         )
     }) { innerPadding ->
         if (userBooks.isEmpty()) {
@@ -115,19 +106,19 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .graphicsLayer {
-                            alpha = lerp(
-                                start = 0.5f,
+                            val alphaValue = lerp(
+                                start = 0.4f,
                                 stop = 1f,
                                 fraction = 1f - pageOffset.coerceIn(0f, 1f)
                             )
-                            lerp(
-                                start = 0.6f,
+                            val scaleValue = lerp(
+                                start = 0.7f,
                                 stop = 1f,
                                 fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            ).also { scale ->
-                                scaleX = scale
-                                scaleY = scale
-                            }
+                            )
+                            alpha = alphaValue
+                            scaleX = scaleValue
+                            scaleY = scaleValue
                         },
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -146,24 +137,6 @@ fun HomeScreen(
                         }
                     )
                 }
-            }
-
-            //TODO: remove if showUser is implemented
-            if (shootConfetti) {
-                LaunchedEffect(key1 = shootConfetti) {
-                    delay(3000)
-                    shootConfetti = false
-                }
-
-                KonfettiView(
-                    modifier = Modifier.fillMaxSize(),
-                    parties = listOf(
-                        Party(
-                            position = Position.Relative(0.06, 0.065),
-                            emitter = Emitter(duration = 1000, TimeUnit.MILLISECONDS).perSecond(500)
-                        )
-                    )
-                )
             }
         }
     }

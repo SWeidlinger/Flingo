@@ -23,12 +23,10 @@ import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainUiState
 
 @Composable
 fun QuizContentTrueOrFalse(
     modifier: Modifier = Modifier,
-    mainUiState: MainUiState,
     pageDetails: PageDetails.QuizPageDetails,
     onAction: (MainIntent) -> Unit,
     onQuestionAnswered: (correctAnswer: Boolean) -> Unit
