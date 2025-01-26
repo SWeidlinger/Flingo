@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -14,7 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,18 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
+import com.flingoapp.flingo.ui.lighten
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.ui.toDp
@@ -56,12 +52,11 @@ fun CustomHomeScreenTopBar(
     modifier: Modifier = Modifier,
     userName: String,
     currentStreak: Int,
+    currentLives: Int,
     onUserClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onAwardClick: () -> Unit
 ) {
-    var iconButtonSize by remember { mutableStateOf(IntSize.Zero) }
-
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -81,40 +76,52 @@ fun CustomHomeScreenTopBar(
                 elevation = 6.dp
             )
 
-            var textSize by remember { mutableStateOf(IntSize.Zero) }
+            var iconButtonSize by remember { mutableStateOf(IntSize.Zero) }
+            var lottieIconSize by remember { mutableStateOf(IntSize.Zero) }
 
             Row(
                 modifier = Modifier
-                    .background(
-                        color = FlingoColors.LightGray,
-                        shape = RoundedCornerShape(100.dp)
-                    )
                     .height(iconButtonSize.height.toDp())
-                    .padding(start = 12.dp, end = 20.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
             ) {
-                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_fire_streak))
-                LottieAnimation(
+                LottieIconWithText(
                     modifier = Modifier
-                        .width(textSize.width.toDp() * 1.2f)
-                        .height(textSize.height.toDp() * 1.2f)
+                        .onGloballyPositioned {
+                            lottieIconSize = it.size
+                        }
+                        .fillMaxHeight()
+                        .background(
+                            color = FlingoColors.LightGray,
+                            shape = RoundedCornerShape(100)
+                        ),
+                    lottieModifier = Modifier
                         .offset(0.dp, (-8).dp),
-                    composition = composition,
-                    iterations = LottieConstants.IterateForever,
-                    speed = 0.25f,
-                    alignment = Alignment.TopCenter
+                    lottieAnimation = R.raw.animation_fire_streak,
+                    animationSpeed = 0.3f,
+                    lottieOnRight = false,
+                    text = currentStreak.toString()
                 )
 
-                Text(
+                VerticalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp),
+                    thickness = 2.dp,
+                    color = FlingoColors.Text.lighten(0.75f)
+                )
+
+                LottieIconWithText(
                     modifier = Modifier
-                        .onGloballyPositioned { layoutCoordinates ->
-                            textSize = layoutCoordinates.size
-                        },
-                    textAlign = TextAlign.Center,
-                    text = currentStreak.toString(),
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontSize = 42.sp
+                        .fillMaxHeight()
+                        .width(lottieIconSize.width.toDp())
+                        .background(
+                            color = FlingoColors.LightGray,
+                            shape = RoundedCornerShape(100)
+                        ),
+                    lottieModifier = Modifier
+                        .offset(0.dp, (-2).dp)
+                        .padding(start = 8.dp),
+                    animationSpeed = 0.3f,
+                    lottieAnimation = R.raw.animation_heartbeat,
+                    lottieOnRight = true,
+                    text = currentLives.toString(),
                 )
 
                 //TODO: could be used in other parts of the application
@@ -162,6 +169,7 @@ private fun CustomHomeScreenTopBarPreview() {
         CustomHomeScreenTopBar(
             userName = "User",
             currentStreak = 5,
+            currentLives = 3,
             onUserClick = {},
             onSettingsClick = {},
             onAwardClick = {}

@@ -32,7 +32,7 @@
           "pageType": "quiz",
           "pageDetails": {
             "pageType": "quiz",
-            "quizType": "trueOrFalse",
+            "quizType": "true_or_false",
             "question": "Nimmt Luna ein Ruder?",
             "answers": [
               {

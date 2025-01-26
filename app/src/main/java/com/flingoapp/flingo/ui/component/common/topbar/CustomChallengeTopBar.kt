@@ -1,10 +1,13 @@
 package com.flingoapp.flingo.ui.component.common.topbar
 
 import android.speech.tts.TextToSpeech
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.QuestionMark
@@ -22,10 +25,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.flingoapp.flingo.ui.component.common.HeartExplodable
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
+import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import com.flingoapp.flingo.ui.toDp
 import java.util.Locale
 
 /**
@@ -42,6 +49,7 @@ import java.util.Locale
 fun CustomChallengeTopBar(
     modifier: Modifier = Modifier,
     taskDefinition: String,
+    currentLives: Int,
     hint: String,
     navigateUp: () -> Unit,
     taskDefinitionWidth: (Int) -> Unit = { },
@@ -56,8 +64,13 @@ fun CustomChallengeTopBar(
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        var iconButtonSize by remember { mutableStateOf(IntSize.Zero) }
+
         // back navigation
         CustomIconButton(
+            modifier = Modifier.onGloballyPositioned {
+                iconButtonSize = it.size
+            },
             icon = Icons.AutoMirrored.Filled.ArrowBack,
             iconContentDescription = "Back",
             backgroundColor = Color.LightGray,
@@ -87,23 +100,33 @@ fun CustomChallengeTopBar(
             }
         )
 
-        CustomIconButton(
-            icon = Icons.Default.QuestionMark,
-            iconContentDescription = "Hint",
-            backgroundColor = MaterialTheme.colorScheme.secondary,
-            onClick = {
-                isSpeaking = false
-                if (tts.value?.isSpeaking == true) {
-                    tts.value?.stop()
-                    isSpeaking = false
-                } else {
-                    tts.value?.speak(
-                        hint, TextToSpeech.QUEUE_FLUSH, null, ""
-                    )
-                    isSpeaking = true
-                }
-            }
+        HeartExplodable(
+            modifier = Modifier
+                .height(iconButtonSize.height.toDp())
+                .background(color = FlingoColors.LightGray, shape = CircleShape)
+                .padding(horizontal = 8.dp),
+            currentLives = currentLives
         )
+
+        if (hint.isNotEmpty()) {
+            CustomIconButton(
+                icon = Icons.Default.QuestionMark,
+                iconContentDescription = "Hint",
+                backgroundColor = MaterialTheme.colorScheme.secondary,
+                onClick = {
+                    isSpeaking = false
+                    if (tts.value?.isSpeaking == true) {
+                        tts.value?.stop()
+                        isSpeaking = false
+                    } else {
+                        tts.value?.speak(
+                            hint, TextToSpeech.QUEUE_FLUSH, null, ""
+                        )
+                        isSpeaking = true
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -142,6 +165,7 @@ private fun CustomChallengeTopBarPreview() {
         CustomChallengeTopBar(
             taskDefinition = "Lies den Satz und klicke auf das unpassende Wort!",
             hint = "",
+            currentLives = 3,
             navigateUp = {}
         )
     }

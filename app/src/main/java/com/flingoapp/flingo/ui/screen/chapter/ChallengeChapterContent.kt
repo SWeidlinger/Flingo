@@ -47,6 +47,7 @@ import com.flingoapp.flingo.viewmodels.main.MainIntent
 fun ChallengeChapterContent(
     chapter: Chapter,
     pages: List<Page>,
+    currentLives: Int,
     onAction: (MainIntent) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
@@ -81,6 +82,7 @@ fun ChallengeChapterContent(
                 taskDefinition = currentPage.taskDefinition,
                 hint = currentPage.hint,
                 navigateUp = { onNavigate(NavigationIntent.Up()) },
+                currentLives = currentLives,
                 taskDefinitionWidth = { width ->
                     taskDefinitionWidth = width
                 }

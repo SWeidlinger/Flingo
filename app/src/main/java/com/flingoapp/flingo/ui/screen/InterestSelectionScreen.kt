@@ -40,7 +40,7 @@ fun InterestSelectionScreen(
     Scaffold(topBar = {
         CustomTopBar(
             title = "Wähle deine Interesse aus!",
-            hideAwardAndSettings = true,
+            hideAdditionalInformation = true,
             navigateUp = { onNavigate(NavigationIntent.Up()) },
             onSettingsClick = {},
             onAwardClick = {}

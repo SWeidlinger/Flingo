@@ -50,6 +50,7 @@ fun HomeScreen(
     val userBooks = mainUiState.userData?.books ?: emptyList()
     val userName = mainUiState.userData?.name ?: "User"
     val currentStreak = mainUiState.userData?.currentReadingStreak ?: 0
+    val currentLives = mainUiState.userData?.currentLives ?: 0
 
     val pagerState = rememberPagerState(pageCount = { userBooks.size })
 
@@ -60,6 +61,7 @@ fun HomeScreen(
         CustomHomeScreenTopBar(
             userName = userName,
             currentStreak = currentStreak,
+            currentLives = currentLives,
             onUserClick = {
                 onNavigate(NavigationIntent.Screen(NavigationDestination.InterestSelection))
             },

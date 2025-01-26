@@ -45,6 +45,7 @@ fun ChapterScreen(
                     ChallengeChapterContent(
                         chapter = chapter,
                         pages = pagesInChapter,
+                        currentLives = mainUiState.userData?.currentLives ?: 0,
                         onAction = onAction,
                         onNavigate = onNavigate
                     )

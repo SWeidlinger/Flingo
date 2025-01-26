@@ -48,10 +48,10 @@ sealed class PageDetails {
         companion object {
             @Serializable
             enum class QuizType {
-                @SerialName("trueOrFalse")
+                @SerialName("true_or_false")
                 TRUE_OR_FALSE,
 
-                @SerialName("singleChoice")
+                @SerialName("single_choice")
                 SINGLE_CHOICE
             }
 

@@ -2,12 +2,14 @@ package com.flingoapp.flingo.viewmodels.main
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.flingoapp.flingo.data.models.User
 import com.flingoapp.flingo.data.models.book.Book
 import com.flingoapp.flingo.data.models.book.Chapter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 /**
@@ -48,19 +50,21 @@ class MainViewModel : ViewModel() {
      * @param json
      */
     private fun mockFetchBookData(json: String) {
-        updateUiState(_uiState.value.copy(isLoading = true))
+        viewModelScope.launch {
+            updateUiState(_uiState.value.copy(isLoading = true))
 
-        val deserializer = Json {
-            ignoreUnknownKeys = true
-        }
-        val user = deserializer.decodeFromString<User>(json)
+            val deserializer = Json {
+                ignoreUnknownKeys = true
+            }
+            val user = deserializer.decodeFromString<User>(json)
 
-        updateUiState(
-            _uiState.value.copy(
-                isLoading = false,
-                userData = user
+            updateUiState(
+                _uiState.value.copy(
+                    isLoading = false,
+                    userData = user
+                )
             )
-        )
+        }
     }
 
     /**

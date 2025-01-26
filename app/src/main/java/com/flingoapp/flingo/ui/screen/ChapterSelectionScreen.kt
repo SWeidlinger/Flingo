@@ -81,6 +81,7 @@ fun ChapterSelectionScreen(
                 book = book,
                 chapters = book.chapters,
                 onAction = onAction,
+                currentLives = mainUiState.userData?.currentLives ?: 0,
                 onNavigate = onNavigate
             )
         }
@@ -97,6 +98,7 @@ fun ChapterSelectionScreen(
 private fun ChapterSelectionContent(
     book: Book,
     chapters: List<Chapter>,
+    currentLives: Int,
     onAction: (MainIntent) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
@@ -114,7 +116,9 @@ private fun ChapterSelectionContent(
                 },
                 onSettingsClick = {
                     showPath = !showPath
-                }
+                },
+                showLives = true,
+                currentLives = currentLives
             )
         }) { innerPadding ->
         if (chapters.isEmpty()) {
@@ -269,6 +273,7 @@ private fun LevelSelectionScreenPreview() {
         ChapterSelectionContent(
             book = MockData.book,
             chapters = MockData.book.chapters,
+            currentLives = 3,
             onAction = {},
             onNavigate = {}
         )
