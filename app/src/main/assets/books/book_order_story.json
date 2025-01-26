@@ -25,8 +25,8 @@
           "timeLimit": 30,
           "score": 10,
           "feedback": {
-            "correct": "Super! Maulwürfe fangen nicht, sondern werfen Hügel auf.",
-            "incorrect": "Versuchs nochmal! Was machen Maulwürfe nicht?"
+            "correct": "",
+            "incorrect": ""
           },
           "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
           "pageType": "order_story",

@@ -104,7 +104,7 @@ fun CustomChallengeTopBar(
             modifier = Modifier
                 .height(iconButtonSize.height.toDp())
                 .background(color = FlingoColors.LightGray, shape = CircleShape)
-                .padding(horizontal = 8.dp),
+                .padding(horizontal = 4.dp),
             currentLives = currentLives
         )
 

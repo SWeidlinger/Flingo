@@ -1,0 +1,435 @@
+{
+  "author": "sebastian",
+  "date": "2025-06-01",
+  "language": "de",
+  "version": "1.0",
+  "title": "Beispieltextbuch Wunderwelt Sprache",
+  "description": "Diese Buch stellt die einzelnen Spielkonzepte vor. Welche nicht angepasst werden und 1:1 von dem Schulbuch Wunderwelt Sprache übernommen worden sind.",
+  "coverImage": [],
+  "chapters": [
+    {
+      "chapterId": "1",
+      "chapterTitle": "Leseteil",
+      "chapterDescription": "Lies die Geschichte.",
+      "chapterCoverImage": "",
+      "chapterPositionOffset": 0.2,
+      "chapterType": "read",
+      "chapterCompleted": false,
+      "pages": [
+        {
+          "pageId": "1",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "medium",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "",
+          "pageType": "read",
+          "pageDetails": {
+            "pageType": "read",
+            "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.",
+            "images": [
+              "circus_image"
+            ]
+          }
+        },
+        {
+          "pageId": "2",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "medium",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "",
+          "pageType": "read",
+          "pageDetails": {
+            "pageType": "read",
+            "content": "In dem Dorf lebte auch eine kleines Pony namens Peppi, das sehr unglücklich war.",
+            "images": [
+              "pony"
+            ]
+          }
+        },
+        {
+          "pageId": "3",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "easy",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "",
+          "pageType": "read",
+          "pageDetails": {
+            "pageType": "read",
+            "content": "Es hatte früher einem alten Mann gehört.",
+            "images": [
+              "old_man"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "chapterId": "2",
+      "chapterTitle": "Spielkonzept 1: Überflüssiges Wort",
+      "chapterDescription": "Streiche die überflüssen und sinnstörenden Wörter durch. (Wunderwelt Sprache 3 - Lesen und Sprechen - S. 30)",
+      "chapterCoverImage": "",
+      "chapterPositionOffset": 0.6,
+      "chapterType": "challenge",
+      "chapterCompleted": false,
+      "pages": [
+        {
+          "pageId": "1",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {},
+          "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
+          "pageType": "remove_word",
+          "pageDetails": {
+            "pageType": "remove_word",
+            "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
+            "answer": "fangen"
+          }
+        },
+        {
+          "pageId": "2",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {},
+          "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
+          "pageType": "remove_word",
+          "pageDetails": {
+            "pageType": "remove_word",
+            "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
+            "answer": "Astronauten"
+          }
+        },
+        {
+          "pageId": "3",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {},
+          "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
+          "pageType": "remove_word",
+          "pageDetails": {
+            "pageType": "remove_word",
+            "content": "Der Papagei ist ein großer Sessel Vogel, der ein leuchtend farbiges Federkleid besitzt.",
+            "answer": "Sessel"
+          }
+        },
+        {
+          "pageId": "4",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {},
+          "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
+          "pageType": "remove_word",
+          "pageDetails": {
+            "pageType": "remove_word",
+            "content": "Die Preiselbeere ist ein wild brüllender wachsender Zwergstrauch im Gebirge und auf der Heide",
+            "answer": "brüllender"
+          }
+        },
+        {
+          "pageId": "5",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {},
+          "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
+          "pageType": "remove_word",
+          "pageDetails": {
+            "pageType": "remove_word",
+            "content": "Riesen sind in Märchen und Sagen wichtige kleine Persönlichkeiten.",
+            "answer": "kleine"
+          }
+        }
+      ]
+    },
+    {
+      "chapterId": "2",
+      "chapterTitle": "Spielkonzept 2: Beantworte Fragen",
+      "chapterDescription": "Beantworte mit Hilfe des Textes die gestellten Fragen.",
+      "chapterCoverImage": "",
+      "chapterPositionOffset": 0.2,
+      "chapterType": "challenge",
+      "chapterCompleted": false,
+      "pages": [
+        {
+          "pageId": "1",
+          "pageDescription": "Wunderwelt Sprache 3 - Lesen und Sprechen - S. 30",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Beantworte mit Hilfe des Textes die gestellten Fragen.",
+          "pageType": "quiz",
+          "pageDetails": {
+            "pageType": "quiz",
+            "quizType": "single_choice",
+            "referenceTextTitle": "Das Zirkuspony",
+            "referenceText": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.\nIn dem Dorf lebte auch ein kleines Pony namens Peppi, das sehr unglücklich war. Es hatte früher einem alten Mann gehört.\nAls es nicht mehr arbeiten konnte, weil es zu schwach war, jagte er es fort. Seither trabte es einsam durch die Straßen.\n„Niemand braucht mich mehr. Ich bin ja so allein,“ seufzte das Tier.\nAls der Abend hereinbrach, versammelten sich alle Dorfbewohner im Zirkuszelt.\n\nAuch Peppi schlich neugierig hinein.\nDie Vorstellung war ein großer Erfolg.\nBesonders jubelten die Kinder dem Pferd Rosi zu.\nDer Zirkusdirektor verkündete:\n„Alle Kinder dürfen jetzt auf Rosi reiten!“\n\nBereits kurze Zeit später war das Zirkuspferd vollkommen erschöpft.\n„Das schaffe ich nicht jeden Tag. Ich brauche eine Pause!“, jammerte Rosi. Da fiel der Blick des Zirkusdirektors auf das kleine Pony, das schüchtern im Hintergrund stand.\n„Vielleicht kann ich euch helfen?“, flüsterte Peppi.\n\n„Ich bin zwar zu schwach, um einen Wagen zu ziehen, aber die Kinder können noch immer auf mir reiten.“\nVon diesem Tag an hatte Peppi seinen Platz im Zirkus Marissimo und wieder eine wichtige Aufgabe.",
+            "question": "Nimmt Luna ein Ruder?",
+            "answers": [
+              {
+                "id": 1,
+                "answer": "Marissimo",
+                "isCorrect": true
+              },
+              {
+                "id": 2,
+                "answer": "Morissomo",
+                "isCorrect": false
+              }
+            ]
+          }
+        },
+        {
+          "pageId": "2",
+          "pageDescription": "Wunderwelt Sprache 3 - Lesen und Sprechen - S. 30",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Beantworte mit Hilfe des Textes die gestellten Fragen.",
+          "pageType": "quiz",
+          "pageDetails": {
+            "pageType": "quiz",
+            "quizType": "single_choice",
+            "referenceTextTitle": "Das Zirkuspony",
+            "referenceText": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.\nIn dem Dorf lebte auch ein kleines Pony namens Peppi, das sehr unglücklich war. Es hatte früher einem alten Mann gehört.\nAls es nicht mehr arbeiten konnte, weil es zu schwach war, jagte er es fort. Seither trabte es einsam durch die Straßen.\n„Niemand braucht mich mehr. Ich bin ja so allein,“ seufzte das Tier.\nAls der Abend hereinbrach, versammelten sich alle Dorfbewohner im Zirkuszelt.\n\nAuch Peppi schlich neugierig hinein.\nDie Vorstellung war ein großer Erfolg.\nBesonders jubelten die Kinder dem Pferd Rosi zu.\nDer Zirkusdirektor verkündete:\n„Alle Kinder dürfen jetzt auf Rosi reiten!“\n\nBereits kurze Zeit später war das Zirkuspferd vollkommen erschöpft.\n„Das schaffe ich nicht jeden Tag. Ich brauche eine Pause!“, jammerte Rosi. Da fiel der Blick des Zirkusdirektors auf das kleine Pony, das schüchtern im Hintergrund stand.\n„Vielleicht kann ich euch helfen?“, flüsterte Peppi.\n\n„Ich bin zwar zu schwach, um einen Wagen zu ziehen, aber die Kinder können noch immer auf mir reiten.“\nVon diesem Tag an hatte Peppi seinen Platz im Zirkus Marissimo und wieder eine wichtige Aufgabe.",
+            "question": "Wann fand die Zirkusvorstellung statt?",
+            "answers": [
+              {
+                "id": 1,
+                "answer": "in der Früh",
+                "isCorrect": false
+              },
+              {
+                "id": 2,
+                "answer": "am Abend",
+                "isCorrect": true
+              }
+            ]
+          }
+        },
+        {
+          "pageId": "3",
+          "pageDescription": "Wunderwelt Sprache 4 - Lesen und Sprechen - S. 8",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Beantworte ob der Satz richtig oder falsch ist.",
+          "pageType": "quiz",
+          "pageDetails": {
+            "pageType": "quiz",
+            "quizType": "true_or_false",
+            "referenceTextTitle": "",
+            "referenceText": "",
+            "question": "In der Blumenhandlung bekomme ich täglich frisches Gebäck?",
+            "answers": [
+              {
+                "id": 1,
+                "answer": "Richtig",
+                "isCorrect": false
+              },
+              {
+                "id": 2,
+                "answer": "Falsch",
+                "isCorrect": true
+              }
+            ]
+          }
+        },
+        {
+          "pageId": "4",
+          "pageDescription": "Wunderwelt Sprache 4 - Lesen und Sprechen - S. 8",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Beantworte ob der Satz richtig oder falsch ist.",
+          "pageType": "quiz",
+          "pageDetails": {
+            "pageType": "quiz",
+            "quizType": "true_or_false",
+            "referenceTextTitle": "",
+            "referenceText": "",
+            "question": "Wien ist die Hauptstadt von Österreich.",
+            "answers": [
+              {
+                "id": 1,
+                "answer": "Richtig",
+                "isCorrect": true
+              },
+              {
+                "id": 2,
+                "answer": "Falsch",
+                "isCorrect": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "chapterId": "3",
+      "chapterTitle": "Spielkonzept 3: Ordne die Geschichte",
+      "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
+      "chapterCoverImage": "",
+      "chapterPositionOffset": 0.6,
+      "chapterType": "challenge",
+      "chapterCompleted": false,
+      "pages": [
+        {
+          "pageId": "1",
+          "pageDescription": "Wunderwelt Sprache 3 - Lesen (p. 16)",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Bring die Spielanleitung in die richtige Reihenfolge!",
+          "pageType": "order_story",
+          "pageDetails": {
+            "pageType": "order_story",
+            "referenceTextTitle": "",
+            "referenceText": "",
+            "content": [
+              {
+                "id": 1,
+                "text": "Siegerin oder Sieger ist das Kind, das die meisten Paare gefunden hat."
+              },
+              {
+                "id": 2,
+                "text": "Abwechselnd decken die Kinder zwei Karten auf."
+              },
+              {
+                "id": 3,
+                "text": "Alle Karten werden gut gemischt."
+              },
+              {
+                "id": 4,
+                "text": "Passt ein Paar zusammen, darf das Kind die Karten behalten."
+              },
+              {
+                "id": 5,
+                "text": "Alle Karten werden verdeckt auf den Tisch gelegt."
+              }
+            ],
+            "correctOrder": [
+              3,
+              5,
+              2,
+              4,
+              1
+            ]
+          }
+        },
+        {
+          "pageId": "2",
+          "pageDescription": "Wunderwelt Sprache 2 - Lesen (p. 13)",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
+          "pageType": "order_story",
+          "pageDetails": {
+            "pageType": "order_story",
+            "referenceTextTitle": "Eine Bootsfahrt",
+            "referenceText": "Die drei Außerirdischen machen einen Ausflug mit dem Ruderboot.\nDie Sonne strahlt am Himmel.\nTriton hält einen getupften Sonnenschirm über alle.\nCalypso versucht, mit der Angel einen kleinen, roten Fisch zu fangen.\nAuf dem Meeresgrund befinden sich ein leeres Fass und eine alte Flasche.\nÜber dem Fass schwimmen zwei blaue Fische nach links.\nEin großer, grüner Fisch verfolgt sie.\nPlötzlich schiebt sich eine große, schwarze Wolke neben die Sonne.\nLuna schnappt sich ein Ruder.",
+            "content": [
+              {
+                "id": 1,
+                "text": "Triton hält einen Sonnenschirm, während die Sonne scheint."
+              },
+              {
+                "id": 2,
+                "text": "Luna nimmt ein Ruder in die Hand."
+              },
+              {
+                "id": 3,
+                "text": "Calypso angelt, und blaue Fische schwimmen über ein Fass."
+              },
+              {
+                "id": 4,
+                "text": "Eine schwarze Wolke schiebt sich vor die Sonne."
+              }
+            ],
+            "correctOrder": [
+              1,
+              4,
+              3,
+              2
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

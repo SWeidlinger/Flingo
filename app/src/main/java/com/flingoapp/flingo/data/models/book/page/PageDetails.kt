@@ -28,7 +28,9 @@ sealed class PageDetails {
     @Serializable
     data class OrderStoryPageDetails(
         val content: ArrayList<Content>,
-        val correctOrder: ArrayList<Int>
+        val correctOrder: ArrayList<Int>,
+        val referenceTextTitle: String,
+        val referenceText: String,
     ) : PageDetails() {
         companion object {
             @Serializable
@@ -43,6 +45,8 @@ sealed class PageDetails {
     data class QuizPageDetails(
         val quizType: QuizType,
         val question: String,
+        val referenceTextTitle: String,
+        val referenceText: String,
         val answers: ArrayList<Answer>
     ) : PageDetails() {
         companion object {

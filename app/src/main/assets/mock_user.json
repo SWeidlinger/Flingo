@@ -192,6 +192,8 @@
               "pageDetails": {
                 "pageType": "quiz",
                 "quizType": "true_or_false",
+                "referenceTextTitle": "",
+                "referenceText": "",
                 "question": "Nimmt Luna ein Ruder?",
                 "answers": [
                   {
@@ -224,6 +226,8 @@
               "pageDetails": {
                 "pageType": "quiz",
                 "quizType": "single_choice",
+                "referenceTextTitle": "",
+                "referenceText": "",
                 "question": "Wieviele blaue Fische schwimmen über ein Fass?",
                 "answers": [
                   {
@@ -277,6 +281,8 @@
               "pageDetails": {
                 "pageType": "quiz",
                 "quizType": "true_or_false",
+                "referenceTextTitle": "",
+                "referenceText": "",
                 "question": "Nimmt Luna ein Ruder?",
                 "answers": [
                   {
@@ -309,6 +315,8 @@
               "pageDetails": {
                 "pageType": "quiz",
                 "quizType": "single_choice",
+                "referenceTextTitle": "",
+                "referenceText": "",
                 "question": "Wieviele blaue Fische schwimmen über ein Fass?",
                 "answers": [
                   {
@@ -372,6 +380,8 @@
               "pageType": "order_story",
               "pageDetails": {
                 "pageType": "order_story",
+                "referenceTextTitle": "",
+                "referenceText": "",
                 "content": [
                   {
                     "id": 1,
@@ -425,6 +435,8 @@
               "pageType": "order_story",
               "pageDetails": {
                 "pageType": "order_story",
+                "referenceTextTitle": "",
+                "referenceText": "",
                 "content": [
                   {
                     "id": 1,
@@ -473,6 +485,8 @@
               "pageType": "order_story",
               "pageDetails": {
                 "pageType": "order_story",
+                "referenceTextTitle": "",
+                "referenceText": "",
                 "content": [
                   {
                     "id": 1,
@@ -516,6 +530,8 @@
               "pageType": "order_story",
               "pageDetails": {
                 "pageType": "order_story",
+                "referenceTextTitle": "",
+                "referenceText": "",
                 "content": [
                   {
                     "id": 1,

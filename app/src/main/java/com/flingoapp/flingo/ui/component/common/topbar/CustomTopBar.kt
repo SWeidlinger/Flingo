@@ -96,8 +96,8 @@ fun CustomTopBar(
                         HeartExplodable(
                             modifier = Modifier
                                 .height(iconButtonSize.height.toDp())
-                                .padding(horizontal = 16.dp)
-                                .background(color = FlingoColors.LightGray, shape = CircleShape),
+                                .background(color = FlingoColors.LightGray, shape = CircleShape)
+                                .padding(horizontal = 4.dp),
                             currentLives = currentLives
                         )
                     }
