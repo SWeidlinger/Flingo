@@ -26,14 +26,14 @@ import com.flingoapp.flingo.ui.component.common.button.ButtonProgressAnimation
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.toDp
-import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.MainAction
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun QuizContentSingleChoice(
     modifier: Modifier = Modifier,
     pageDetails: PageDetails.QuizPageDetails,
-    onAction: (MainIntent) -> Unit,
+    onAction: (MainAction) -> Unit,
     buttonProgressAnimation: ButtonProgressAnimation = ButtonProgressAnimation.LEFT_TO_RIGHT,
     onQuestionAnswered: (correctAnswer: Boolean) -> Unit,
 ) {

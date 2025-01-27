@@ -49,7 +49,7 @@ import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.lighten
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
-import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.MainAction
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -63,7 +63,7 @@ fun OrderStoryChallengeContent(
     modifier: Modifier = Modifier,
     onNavigate: (NavigationIntent) -> Unit,
     pageDetails: PageDetails.OrderStoryPageDetails,
-    onAction: (MainIntent) -> Unit,
+    onAction: (MainAction) -> Unit,
     onPageCompleted: (score: Int) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -148,7 +148,7 @@ fun OrderStoryChallengeContent(
 
     LaunchedEffect(key1 = isCorrectAnswer) {
         if (isCorrectAnswer == false) {
-            onAction(MainIntent.OnUserLiveDecrease)
+            onAction(MainAction.UserAction.DecreaseLives)
             buttonColor = FlingoColors.Error
             continueButtonText = "Leider falsch"
             delay(2000)

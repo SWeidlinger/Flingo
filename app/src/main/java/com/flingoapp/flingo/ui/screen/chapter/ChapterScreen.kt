@@ -10,18 +10,20 @@ import androidx.compose.ui.Modifier
 import com.flingoapp.flingo.data.models.book.Chapter
 import com.flingoapp.flingo.data.models.book.ChapterType
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
-import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainUiState
+import com.flingoapp.flingo.viewmodels.MainAction
+import com.flingoapp.flingo.viewmodels.book.BookUiState
+import com.flingoapp.flingo.viewmodels.user.UserUiState
 
 @Composable
 fun ChapterScreen(
-    mainUiState: MainUiState,
+    bookUiState: BookUiState,
+    userUiState: UserUiState,
     chapter: Chapter?,
-    onAction: (MainIntent) -> Unit,
+    onAction: (MainAction) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
     if (chapter == null) {
-        Log.e("Navigation", "Chapter (${mainUiState.currentChapterId}) not found!")
+        Log.e("Navigation", "Chapter (${bookUiState.currentChapterId}) not found!")
         Text(
             modifier = Modifier
                 .fillMaxSize()
@@ -45,7 +47,7 @@ fun ChapterScreen(
                     ChallengeChapterContent(
                         chapter = chapter,
                         pages = pagesInChapter,
-                        currentLives = mainUiState.userData?.currentLives ?: 0,
+                        currentLives = userUiState.currentLives,
                         onAction = onAction,
                         onNavigate = onNavigate
                     )

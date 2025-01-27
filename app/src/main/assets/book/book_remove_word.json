@@ -5,7 +5,7 @@
   "version": "1.0",
   "title": "Wort Chaos",
   "description": "Das ist eine Beispielimplementierung für das erste Spielkonzept.",
-  "coverImage": "",
+  "coverImage": "flingo_red",
   "chapters": [
     {
       "chapterId": "1",

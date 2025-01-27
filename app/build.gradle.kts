@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.dokka)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -83,6 +85,8 @@ dependencies {
 
     //hilt dependency injection
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
 
     //constraint layout
     implementation(libs.androidx.constraintlayout.compose)

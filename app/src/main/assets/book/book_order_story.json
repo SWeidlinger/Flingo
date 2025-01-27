@@ -5,7 +5,7 @@
   "version": "1.0",
   "title": "Durcheinander",
   "description": "Das ist eine Beispielimplementierung für das dritte Spielkonzept.",
-  "coverImage": [],
+  "coverImage": "flingo_blue",
   "chapters": [
     {
       "chapterId": "1",

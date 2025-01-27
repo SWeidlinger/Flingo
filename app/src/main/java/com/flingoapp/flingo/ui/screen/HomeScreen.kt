@@ -28,8 +28,9 @@ import com.flingoapp.flingo.ui.component.common.topbar.CustomHomeScreenTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainUiState
+import com.flingoapp.flingo.viewmodels.MainAction
+import com.flingoapp.flingo.viewmodels.book.BookUiState
+import com.flingoapp.flingo.viewmodels.user.UserUiState
 import kotlin.math.absoluteValue
 
 /**
@@ -41,27 +42,23 @@ import kotlin.math.absoluteValue
  */
 @Composable
 fun HomeScreen(
-    mainUiState: MainUiState,
-    onAction: (MainIntent) -> Unit,
+    userUiState: UserUiState,
+    bookUiState: BookUiState,
+    onAction: (MainAction) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
     val TAG = "HomeScreen"
 
-    val userBooks = mainUiState.userData?.books ?: emptyList()
-    val userName = mainUiState.userData?.name ?: "User"
-    val currentStreak = mainUiState.userData?.currentReadingStreak ?: 0
-    val currentLives = mainUiState.userData?.currentLives ?: 0
-
-    val pagerState = rememberPagerState(pageCount = { userBooks.size })
+    val pagerState = rememberPagerState(pageCount = { bookUiState.books.size })
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
     Scaffold(topBar = {
         CustomHomeScreenTopBar(
-            userName = userName,
-            currentStreak = currentStreak,
-            currentLives = currentLives,
+            userName = userUiState.name,
+            currentStreak = userUiState.currentReadingStreak,
+            currentLives = userUiState.currentLives,
             onUserClick = {
                 onNavigate(NavigationIntent.Screen(NavigationDestination.InterestSelection))
             },
@@ -73,12 +70,12 @@ fun HomeScreen(
             }
         )
     }) { innerPadding ->
-        if (userBooks.isEmpty()) {
+        if (bookUiState.books.isEmpty()) {
             Text(
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center),
-                text = "User has no books!",
+                text = "User has no book!",
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontSize = 64.sp,
                     fontWeight = FontWeight.Bold
@@ -129,7 +126,7 @@ fun HomeScreen(
                         itemSize = bookSize,
                         pagerState = pagerState,
                         bookIndex = bookIndex,
-                        currentBookItem = userBooks[bookIndex],
+                        currentBookItem = bookUiState.books[bookIndex],
                         onClick = {
                             onNavigate(
                                 NavigationIntent.Screen(
@@ -149,7 +146,8 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     FlingoTheme {
         HomeScreen(
-            mainUiState = MainUiState(),
+            userUiState = UserUiState(),
+            bookUiState = BookUiState(),
             onAction = {},
             onNavigate = {}
         )

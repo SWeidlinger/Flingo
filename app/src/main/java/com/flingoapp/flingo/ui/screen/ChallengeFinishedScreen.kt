@@ -7,13 +7,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
-import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.MainAction
 import com.flingoapp.flingo.viewmodels.main.MainUiState
 
 @Composable
 fun ChallengeFinishedScreen(
     mainUiState: MainUiState,
-    onAction: (MainIntent) -> Unit,
+    onAction: (MainAction) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
     Scaffold(

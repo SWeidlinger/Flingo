@@ -20,9 +20,9 @@ data class User(
     @SerialName("name") val name: String,
     @SerialName("created") val created: String,
     @SerialName("language") val language: String,
-    @SerialName("profileImage") var profileImage: String? = null,
-    @SerialName("currentLives") var currentLives: Int,
-    @SerialName("currentReadingStreak") var currentReadingStreak: Int,
+    @SerialName("profileImage") val profileImage: String? = null,
+    @SerialName("currentLives") val currentLives: Int,
+    @SerialName("currentReadingStreak") val currentReadingStreak: Int,
     @SerialName("selectedInterests") val selectedInterests: ArrayList<String>,
-    @SerialName("books") var books: ArrayList<Book>? = arrayListOf()
+    @SerialName("book") val books: ArrayList<Book>? = arrayListOf()
 )

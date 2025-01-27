@@ -22,13 +22,13 @@ import com.flingoapp.flingo.data.models.book.page.PageDetails
 import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.toDp
-import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.MainAction
 
 @Composable
 fun QuizContentTrueOrFalse(
     modifier: Modifier = Modifier,
     pageDetails: PageDetails.QuizPageDetails,
-    onAction: (MainIntent) -> Unit,
+    onAction: (MainAction) -> Unit,
     onQuestionAnswered: (correctAnswer: Boolean) -> Unit
 ) {
     var availableButtonHeight by remember { mutableIntStateOf(0) }

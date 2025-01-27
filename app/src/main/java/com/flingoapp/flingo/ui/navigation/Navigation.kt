@@ -14,9 +14,11 @@ import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
 import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screen.HomeScreen
 import com.flingoapp.flingo.ui.screen.InterestSelectionScreen
-import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainViewModel
 import com.flingoapp.flingo.ui.screen.chapter.ChapterScreen
+import com.flingoapp.flingo.viewmodels.MainAction
+import com.flingoapp.flingo.viewmodels.book.BookViewModel
+import com.flingoapp.flingo.viewmodels.main.MainViewModel
+import com.flingoapp.flingo.viewmodels.user.UserViewModel
 
 /**
  * Nav host composable
@@ -31,9 +33,13 @@ fun NavHostComposable(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     startDestination: NavigationDestination = NavigationDestination.Home,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    bookViewModel: BookViewModel = mainViewModel.bookViewModel,
+    userViewModel: UserViewModel =  mainViewModel.userViewModel
 ) {
     val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
+    val bookUiState by bookViewModel.uiState.collectAsStateWithLifecycle()
+    val userUiState by userViewModel.uiState.collectAsStateWithLifecycle()
 
     NavHost(
         modifier = modifier,
@@ -42,7 +48,8 @@ fun NavHostComposable(
     ) {
         composable<NavigationDestination.Home> {
             HomeScreen(
-                mainUiState = mainUiState,
+                bookUiState = bookUiState,
+                userUiState = userUiState,
                 onAction = mainViewModel::onAction,
                 onNavigate = { processNavigation(it, navController) }
             )
@@ -50,11 +57,12 @@ fun NavHostComposable(
 
         composable<NavigationDestination.ChapterSelection> { backStackEntry ->
             val args = backStackEntry.toRoute<NavigationDestination.ChapterSelection>()
-            mainViewModel.onAction(MainIntent.OnBookSelect(args.bookIndex))
+            mainViewModel.onAction(MainAction.BookAction.SelectBook(args.bookIndex))
 
             ChapterSelectionScreen(
-                mainUiState = mainUiState,
-                book = mainViewModel.getCurrentBook(),
+                bookUiState = bookUiState,
+                currentLives = userUiState.currentLives,
+                book = bookViewModel.getCurrentBook(),
                 onAction = mainViewModel::onAction,
                 onNavigate = { processNavigation(it, navController) }
             )
@@ -62,11 +70,12 @@ fun NavHostComposable(
 
         composable<NavigationDestination.Chapter> { backStackEntry ->
             val args = backStackEntry.toRoute<NavigationDestination.Chapter>()
-            mainViewModel.onAction(MainIntent.OnChapterSelect(args.chapterIndex))
+            mainViewModel.onAction(MainAction.BookAction.SelectChapter(args.chapterIndex))
 
             ChapterScreen(
-                mainUiState = mainUiState,
-                chapter = mainViewModel.getCurrentChapter(),
+                bookUiState = bookUiState,
+                userUiState = userUiState,
+                chapter = bookViewModel.getCurrentChapter(),
                 onAction = mainViewModel::onAction,
                 onNavigate = { processNavigation(it, navController) }
             )
@@ -86,7 +95,7 @@ fun NavHostComposable(
             val args = backStackEntry.toRoute<NavigationDestination.InterestSelection>()
 
             InterestSelectionScreen(
-                mainUiState = mainUiState,
+                userUiState = userUiState,
                 onAction = mainViewModel::onAction,
                 onNavigate = { processNavigation(it, navController) }
             )

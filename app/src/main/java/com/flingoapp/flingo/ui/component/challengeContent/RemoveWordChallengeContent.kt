@@ -30,7 +30,7 @@ import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
-import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.MainAction
 import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit
 fun RemoveWordChallengeContent(
     modifier: Modifier = Modifier,
     onNavigate: (NavigationIntent) -> Unit,
-    onAction: (MainIntent) -> Unit,
+    onAction: (MainAction) -> Unit,
     pageDetails: PageDetails.RemoveWordPageDetails,
     onPageCompleted: (score: Int) -> Unit
 ) {
@@ -120,7 +120,7 @@ fun RemoveWordChallengeContent(
                             onPageCompleted(0)
                         } else {
                             isCorrectAnswer = false
-                            onAction(MainIntent.OnUserLiveDecrease)
+                            onAction(MainAction.UserAction.DecreaseLives)
                         }
                     }
                 },

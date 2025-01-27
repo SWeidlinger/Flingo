@@ -32,7 +32,7 @@ import com.flingoapp.flingo.ui.component.challengeContent.quizContent.QuizConten
 import com.flingoapp.flingo.ui.component.common.button.ButtonProgressAnimation
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
-import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.MainAction
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit
 fun QuizChallengeContent(
     modifier: Modifier = Modifier,
     onNavigate: (NavigationIntent) -> Unit,
-    onAction: (MainIntent) -> Unit,
+    onAction: (MainAction) -> Unit,
     pageDetails: PageDetails.QuizPageDetails,
     taskDefinitionTopBarWidth: Dp,
     onPageCompleted: (score: Int) -> Unit
@@ -122,7 +122,7 @@ fun QuizChallengeContent(
                         onAction = onAction,
                         onQuestionAnswered = { isCorrectAnswer ->
                             if (!isCorrectAnswer) {
-                                onAction(MainIntent.OnUserLiveDecrease)
+                                onAction(MainAction.UserAction.DecreaseLives)
                             }
                             isAnswerCorrect = isCorrectAnswer
                             textBoxBorderColor =
@@ -148,7 +148,7 @@ fun QuizChallengeContent(
                         buttonProgressAnimation = buttonProgressAnimation,
                         onQuestionAnswered = { isCorrectAnswer ->
                             if (!isCorrectAnswer) {
-                                onAction(MainIntent.OnUserLiveDecrease)
+                                onAction(MainAction.UserAction.DecreaseLives)
                             }
                             isAnswerCorrect = isCorrectAnswer
                             textBoxBorderColor =

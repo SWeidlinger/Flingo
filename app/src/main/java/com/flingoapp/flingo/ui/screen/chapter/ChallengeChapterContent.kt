@@ -33,7 +33,7 @@ import com.flingoapp.flingo.ui.component.common.topbar.CustomChallengeTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.ui.toDp
-import com.flingoapp.flingo.viewmodels.main.MainIntent
+import com.flingoapp.flingo.viewmodels.MainAction
 
 /**
  * Challenge screen used to display the different kind of challenges
@@ -48,7 +48,7 @@ fun ChallengeChapterContent(
     chapter: Chapter,
     pages: List<Page>,
     currentLives: Int,
-    onAction: (MainIntent) -> Unit,
+    onAction: (MainAction) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
     val completedPages = remember { mutableStateListOf<Page>() }

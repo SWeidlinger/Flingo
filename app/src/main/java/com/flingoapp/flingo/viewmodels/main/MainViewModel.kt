@@ -1,24 +1,38 @@
 package com.flingoapp.flingo.viewmodels.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flingoapp.flingo.data.models.User
-import com.flingoapp.flingo.data.models.book.Book
-import com.flingoapp.flingo.data.models.book.Chapter
+import com.flingoapp.flingo.viewmodels.MainAction
+import com.flingoapp.flingo.viewmodels.book.BookViewModel
+import com.flingoapp.flingo.viewmodels.user.UserViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
 /**
  * Main view model
  *
  * @constructor Create empty Main view model
  */
-class MainViewModel : ViewModel() {
-    private val TAG = "MainViewModel"
+@HiltViewModel
+class MainViewModel @Inject constructor() : ViewModel() {
+    companion object {
+        private const val TAG = "MainViewModel"
+    }
+
+    //TODO: improve, this is not the best approach, but since I would like only one onAction function I don't see a better way of handling this
+    lateinit var bookViewModel: BookViewModel
+    lateinit var userViewModel: UserViewModel
+
+    fun initializeViewModels(bookViewModel: BookViewModel, userViewModel: UserViewModel) {
+        this.bookViewModel = bookViewModel
+        this.userViewModel = userViewModel
+    }
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.asStateFlow()
@@ -28,19 +42,23 @@ class MainViewModel : ViewModel() {
      *
      * @param action
      */
-    fun onAction(action: MainIntent) {
+    fun onAction(action: MainAction) {
         when (action) {
-            is MainIntent.OnLoading -> {
-                updateUiState(_uiState.value.copy(isLoading = true))
+            is MainAction.FetchMockData -> {
+                fetchMockUserData(action.json)
             }
 
-            is MainIntent.OnMockFetchData -> mockFetchBookData(action.json)
-            is MainIntent.OnBookSelect -> selectBook(action.bookIndex)
-            is MainIntent.OnChapterSelect -> selectChapter(action.chapterIndex)
-            is MainIntent.OnCurrentChapterComplete -> completeCurrentChapter()
-            is MainIntent.OnUserLiveIncrease -> increaseUserLives()
-            is MainIntent.OnUserLiveDecrease -> decreaseUserLives()
-            is MainIntent.OnInterestSelect -> selectInterest(action.selectedInterest)
+            is MainAction.BookAction.SelectBook -> bookViewModel.onAction(action)
+            is MainAction.BookAction.SelectChapter -> bookViewModel.onAction(action)
+            is MainAction.BookAction.CompleteChapter -> bookViewModel.onAction(action)
+            is MainAction.BookAction.LoadBooks -> bookViewModel.onAction(action)
+            is MainAction.BookAction.FetchBooks -> bookViewModel.onAction(action)
+
+            is MainAction.UserAction.DecreaseLives -> userViewModel.onAction(action)
+            is MainAction.UserAction.IncreaseLives -> userViewModel.onAction(action)
+            is MainAction.UserAction.SelectInterest -> userViewModel.onAction(action)
+            is MainAction.UserAction.LoadUser -> userViewModel.onAction(action)
+            is MainAction.UserAction.FetchUser -> userViewModel.onAction(action)
         }
     }
 
@@ -49,109 +67,36 @@ class MainViewModel : ViewModel() {
      *
      * @param json
      */
-    private fun mockFetchBookData(json: String) {
+    //TODO: remove after mock_user data is definitely not needed anymore
+    private fun fetchMockUserData(json: String) {
         viewModelScope.launch {
             updateUiState(_uiState.value.copy(isLoading = true))
 
             val deserializer = Json {
                 ignoreUnknownKeys = true
             }
+
             val user = deserializer.decodeFromString<User>(json)
+
+            userViewModel.onAction(MainAction.UserAction.LoadUser(user))
+
+            if (user.books.isNullOrEmpty()) {
+                updateUiState(
+                    _uiState.value.copy(
+                        isLoading = false,
+                        isError = true
+                    )
+                )
+                return@launch
+            }
+            bookViewModel.onAction(MainAction.BookAction.LoadBooks(user.books))
 
             updateUiState(
                 _uiState.value.copy(
                     isLoading = false,
-                    userData = user
+                    isError = false
                 )
             )
-        }
-    }
-
-    /**
-     * Select book
-     *
-     * @param bookIndex
-     */
-    private fun selectBook(bookIndex: Int) {
-        updateUiState(
-            _uiState.value.copy(
-                currentBookId = bookIndex,
-                isError = false
-            )
-        )
-    }
-
-    fun getCurrentBook(): Book? {
-        val currentBookId = _uiState.value.currentBookId
-        if (currentBookId == null) {
-            Log.e(TAG, "currentBookId is null")
-            updateUiState(_uiState.value.copy(isError = true))
-            return null
-        }
-        return _uiState.value.userData?.books?.get(currentBookId)
-    }
-
-    /**
-     * Select chapter
-     *
-     * @param chapterIndex
-     */
-    private fun selectChapter(chapterIndex: Int) {
-        updateUiState(
-            _uiState.value.copy(
-                currentChapterId = chapterIndex,
-                isError = false
-            )
-        )
-    }
-
-    fun getCurrentChapter(): Chapter? {
-        val currentBook = getCurrentBook()
-        val currentChapterId = _uiState.value.currentChapterId
-        if (currentBook == null || currentChapterId == null) {
-            Log.e(TAG, "${if (currentBook == null) "currentBook" else "currentChapterId"} is null")
-            updateUiState(_uiState.value.copy(isError = true))
-            return null
-        }
-        return currentBook.chapters[currentChapterId]
-    }
-
-    private fun completeCurrentChapter() {
-        val currentChapter = getCurrentChapter()
-        if (currentChapter != null) {
-            currentChapter.isCompleted = true
-            Log.i(TAG, "current chapter completed")
-        }
-    }
-
-    private fun increaseUserLives() {
-        val userData = _uiState.value.userData
-        if (userData != null) {
-            updateUiState(_uiState.value.copy(userData = userData.copy(currentLives = userData.currentLives + 1)))
-        } else {
-            updateUiState(_uiState.value.copy(isError = true))
-        }
-    }
-
-    private fun decreaseUserLives() {
-        val userData = _uiState.value.userData
-        if (userData != null) {
-            if (userData.currentLives > 0) {
-                updateUiState(_uiState.value.copy(userData = userData.copy(currentLives = userData.currentLives - 1)))
-            }
-        } else {
-            updateUiState(_uiState.value.copy(isError = true))
-        }
-    }
-
-    //for now only supports 1 interest at a time
-    private fun selectInterest(selectedInterest: String) {
-        val userData = _uiState.value.userData
-        if (userData != null) {
-            val selectedInterests = arrayListOf(selectedInterest)
-            updateUiState(_uiState.value.copy(userData = userData.copy(selectedInterests = selectedInterests)))
-        } else {
-            updateUiState(_uiState.value.copy(isError = true))
         }
     }
 

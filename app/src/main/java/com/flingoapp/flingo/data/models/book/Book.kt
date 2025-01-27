@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
  *
  * @property author of this book
  * @property date this book was created
- * @property language this books is written in
+ * @property language this book is written in
  * @property version this book version
  * @property title of this book
  * @property description of this book
@@ -24,6 +24,6 @@ data class Book(
     @SerialName("version") val version: String,
     @SerialName("title") val title: String,
     @SerialName("description") val description: String,
-    @SerialName("coverImage") var coverImage: String? = null,
+    @SerialName("coverImage") val coverImage: String? = null,
     @SerialName("chapters") val chapters: ArrayList<Chapter> = arrayListOf()
 )

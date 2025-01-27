@@ -5,7 +5,7 @@
   "version": "1.0",
   "title": "Beispieltextbuch Wunderwelt Sprache",
   "description": "Diese Buch stellt die einzelnen Spielkonzepte vor. Welche nicht angepasst werden und 1:1 von dem Schulbuch Wunderwelt Sprache übernommen worden sind.",
-  "coverImage": [],
+  "coverImage": "",
   "chapters": [
     {
       "chapterId": "1",
@@ -181,7 +181,7 @@
       ]
     },
     {
-      "chapterId": "2",
+      "chapterId": "3",
       "chapterTitle": "Spielkonzept 2: Beantworte Fragen",
       "chapterDescription": "Beantworte mit Hilfe des Textes die gestellten Fragen.",
       "chapterCoverImage": "",
@@ -208,7 +208,7 @@
             "quizType": "single_choice",
             "referenceTextTitle": "Das Zirkuspony",
             "referenceText": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.\nIn dem Dorf lebte auch ein kleines Pony namens Peppi, das sehr unglücklich war. Es hatte früher einem alten Mann gehört.\nAls es nicht mehr arbeiten konnte, weil es zu schwach war, jagte er es fort. Seither trabte es einsam durch die Straßen.\n„Niemand braucht mich mehr. Ich bin ja so allein,“ seufzte das Tier.\nAls der Abend hereinbrach, versammelten sich alle Dorfbewohner im Zirkuszelt.\n\nAuch Peppi schlich neugierig hinein.\nDie Vorstellung war ein großer Erfolg.\nBesonders jubelten die Kinder dem Pferd Rosi zu.\nDer Zirkusdirektor verkündete:\n„Alle Kinder dürfen jetzt auf Rosi reiten!“\n\nBereits kurze Zeit später war das Zirkuspferd vollkommen erschöpft.\n„Das schaffe ich nicht jeden Tag. Ich brauche eine Pause!“, jammerte Rosi. Da fiel der Blick des Zirkusdirektors auf das kleine Pony, das schüchtern im Hintergrund stand.\n„Vielleicht kann ich euch helfen?“, flüsterte Peppi.\n\n„Ich bin zwar zu schwach, um einen Wagen zu ziehen, aber die Kinder können noch immer auf mir reiten.“\nVon diesem Tag an hatte Peppi seinen Platz im Zirkus Marissimo und wieder eine wichtige Aufgabe.",
-            "question": "Nimmt Luna ein Ruder?",
+            "question": "Wie heißt der weltberühmte Zirkus?",
             "answers": [
               {
                 "id": 1,
@@ -328,7 +328,7 @@
       ]
     },
     {
-      "chapterId": "3",
+      "chapterId": "4",
       "chapterTitle": "Spielkonzept 3: Ordne die Geschichte",
       "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
       "chapterCoverImage": "",

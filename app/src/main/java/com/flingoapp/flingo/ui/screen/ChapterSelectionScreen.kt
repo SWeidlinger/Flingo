@@ -49,18 +49,19 @@ import com.flingoapp.flingo.ui.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainUiState
+import com.flingoapp.flingo.viewmodels.MainAction
+import com.flingoapp.flingo.viewmodels.book.BookUiState
 
 @Composable
 fun ChapterSelectionScreen(
-    mainUiState: MainUiState,
+    bookUiState: BookUiState,
+    currentLives: Int,
     book: Book?,
-    onAction: (MainIntent) -> Unit,
+    onAction: (MainAction) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
     if (book == null) {
-        Log.e("Navigation", "Book (${mainUiState.currentBookId}) not found!")
+        Log.e("Navigation", "Book (${bookUiState.currentBookId}) not found!")
         Text(
             modifier = Modifier
                 .fillMaxSize()
@@ -69,7 +70,7 @@ fun ChapterSelectionScreen(
         )
     } else {
         if (book.chapters.isEmpty()) {
-            Log.e("Navigation", "Book (${mainUiState.currentBookId}) no chapters found!")
+            Log.e("Navigation", "Book (${bookUiState.currentBookId}) no chapters found!")
             Text(
                 modifier = Modifier
                     .fillMaxSize()
@@ -81,7 +82,7 @@ fun ChapterSelectionScreen(
                 book = book,
                 chapters = book.chapters,
                 onAction = onAction,
-                currentLives = mainUiState.userData?.currentLives ?: 0,
+                currentLives = currentLives,
                 onNavigate = onNavigate
             )
         }
@@ -99,7 +100,7 @@ private fun ChapterSelectionContent(
     book: Book,
     chapters: List<Chapter>,
     currentLives: Int,
-    onAction: (MainIntent) -> Unit,
+    onAction: (MainAction) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
     //TODO: remove after testing

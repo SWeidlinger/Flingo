@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
 
 
 /**
- * Book item used to display the different books on the [com.flingoapp.flingo.ui.screen.HomeScreen]
+ * Book item used to display the different book on the [com.flingoapp.flingo.ui.screen.HomeScreen]
  *
  * @param modifier
  * @param itemSize
@@ -96,7 +96,7 @@ fun BookItem(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     val coverImageResourceId = context.resources.getIdentifier(
-                        currentBookItem.coverImage ?: "flingo_red",
+                        if (currentBookItem.coverImage.isNullOrEmpty()) "flingo_red" else currentBookItem.coverImage,
                         "drawable",
                         context.packageName
                     )

@@ -5,7 +5,7 @@
   "version": "1.0",
   "title": "Game Concept 2",
   "description": "Das ist eine Beispielimplementierung für das zweite Spielkonzept.",
-  "coverImage": [],
+  "coverImage": "flingo_orange",
   "chapters": [
     {
       "chapterId": "1",

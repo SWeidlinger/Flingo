@@ -16,13 +16,13 @@ import com.flingoapp.flingo.ui.component.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.component.common.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
-import com.flingoapp.flingo.viewmodels.main.MainIntent
-import com.flingoapp.flingo.viewmodels.main.MainUiState
+import com.flingoapp.flingo.viewmodels.MainAction
+import com.flingoapp.flingo.viewmodels.user.UserUiState
 
 @Composable
 fun InterestSelectionScreen(
-    mainUiState: MainUiState,
-    onAction: (MainIntent) -> Unit,
+    userUiState: UserUiState,
+    onAction: (MainAction) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
     //TODO: include icons for the individual interests
@@ -58,7 +58,7 @@ fun InterestSelectionScreen(
             horizontalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             availableInterests.forEach { interest ->
-                val isSelected = mainUiState.userData?.selectedInterests?.contains(interest) == true
+                val isSelected = userUiState.selectedInterests.contains(interest)
 
                 CustomElevatedTextButton(
                     modifier = Modifier
@@ -72,7 +72,7 @@ fun InterestSelectionScreen(
                     addOutline = !isSelected,
                     isPressed = isSelected,
                     onClick = {
-                        onAction(MainIntent.OnInterestSelect(interest))
+                        onAction(MainAction.UserAction.SelectInterest(interest))
                     }
                 )
             }
