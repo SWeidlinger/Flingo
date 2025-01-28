@@ -11,7 +11,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.flingoapp.flingo.ui.navigation.NavHostComposable
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import com.flingoapp.flingo.viewmodels.book.BookViewModel
 import com.flingoapp.flingo.viewmodels.main.MainViewModel
+import com.flingoapp.flingo.viewmodels.user.UserViewModel
 
 /**
  * Top level composable of the app, used to initialize the navigation graph
@@ -22,6 +24,8 @@ import com.flingoapp.flingo.viewmodels.main.MainViewModel
 @Composable
 fun FlingoApp(
     mainViewModel: MainViewModel,
+    bookViewModel: BookViewModel,
+    userViewModel: UserViewModel,
     navHostController: NavHostController = rememberNavController()
 ) {
     FlingoTheme {
@@ -34,7 +38,9 @@ fun FlingoApp(
                 NavHostComposable(
                     modifier = Modifier.padding(innerPadding),
                     navController = navHostController,
-                    mainViewModel = mainViewModel
+                    mainViewModel = mainViewModel,
+                    bookViewModel = bookViewModel,
+                    userViewModel = userViewModel
                 )
             }
         }

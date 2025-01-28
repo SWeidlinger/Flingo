@@ -26,24 +26,8 @@ class UserViewModel @Inject constructor() : ViewModel() {
             MainAction.UserAction.IncreaseLives -> increaseLives()
             MainAction.UserAction.DecreaseLives -> decreaseLives()
             is MainAction.UserAction.SelectInterest -> selectInterest(action.interest)
-            is MainAction.UserAction.LoadUser -> loadUser(action.user)
             is MainAction.UserAction.FetchUser -> fetchUser(action.userJson)
         }
-    }
-
-    //TODO: remove after mock_user data is definitely not needed anymore
-    private fun loadUser(user: User) {
-        updateUiState(
-            _uiState.value.copy(
-                isLoading = false,
-                isError = false,
-                name = user.name,
-                profileImage = user.profileImage,
-                currentLives = user.currentLives,
-                currentReadingStreak = user.currentReadingStreak,
-                selectedInterests = user.selectedInterests
-            )
-        )
     }
 
     private fun fetchUser(userJson: String) {

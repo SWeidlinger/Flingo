@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.flingoapp.flingo.ui.FlingoApp
 import com.flingoapp.flingo.viewmodels.MainAction
 import com.flingoapp.flingo.viewmodels.book.BookViewModel
@@ -19,31 +18,23 @@ import com.flingoapp.flingo.viewmodels.user.UserViewModel
  */
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
-    private lateinit var bookViewModel: BookViewModel
-    private lateinit var userViewModel: UserViewModel
+    private val bookViewModel: BookViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        bookViewModel = ViewModelProvider(this)[BookViewModel::class.java]
-        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-
-        // Initialize the MainViewModel with BookViewModel and UserViewModel
-        mainViewModel.initializeViewModels(bookViewModel, userViewModel)
-
         loadMockData()
 
         setContent {
-            FlingoApp(mainViewModel = mainViewModel)
+            FlingoApp(
+                mainViewModel, bookViewModel, userViewModel
+            )
         }
     }
 
     private fun loadMockData() {
-        //TODO: remove after mock_user data is definitely not needed anymore
-//        val mockUserJson = assets.open("mock_user.json").bufferedReader().use { it.readText() }
-//        mainViewModel.onAction(MainAction.FetchMockData(mockUserJson))
-
         val bookList = mutableListOf<String>()
         val book1 =
             assets.open("book/book_example_textbook_wunderwelt_sprache.json").bufferedReader()

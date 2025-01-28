@@ -28,19 +28,7 @@ class BookViewModel @Inject constructor() : ViewModel() {
             is MainAction.BookAction.SelectChapter -> selectChapter(action.chapterIndex)
             MainAction.BookAction.CompleteChapter -> completeChapter()
             is MainAction.BookAction.FetchBooks -> fetchBooks(action.booksJson)
-            is MainAction.BookAction.LoadBooks -> loadBooks(action.books)
         }
-    }
-
-    //TODO: remove after mock_user data is definitely not needed anymore
-    private fun loadBooks(books: ArrayList<Book>) {
-        updateUiState(
-            _uiState.value.copy(
-                isLoading = false,
-                isError = false,
-                books = books
-            )
-        )
     }
 
     private fun fetchBooks(bookJsonList: List<String>) {

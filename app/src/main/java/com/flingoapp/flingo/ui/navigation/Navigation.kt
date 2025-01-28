@@ -34,8 +34,8 @@ fun NavHostComposable(
     navController: NavHostController,
     startDestination: NavigationDestination = NavigationDestination.Home,
     mainViewModel: MainViewModel,
-    bookViewModel: BookViewModel = mainViewModel.bookViewModel,
-    userViewModel: UserViewModel =  mainViewModel.userViewModel
+    bookViewModel: BookViewModel,
+    userViewModel: UserViewModel
 ) {
     val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
     val bookUiState by bookViewModel.uiState.collectAsStateWithLifecycle()
@@ -50,33 +50,33 @@ fun NavHostComposable(
             HomeScreen(
                 bookUiState = bookUiState,
                 userUiState = userUiState,
-                onAction = mainViewModel::onAction,
+                onAction = { processAction(bookViewModel, userViewModel, it) },
                 onNavigate = { processNavigation(it, navController) }
             )
         }
 
         composable<NavigationDestination.ChapterSelection> { backStackEntry ->
             val args = backStackEntry.toRoute<NavigationDestination.ChapterSelection>()
-            mainViewModel.onAction(MainAction.BookAction.SelectBook(args.bookIndex))
+            bookViewModel.onAction(MainAction.BookAction.SelectBook(args.bookIndex))
 
             ChapterSelectionScreen(
                 bookUiState = bookUiState,
                 currentLives = userUiState.currentLives,
                 book = bookViewModel.getCurrentBook(),
-                onAction = mainViewModel::onAction,
+                onAction = { processAction(bookViewModel, userViewModel, it) },
                 onNavigate = { processNavigation(it, navController) }
             )
         }
 
         composable<NavigationDestination.Chapter> { backStackEntry ->
             val args = backStackEntry.toRoute<NavigationDestination.Chapter>()
-            mainViewModel.onAction(MainAction.BookAction.SelectChapter(args.chapterIndex))
+            bookViewModel.onAction(MainAction.BookAction.SelectChapter(args.chapterIndex))
 
             ChapterScreen(
                 bookUiState = bookUiState,
                 userUiState = userUiState,
                 chapter = bookViewModel.getCurrentChapter(),
-                onAction = mainViewModel::onAction,
+                onAction = { processAction(bookViewModel, userViewModel, it) },
                 onNavigate = { processNavigation(it, navController) }
             )
         }
@@ -86,7 +86,7 @@ fun NavHostComposable(
 
             ChallengeFinishedScreen(
                 mainUiState = mainUiState,
-                onAction = mainViewModel::onAction,
+                onAction = { processAction(bookViewModel, userViewModel, it) },
                 onNavigate = { processNavigation(it, navController) }
             )
         }
@@ -96,9 +96,25 @@ fun NavHostComposable(
 
             InterestSelectionScreen(
                 userUiState = userUiState,
-                onAction = mainViewModel::onAction,
+                onAction = { processAction(bookViewModel, userViewModel, it) },
                 onNavigate = { processNavigation(it, navController) }
             )
+        }
+    }
+}
+
+private fun processAction(
+    bookViewModel: BookViewModel,
+    userViewModel: UserViewModel,
+    action: MainAction
+) {
+    when (action) {
+        is MainAction.BookAction -> {
+            bookViewModel.onAction(action)
+        }
+
+        is MainAction.UserAction -> {
+            userViewModel.onAction(action)
         }
     }
 }
