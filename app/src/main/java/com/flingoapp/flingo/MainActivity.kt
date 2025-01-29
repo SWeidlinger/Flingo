@@ -1,5 +1,6 @@
 package com.flingoapp.flingo
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +11,11 @@ import com.flingoapp.flingo.viewmodels.MainAction
 import com.flingoapp.flingo.viewmodels.book.BookViewModel
 import com.flingoapp.flingo.viewmodels.main.MainViewModel
 import com.flingoapp.flingo.viewmodels.user.UserViewModel
+import dagger.hilt.android.HiltAndroidApp
+
+//needed for DI with hilt
+@HiltAndroidApp
+class HiltApplication : Application()
 
 /**
  * Main activity
