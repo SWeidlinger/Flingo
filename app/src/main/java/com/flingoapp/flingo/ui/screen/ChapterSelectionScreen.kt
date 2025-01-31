@@ -42,6 +42,7 @@ import com.flingoapp.flingo.data.models.MockData
 import com.flingoapp.flingo.data.models.book.Book
 import com.flingoapp.flingo.data.models.book.Chapter
 import com.flingoapp.flingo.data.models.book.ChapterType
+import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.component.common.topbar.CustomTopBar
@@ -225,28 +226,20 @@ private fun ChapterSelectionContent(
                                     verticalArrangement = Arrangement.Center,
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    if (chapter.isCompleted) {
-                                        Icon(
-                                            modifier = Modifier
-                                                .size((chapterButtonSize / 1.75).dp),
-                                            tint = Color.White,
-                                            imageVector = Icons.Default.Check,
-                                            contentDescription = "Chapter finished"
-                                        )
-                                    } else if (isChapterLocked) {
+                                    val showButtonIcon = chapter.isCompleted || isChapterLocked
+
+                                    if (showButtonIcon) {
                                         Icon(
                                             modifier = Modifier.size((chapterButtonSize / 1.75).dp),
-                                            tint =
-                                            if (chapter.type == ChapterType.CHALLENGE)
-                                                Color.White
-                                            else
-                                                Color.Black,
-                                            imageVector = Icons.Default.Lock,
-                                            contentDescription = "Chapter Locked"
+                                            tint = if (chapter.type == ChapterType.CHALLENGE || chapter.isCompleted) Color.White
+                                            else Color.Black,
+                                            imageVector = if (chapter.isCompleted) Icons.Default.Check else Icons.Default.Lock,
+                                            contentDescription = if (chapter.isCompleted) "Chapter finished" else "Chapter Locked"
                                         )
                                     }
 
-                                    Text(
+                                    AutoResizableText(
+                                        modifier = if (showButtonIcon) Modifier.padding(16.dp) else Modifier,
                                         text = chapter.title,
                                         style = MaterialTheme.typography.headlineLarge.copy(fontSize = 42.sp),
                                         color =

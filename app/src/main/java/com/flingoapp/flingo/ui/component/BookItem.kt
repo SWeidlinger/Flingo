@@ -102,15 +102,15 @@ fun BookItem(
                     )
 
                     Image(
-                        modifier = Modifier.weight(2f),
+                        modifier = Modifier.weight(1f),
                         painter = painterResource(id = coverImageResourceId),
                         contentDescription = "Book Image Cover"
                     )
 
                     Text(
                         modifier = Modifier
-                            .weight(1f)
-                            .padding(top = 24.dp),
+                            .padding(top = 24.dp)
+                            .padding(bottom = 12.dp),
                         text = currentBookItem.title,
                         style = MaterialTheme.typography.headlineLarge.copy(
                             fontSize = 48.sp,
@@ -125,7 +125,7 @@ fun BookItem(
                             .toString()
 
                     Column(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.padding(bottom = 16.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {

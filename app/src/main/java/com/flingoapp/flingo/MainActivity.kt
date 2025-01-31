@@ -47,20 +47,20 @@ class MainActivity : ComponentActivity() {
                 .use { it.readText() }
         bookList.add(book1)
 
-//        val book2 =
-//            assets.open("book/book_remove_word.json").bufferedReader()
-//                .use { it.readText() }
-//        bookList.add(book2)
-//
-//        val book3 =
-//            assets.open("book/book_quiz.json").bufferedReader()
-//                .use { it.readText() }
-//        bookList.add(book3)
-//
-//        val book4 =
-//            assets.open("book/book_remove_word.json").bufferedReader()
-//                .use { it.readText() }
-//        bookList.add(book4)
+        val book2 =
+            assets.open("book/book_remove_word.json").bufferedReader()
+                .use { it.readText() }
+        bookList.add(book2)
+
+        val book3 =
+            assets.open("book/book_quiz.json").bufferedReader()
+                .use { it.readText() }
+        bookList.add(book3)
+
+        val book4 =
+            assets.open("book/book_order_story.json").bufferedReader()
+                .use { it.readText() }
+        bookList.add(book4)
 
         val user = assets.open("user/user_jakob.json").bufferedReader().use { it.readText() }
 

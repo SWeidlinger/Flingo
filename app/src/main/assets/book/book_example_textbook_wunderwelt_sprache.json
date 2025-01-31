@@ -5,7 +5,7 @@
   "version": "1.0",
   "title": "Beispieltextbuch Wunderwelt Sprache",
   "description": "Diese Buch stellt die einzelnen Spielkonzepte vor. Welche nicht angepasst werden und 1:1 von dem Schulbuch Wunderwelt Sprache übernommen worden sind.",
-  "coverImage": "",
+  "coverImage": "book_cover_wunderwelt_sprache",
   "chapters": [
     {
       "chapterId": "1",

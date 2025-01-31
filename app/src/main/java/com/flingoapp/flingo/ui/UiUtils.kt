@@ -10,12 +10,15 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -44,10 +47,13 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -147,8 +153,10 @@ fun Modifier.innerShadow(
 
         paint.color = Color.Black
 
-        val spreadOffsetX = offsetX.toPx() + if (offsetX.toPx() < 0) -spread.toPx() else spread.toPx()
-        val spreadOffsetY = offsetY.toPx() + if (offsetY.toPx() < 0) -spread.toPx() else spread.toPx()
+        val spreadOffsetX =
+            offsetX.toPx() + if (offsetX.toPx() < 0) -spread.toPx() else spread.toPx()
+        val spreadOffsetY =
+            offsetY.toPx() + if (offsetY.toPx() < 0) -spread.toPx() else spread.toPx()
 
         canvas.translate(spreadOffsetX, spreadOffsetY)
         canvas.drawOutline(shadowOutline, paint)
@@ -328,6 +336,52 @@ fun Modifier.animatedBorder(
                 }
             }
         }
+}
+
+//text which automatically resizes to fit the size of container
+@Composable
+fun AutoResizableText(
+    modifier: Modifier = Modifier,
+    text: String,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    color: Color = style.color,
+    textAlign: TextAlign = TextAlign.Start
+) {
+    var resizableTextStyle by remember {
+        mutableStateOf(style.copy(textAlign = textAlign))
+    }
+    var shouldDraw by remember {
+        mutableStateOf(false)
+    }
+
+    val defaultFontSize = MaterialTheme.typography.bodyMedium.fontSize
+
+    Text(
+        text = text,
+        color = color,
+        modifier = modifier.drawWithContent {
+            if (shouldDraw) {
+                drawContent()
+            }
+        },
+        softWrap = false,
+        style = resizableTextStyle,
+        onTextLayout = { result ->
+            if (result.didOverflowWidth) {
+                if (style.fontSize.isUnspecified) {
+                    resizableTextStyle = resizableTextStyle.copy(
+                        fontSize = defaultFontSize
+                    )
+                }
+
+                resizableTextStyle = resizableTextStyle.copy(
+                    fontSize = resizableTextStyle.fontSize * 0.95
+                )
+            } else {
+                shouldDraw = true
+            }
+        }
+    )
 }
 
 @Composable

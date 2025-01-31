@@ -3,7 +3,7 @@
   "date": "2024-06-01",
   "language": "de",
   "version": "1.0",
-  "title": "Game Concept 2",
+  "title": "Fragenhagel",
   "description": "Das ist eine Beispielimplementierung für das zweite Spielkonzept.",
   "coverImage": "flingo_orange",
   "chapters": [
@@ -28,11 +28,13 @@
             "correct": "",
             "incorrect": ""
           },
-          "taskDefinition": "Beantworte diese Fragen über den gelesenen Text!",
+          "taskDefinition": "Wähle die passende Antwort aus!",
           "pageType": "quiz",
           "pageDetails": {
             "pageType": "quiz",
             "quizType": "true_or_false",
+            "referenceTextTitle": "",
+            "referenceText": "",
             "question": "Nimmt Luna ein Ruder?",
             "answers": [
               {
@@ -43,6 +45,139 @@
               {
                 "id": 2,
                 "answer": "Nein",
+                "isCorrect": false
+              }
+            ]
+          }
+        },
+        {
+          "pageId": "2",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "easy",
+          "hint": "TODO",
+          "timeLimit": 30,
+          "score": 10,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Wähle die passende Antwort aus!",
+          "pageType": "quiz",
+          "pageDetails": {
+            "pageType": "quiz",
+            "quizType": "single_choice",
+            "referenceTextTitle": "",
+            "referenceText": "",
+            "question": "Wieviele blaue Fische schwimmen über ein Fass?",
+            "answers": [
+              {
+                "id": 1,
+                "answer": "2",
+                "isCorrect": false
+              },
+              {
+                "id": 2,
+                "answer": "1",
+                "isCorrect": true
+              },
+              {
+                "id": 3,
+                "answer": "3",
+                "isCorrect": false
+              },
+              {
+                "id": 4,
+                "answer": "4",
+                "isCorrect": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "chapterId": "2",
+      "chapterTitle": "Kapitel 2",
+      "chapterDescription": "Beantworte diese Fragen über den gelesenen Text!",
+      "chapterCoverImage": "",
+      "chapterPositionOffset": 0.6,
+      "chapterType": "challenge",
+      "chapterCompleted": false,
+      "pages": [
+        {
+          "pageId": "1",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "easy",
+          "hint": "TODO",
+          "timeLimit": 30,
+          "score": 10,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Wähle die passende Antwort aus!",
+          "pageType": "quiz",
+          "pageDetails": {
+            "pageType": "quiz",
+            "quizType": "true_or_false",
+            "referenceTextTitle": "",
+            "referenceText": "",
+            "question": "Nimmt Luna ein Ruder?",
+            "answers": [
+              {
+                "id": 1,
+                "answer": "Ja",
+                "isCorrect": true
+              },
+              {
+                "id": 2,
+                "answer": "Nein",
+                "isCorrect": false
+              }
+            ]
+          }
+        },
+        {
+          "pageId": "2",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "easy",
+          "hint": "TODO",
+          "timeLimit": 30,
+          "score": 10,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Wähle die passende Antwort aus!",
+          "pageType": "quiz",
+          "pageDetails": {
+            "pageType": "quiz",
+            "quizType": "single_choice",
+            "referenceTextTitle": "",
+            "referenceText": "",
+            "question": "Wieviele blaue Fische schwimmen über ein Fass?",
+            "answers": [
+              {
+                "id": 1,
+                "answer": "2",
+                "isCorrect": false
+              },
+              {
+                "id": 2,
+                "answer": "1",
+                "isCorrect": true
+              },
+              {
+                "id": 3,
+                "answer": "3",
+                "isCorrect": false
+              },
+              {
+                "id": 4,
+                "answer": "4",
                 "isCorrect": false
               }
             ]
