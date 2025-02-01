@@ -19,9 +19,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.R
+import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.common.topbar.LottieIconWithText
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import dev.omkartenkale.explodable.Explodable
@@ -106,7 +106,7 @@ fun HeartExplodable(
     }
 }
 
-@Preview
+@CustomPreview
 @Composable
 private fun HeartIconPreview() {
     FlingoTheme {

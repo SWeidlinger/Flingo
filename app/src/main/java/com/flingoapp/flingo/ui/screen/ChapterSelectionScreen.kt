@@ -262,7 +262,7 @@ private fun ChapterSelectionContent(
 
 @CustomPreview
 @Composable
-private fun LevelSelectionScreenPreview() {
+private fun ChapterSelectionScreenPreview() {
     FlingoTheme {
         ChapterSelectionContent(
             book = MockData.book,

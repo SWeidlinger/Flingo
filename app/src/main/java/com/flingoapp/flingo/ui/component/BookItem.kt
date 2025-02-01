@@ -30,14 +30,17 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.flingoapp.flingo.R
+import com.flingoapp.flingo.data.models.MockData
 import com.flingoapp.flingo.data.models.book.Book
+import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.innerShadow
 import com.flingoapp.flingo.ui.theme.FlingoColors
@@ -95,17 +98,25 @@ fun BookItem(
                     verticalArrangement = Arrangement.SpaceAround,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    val coverImageResourceId = context.resources.getIdentifier(
-                        if (currentBookItem.coverImage.isNullOrEmpty()) "flingo_red" else currentBookItem.coverImage,
-                        "drawable",
-                        context.packageName
-                    )
+                    if (!LocalInspectionMode.current) {
+                        val coverImageResourceId = context.resources.getIdentifier(
+                            if (currentBookItem.coverImage.isNullOrEmpty()) "flingo_red" else currentBookItem.coverImage,
+                            "drawable",
+                            context.packageName
+                        )
 
-                    Image(
-                        modifier = Modifier.weight(1f),
-                        painter = painterResource(id = coverImageResourceId),
-                        contentDescription = "Book Image Cover"
-                    )
+                        Image(
+                            modifier = Modifier.weight(1f),
+                            painter = painterResource(id = coverImageResourceId),
+                            contentDescription = "Book Image Cover"
+                        )
+                    } else {
+                        Image(
+                            modifier = Modifier.weight(1f),
+                            painter = painterResource(id = R.drawable.flingo_red),
+                            contentDescription = "Book Image Cover"
+                        )
+                    }
 
                     Text(
                         modifier = Modifier
@@ -203,7 +214,7 @@ fun BookItem(
     )
 }
 
-@Preview(showBackground = true)
+@CustomPreview
 @Composable
 private fun BookItemPreview() {
     FlingoTheme {
@@ -211,16 +222,7 @@ private fun BookItemPreview() {
             itemSize = 500.dp,
             pagerState = rememberPagerState(pageCount = { 3 }),
             bookIndex = 0,
-            currentBookItem = Book(
-                author = "Author",
-                date = "Date",
-                language = "Language",
-                version = "Version",
-                title = "Title",
-                description = "Description",
-                coverImage = "CoverImage",
-                chapters = arrayListOf()
-            ),
+            currentBookItem = MockData.book,
             onClick = {}
         )
     }

@@ -74,6 +74,7 @@ fun CustomElevatedTextButton(
                     text = text,
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontSize = fontSize.sp,
+                        lineHeight = MaterialTheme.typography.headlineLarge.lineHeight.value.plus(20).sp,
                         textDecoration = if (isTextStrikethrough) TextDecoration.LineThrough else TextDecoration.None
                     ),
                     color = textColor
