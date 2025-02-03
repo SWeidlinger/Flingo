@@ -28,6 +28,7 @@ class BookViewModel @Inject constructor() : ViewModel() {
             is MainAction.BookAction.SelectChapter -> selectChapter(action.chapterIndex)
             MainAction.BookAction.CompleteChapter -> completeChapter()
             is MainAction.BookAction.FetchBooks -> fetchBooks(action.booksJson)
+            is MainAction.BookAction.CompletePage -> completePage(action.pageIndex)
         }
     }
 
@@ -63,6 +64,11 @@ class BookViewModel @Inject constructor() : ViewModel() {
     private fun completeChapter() {
         val currentChapter = getCurrentChapter()
         currentChapter?.let { it.isCompleted = true }
+    }
+
+    private fun completePage(pageIndex: Int) {
+        val currentPage = getCurrentChapter()?.pages?.get(pageIndex)
+        currentPage?.isCompleted = true
     }
 
     fun getCurrentChapter(): Chapter? {

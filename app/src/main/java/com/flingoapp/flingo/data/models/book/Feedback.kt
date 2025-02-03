@@ -11,6 +11,6 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class Feedback(
-    @SerialName("correct") var correct: String? = null,
-    @SerialName("incorrect") var incorrect: String? = null
+    @SerialName("correct") val correct: String? = null,
+    @SerialName("incorrect") val incorrect: String? = null
 )

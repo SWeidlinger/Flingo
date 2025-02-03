@@ -22,13 +22,14 @@ import kotlinx.serialization.Serializable
 data class Page(
     @SerialName("pageId") val id: String,
     @SerialName("pageDescription") val description: String,
+    //TODO: make immutable
     @SerialName("pageCompleted") var isCompleted: Boolean,
     @SerialName("difficulty") val difficulty: String,
     @SerialName("hint") val hint: String,
-    @SerialName("timeLimit") var timeLimit: Int? = null,
-    @SerialName("score") var score: Int? = null,
-    @SerialName("feedback") var feedback: Feedback? = null,
-    @SerialName("taskDefinition") val taskDefinition: String = "",
+    @SerialName("timeLimit") val timeLimit: Int?,
+    @SerialName("score") val score: Int?,
+    @SerialName("feedback") val feedback: Feedback?,
+    @SerialName("taskDefinition") val taskDefinition: String,
     @SerialName("pageType") val type: PageType,
     @Serializable(with = PageDetailsSerializer::class) @SerialName("pageDetails") val details: PageDetails
 )

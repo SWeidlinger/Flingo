@@ -5,18 +5,19 @@ package com.flingoapp.flingo.viewmodels
  *
  * @constructor Create empty Main intent
  */
-sealed class MainAction {
-    sealed class UserAction : MainAction() {
-        data object IncreaseLives : UserAction()
-        data object DecreaseLives : UserAction()
-        data class SelectInterest(val interest: String) : UserAction()
-        data class FetchUser(val userJson: String) : UserAction()
+sealed interface MainAction {
+    sealed interface UserAction : MainAction {
+        data object IncreaseLives : UserAction
+        data object DecreaseLives : UserAction
+        data class SelectInterest(val interest: String) : UserAction
+        data class FetchUser(val userJson: String) : UserAction
     }
 
-    sealed class BookAction : MainAction() {
-        data class SelectBook(val bookIndex: Int) : BookAction()
-        data class SelectChapter(val chapterIndex: Int) : BookAction()
-        data object CompleteChapter : BookAction()
-        data class FetchBooks(val booksJson: List<String>) : BookAction()
+    sealed interface BookAction : MainAction {
+        data class SelectBook(val bookIndex: Int) : BookAction
+        data class SelectChapter(val chapterIndex: Int) : BookAction
+        data object CompleteChapter : BookAction
+        data class CompletePage(val pageIndex: Int) : BookAction
+        data class FetchBooks(val booksJson: List<String>) : BookAction
     }
 }
