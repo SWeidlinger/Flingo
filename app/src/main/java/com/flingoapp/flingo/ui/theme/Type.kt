@@ -11,7 +11,7 @@ val Typography = Typography(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
         fontSize = 32.sp,
-        lineHeight = 40.sp,
+        lineHeight = 60.sp,
         letterSpacing = 0.sp,
         color = FlingoColors.Text
     ),

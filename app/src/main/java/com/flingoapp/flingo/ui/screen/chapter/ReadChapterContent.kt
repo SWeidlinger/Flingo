@@ -33,6 +33,7 @@ import com.flingoapp.flingo.ui.component.common.pageIndicator.CustomPageIndicato
 import com.flingoapp.flingo.ui.component.common.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import com.flingoapp.flingo.viewmodels.MainAction
 import kotlinx.coroutines.launch
 
 /**
@@ -46,6 +47,7 @@ import kotlinx.coroutines.launch
 fun ReadChapterContent(
     chapter: Chapter,
     pages: List<Page>,
+    onAction: (MainAction) -> Unit,
     onNavigate: (NavigationIntent) -> Unit
 ) {
     val pagerState = rememberPagerState { pages.size }
@@ -59,7 +61,7 @@ fun ReadChapterContent(
             onSettingsClick = {},
             onAwardClick = {
                 //TODO: remove after testing
-                chapter.isCompleted = true
+                onAction(MainAction.BookAction.CompleteChapter)
                 onNavigate(NavigationIntent.Up())
             }
         )
@@ -118,7 +120,7 @@ fun ReadChapterContent(
                                     currentWordIndex += 1
                                 } else if (pagerState.currentPage < pagerState.pageCount) {
                                     if (pagerState.currentPage == pagerState.pageCount - 1) {
-                                        chapter.isCompleted = true
+                                        onAction(MainAction.BookAction.CompleteChapter)
                                         onNavigate(NavigationIntent.Up())
                                     }
 
@@ -148,7 +150,8 @@ fun ReadChapterContent(
 
             CustomPageIndicator(
                 pagerState = pagerState,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                pages = pages
             )
         }
     }

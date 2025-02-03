@@ -24,9 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.common.HeartExplodable
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
@@ -54,7 +55,8 @@ fun CustomChallengeTopBar(
     navigateUp: () -> Unit,
     taskDefinitionWidth: (Int) -> Unit = { },
 ) {
-    val tts = rememberTextToSpeech()
+    val isPreview = LocalInspectionMode.current
+    val tts = if (isPreview) null else rememberTextToSpeech()
     var isSpeaking by remember { mutableStateOf(false) }
 
     Row(
@@ -87,12 +89,14 @@ fun CustomChallengeTopBar(
             text = taskDefinition,
             showSpeakerIcon = true,
             onClick = {
+                if (isPreview) return@CustomElevatedTextButton
+
                 isSpeaking = false
-                if (tts.value?.isSpeaking == true) {
+                if (tts?.value?.isSpeaking == true) {
                     tts.value?.stop()
                     isSpeaking = false
                 } else {
-                    tts.value?.speak(
+                    tts?.value?.speak(
                         taskDefinition, TextToSpeech.QUEUE_FLUSH, null, ""
                     )
                     isSpeaking = true
@@ -114,12 +118,14 @@ fun CustomChallengeTopBar(
                 iconContentDescription = "Hint",
                 backgroundColor = MaterialTheme.colorScheme.secondary,
                 onClick = {
+                    if (isPreview) return@CustomIconButton
+
                     isSpeaking = false
-                    if (tts.value?.isSpeaking == true) {
+                    if (tts?.value?.isSpeaking == true) {
                         tts.value?.stop()
                         isSpeaking = false
                     } else {
-                        tts.value?.speak(
+                        tts?.value?.speak(
                             hint, TextToSpeech.QUEUE_FLUSH, null, ""
                         )
                         isSpeaking = true
@@ -158,13 +164,26 @@ fun rememberTextToSpeech(): MutableState<TextToSpeech?> {
 }
 
 
-@Preview(showBackground = true)
+@CustomPreview
 @Composable
 private fun CustomChallengeTopBarPreview() {
     FlingoTheme {
         CustomChallengeTopBar(
             taskDefinition = "Lies den Satz und klicke auf das unpassende Wort!",
             hint = "",
+            currentLives = 3,
+            navigateUp = {}
+        )
+    }
+}
+
+@CustomPreview
+@Composable
+private fun CustomChallengeTopBarHintPreview() {
+    FlingoTheme {
+        CustomChallengeTopBar(
+            taskDefinition = "Lies den Satz und klicke auf das unpassende Wort!",
+            hint = "22",
             currentLives = 3,
             navigateUp = {}
         )

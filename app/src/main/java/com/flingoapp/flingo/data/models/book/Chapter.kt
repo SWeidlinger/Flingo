@@ -23,10 +23,11 @@ data class Chapter(
     @SerialName("chapterTitle") val title: String,
     @SerialName("chapterType") val type: ChapterType,
     @SerialName("chapterDescription") val description: String,
-    @SerialName("chapterCoverImage") var coverImage: String? = null,
+    @SerialName("chapterCoverImage") val coverImage: String? = null,
     @SerialName("chapterPositionOffset") val positionOffset: Float,
+    //TODO: make immutable
     @SerialName("chapterCompleted") var isCompleted: Boolean,
-    @SerialName("pages") var pages: ArrayList<Page>? = arrayListOf()
+    @SerialName("pages") val pages: ArrayList<Page>? = arrayListOf()
 )
 
 /**

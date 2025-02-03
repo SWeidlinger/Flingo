@@ -26,12 +26,15 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.flingoapp.flingo.data.models.MockData
 import com.flingoapp.flingo.data.models.book.page.PageDetails
+import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.challengeContent.quizContent.QuizContentSingleChoice
 import com.flingoapp.flingo.ui.component.challengeContent.quizContent.QuizContentTrueOrFalse
 import com.flingoapp.flingo.ui.component.common.button.ButtonProgressAnimation
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
+import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.MainAction
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
@@ -182,5 +185,35 @@ fun QuizChallengeContent(
                 )
             )
         }
+    }
+}
+
+@CustomPreview
+@Composable
+private fun QuizChallengeContentSingleChoicePreview() {
+    FlingoTheme {
+        QuizChallengeContent(
+            modifier = Modifier.fillMaxSize(),
+            onNavigate = {},
+            onAction = {},
+            pageDetails = MockData.pageDetailsQuizSingleChoice,
+            taskDefinitionTopBarWidth = 1000.dp,
+            onPageCompleted = {}
+        )
+    }
+}
+
+@CustomPreview
+@Composable
+private fun QuizChallengeContentTrueOrFalsePreview() {
+    FlingoTheme {
+        QuizChallengeContent(
+            modifier = Modifier.fillMaxSize(),
+            onNavigate = {},
+            onAction = {},
+            pageDetails = MockData.pageDetailsQuizTrueOrFalse,
+            taskDefinitionTopBarWidth = 1000.dp,
+            onPageCompleted = {}
+        )
     }
 }

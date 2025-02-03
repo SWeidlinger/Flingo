@@ -26,10 +26,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.models.book.page.PageDetails
+import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.component.common.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
+import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.MainAction
 import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -153,5 +155,22 @@ fun RemoveWordChallengeContent(
                 )
             )
         }
+    }
+}
+
+@CustomPreview
+@Composable
+private fun RemoveWordChallengeContentPreview() {
+    FlingoTheme {
+        RemoveWordChallengeContent(
+            modifier = Modifier.fillMaxSize(),
+            onNavigate = {},
+            onAction = {},
+            pageDetails = PageDetails.RemoveWordPageDetails(
+                content = "Das ist ein Test",
+                answer = "Test"
+            ),
+            onPageCompleted = {}
+        )
     }
 }

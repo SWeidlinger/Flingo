@@ -57,7 +57,8 @@ fun ChapterScreen(
                     ReadChapterContent(
                         chapter = chapter,
                         pages = pagesInChapter,
-                        onNavigate = onNavigate
+                        onAction = onAction,
+                        onNavigate = onNavigate,
                     )
                 }
 
