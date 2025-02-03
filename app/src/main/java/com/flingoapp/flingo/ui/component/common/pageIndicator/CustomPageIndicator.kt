@@ -4,6 +4,7 @@ package com.flingoapp.flingo.ui.component.common.pageIndicator
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -20,17 +21,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.ui.toDp
+import com.flingoapp.flingo.data.models.MockData
+import com.flingoapp.flingo.data.models.book.page.Page
+import com.flingoapp.flingo.ui.CustomPreview
+import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import com.flingoapp.flingo.ui.toDp
+import kotlinx.coroutines.launch
 
 /**
  * Custom page indicator, used for displaying the amount of pages in a chapter
@@ -44,54 +50,83 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
 fun CustomPageIndicator(
     modifier: Modifier = Modifier,
     pagerState: PagerState,
+    pages: List<Page>,
+    minSize: Dp = 16.dp,
     selectedColor: Color = MaterialTheme.colorScheme.primary,
-    unselectedColor: Color = Color.LightGray
+    unselectedColor: Color = FlingoColors.LightGray
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     Row(
         modifier.wrapContentHeight(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        repeat(pagerState.pageCount) { iteration ->
-            val isCurrentPage = pagerState.currentPage == iteration
-            val color = if (isCurrentPage) selectedColor else unselectedColor
+        pages.forEachIndexed { index, page ->
+            val isCurrentPage = pagerState.currentPage == index
+            val secondaryColor = if (page.isCompleted) FlingoColors.Success else unselectedColor
+            val color = if (isCurrentPage) selectedColor else secondaryColor
 
             var indicatorHeight by remember { mutableIntStateOf(0) }
 
-            //TODO: add animation
             Box(
                 modifier = Modifier
                     .padding(8.dp)
-                    .clip(CircleShape)
-                    .background(color)
-                    .width(indicatorHeight.toDp())
-                    .sizeIn(minWidth = 16.dp, minHeight = 16.dp)
-                    .onGloballyPositioned { layoutCoordinates ->
-                        indicatorHeight = layoutCoordinates.size.height
+                    .clickable {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
                     }
             ) {
-                if (isCurrentPage) {
+                androidx.compose.animation.AnimatedVisibility(visible = isCurrentPage) {
                     Text(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .align(Alignment.Center),
-                        text = "${iteration + 1}",
+                        modifier = Modifier.padding(8.dp),
+                        text = "${index + 1}",
                         color = Color.White,
                         style = MaterialTheme.typography.headlineSmall,
                         textAlign = TextAlign.Center
                     )
+                }
+
+                //TODO: add animation
+                Box(
+                    modifier = Modifier
+                        .background(color = color, shape = CircleShape)
+                        .width(indicatorHeight.toDp())
+                        .sizeIn(
+                            minWidth = minSize,
+                            minHeight = if (isCurrentPage) minSize * 2f else minSize
+                        )
+                        .onGloballyPositioned { layoutCoordinates ->
+                            indicatorHeight = layoutCoordinates.size.height
+                        }
+                ) {
+                    if (isCurrentPage) {
+                        Text(
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .align(Alignment.Center),
+                            text = "${index + 1}",
+                            color = Color.White,
+                            style = MaterialTheme.typography.headlineSmall,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
+@CustomPreview
 @Composable
 private fun CustomPageIndicatorPreview() {
     FlingoTheme {
-        CustomPageIndicator(
-            pagerState = rememberPagerState(pageCount = { 3 })
-        )
+        MockData.chapter.pages?.let {
+            CustomPageIndicator(
+                pages = it,
+                pagerState = rememberPagerState(pageCount = { 3 })
+            )
+        }
     }
 }

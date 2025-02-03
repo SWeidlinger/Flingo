@@ -2,7 +2,9 @@ package com.flingoapp.flingo.ui.component.common.pageIndicator
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -16,14 +18,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.flingoapp.flingo.data.models.MockData
+import com.flingoapp.flingo.data.models.book.page.Page
+import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.common.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoColors
+import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlinx.coroutines.launch
 
 @Composable
 fun CustomChallengePageIndicator(
     modifier: Modifier = Modifier,
     pagerState: PagerState,
+    pages: List<Page>,
     showPageControlButtons: Boolean
 ) {
     Row(
@@ -56,8 +63,9 @@ fun CustomChallengePageIndicator(
             }
 
             CustomPageIndicator(
-                modifier = Modifier,
-                pagerState = pagerState
+                modifier = Modifier.fillMaxWidth(),
+                pagerState = pagerState,
+                pages = pages
             )
 
             if (showPageControlButtons) {
@@ -81,5 +89,18 @@ fun CustomChallengePageIndicator(
                 }
             }
         }
+    }
+}
+
+@CustomPreview
+@Composable
+private fun CustomChallengePageIndicatorPreview() {
+    FlingoTheme {
+        CustomChallengePageIndicator(
+            modifier = Modifier,
+            pagerState = rememberPagerState { MockData.chapter.pages!!.size },
+            pages = MockData.chapter.pages!!,
+            showPageControlButtons = false
+        )
     }
 }
