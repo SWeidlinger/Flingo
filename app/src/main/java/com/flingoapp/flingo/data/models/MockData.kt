@@ -28,11 +28,6 @@ object MockData {
                 id = 2,
                 answer = "Answer 2",
                 isCorrect = false
-            ),
-            PageDetails.QuizPageDetails.Companion.Answer(
-                id = 3,
-                answer = "Answer 3",
-                isCorrect = false
             )
         )
     )

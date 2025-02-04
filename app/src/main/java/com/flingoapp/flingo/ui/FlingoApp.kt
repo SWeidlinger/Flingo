@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.flingoapp.flingo.ui.navigation.NavHostComposable
+import com.flingoapp.flingo.navigation.NavHostComposable
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.book.BookViewModel
 import com.flingoapp.flingo.viewmodels.main.MainViewModel

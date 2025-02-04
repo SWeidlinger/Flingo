@@ -7,7 +7,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.MainAction
 import com.flingoapp.flingo.viewmodels.main.MainUiState

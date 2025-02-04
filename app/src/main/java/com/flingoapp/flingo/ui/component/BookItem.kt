@@ -41,7 +41,7 @@ import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.models.MockData
 import com.flingoapp.flingo.data.models.book.Book
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
+import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.innerShadow
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme

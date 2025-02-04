@@ -44,10 +44,10 @@ import com.flingoapp.flingo.data.models.book.Chapter
 import com.flingoapp.flingo.data.models.book.ChapterType
 import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.component.common.button.CustomElevatedButton
-import com.flingoapp.flingo.ui.component.common.topbar.CustomTopBar
-import com.flingoapp.flingo.ui.navigation.NavigationDestination
-import com.flingoapp.flingo.ui.navigation.NavigationIntent
+import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
+import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
+import com.flingoapp.flingo.navigation.NavigationDestination
+import com.flingoapp.flingo.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodels.MainAction
