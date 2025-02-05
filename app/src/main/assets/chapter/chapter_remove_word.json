@@ -1,0 +1,31 @@
+{
+  "chapterId": "2",
+  "chapterTitle": "Kapitel 2",
+  "chapterDescription": "Entferne das unnötige Wort.",
+  "chapterCoverImage": "",
+  "chapterPositionOffset": 0.6,
+  "chapterType": "challenge",
+  "chapterCompleted": false,
+  "pages": [
+    {
+      "pageId": "1",
+      "pageDescription": "",
+      "pageCompleted": false,
+      "difficulty": "easy",
+      "hint": "Sind Maulwürfe gut im Fangen?",
+      "timeLimit": 30,
+      "score": 10,
+      "feedback": {
+        "correct": "Super! Maulwürfe fangen nicht, sondern werfen Hügel auf.",
+        "incorrect": "Versuchs nochmal! Was machen Maulwürfe nicht?"
+      },
+      "taskDefinition": "Lies den Satz und klicke auf das unpassende Wort!",
+      "pageType": "remove_word",
+      "pageDetails": {
+        "pageType": "remove_word",
+        "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
+        "answer": "fangen"
+      }
+    }
+  ]
+}

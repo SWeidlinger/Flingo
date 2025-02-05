@@ -1,20 +1,24 @@
-package com.flingoapp.flingo.viewmodels.book
+package com.flingoapp.flingo.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flingoapp.flingo.data.models.book.Book
-import com.flingoapp.flingo.data.models.book.Chapter
-import com.flingoapp.flingo.viewmodels.MainAction
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.flingoapp.flingo.data.model.book.Book
+import com.flingoapp.flingo.data.model.book.Chapter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import javax.inject.Inject
 
-@HiltViewModel
-class BookViewModel @Inject constructor() : ViewModel() {
+data class BookUiState(
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val books: ArrayList<Book> = arrayListOf(),
+    val currentBookId: Int? = null,
+    val currentChapterId: Int? = null
+)
+
+class BookViewModel : ViewModel() {
     companion object {
         private const val TAG = "BookViewModel"
     }

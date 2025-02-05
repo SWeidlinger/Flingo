@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
-import com.flingoapp.flingo.data.models.MockData
-import com.flingoapp.flingo.data.models.book.Book
+import com.flingoapp.flingo.data.model.MockData
+import com.flingoapp.flingo.data.model.book.Book
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.innerShadow

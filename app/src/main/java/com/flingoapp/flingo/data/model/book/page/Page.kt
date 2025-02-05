@@ -1,6 +1,6 @@
-package com.flingoapp.flingo.data.models.book.page
+package com.flingoapp.flingo.data.model.book.page
 
-import com.flingoapp.flingo.data.models.book.Feedback
+import com.flingoapp.flingo.data.model.book.Feedback
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

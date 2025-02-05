@@ -11,9 +11,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.flingoapp.flingo.navigation.NavHostComposable
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodels.book.BookViewModel
-import com.flingoapp.flingo.viewmodels.main.MainViewModel
-import com.flingoapp.flingo.viewmodels.user.UserViewModel
+import com.flingoapp.flingo.viewmodel.BookViewModel
+import com.flingoapp.flingo.viewmodel.MainViewModel
+import com.flingoapp.flingo.viewmodel.UserViewModel
 
 /**
  * Top level composable of the app, used to initialize the navigation graph

@@ -1,19 +1,28 @@
-package com.flingoapp.flingo.viewmodels.main
+package com.flingoapp.flingo.viewmodel
 
 import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
+
+/**
+ * Main ui state, used to reflect the uiState of a screen
+ *
+ * @property isLoading
+ * @property isError
+ * @constructor Create empty Main ui state
+ */
+data class MainUiState(
+    val isLoading: Boolean = false,
+    val isError: Boolean = false
+)
 
 /**
  * Main view model
  *
  * @constructor Create empty Main view model
  */
-@HiltViewModel
-class MainViewModel @Inject constructor() : ViewModel() {
+class MainViewModel : ViewModel() {
     companion object {
         private const val TAG = "MainViewModel"
     }

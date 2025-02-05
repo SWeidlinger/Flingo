@@ -1,0 +1,55 @@
+{
+  "chapterId": "1",
+  "chapterTitle": "Kapitel 1",
+  "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
+  "chapterCoverImage": "",
+  "chapterPositionOffset": 0.6,
+  "chapterType": "challenge",
+  "chapterCompleted": false,
+  "pages": [
+    {
+      "pageId": "1",
+      "pageDescription": "",
+      "pageCompleted": false,
+      "difficulty": "easy",
+      "hint": "TODO",
+      "timeLimit": 30,
+      "score": 10,
+      "feedback": {
+        "correct": "",
+        "incorrect": ""
+      },
+      "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
+      "pageType": "order_story",
+      "pageDetails": {
+        "pageType": "order_story",
+        "referenceTextTitle": "",
+        "referenceText": "",
+        "content": [
+          {
+            "id": 1,
+            "text": "Triton hält einen Sonnenschirm, während die Sonne scheint."
+          },
+          {
+            "id": 2,
+            "text": "Luna nimmt ein Ruder in die Hand."
+          },
+          {
+            "id": 3,
+            "text": "Calypso angelt, und blaue Fische schwimmen über ein Fass."
+          },
+          {
+            "id": 4,
+            "text": "Eine schwarze Wolke schiebt sich vor die Sonne."
+          }
+        ],
+        "correctOrder": [
+          1,
+          4,
+          3,
+          2
+        ]
+      }
+    }
+  ]
+}

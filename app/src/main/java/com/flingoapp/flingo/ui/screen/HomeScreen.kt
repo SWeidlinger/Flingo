@@ -28,9 +28,9 @@ import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.BookItem
 import com.flingoapp.flingo.ui.component.topbar.CustomHomeScreenTopBar
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodels.MainAction
-import com.flingoapp.flingo.viewmodels.book.BookUiState
-import com.flingoapp.flingo.viewmodels.user.UserUiState
+import com.flingoapp.flingo.viewmodel.MainAction
+import com.flingoapp.flingo.viewmodel.BookUiState
+import com.flingoapp.flingo.viewmodel.UserUiState
 import kotlin.math.absoluteValue
 
 /**

@@ -1,19 +1,25 @@
-package com.flingoapp.flingo.viewmodels.user
+package com.flingoapp.flingo.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flingoapp.flingo.data.models.User
-import com.flingoapp.flingo.viewmodels.MainAction
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.flingoapp.flingo.data.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import javax.inject.Inject
 
-@HiltViewModel
-class UserViewModel @Inject constructor() : ViewModel() {
+data class UserUiState(
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val name: String = "User",
+    val profileImage: String? = null,
+    val currentLives: Int = 5,
+    val currentReadingStreak: Int = 0,
+    val selectedInterests: ArrayList<String> = arrayListOf()
+)
+
+class UserViewModel : ViewModel() {
     companion object {
         private const val TAG = "UserViewModel"
     }

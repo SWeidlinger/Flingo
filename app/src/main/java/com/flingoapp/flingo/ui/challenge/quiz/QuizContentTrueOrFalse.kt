@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.data.models.book.page.PageDetails
+import com.flingoapp.flingo.data.model.book.page.PageDetails
 import com.flingoapp.flingo.ui.component.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.toDp
-import com.flingoapp.flingo.viewmodels.MainAction
+import com.flingoapp.flingo.viewmodel.MainAction
 
 @Composable
 fun QuizContentTrueOrFalse(

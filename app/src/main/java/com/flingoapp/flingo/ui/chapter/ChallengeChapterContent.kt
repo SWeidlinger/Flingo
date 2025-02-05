@@ -21,11 +21,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.data.models.MockData
-import com.flingoapp.flingo.data.models.book.Chapter
-import com.flingoapp.flingo.data.models.book.page.Page
-import com.flingoapp.flingo.data.models.book.page.PageDetails
-import com.flingoapp.flingo.data.models.book.page.PageType
+import com.flingoapp.flingo.data.model.MockData
+import com.flingoapp.flingo.data.model.book.Chapter
+import com.flingoapp.flingo.data.model.book.page.Page
+import com.flingoapp.flingo.data.model.book.page.PageDetails
+import com.flingoapp.flingo.data.model.book.page.PageType
 import com.flingoapp.flingo.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.challenge.orderStory.OrderStoryChallengeContent
@@ -35,7 +35,7 @@ import com.flingoapp.flingo.ui.component.pageIndicator.CustomChallengePageIndica
 import com.flingoapp.flingo.ui.component.topbar.CustomChallengeTopBar
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.ui.toDp
-import com.flingoapp.flingo.viewmodels.MainAction
+import com.flingoapp.flingo.viewmodel.MainAction
 
 /**
  * Challenge screen used to display the different kind of challenges

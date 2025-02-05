@@ -28,9 +28,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.data.models.MockData
-import com.flingoapp.flingo.data.models.book.page.Page
-import com.flingoapp.flingo.data.models.book.page.PageDetails
+import com.flingoapp.flingo.data.model.MockData
+import com.flingoapp.flingo.data.model.book.page.Page
+import com.flingoapp.flingo.data.model.book.page.PageDetails
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
@@ -132,7 +132,7 @@ fun ReferenceTextBottomSheet(
                     Box(
                         modifier = Modifier
                             .fillMaxHeight()
-                            .fillMaxWidth((openTime / watchTime).toFloat())
+                            .fillMaxWidth(openTime / watchTime)
                             .clip(RoundedCornerShape(50.dp))
                             .background(FlingoColors.Success)
                     )

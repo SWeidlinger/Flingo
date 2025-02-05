@@ -18,8 +18,8 @@ import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
 import com.flingoapp.flingo.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodels.MainAction
-import com.flingoapp.flingo.viewmodels.user.UserUiState
+import com.flingoapp.flingo.viewmodel.MainAction
+import com.flingoapp.flingo.viewmodel.UserUiState
 
 @Composable
 fun InterestSelectionScreen(

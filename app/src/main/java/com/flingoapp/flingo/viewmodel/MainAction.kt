@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.viewmodels
+package com.flingoapp.flingo.viewmodel
 
 /**
  * Main intent used to handle any actions which are accessible and executable from the composables
@@ -19,5 +19,9 @@ sealed interface MainAction {
         data object CompleteChapter : BookAction
         data class CompletePage(val pageIndex: Int) : BookAction
         data class FetchBooks(val booksJson: List<String>) : BookAction
+    }
+
+    sealed interface PersonalizationAction: MainAction{
+        data object GenerateBook : PersonalizationAction
     }
 }

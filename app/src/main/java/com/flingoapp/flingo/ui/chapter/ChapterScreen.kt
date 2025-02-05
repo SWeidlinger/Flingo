@@ -7,12 +7,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.flingoapp.flingo.data.models.book.Chapter
-import com.flingoapp.flingo.data.models.book.ChapterType
+import com.flingoapp.flingo.data.model.book.Chapter
+import com.flingoapp.flingo.data.model.book.ChapterType
 import com.flingoapp.flingo.navigation.NavigationIntent
-import com.flingoapp.flingo.viewmodels.MainAction
-import com.flingoapp.flingo.viewmodels.book.BookUiState
-import com.flingoapp.flingo.viewmodels.user.UserUiState
+import com.flingoapp.flingo.viewmodel.MainAction
+import com.flingoapp.flingo.viewmodel.BookUiState
+import com.flingoapp.flingo.viewmodel.UserUiState
 
 @Composable
 fun ChapterScreen(

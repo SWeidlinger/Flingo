@@ -1,11 +1,11 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.dokka)
-    alias(libs.plugins.kapt)
-    alias(libs.plugins.hilt)
 }
 
 android {
@@ -23,6 +23,16 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val localProperties = Properties().apply {
+            load(rootProject.file("local.properties").inputStream())
+        }
+        val openApiKey: String = localProperties.getProperty("OPENAI_API_KEY")
+        buildConfigField(
+            "String",
+            "OPENAI_API_KEY",
+            "\"$openApiKey\""
+        )
     }
 
     buildTypes {
@@ -43,6 +53,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     packaging {
         resources {
@@ -83,11 +94,6 @@ dependencies {
     //extended icons
     implementation(libs.androidx.material.icons.extended)
 
-    //hilt dependency injection
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.hilt.android)
-    kapt(libs.dagger.hilt.android.compiler)
-
     //constraint layout
     implementation(libs.androidx.constraintlayout.compose)
 
@@ -99,4 +105,9 @@ dependencies {
 
     //rive
     implementation(libs.rive.android)
+
+    //retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.kotlinx.serialization)
+    implementation(libs.logging.interceptor)
 }

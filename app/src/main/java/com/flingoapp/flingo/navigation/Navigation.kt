@@ -5,20 +5,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.flingoapp.flingo.di.MainApplication
+import com.flingoapp.flingo.di.viewModelFactory
+import com.flingoapp.flingo.ui.chapter.ChapterScreen
 import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
 import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screen.HomeScreen
 import com.flingoapp.flingo.ui.screen.InterestSelectionScreen
-import com.flingoapp.flingo.ui.chapter.ChapterScreen
-import com.flingoapp.flingo.viewmodels.MainAction
-import com.flingoapp.flingo.viewmodels.book.BookViewModel
-import com.flingoapp.flingo.viewmodels.main.MainViewModel
-import com.flingoapp.flingo.viewmodels.user.UserViewModel
+import com.flingoapp.flingo.viewmodel.BookViewModel
+import com.flingoapp.flingo.viewmodel.MainAction
+import com.flingoapp.flingo.viewmodel.MainViewModel
+import com.flingoapp.flingo.viewmodel.PersonalizationViewModel
+import com.flingoapp.flingo.viewmodel.UserViewModel
 
 /**
  * Nav host composable
@@ -35,7 +39,14 @@ fun NavHostComposable(
     startDestination: NavigationDestination = NavigationDestination.Home,
     mainViewModel: MainViewModel,
     bookViewModel: BookViewModel,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    personalizationViewModel: PersonalizationViewModel = viewModel<PersonalizationViewModel>(
+        factory = viewModelFactory {
+            PersonalizationViewModel(
+                MainApplication.appModule.genAiModule
+            )
+        }
+    )
 ) {
     val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
     val bookUiState by bookViewModel.uiState.collectAsStateWithLifecycle()
@@ -106,6 +117,7 @@ fun NavHostComposable(
 private fun processAction(
     bookViewModel: BookViewModel,
     userViewModel: UserViewModel,
+//    personalizationViewModel: PersonalizationViewModel,
     action: MainAction
 ) {
     when (action) {
@@ -115,6 +127,11 @@ private fun processAction(
 
         is MainAction.UserAction -> {
             userViewModel.onAction(action)
+        }
+
+        is MainAction.PersonalizationAction.GenerateBook -> {
+            //TODO
+//            personalizationViewModel.onAction(action)
         }
     }
 }

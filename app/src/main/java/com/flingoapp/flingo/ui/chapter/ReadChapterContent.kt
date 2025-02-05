@@ -25,19 +25,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
-import com.flingoapp.flingo.data.models.book.Chapter
-import com.flingoapp.flingo.data.models.book.page.Page
-import com.flingoapp.flingo.data.models.book.page.PageDetails
+import com.flingoapp.flingo.data.model.book.Chapter
+import com.flingoapp.flingo.data.model.book.page.Page
+import com.flingoapp.flingo.data.model.book.page.PageDetails
 import com.flingoapp.flingo.ui.component.CustomHighlightedText
 import com.flingoapp.flingo.ui.component.pageIndicator.CustomPageIndicator
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
 import com.flingoapp.flingo.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodels.MainAction
+import com.flingoapp.flingo.viewmodel.MainAction
 import kotlinx.coroutines.launch
 
 /**
- * Read screen used to display chapters with the [com.flingoapp.flingo.data.models.book.ChapterType.READ] type
+ * Read screen used to display chapters with the [com.flingoapp.flingo.data.model.book.ChapterType.READ] type
  *
  * @param onNavigate
  * @receiver

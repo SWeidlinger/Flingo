@@ -43,13 +43,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import com.flingoapp.flingo.data.models.book.page.PageDetails
+import com.flingoapp.flingo.data.model.book.page.PageDetails
 import com.flingoapp.flingo.ui.component.PaperSnippet
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.lighten
 import com.flingoapp.flingo.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
-import com.flingoapp.flingo.viewmodels.MainAction
+import com.flingoapp.flingo.viewmodel.MainAction
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import nl.dionsegijn.konfetti.compose.KonfettiView

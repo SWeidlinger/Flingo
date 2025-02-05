@@ -38,10 +38,10 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.flingoapp.flingo.data.models.MockData
-import com.flingoapp.flingo.data.models.book.Book
-import com.flingoapp.flingo.data.models.book.Chapter
-import com.flingoapp.flingo.data.models.book.ChapterType
+import com.flingoapp.flingo.data.model.MockData
+import com.flingoapp.flingo.data.model.book.Book
+import com.flingoapp.flingo.data.model.book.Chapter
+import com.flingoapp.flingo.data.model.book.ChapterType
 import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
@@ -50,8 +50,8 @@ import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodels.MainAction
-import com.flingoapp.flingo.viewmodels.book.BookUiState
+import com.flingoapp.flingo.viewmodel.MainAction
+import com.flingoapp.flingo.viewmodel.BookUiState
 
 @Composable
 fun ChapterSelectionScreen(

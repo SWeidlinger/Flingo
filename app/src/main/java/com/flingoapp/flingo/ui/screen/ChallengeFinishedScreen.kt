@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.navigation.NavigationIntent
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodels.MainAction
-import com.flingoapp.flingo.viewmodels.main.MainUiState
+import com.flingoapp.flingo.viewmodel.MainAction
+import com.flingoapp.flingo.viewmodel.MainUiState
 
 @Composable
 fun ChallengeFinishedScreen(
