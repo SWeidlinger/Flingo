@@ -261,7 +261,7 @@ fun Modifier.animatedBorder(
     shape: Shape,
     colors: List<Color> = listOf(
         Color.Transparent,
-        FlingoColors.Success
+        FlingoColors.Primary
     ),
     brush: (Size) -> Brush = {
         Brush.sweepGradient(colors)

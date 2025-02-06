@@ -27,7 +27,7 @@ data class Chapter(
     @SerialName("chapterPositionOffset") val positionOffset: Float,
     //TODO: make immutable
     @SerialName("chapterCompleted") var isCompleted: Boolean,
-    @SerialName("pages") val pages: ArrayList<Page>? = arrayListOf()
+    @SerialName("pages") val pages: List<Page>? = listOf()
 )
 
 /**

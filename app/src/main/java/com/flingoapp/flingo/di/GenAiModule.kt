@@ -1,13 +1,13 @@
 package com.flingoapp.flingo.di
 
-import com.flingoapp.flingo.data.network.GenAiModelName
+import com.flingoapp.flingo.data.network.GenAiModel
 import com.flingoapp.flingo.data.network.GenAiRepository
 import com.flingoapp.flingo.data.network.openAi.OpenAiRepositoryImpl
 import com.flingoapp.flingo.data.network.openAi.OpenAiService
 
 interface GenAiModule {
     val repository: GenAiRepository
-    fun setModelRepository(genAiModel: GenAiModelName)
+    fun setModelRepository(genAiModel: GenAiModel)
 }
 
 class GenAiModuleImpl : GenAiModule {
@@ -20,15 +20,16 @@ class GenAiModuleImpl : GenAiModule {
     override val repository: GenAiRepository
         get() {
             if (!this::modelRepository.isInitialized) {
-                setModelRepository(GenAiModelName.OPENAI)
+                setModelRepository(GenAiModel.OPEN_AI)
             }
 
             return modelRepository
         }
 
-    override fun setModelRepository(genAiModel: GenAiModelName) {
+    override fun setModelRepository(genAiModel: GenAiModel) {
         modelRepository = when (genAiModel) {
-            GenAiModelName.OPENAI -> OpenAiRepositoryImpl(openAiService)
+            GenAiModel.OPEN_AI -> OpenAiRepositoryImpl(openAiService)
+            GenAiModel.GEMINI -> TODO()
         }
     }
 }

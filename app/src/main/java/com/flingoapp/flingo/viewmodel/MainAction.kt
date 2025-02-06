@@ -19,6 +19,7 @@ sealed interface MainAction {
         data object CompleteChapter : BookAction
         data class CompletePage(val pageIndex: Int) : BookAction
         data class FetchBooks(val booksJson: List<String>) : BookAction
+        data class AddBook(val bookJson: String) : BookAction
     }
 
     sealed interface PersonalizationAction: MainAction{

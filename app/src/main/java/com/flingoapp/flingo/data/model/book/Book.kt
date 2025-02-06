@@ -25,5 +25,5 @@ data class Book(
     @SerialName("title") val title: String,
     @SerialName("description") val description: String,
     @SerialName("coverImage") val coverImage: String?,
-    @SerialName("chapters") val chapters: ArrayList<Chapter> = arrayListOf()
+    @SerialName("chapters") val chapters: List<Chapter> = listOf()
 )

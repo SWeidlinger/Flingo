@@ -24,5 +24,5 @@ data class User(
     @SerialName("currentLives") val currentLives: Int,
     @SerialName("currentReadingStreak") val currentReadingStreak: Int,
     @SerialName("selectedInterests") val selectedInterests: ArrayList<String>,
-    @SerialName("book") val books: ArrayList<Book>? = arrayListOf()
+    @SerialName("book") val books: List<Book>? = listOf()
 )

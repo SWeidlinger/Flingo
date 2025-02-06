@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.toRoute
+import com.flingoapp.flingo.BuildConfig
 import com.flingoapp.flingo.di.MainApplication
 import com.flingoapp.flingo.di.viewModelFactory
 import com.flingoapp.flingo.ui.chapter.ChapterScreen
@@ -31,6 +32,8 @@ import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.MainViewModel
 import com.flingoapp.flingo.viewmodel.PersonalizationViewModel
 import com.flingoapp.flingo.viewmodel.UserViewModel
+
+private var NAVIGATION_ANIMATION_DURATION = if (BuildConfig.DEBUG) 0 else 1000
 
 /**
  * Nav host composable
@@ -51,7 +54,9 @@ fun NavHostComposable(
     personalizationViewModel: PersonalizationViewModel = viewModel<PersonalizationViewModel>(
         factory = viewModelFactory {
             PersonalizationViewModel(
-                MainApplication.appModule.genAiModule
+                genAiModule = MainApplication.appModule.genAiModule,
+                bookViewModel = bookViewModel,
+                userViewModel = userViewModel
             )
         }
     )
@@ -59,6 +64,7 @@ fun NavHostComposable(
     val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
     val bookUiState by bookViewModel.uiState.collectAsStateWithLifecycle()
     val userUiState by userViewModel.uiState.collectAsStateWithLifecycle()
+    val personalizationUiState by personalizationViewModel.uiState.collectAsStateWithLifecycle()
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     var currentDestinationRoute by rememberSaveable { mutableStateOf(backStackEntry?.destination?.route) }
@@ -82,7 +88,7 @@ fun NavHostComposable(
                 if (isRoute(previousDestinationRoute, NavigationDestination.StreakAndStars)) {
                     slideIntoContainer(
                         AnimatedContentTransitionScope.SlideDirection.Up,
-                        tween(1000)
+                        tween(NAVIGATION_ANIMATION_DURATION)
                     )
                 } else if (isRoute(
                         previousDestinationRoute,
@@ -91,7 +97,7 @@ fun NavHostComposable(
                 ) {
                     slideIntoContainer(
                         AnimatedContentTransitionScope.SlideDirection.Left,
-                        tween(1000)
+                        tween(NAVIGATION_ANIMATION_DURATION)
                     )
                 } else {
                     null
@@ -101,13 +107,13 @@ fun NavHostComposable(
                 if (isRoute(currentDestinationRoute, NavigationDestination.StreakAndStars)) {
                     slideOutOfContainer(
                         AnimatedContentTransitionScope.SlideDirection.Down,
-                        tween(1000)
+                        tween(NAVIGATION_ANIMATION_DURATION)
                     )
                 } else if (isRoute(currentDestinationRoute, NavigationDestination.InterestSelection)
                 ) {
                     slideOutOfContainer(
                         AnimatedContentTransitionScope.SlideDirection.Right,
-                        tween(1000)
+                        tween(NAVIGATION_ANIMATION_DURATION)
                     )
                 } else {
                     null
@@ -117,7 +123,15 @@ fun NavHostComposable(
             HomeScreen(
                 bookUiState = bookUiState,
                 userUiState = userUiState,
-                onAction = { processAction(bookViewModel, userViewModel, it) },
+                personalizationUiState = personalizationUiState,
+                onAction = {
+                    processAction(
+                        bookViewModel,
+                        userViewModel,
+                        personalizationViewModel,
+                        it
+                    )
+                },
                 onNavigate = { processNavigation(it, navController) }
             )
         }
@@ -130,7 +144,14 @@ fun NavHostComposable(
                 bookUiState = bookUiState,
                 currentLives = userUiState.currentLives,
                 book = bookViewModel.getCurrentBook(),
-                onAction = { processAction(bookViewModel, userViewModel, it) },
+                onAction = {
+                    processAction(
+                        bookViewModel,
+                        userViewModel,
+                        personalizationViewModel,
+                        it
+                    )
+                },
                 onNavigate = { processNavigation(it, navController) }
             )
         }
@@ -143,7 +164,14 @@ fun NavHostComposable(
                 bookUiState = bookUiState,
                 userUiState = userUiState,
                 chapter = bookViewModel.getCurrentChapter(),
-                onAction = { processAction(bookViewModel, userViewModel, it) },
+                onAction = {
+                    processAction(
+                        bookViewModel,
+                        userViewModel,
+                        personalizationViewModel,
+                        it
+                    )
+                },
                 onNavigate = { processNavigation(it, navController) }
             )
         }
@@ -153,7 +181,14 @@ fun NavHostComposable(
 
             ChallengeFinishedScreen(
                 mainUiState = mainUiState,
-                onAction = { processAction(bookViewModel, userViewModel, it) },
+                onAction = {
+                    processAction(
+                        bookViewModel,
+                        userViewModel,
+                        personalizationViewModel,
+                        it
+                    )
+                },
                 onNavigate = { processNavigation(it, navController) }
             )
         }
@@ -162,13 +197,13 @@ fun NavHostComposable(
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Right,
-                    tween(1000)
+                    tween(NAVIGATION_ANIMATION_DURATION)
                 )
             },
             exitTransition = {
                 slideOutOfContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
-                    tween(1000)
+                    tween(NAVIGATION_ANIMATION_DURATION)
                 )
             }
         ) { backStackEntry ->
@@ -176,7 +211,14 @@ fun NavHostComposable(
 
             InterestSelectionScreen(
                 userUiState = userUiState,
-                onAction = { processAction(bookViewModel, userViewModel, it) },
+                onAction = {
+                    processAction(
+                        bookViewModel,
+                        userViewModel,
+                        personalizationViewModel,
+                        it
+                    )
+                },
                 onNavigate = { processNavigation(it, navController) }
             )
         }
@@ -185,13 +227,13 @@ fun NavHostComposable(
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Down,
-                    tween(1000)
+                    tween(NAVIGATION_ANIMATION_DURATION)
                 )
             },
             exitTransition = {
                 slideOutOfContainer(
                     AnimatedContentTransitionScope.SlideDirection.Up,
-                    tween(1000)
+                    tween(NAVIGATION_ANIMATION_DURATION)
                 )
             }
         ) {
@@ -212,7 +254,7 @@ private fun isRoute(
 private fun processAction(
     bookViewModel: BookViewModel,
     userViewModel: UserViewModel,
-//    personalizationViewModel: PersonalizationViewModel,
+    personalizationViewModel: PersonalizationViewModel,
     action: MainAction
 ) {
     when (action) {
@@ -225,8 +267,7 @@ private fun processAction(
         }
 
         is MainAction.PersonalizationAction.GenerateBook -> {
-            //TODO
-//            personalizationViewModel.onAction(action)
+            personalizationViewModel.onAction(action)
         }
     }
 }

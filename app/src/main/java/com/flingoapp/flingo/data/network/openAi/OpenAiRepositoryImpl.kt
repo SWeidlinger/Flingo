@@ -1,6 +1,7 @@
 package com.flingoapp.flingo.data.network.openAi
 
 import android.util.Log
+import com.flingoapp.flingo.data.network.GenAiModel
 import com.flingoapp.flingo.data.network.GenAiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,12 +16,15 @@ class OpenAiRepositoryImpl(
     override suspend fun getResponse(prompt: String): Result<String> {
         return try {
             val request = OpenAiRequest(
-                model = "gpt-4o",
+                model = GenAiModel.OPEN_AI.model,
                 messages = listOf(
                     Message(
                         role = "user",
                         content = prompt
                     )
+                ),
+                responseFormat = ResponseFormat(
+                    type = "json_object"
                 )
             )
 

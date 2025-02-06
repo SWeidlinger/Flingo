@@ -1,9 +1,11 @@
 package com.flingoapp.flingo.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flingoapp.flingo.data.model.book.Book
 import com.flingoapp.flingo.data.model.book.Chapter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -13,7 +15,7 @@ import kotlinx.serialization.json.Json
 data class BookUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
-    val books: ArrayList<Book> = arrayListOf(),
+    val books: List<Book> = listOf(),
     val currentBookId: Int? = null,
     val currentChapterId: Int? = null
 )
@@ -33,6 +35,27 @@ class BookViewModel : ViewModel() {
             MainAction.BookAction.CompleteChapter -> completeChapter()
             is MainAction.BookAction.FetchBooks -> fetchBooks(action.booksJson)
             is MainAction.BookAction.CompletePage -> completePage(action.pageIndex)
+            is MainAction.BookAction.AddBook -> addBook(action.bookJson)
+        }
+    }
+
+    private fun addBook(bookJson: String) {
+        viewModelScope.launch {
+            try {
+                val deserializer = Json {
+                    ignoreUnknownKeys = true
+                }
+
+                val book = deserializer.decodeFromString<Book>(bookJson)
+                val newBookList = _uiState.value.books.toMutableList()
+                newBookList.add(book)
+                updateUiState(_uiState.value.copy(books = newBookList))
+            } catch (e: Exception) {
+                Log.e(TAG, "Error: ${e.message}")
+                updateUiState(_uiState.value.copy(isError = true))
+                delay(1000)
+                updateUiState(_uiState.value.copy(isError = false))
+            }
         }
     }
 
@@ -44,8 +67,7 @@ class BookViewModel : ViewModel() {
                 ignoreUnknownKeys = true
             }
 
-            val books =
-                bookJsonList.map { deserializer.decodeFromString<Book>(it) } as ArrayList<Book>
+            val books = bookJsonList.map { deserializer.decodeFromString<Book>(it) }
 
             updateUiState(
                 _uiState.value.copy(
