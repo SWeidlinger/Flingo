@@ -42,6 +42,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            //TODO: remove before release
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {

@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -74,7 +75,7 @@ fun CustomElevatedButton(
     modifier: Modifier = Modifier,
     buttonContentModifier: Modifier = Modifier,
     size: DpSize? = null,
-    shape: RoundedCornerShape,
+    shape: Shape,
     addOutline: Boolean = false,
     elevation: Dp = 8.dp,
     backgroundColor: Color = MaterialTheme.colorScheme.primary,

@@ -1,6 +1,7 @@
 package com.flingoapp.flingo.ui.component.topbar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -53,6 +54,7 @@ fun CustomHomeScreenTopBar(
     userName: String,
     currentStreak: Int,
     currentLives: Int,
+    onStreakClick: () -> Unit,
     onUserClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onAwardClick: () -> Unit
@@ -60,8 +62,8 @@ fun CustomHomeScreenTopBar(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 16.dp),
-        contentAlignment = Alignment.Center
+            .padding(end = 24.dp, bottom = 16.dp),
+        contentAlignment = Alignment.TopCenter
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -70,6 +72,10 @@ fun CustomHomeScreenTopBar(
         ) {
             // user profile button
             CustomElevatedTextButton(
+                shape = RoundedCornerShape(
+                    topEndPercent = 20,
+                    bottomEndPercent = 20
+                ),
                 fontSize = 32,
                 text = userName,
                 onClick = { onUserClick() },
@@ -82,17 +88,18 @@ fun CustomHomeScreenTopBar(
             Row(
                 modifier = Modifier
                     .height(iconButtonSize.height.toDp())
+                    .background(
+                        color = FlingoColors.LightGray,
+                        shape = RoundedCornerShape(bottomStartPercent = 20, bottomEndPercent = 20)
+                    )
+                    .clickable { onStreakClick() }
             ) {
                 LottieIconWithText(
                     modifier = Modifier
                         .onGloballyPositioned {
                             lottieIconSize = it.size
                         }
-                        .fillMaxHeight()
-                        .background(
-                            color = FlingoColors.LightGray,
-                            shape = RoundedCornerShape(100)
-                        ),
+                        .fillMaxHeight(),
                     lottieModifier = Modifier
                         .offset(0.dp, (-8).dp),
                     lottieAnimation = R.raw.animation_fire_streak,
@@ -110,11 +117,7 @@ fun CustomHomeScreenTopBar(
                 LottieIconWithText(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .width(lottieIconSize.width.toDp())
-                        .background(
-                            color = FlingoColors.LightGray,
-                            shape = RoundedCornerShape(100)
-                        ),
+                        .width(lottieIconSize.width.toDp()),
                     lottieModifier = Modifier
                         .offset(0.dp, (-2).dp)
                         .padding(start = 8.dp),
@@ -172,6 +175,7 @@ private fun CustomHomeScreenTopBarPreview() {
             currentLives = 3,
             onUserClick = {},
             onSettingsClick = {},
+            onStreakClick = {},
             onAwardClick = {}
         )
     }

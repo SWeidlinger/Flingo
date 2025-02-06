@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,6 +50,7 @@ fun CustomElevatedTextButton(
     isPressed: Boolean = false,
     pressedColor: Color = Color.White,
     textColor: Color = FlingoColors.Text,
+    shape: Shape = RoundedCornerShape(15.dp),
     fontSize: Int = 48,
     addOutline: Boolean = true,
     isTextStrikethrough: Boolean = false,
@@ -60,7 +62,7 @@ fun CustomElevatedTextButton(
         addOutline = addOutline,
         backgroundColor = Color.White,
         shadowColor = Color.White.darken(0.3f),
-        shape = RoundedCornerShape(15.dp),
+        shape = shape,
         isPressed = isPressed,
         pressedColor = pressedColor,
         onClick = onClick,

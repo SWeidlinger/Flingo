@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
  *
  * @constructor Create empty Navigation destination
  */
-sealed class NavigationDestination {
+sealed interface NavigationDestination {
     @Serializable
-    data object Home : NavigationDestination()
+    data object Home : NavigationDestination
 
     /**
      * Chapter selection
@@ -18,7 +18,7 @@ sealed class NavigationDestination {
      * @constructor Create empty Chapter selection
      */
     @Serializable
-    data class ChapterSelection(val bookIndex: Int) : NavigationDestination()
+    data class ChapterSelection(val bookIndex: Int) : NavigationDestination
 
     /**
      * Chapter
@@ -27,7 +27,7 @@ sealed class NavigationDestination {
      * @constructor Create empty Chapter
      */
     @Serializable
-    data class Chapter(val chapterIndex: Int) : NavigationDestination()
+    data class Chapter(val chapterIndex: Int) : NavigationDestination
 
     /**
      * Challenge finished screen
@@ -35,7 +35,7 @@ sealed class NavigationDestination {
      * @constructor Create empty ChallengeFinished
      */
     @Serializable
-    data object ChallengeFinished : NavigationDestination()
+    data object ChallengeFinished : NavigationDestination
 
     /**
      * Interest selection screen
@@ -43,5 +43,8 @@ sealed class NavigationDestination {
      * @constructor Create empty InterestSelection
      */
     @Serializable
-    data object InterestSelection : NavigationDestination()
+    data object InterestSelection : NavigationDestination
+
+    @Serializable
+    data object StreakAndStars : NavigationDestination
 }

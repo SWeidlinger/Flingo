@@ -28,8 +28,8 @@ import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.BookItem
 import com.flingoapp.flingo.ui.component.topbar.CustomHomeScreenTopBar
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.BookUiState
+import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.UserUiState
 import kotlin.math.absoluteValue
 
@@ -51,22 +51,27 @@ fun HomeScreen(
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
-    Scaffold(topBar = {
-        CustomHomeScreenTopBar(
-            userName = userUiState.name,
-            currentStreak = userUiState.currentReadingStreak,
-            currentLives = userUiState.currentLives,
-            onUserClick = {
-                onNavigate(NavigationIntent.Screen(NavigationDestination.InterestSelection))
-            },
-            onSettingsClick = {
-                //TODO: implement
-            },
-            onAwardClick = {
-                //TODO: implement
-            }
-        )
-    }) { innerPadding ->
+    Scaffold(
+        topBar = {
+            CustomHomeScreenTopBar(
+                userName = userUiState.name,
+                currentStreak = userUiState.currentReadingStreak,
+                currentLives = userUiState.currentLives,
+                onUserClick = {
+                    onNavigate(NavigationIntent.Screen(NavigationDestination.InterestSelection))
+                },
+                onStreakClick = {
+                    onNavigate(NavigationIntent.Screen(NavigationDestination.StreakAndStars))
+                },
+                onSettingsClick = {
+                    //TODO: implement
+                },
+                onAwardClick = {
+                    //TODO: implement
+                }
+            )
+        }
+    ) { innerPadding ->
         if (bookUiState.books.isEmpty()) {
             Text(
                 modifier = Modifier

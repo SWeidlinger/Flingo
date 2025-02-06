@@ -1,8 +1,14 @@
 package com.flingoapp.flingo.navigation
 
 import android.util.Log
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -10,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.toRoute
 import com.flingoapp.flingo.di.MainApplication
 import com.flingoapp.flingo.di.viewModelFactory
@@ -18,6 +25,7 @@ import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
 import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screen.HomeScreen
 import com.flingoapp.flingo.ui.screen.InterestSelectionScreen
+import com.flingoapp.flingo.ui.screen.StreakAndStarsScreen
 import com.flingoapp.flingo.viewmodel.BookViewModel
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.MainViewModel
@@ -52,12 +60,60 @@ fun NavHostComposable(
     val bookUiState by bookViewModel.uiState.collectAsStateWithLifecycle()
     val userUiState by userViewModel.uiState.collectAsStateWithLifecycle()
 
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    var currentDestinationRoute by rememberSaveable { mutableStateOf(backStackEntry?.destination?.route) }
+    var previousDestinationRoute by rememberSaveable { mutableStateOf(backStackEntry?.destination?.parent?.route) }
+
+    LaunchedEffect(backStackEntry?.destination?.route) {
+        previousDestinationRoute = currentDestinationRoute
+        currentDestinationRoute = backStackEntry?.destination?.route
+
+        Log.d("NavHostComposable", "currentDestinationRoute: $currentDestinationRoute")
+        Log.d("NavHostComposable", "previousDestinationRoute: $previousDestinationRoute")
+    }
+
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
-        composable<NavigationDestination.Home> {
+        composable<NavigationDestination.Home>(
+            popEnterTransition = {
+                if (isRoute(previousDestinationRoute, NavigationDestination.StreakAndStars)) {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Up,
+                        tween(1000)
+                    )
+                } else if (isRoute(
+                        previousDestinationRoute,
+                        NavigationDestination.InterestSelection
+                    )
+                ) {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        tween(1000)
+                    )
+                } else {
+                    null
+                }
+            },
+            exitTransition = {
+                if (isRoute(currentDestinationRoute, NavigationDestination.StreakAndStars)) {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Down,
+                        tween(1000)
+                    )
+                } else if (isRoute(currentDestinationRoute, NavigationDestination.InterestSelection)
+                ) {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Right,
+                        tween(1000)
+                    )
+                } else {
+                    null
+                }
+            }
+        ) {
             HomeScreen(
                 bookUiState = bookUiState,
                 userUiState = userUiState,
@@ -102,7 +158,20 @@ fun NavHostComposable(
             )
         }
 
-        composable<NavigationDestination.InterestSelection> { backStackEntry ->
+        composable<NavigationDestination.InterestSelection>(
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    tween(1000)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    tween(1000)
+                )
+            }
+        ) { backStackEntry ->
             val args = backStackEntry.toRoute<NavigationDestination.InterestSelection>()
 
             InterestSelectionScreen(
@@ -111,7 +180,33 @@ fun NavHostComposable(
                 onNavigate = { processNavigation(it, navController) }
             )
         }
+
+        composable<NavigationDestination.StreakAndStars>(
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Down,
+                    tween(1000)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Up,
+                    tween(1000)
+                )
+            }
+        ) {
+            StreakAndStarsScreen(
+                onNavigate = { processNavigation(it, navController) }
+            )
+        }
     }
+}
+
+private fun isRoute(
+    route: String?,
+    destination: NavigationDestination
+): Boolean {
+    return route == destination::class.qualifiedName
 }
 
 private fun processAction(

@@ -1,6 +1,5 @@
 package com.flingoapp.flingo.ui
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeGesturesPadding
@@ -34,15 +33,13 @@ fun FlingoApp(
                 .fillMaxSize()
                 .safeGesturesPadding()
         ) { innerPadding ->
-            Box(modifier = Modifier.fillMaxSize()) {
-                NavHostComposable(
-                    modifier = Modifier.padding(innerPadding),
-                    navController = navHostController,
-                    mainViewModel = mainViewModel,
-                    bookViewModel = bookViewModel,
-                    userViewModel = userViewModel
-                )
-            }
+            NavHostComposable(
+                modifier = Modifier.padding(innerPadding),
+                navController = navHostController,
+                mainViewModel = mainViewModel,
+                bookViewModel = bookViewModel,
+                userViewModel = userViewModel
+            )
         }
     }
 }
