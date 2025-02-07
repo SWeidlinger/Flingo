@@ -47,7 +47,7 @@ import com.flingoapp.flingo.data.model.book.page.PageDetails
 import com.flingoapp.flingo.ui.component.PaperSnippet
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.lighten
-import com.flingoapp.flingo.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodel.MainAction
 import kotlinx.coroutines.delay
@@ -61,7 +61,7 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun OrderStoryChallengeContent(
     modifier: Modifier = Modifier,
-    onNavigate: (NavigationIntent) -> Unit,
+    onNavigate: (NavigationAction) -> Unit,
     pageDetails: PageDetails.OrderStoryPageDetails,
     onAction: (MainAction) -> Unit,
     onPageCompleted: (score: Int) -> Unit
@@ -296,7 +296,7 @@ fun OrderStoryChallengeContent(
                     shape = CircleShape,
                     onClick = {
                         if (isCorrectAnswer == true) {
-                            onNavigate(NavigationIntent.Up())
+                            onNavigate(NavigationAction.Up())
                         } else {
                             val resultOrder = resultSnippetMap.values.map { it?.id ?: -1 }
 

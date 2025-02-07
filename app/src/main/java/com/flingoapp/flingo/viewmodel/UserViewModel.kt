@@ -13,10 +13,11 @@ data class UserUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val name: String = "User",
+    val age: Int = 7,
     val profileImage: String? = null,
     val currentLives: Int = 5,
     val currentReadingStreak: Int = 0,
-    val selectedInterests: ArrayList<String> = arrayListOf()
+    val selectedInterests: List<String> = listOf()
 )
 
 class UserViewModel : ViewModel() {
@@ -51,6 +52,7 @@ class UserViewModel : ViewModel() {
                     isLoading = false,
                     isError = false,
                     name = user.name,
+                    age = user.age,
                     profileImage = user.profileImage,
                     currentLives = user.currentLives,
                     currentReadingStreak = user.currentReadingStreak,

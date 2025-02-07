@@ -29,7 +29,7 @@ import com.flingoapp.flingo.data.model.book.page.PageDetails
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton
-import com.flingoapp.flingo.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.MainAction
@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun RemoveWordChallengeContent(
     modifier: Modifier = Modifier,
-    onNavigate: (NavigationIntent) -> Unit,
+    onNavigate: (NavigationAction) -> Unit,
     onAction: (MainAction) -> Unit,
     pageDetails: PageDetails.RemoveWordPageDetails,
     onPageCompleted: (score: Int) -> Unit
@@ -113,7 +113,7 @@ fun RemoveWordChallengeContent(
                 shape = CircleShape,
                 onClick = {
                     if (isCorrectAnswer == true) {
-                        onNavigate(NavigationIntent.Up())
+                        onNavigate(NavigationAction.Up())
                     } else if (currentSelectedWord != "") {
                         if (currentSelectedWord.removeSuffix(",") == pageDetails.answer) {
                             buttonColor = FlingoColors.Success

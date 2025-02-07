@@ -47,7 +47,7 @@ import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
 import com.flingoapp.flingo.navigation.NavigationDestination
-import com.flingoapp.flingo.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.MainAction
@@ -59,7 +59,7 @@ fun ChapterSelectionScreen(
     currentLives: Int,
     book: Book?,
     onAction: (MainAction) -> Unit,
-    onNavigate: (NavigationIntent) -> Unit
+    onNavigate: (NavigationAction) -> Unit
 ) {
     if (book == null) {
         Log.e("Navigation", "Book (${bookUiState.currentBookId}) not found!")
@@ -102,7 +102,7 @@ private fun ChapterSelectionContent(
     chapters: List<Chapter>,
     currentLives: Int,
     onAction: (MainAction) -> Unit,
-    onNavigate: (NavigationIntent) -> Unit
+    onNavigate: (NavigationAction) -> Unit
 ) {
     //TODO: remove after testing
     var unlockAll by remember { mutableStateOf(false) }
@@ -112,7 +112,7 @@ private fun ChapterSelectionContent(
         topBar = {
             CustomTopBar(
                 title = book.title,
-                navigateUp = { onNavigate(NavigationIntent.Up()) },
+                navigateUp = { onNavigate(NavigationAction.Up()) },
                 onAwardClick = {
                     unlockAll = !unlockAll
                 },
@@ -216,7 +216,7 @@ private fun ChapterSelectionContent(
                             },
                             onClick = {
                                 onNavigate(
-                                    NavigationIntent.Screen(
+                                    NavigationAction.Screen(
                                         destination = NavigationDestination.Chapter(chapterIndex = index)
                                     )
                                 )

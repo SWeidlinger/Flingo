@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.navigation.NavigationDestination
-import com.flingoapp.flingo.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.animatedBorder
 import com.flingoapp.flingo.ui.component.BookItem
@@ -68,7 +68,7 @@ fun HomeScreen(
     bookUiState: BookUiState,
     personalizationUiState: PersonalizationUiState,
     onAction: (MainAction) -> Unit,
-    onNavigate: (NavigationIntent) -> Unit
+    onNavigate: (NavigationAction) -> Unit
 ) {
     val pagerState = rememberPagerState(pageCount = { bookUiState.books.size })
 
@@ -82,13 +82,13 @@ fun HomeScreen(
                 currentStreak = userUiState.currentReadingStreak,
                 currentLives = userUiState.currentLives,
                 onUserClick = {
-                    onNavigate(NavigationIntent.Screen(NavigationDestination.InterestSelection))
+                    onNavigate(NavigationAction.Screen(NavigationDestination.InterestSelection))
                 },
                 onStreakClick = {
-                    onNavigate(NavigationIntent.Screen(NavigationDestination.StreakAndStars))
+                    onNavigate(NavigationAction.Screen(NavigationDestination.StreakAndStars))
                 },
                 onSettingsClick = {
-                    //TODO: implement
+                    onNavigate(NavigationAction.Screen(NavigationDestination.Settings))
                 },
                 onAwardClick = {
                     //TODO: implement
@@ -156,7 +156,7 @@ fun HomeScreen(
                             book = bookUiState.books[bookIndex],
                             onClick = {
                                 onNavigate(
-                                    NavigationIntent.Screen(
+                                    NavigationAction.Screen(
                                         destination = NavigationDestination.ChapterSelection(
                                             bookIndex = bookIndex
                                         )

@@ -1,5 +1,7 @@
 package com.flingoapp.flingo.viewmodel
 
+import com.flingoapp.flingo.data.network.GenAiModel
+
 /**
  * Main intent used to handle any actions which are accessible and executable from the composables
  *
@@ -24,5 +26,6 @@ sealed interface MainAction {
 
     sealed interface PersonalizationAction: MainAction{
         data object GenerateBook : PersonalizationAction
+        data class ChangeModel(val model: GenAiModel) : PersonalizationAction
     }
 }

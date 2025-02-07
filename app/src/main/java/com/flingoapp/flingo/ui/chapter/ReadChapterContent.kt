@@ -31,7 +31,7 @@ import com.flingoapp.flingo.data.model.book.page.PageDetails
 import com.flingoapp.flingo.ui.component.CustomHighlightedText
 import com.flingoapp.flingo.ui.component.pageIndicator.CustomPageIndicator
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
-import com.flingoapp.flingo.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.MainAction
 import kotlinx.coroutines.launch
@@ -48,7 +48,7 @@ fun ReadChapterContent(
     chapter: Chapter,
     pages: List<Page>,
     onAction: (MainAction) -> Unit,
-    onNavigate: (NavigationIntent) -> Unit
+    onNavigate: (NavigationAction) -> Unit
 ) {
     val pagerState = rememberPagerState { pages.size }
 
@@ -57,12 +57,12 @@ fun ReadChapterContent(
     Scaffold(topBar = {
         CustomTopBar(
             title = chapter.title,
-            navigateUp = { onNavigate(NavigationIntent.Up()) },
+            navigateUp = { onNavigate(NavigationAction.Up()) },
             onSettingsClick = {},
             onAwardClick = {
                 //TODO: remove after testing
                 onAction(MainAction.BookAction.CompleteChapter)
-                onNavigate(NavigationIntent.Up())
+                onNavigate(NavigationAction.Up())
             }
         )
     }) { innerPadding ->
@@ -121,7 +121,7 @@ fun ReadChapterContent(
                                 } else if (pagerState.currentPage < pagerState.pageCount) {
                                     if (pagerState.currentPage == pagerState.pageCount - 1) {
                                         onAction(MainAction.BookAction.CompleteChapter)
-                                        onNavigate(NavigationIntent.Up())
+                                        onNavigate(NavigationAction.Up())
                                     }
 
                                     coroutineScope.launch {

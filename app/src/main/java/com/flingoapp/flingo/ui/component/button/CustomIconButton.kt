@@ -60,7 +60,7 @@ fun CustomIconButton(
     modifier: Modifier = Modifier,
     size: Dp = 75.dp,
     iconTint: Color = Color.Black.copy(alpha = 0.4f),
-    backgroundColor: Color = Color.Black.copy(alpha = 0.5f),
+    backgroundColor: Color = Color.LightGray,
     shadowColor: Color = backgroundColor.darken(0.2f),
     icon: ImageVector,
     iconScale: Float = 1.3f,

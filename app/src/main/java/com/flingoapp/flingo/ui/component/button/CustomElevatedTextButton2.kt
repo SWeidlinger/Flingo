@@ -44,6 +44,7 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
 @Composable
 fun CustomElevatedTextButton2(
     modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
     text: String,
     elevation: Dp = 8.dp,
     showSpeakerIcon: Boolean = false,
@@ -55,7 +56,6 @@ fun CustomElevatedTextButton2(
     fontSize: TextUnit = 48.sp,
     addOutline: Boolean = true,
     isTextStrikethrough: Boolean = false,
-    textModifier: Modifier = Modifier,
     backgroundColor: Color = Color.White,
     onClick: () -> Unit
 ) {

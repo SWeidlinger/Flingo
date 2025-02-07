@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.theme.FlingoColors
@@ -32,7 +32,7 @@ import com.flingoapp.flingo.viewmodel.UserUiState
 fun InterestSelectionScreen(
     userUiState: UserUiState,
     onAction: (MainAction) -> Unit,
-    onNavigate: (NavigationIntent) -> Unit
+    onNavigate: (NavigationAction) -> Unit
 ) {
     //TODO: include icons for the individual interests
     val availableInterests = listOf(
@@ -68,7 +68,7 @@ fun InterestSelectionScreen(
                     topStartPercent = 20,
                     bottomStartPercent = 20
                 ),
-                onClick = { onNavigate(NavigationIntent.Up()) },
+                onClick = { onNavigate(NavigationAction.Up()) },
                 text = "Zurück"
             )
         }

@@ -15,12 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.theme.FlingoColors
 
 @Composable
 fun StreakAndStarsScreen(
-    onNavigate: (NavigationIntent) -> Unit
+    onNavigate: (NavigationAction) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         IconButton(
@@ -32,7 +32,7 @@ fun StreakAndStarsScreen(
                     shape = RoundedCornerShape(topStartPercent = 20, topEndPercent = 20)
                 ),
             onClick = {
-                onNavigate(NavigationIntent.Up())
+                onNavigate(NavigationAction.Up())
             },
             content = {
                 Icon(

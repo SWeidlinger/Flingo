@@ -2,6 +2,8 @@ package com.flingoapp.flingo.di
 
 import com.flingoapp.flingo.data.network.GenAiModel
 import com.flingoapp.flingo.data.network.GenAiRepository
+import com.flingoapp.flingo.data.network.google.GoogleAiRepositoryImpl
+import com.flingoapp.flingo.data.network.google.GoogleAiService
 import com.flingoapp.flingo.data.network.openAi.OpenAiRepositoryImpl
 import com.flingoapp.flingo.data.network.openAi.OpenAiService
 
@@ -13,6 +15,10 @@ interface GenAiModule {
 class GenAiModuleImpl : GenAiModule {
     private val openAiService by lazy {
         OpenAiService.instance
+    }
+
+    private val googleAiService by lazy {
+        GoogleAiService.instance
     }
 
     private lateinit var modelRepository: GenAiRepository
@@ -29,7 +35,7 @@ class GenAiModuleImpl : GenAiModule {
     override fun setModelRepository(genAiModel: GenAiModel) {
         modelRepository = when (genAiModel) {
             GenAiModel.OPEN_AI -> OpenAiRepositoryImpl(openAiService)
-            GenAiModel.GEMINI -> TODO()
+            GenAiModel.GOOGLE_AI -> GoogleAiRepositoryImpl(googleAiService)
         }
     }
 }

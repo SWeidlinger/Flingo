@@ -5,14 +5,14 @@ package com.flingoapp.flingo.navigation
  *
  * @constructor Create empty Navigation intent
  */
-sealed class NavigationIntent {
+sealed interface NavigationAction {
     /**
      * Navigate to screen
      *
      * @property destination
      * @constructor Create empty Navigate to home
      */
-    data class Screen(val destination: NavigationDestination) : NavigationIntent()
+    data class Screen(val destination: NavigationDestination) : NavigationAction
 
     /**
      * Navigate up
@@ -20,5 +20,5 @@ sealed class NavigationIntent {
      * @property customBackAction
      * @constructor Create empty Navigate up
      */
-    data class Up(val customBackAction: () -> Unit = {}) : NavigationIntent()
+    data class Up(val customBackAction: () -> Unit = {}) : NavigationAction
 }

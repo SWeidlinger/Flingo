@@ -2,5 +2,5 @@ package com.flingoapp.flingo.data.network
 
 enum class GenAiModel(val model: String) {
     OPEN_AI("gpt-4o"),
-    GEMINI("gemini");
+    GOOGLE_AI("gemini");
 }

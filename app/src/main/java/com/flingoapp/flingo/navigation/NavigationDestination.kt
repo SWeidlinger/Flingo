@@ -47,4 +47,7 @@ sealed interface NavigationDestination {
 
     @Serializable
     data object StreakAndStars : NavigationDestination
+
+    @Serializable
+    data object Settings : NavigationDestination
 }

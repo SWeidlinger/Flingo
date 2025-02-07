@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flingoapp.flingo.data.model.book.Book
 import com.flingoapp.flingo.data.model.book.Chapter
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -41,21 +40,16 @@ class BookViewModel : ViewModel() {
 
     private fun addBook(bookJson: String) {
         viewModelScope.launch {
-            try {
-                val deserializer = Json {
-                    ignoreUnknownKeys = true
-                }
+            val book = parseJson(bookJson) ?: return@launch
 
-                val book = deserializer.decodeFromString<Book>(bookJson)
-                val newBookList = _uiState.value.books.toMutableList()
-                newBookList.add(book)
-                updateUiState(_uiState.value.copy(books = newBookList))
-            } catch (e: Exception) {
-                Log.e(TAG, "Error: ${e.message}")
-                updateUiState(_uiState.value.copy(isError = true))
-                delay(1000)
-                updateUiState(_uiState.value.copy(isError = false))
-            }
+            val newBookList = _uiState.value.books.toMutableList()
+            newBookList.add(book)
+            updateUiState(
+                _uiState.value.copy(
+                    books = newBookList,
+                    isLoading = false
+                )
+            )
         }
     }
 
@@ -63,11 +57,7 @@ class BookViewModel : ViewModel() {
         viewModelScope.launch {
             updateUiState(_uiState.value.copy(isLoading = true))
 
-            val deserializer = Json {
-                ignoreUnknownKeys = true
-            }
-
-            val books = bookJsonList.map { deserializer.decodeFromString<Book>(it) }
+            val books = bookJsonList.mapNotNull { parseJson(it) }
 
             updateUiState(
                 _uiState.value.copy(
@@ -76,6 +66,22 @@ class BookViewModel : ViewModel() {
                     books = books
                 )
             )
+        }
+    }
+
+    private fun parseJson(json: String): Book? {
+        updateUiState(_uiState.value.copy(isLoading = true, isError = false))
+        return try {
+            val deserializer = Json { ignoreUnknownKeys = true }
+            val book = deserializer.decodeFromString<Book>(json)
+            updateUiState(_uiState.value.copy(isLoading = false))
+
+            book
+        } catch (e: Exception) {
+            Log.e(TAG, "Error: ${e.message}")
+            updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+
+            null
         }
     }
 

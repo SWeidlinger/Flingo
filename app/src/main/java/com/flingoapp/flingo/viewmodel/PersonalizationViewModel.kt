@@ -3,6 +3,7 @@ package com.flingoapp.flingo.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.flingoapp.flingo.data.network.GenAiModel
 import com.flingoapp.flingo.di.GenAiModule
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 data class PersonalizationUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
-    val isSuccess: Boolean = false
+    val isSuccess: Boolean = false,
+    val currentModel: GenAiModel = GenAiModel.OPEN_AI
 )
 
 class PersonalizationViewModel(
@@ -148,20 +150,32 @@ class PersonalizationViewModel(
     fun onAction(action: MainAction.PersonalizationAction) {
         when (action) {
             MainAction.PersonalizationAction.GenerateBook -> generateBook()
+            is MainAction.PersonalizationAction.ChangeModel -> changeModel(action.model)
         }
+    }
+
+    private fun buildPersonalizedPrompt() {
+        val name = userViewModel.uiState.value.name
+        val age = userViewModel.uiState.value.age
+        val interests = userViewModel.uiState.value.selectedInterests
+
+        //TODO: implement
+    }
+
+    private fun changeModel(model: GenAiModel){
+        genAiModule.setModelRepository(model)
+        updateUiState(_uiState.value.copy(currentModel = model))
     }
 
     private fun generateBook() {
         viewModelScope.launch {
             updateUiState(PersonalizationUiState(isLoading = true))
 
-            //TODO: implement book prompt
             genAiModule.repository.getResponse(BOOK_TEST_PROMPT_2)
                 .onFailure { error ->
                     errorHandling(error)
                 }
                 .onSuccess { book ->
-                    //TODO implement
                     Log.e(TAG, book)
                     updateUiState(_uiState.value.copy(isLoading = false, isSuccess = true))
                     bookViewModel.onAction(MainAction.BookAction.AddBook(book))

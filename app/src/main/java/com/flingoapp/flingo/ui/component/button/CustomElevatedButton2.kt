@@ -150,7 +150,6 @@ fun CustomElevatedButton2(
                 color = if (addOutline) shadowColor else Color.Transparent,
                 shape = shape
             )
-
             .clip(shape)
             .background(shadowColor)
             .clickable(

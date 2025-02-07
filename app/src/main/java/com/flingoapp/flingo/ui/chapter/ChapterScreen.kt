@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.flingoapp.flingo.data.model.book.Chapter
 import com.flingoapp.flingo.data.model.book.ChapterType
-import com.flingoapp.flingo.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.BookUiState
 import com.flingoapp.flingo.viewmodel.UserUiState
@@ -20,7 +20,7 @@ fun ChapterScreen(
     userUiState: UserUiState,
     chapter: Chapter?,
     onAction: (MainAction) -> Unit,
-    onNavigate: (NavigationIntent) -> Unit
+    onNavigate: (NavigationAction) -> Unit
 ) {
     if (chapter == null) {
         Log.e("Navigation", "Chapter (${bookUiState.currentChapterId}) not found!")

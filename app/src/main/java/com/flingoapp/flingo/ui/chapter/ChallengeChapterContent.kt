@@ -26,7 +26,7 @@ import com.flingoapp.flingo.data.model.book.Chapter
 import com.flingoapp.flingo.data.model.book.page.Page
 import com.flingoapp.flingo.data.model.book.page.PageDetails
 import com.flingoapp.flingo.data.model.book.page.PageType
-import com.flingoapp.flingo.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.challenge.orderStory.OrderStoryChallengeContent
 import com.flingoapp.flingo.ui.challenge.quiz.QuizChallengeContent
@@ -51,7 +51,7 @@ fun ChallengeChapterContent(
     pages: List<Page>,
     currentLives: Int,
     onAction: (MainAction) -> Unit,
-    onNavigate: (NavigationIntent) -> Unit
+    onNavigate: (NavigationAction) -> Unit
 ) {
     val completedPages = remember { mutableStateListOf<Page>() }
 
@@ -85,7 +85,7 @@ fun ChallengeChapterContent(
                 CustomChallengeTopBar(
                     taskDefinition = currentPage.taskDefinition,
                     hint = currentPage.hint,
-                    navigateUp = { onNavigate(NavigationIntent.Up()) },
+                    navigateUp = { onNavigate(NavigationAction.Up()) },
                     currentLives = currentLives,
                     taskDefinitionWidth = { width ->
                         taskDefinitionWidth = width

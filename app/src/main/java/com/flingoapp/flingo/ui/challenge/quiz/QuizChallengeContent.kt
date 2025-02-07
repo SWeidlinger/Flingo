@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.book.page.PageDetails
-import com.flingoapp.flingo.navigation.NavigationIntent
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.ButtonProgressAnimation
@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun QuizChallengeContent(
     modifier: Modifier = Modifier,
-    onNavigate: (NavigationIntent) -> Unit,
+    onNavigate: (NavigationAction) -> Unit,
     onAction: (MainAction) -> Unit,
     pageDetails: PageDetails.QuizPageDetails,
     taskDefinitionTopBarWidth: Dp,

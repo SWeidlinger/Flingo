@@ -18,6 +18,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class User(
     @SerialName("name") val name: String,
+    @SerialName("age") val age: Int,
     @SerialName("created") val created: String,
     @SerialName("language") val language: String,
     @SerialName("profileImage") val profileImage: String? = null,

@@ -26,6 +26,7 @@ import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
 import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screen.HomeScreen
 import com.flingoapp.flingo.ui.screen.InterestSelectionScreen
+import com.flingoapp.flingo.ui.screen.SettingsScreen
 import com.flingoapp.flingo.ui.screen.StreakAndStarsScreen
 import com.flingoapp.flingo.viewmodel.BookViewModel
 import com.flingoapp.flingo.viewmodel.MainAction
@@ -241,6 +242,21 @@ fun NavHostComposable(
                 onNavigate = { processNavigation(it, navController) }
             )
         }
+
+        composable<NavigationDestination.Settings> {
+            SettingsScreen(
+                personalizationUiState = personalizationUiState,
+                onAction = {
+                    processAction(
+                        bookViewModel,
+                        userViewModel,
+                        personalizationViewModel,
+                        it
+                    )
+                },
+                onNavigate = { processNavigation(it, navController) }
+            )
+        }
     }
 }
 
@@ -266,29 +282,29 @@ private fun processAction(
             userViewModel.onAction(action)
         }
 
-        is MainAction.PersonalizationAction.GenerateBook -> {
+        is MainAction.PersonalizationAction -> {
             personalizationViewModel.onAction(action)
         }
     }
 }
 
 /**
- * Function used to handle [NavigationIntent] from the onNavigate lambda parameter
+ * Function used to handle [NavigationAction] from the onNavigate lambda parameter
  *
  * @param intent
  * @param navController
  */
 private fun processNavigation(
-    intent: NavigationIntent,
+    intent: NavigationAction,
     navController: NavController
 ) {
     when (intent) {
-        is NavigationIntent.Screen -> {
+        is NavigationAction.Screen -> {
             Log.i("Navigation", "Navigating to ${intent.destination.javaClass.simpleName}")
             navController.navigate(intent.destination)
         }
 
-        is NavigationIntent.Up -> {
+        is NavigationAction.Up -> {
             Log.i("Navigation", "Navigating up")
             intent.customBackAction.invoke()
             navController.navigateUp()
