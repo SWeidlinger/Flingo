@@ -33,6 +33,12 @@ android {
             "OPENAI_API_KEY",
             "\"$openApiKey\""
         )
+        val geminiApiKey: String = localProperties.getProperty("GEMINI_API_KEY")
+        buildConfigField(
+            "String",
+            "GEMINI_API_KEY",
+            "\"$geminiApiKey\""
+        )
     }
 
     buildTypes {
@@ -112,4 +118,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.kotlinx.serialization)
     implementation(libs.logging.interceptor)
+
+    //gemini
+    implementation(libs.generativeai)
 }

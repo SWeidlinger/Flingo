@@ -3,6 +3,7 @@ agp = "8.8.0"
 coil = "2.6.0"
 constraintlayoutCompose = "1.1.0"
 explodingcomposable = "1.0.1"
+generativeai = "0.9.0"
 konfettiCompose = "2.0.5"
 kotlin = "2.1.0"
 coreKtx = "1.15.0"
@@ -30,6 +31,7 @@ androidx-material-icons-extended = { module = "androidx.compose.material:materia
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 explodingcomposable = { module = "com.github.omkar-tenkale:ExplodingComposable", version.ref = "explodingcomposable" }
+generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
