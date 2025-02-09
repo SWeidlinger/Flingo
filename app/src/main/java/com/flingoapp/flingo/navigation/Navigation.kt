@@ -11,7 +11,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,8 +18,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.toRoute
 import com.flingoapp.flingo.BuildConfig
-import com.flingoapp.flingo.di.MainApplication
-import com.flingoapp.flingo.di.viewModelFactory
 import com.flingoapp.flingo.ui.chapter.ChapterScreen
 import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
 import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
@@ -52,15 +49,7 @@ fun NavHostComposable(
     mainViewModel: MainViewModel,
     bookViewModel: BookViewModel,
     userViewModel: UserViewModel,
-    personalizationViewModel: PersonalizationViewModel = viewModel<PersonalizationViewModel>(
-        factory = viewModelFactory {
-            PersonalizationViewModel(
-                genAiModule = MainApplication.appModule.genAiModule,
-                bookViewModel = bookViewModel,
-                userViewModel = userViewModel
-            )
-        }
-    )
+    personalizationViewModel: PersonalizationViewModel
 ) {
     val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
     val bookUiState by bookViewModel.uiState.collectAsStateWithLifecycle()

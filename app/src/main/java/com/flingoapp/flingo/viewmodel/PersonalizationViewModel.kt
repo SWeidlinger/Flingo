@@ -14,12 +14,16 @@ data class PersonalizationUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val isSuccess: Boolean = false,
-    val currentModel: GenAiModel = GenAiModel.OPEN_AI
+    val currentModel: GenAiModel = GenAiModel.OPEN_AI,
+    //debug specific
+    val isDebug: Boolean = false,
+    val lastResponseTime: Long? = null,
+    val usedPrompt: String? = null,
 )
 
 class PersonalizationViewModel(
     private val genAiModule: GenAiModule,
-    //should be handled differently
+    //should be handled differently, viewmodel should not depend on other viewmodel but fine for now
     private val bookViewModel: BookViewModel,
     private val userViewModel: UserViewModel,
 ) : ViewModel() {
@@ -313,6 +317,7 @@ class PersonalizationViewModel(
         when (action) {
             MainAction.PersonalizationAction.GenerateBook -> generateBook()
             is MainAction.PersonalizationAction.ChangeModel -> changeModel(action.model)
+            MainAction.PersonalizationAction.ToggleDebugMode -> toggleDebugMode()
         }
     }
 
@@ -326,6 +331,7 @@ class PersonalizationViewModel(
 
     private fun changeModel(model: GenAiModel) {
         genAiModule.setModelRepository(model)
+        updateUiState(_uiState.value.copy(currentModel = model))
     }
 
     private fun generateBook() {
@@ -334,13 +340,23 @@ class PersonalizationViewModel(
 
             val prompt = INSTRUCTION_PROMPT + BOOK_TEST_PROMPT_3
 
+            val startTime = System.currentTimeMillis()
+            updateUiState(_uiState.value.copy(usedPrompt = INSTRUCTION_PROMPT))
             genAiModule.repository.getResponse(prompt)
                 .onFailure { error ->
                     errorHandling(error)
                 }
                 .onSuccess { book ->
                     Log.e(TAG, book)
-                    updateUiState(_uiState.value.copy(isLoading = false, isSuccess = true))
+                    val duration = System.currentTimeMillis() - startTime
+
+                    updateUiState(
+                        _uiState.value.copy(
+                            isLoading = false,
+                            isSuccess = true,
+                            lastResponseTime = duration
+                        )
+                    )
                     bookViewModel.onAction(MainAction.BookAction.AddBook(book))
                 }
         }
@@ -349,6 +365,11 @@ class PersonalizationViewModel(
     private fun errorHandling(error: Throwable) {
         Log.e(TAG, "Error: ${error.message}")
         updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+    }
+
+    private fun toggleDebugMode() {
+        val currentState = _uiState.value.isDebug
+        updateUiState(_uiState.value.copy(isDebug = !currentState))
     }
 
     /**

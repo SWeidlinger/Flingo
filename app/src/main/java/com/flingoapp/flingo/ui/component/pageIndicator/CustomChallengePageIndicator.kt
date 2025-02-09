@@ -52,14 +52,15 @@ fun CustomChallengePageIndicator(
                     icon = Icons.AutoMirrored.Default.KeyboardArrowLeft,
                     iconContentDescription = "Previous Question",
                     backgroundColor = if (isFirstPage) Color.LightGray else FlingoColors.Primary,
-                    enabled = !isFirstPage
-                ) {
-                    if (isFirstPage) return@CustomIconButton
-                    val previousPage = pagerState.currentPage - 1
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(previousPage)
+                    enabled = !isFirstPage,
+                    onClick = {
+                        if (isFirstPage) return@CustomIconButton
+                        val previousPage = pagerState.currentPage - 1
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(previousPage)
+                        }
                     }
-                }
+                )
             }
 
             CustomPageIndicator(
@@ -79,14 +80,15 @@ fun CustomChallengePageIndicator(
                     icon = Icons.AutoMirrored.Default.KeyboardArrowRight,
                     iconContentDescription = "Next Question",
                     backgroundColor = if (isLastPage) Color.LightGray else FlingoColors.Primary,
-                    enabled = !isLastPage
-                ) {
-                    if (isLastPage) return@CustomIconButton
-                    val nextPage = pagerState.currentPage + 1
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(nextPage)
+                    enabled = !isLastPage,
+                    onClick = {
+                        if (isLastPage) return@CustomIconButton
+                        val nextPage = pagerState.currentPage + 1
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(nextPage)
+                        }
                     }
-                }
+                )
             }
         }
     }

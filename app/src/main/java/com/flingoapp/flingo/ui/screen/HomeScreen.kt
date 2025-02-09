@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import com.flingoapp.flingo.data.model.MockData
-import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.navigation.NavigationAction
+import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.animatedBorder
 import com.flingoapp.flingo.ui.component.BookItem
@@ -90,8 +90,11 @@ fun HomeScreen(
                 onSettingsClick = {
                     onNavigate(NavigationAction.Screen(NavigationDestination.Settings))
                 },
+                onSettingsLongClick = {
+                    onAction(MainAction.PersonalizationAction.ToggleDebugMode)
+                },
                 onAwardClick = {
-                    //TODO: implement
+                    //TODO
                 }
             )
         }
@@ -224,6 +227,7 @@ fun HomeScreen(
                     isPressed = personalizationUiState.isLoading,
                     backgroundColor = if (bookUiState.isError) FlingoColors.Error else Color.White,
                     text = "Überrasch mich!",
+                    icon = personalizationUiState.currentModel.iconRes,
                     onClick = {
                         generateBookButtonPressed = true
                         onAction(MainAction.PersonalizationAction.GenerateBook)

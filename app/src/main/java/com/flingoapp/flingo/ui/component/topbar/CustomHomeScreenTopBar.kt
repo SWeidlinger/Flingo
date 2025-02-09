@@ -57,6 +57,7 @@ fun CustomHomeScreenTopBar(
     onStreakClick: () -> Unit,
     onUserClick: () -> Unit,
     onSettingsClick: () -> Unit,
+    onSettingsLongClick: () -> Unit,
     onAwardClick: () -> Unit
 ) {
     Box(
@@ -157,7 +158,8 @@ fun CustomHomeScreenTopBar(
                     icon = Icons.Default.Settings,
                     iconContentDescription = "Settings",
                     backgroundColor = Color.LightGray,
-                    onClick = { onSettingsClick() }
+                    onClick = { onSettingsClick() },
+                    onLongClick = { onSettingsLongClick() }
                 )
             }
         }
@@ -175,6 +177,7 @@ private fun CustomHomeScreenTopBarPreview() {
             currentLives = 3,
             onUserClick = {},
             onSettingsClick = {},
+            onSettingsLongClick = {},
             onStreakClick = {},
             onAwardClick = {}
         )

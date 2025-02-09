@@ -2,8 +2,9 @@ package com.flingoapp.flingo.ui.component.button
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
@@ -54,6 +55,7 @@ import com.flingoapp.flingo.ui.darken
  * @param onClick
  * @receiver
  */
+@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UseOfNonLambdaOffsetOverload")
 @Composable
 fun CustomIconButton(
@@ -75,7 +77,8 @@ fun CustomIconButton(
     //TODO: disabled for now since it causes lags
 //    clickSound: Int? = R.raw.button_click,
     clickSound: Int? = null,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null
 ) {
     val mediaPlayer: MediaPlayer? = clickSound?.let { MediaPlayer.create(LocalContext.current, it) }
 
@@ -102,17 +105,22 @@ fun CustomIconButton(
             .size(size)
             .clip(shape)
             .background(shadowColor)
-            .clickable(
+            .combinedClickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = {
-                    if (!enabled) return@clickable
+                    if (!enabled) return@combinedClickable
 
                     if (animateButtonClick) {
                         buttonState = ButtonState.PRESSED
                     }
 
                     onClick()
+                },
+                onLongClick = {
+                    if (onLongClick == null || !enabled) return@combinedClickable
+
+                    onLongClick()
                 }
             )
             .offset(y = if (buttonState == ButtonState.PRESSED || !enabled || isPressed) 0.dp else (-elevation))

@@ -1,7 +1,11 @@
 package com.flingoapp.flingo.ui.component.button
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
@@ -13,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.ui.darken
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import com.flingoapp.flingo.ui.toDp
 
 /**
  * Custom elevated text button, specifically created to be used with text, offers streamlined approach by
@@ -45,6 +51,7 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
 fun CustomElevatedTextButton2(
     modifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
+    @DrawableRes icon: Int? = null,
     text: String,
     elevation: Dp = 8.dp,
     showSpeakerIcon: Boolean = false,
@@ -74,16 +81,31 @@ fun CustomElevatedTextButton2(
                 contentAlignment = Alignment.Center,
                 modifier = if (showSpeakerIcon || fill) textModifier.fillMaxWidth() else textModifier
             ) {
-                Text(
-                    modifier = textModifier,
-                    textAlign = TextAlign.Center,
-                    text = text,
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontSize = fontSize,
-                        textDecoration = if (isTextStrikethrough) TextDecoration.LineThrough else TextDecoration.None
-                    ),
-                    color = textColor
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    icon?.let {
+                        Icon(
+                            painter = painterResource(it),
+                            contentDescription = "Model icon",
+                            tint = Color.Unspecified,
+                            modifier = Modifier.size(fontSize.toDp())
+                        )
+                    }
+
+                    Text(
+                        modifier = textModifier,
+                        textAlign = TextAlign.Center,
+                        text = text,
+                        style = MaterialTheme.typography.headlineLarge.copy(
+                            fontSize = fontSize,
+                            textDecoration = if (isTextStrikethrough) TextDecoration.LineThrough else TextDecoration.None
+                        ),
+                        color = textColor
+                    )
+                }
+
 
                 if (showSpeakerIcon) {
                     Icon(
