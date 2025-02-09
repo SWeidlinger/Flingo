@@ -55,7 +55,8 @@ fun CustomTopBar(
     showLives: Boolean = false,
     currentLives: Int = 0,
     onAwardClick: () -> Unit,
-    onSettingsClick: () -> Unit
+    onSettingsClick: () -> Unit,
+    onSettingsLongClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -119,7 +120,8 @@ fun CustomTopBar(
                         icon = Icons.Default.Settings,
                         iconContentDescription = "Settings",
                         backgroundColor = Color.LightGray,
-                        onClick = { onSettingsClick() }
+                        onClick = { onSettingsClick() },
+                        onLongClick = { onSettingsLongClick() }
                     )
                 }
             }

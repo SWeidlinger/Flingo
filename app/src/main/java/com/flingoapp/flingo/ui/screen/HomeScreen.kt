@@ -15,8 +15,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -48,7 +48,6 @@ import com.flingoapp.flingo.viewmodel.BookUiState
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.PersonalizationUiState
 import com.flingoapp.flingo.viewmodel.UserUiState
-import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -173,14 +172,9 @@ fun HomeScreen(
                 var buttonPosition by remember { mutableStateOf(Offset.Zero) }
                 var buttonSize by remember { mutableStateOf(IntSize.Zero) }
 
-                var generateBookButtonPressed by remember { mutableStateOf(false) }
+                var previousBookCount by remember { mutableIntStateOf(bookUiState.books.size) }
 
-                if (generateBookButtonPressed && personalizationUiState.isSuccess && !bookUiState.isError) {
-                    //TODO: simplify logic
-                    LaunchedEffect(Unit) {
-                        delay(2500)
-                        generateBookButtonPressed = false
-                    }
+                if (bookUiState.books.size > previousBookCount) {
                     KonfettiView(
                         modifier = Modifier
                             .fillMaxSize(),
@@ -193,7 +187,7 @@ fun HomeScreen(
                                 emitter = Emitter(
                                     duration = 1000,
                                     timeUnit = TimeUnit.MILLISECONDS
-                                ).perSecond(250),
+                                ).perSecond(200),
                                 spread = 90,
                                 angle = -90
                             )
@@ -225,11 +219,11 @@ fun HomeScreen(
                     shape = CircleShape,
                     elevation = 6.dp,
                     isPressed = personalizationUiState.isLoading,
-                    backgroundColor = if (bookUiState.isError) FlingoColors.Error else Color.White,
+                    backgroundColor = if (personalizationUiState.isError) FlingoColors.Error else Color.White,
                     text = "Überrasch mich!",
                     icon = personalizationUiState.currentModel.iconRes,
                     onClick = {
-                        generateBookButtonPressed = true
+                        previousBookCount = bookUiState.books.size
                         onAction(MainAction.PersonalizationAction.GenerateBook)
                     }
                 )

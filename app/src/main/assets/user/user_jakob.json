@@ -6,6 +6,6 @@
   "profileImage": "",
   "currentLives": 5,
   "currentReadingStreak": 23,
-  "selectedInterests": [],
+  "selectedInterests": ["Superhelden"],
   "books": []
 }

@@ -38,7 +38,7 @@ fun InterestSelectionScreen(
     val availableInterests = listOf(
         "Roboter",
         "Piraten",
-        "Dinosaurier",
+        "Superhelden",
         "Monster",
         "Weltraum",
         "Magie",

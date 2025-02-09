@@ -1,0 +1,329 @@
+{
+  "author": "Example",
+  "date": "2025-06-01",
+  "language": "de",
+  "version": "1.0",
+  "title": "Beispieltextbuch Wunderwelt Sprache",
+  "description": "Diese Buch stellt die einzelnen Spielkonzepte vor. Welche nicht angepasst werden und 1:1 von dem Schulbuch Wunderwelt Sprache übernommen worden sind.",
+  "coverImage": "book_cover_wunderwelt_sprache",
+  "chapters": [
+    {
+      "chapterId": "1",
+      "chapterTitle": "Kapitel 1: Lesen",
+      "chapterDescription": "Lies die Geschichte.",
+      "chapterCoverImage": "",
+      "chapterPositionOffset": 0.2,
+      "chapterType": "read",
+      "chapterCompleted": false,
+      "pages": [
+        {
+          "pageId": "1",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "medium",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "",
+          "pageType": "read",
+          "pageDetails": {
+            "pageType": "read",
+            "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.",
+            "images": [
+              "circus_image"
+            ]
+          }
+        },
+        {
+          "pageId": "2",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "medium",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "",
+          "pageType": "read",
+          "pageDetails": {
+            "pageType": "read",
+            "content": "In dem Dorf lebte auch eine kleines Pony namens Peppi, das sehr unglücklich war.",
+            "images": [
+              "pony"
+            ]
+          }
+        },
+        {
+          "pageId": "3",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "easy",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "",
+          "pageType": "read",
+          "pageDetails": {
+            "pageType": "read",
+            "content": "Es hatte früher einem alten Mann gehört.",
+            "images": [
+              "old_man"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "chapterId": "2",
+      "chapterTitle": "Kapitel 2: Herausforderung",
+      "chapterDescription": "Entferne das unnötige Wort.",
+      "chapterCoverImage": "",
+      "chapterPositionOffset": 0.6,
+      "chapterType": "challenge",
+      "chapterCompleted": false,
+      "pages": [
+        {
+          "pageId": "1",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "easy",
+          "hint": "Sind Maulwürfe gut im Fangen?",
+          "timeLimit": 30,
+          "score": 10,
+          "feedback": {
+            "correct": "Super! Maulwürfe fangen nicht, sondern werfen Hügel auf.",
+            "incorrect": "Versuchs nochmal! Was machen Maulwürfe nicht?"
+          },
+          "taskDefinition": "Lies den Satz und klicke auf das unpassende Wort!",
+          "pageType": "remove_word",
+          "pageDetails": {
+            "pageType": "remove_word",
+            "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
+            "answer": "fangen"
+          }
+        },
+        {
+          "pageId": "2",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {},
+          "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
+          "pageType": "remove_word",
+          "pageDetails": {
+            "pageType": "remove_word",
+            "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
+            "answer": "Astronauten"
+          }
+        }
+      ]
+    },
+    {
+      "chapterId": "3",
+      "chapterTitle": "Kapitel 3: Herausforderung",
+      "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
+      "chapterCoverImage": "",
+      "chapterPositionOffset": 0.6,
+      "chapterType": "challenge",
+      "chapterCompleted": false,
+      "pages": [
+        {
+          "pageId": "1",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "easy",
+          "hint": "TODO",
+          "timeLimit": 30,
+          "score": 10,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
+          "pageType": "order_story",
+          "pageDetails": {
+            "pageType": "order_story",
+            "referenceTextTitle": "",
+            "referenceText": "",
+            "content": [
+              {
+                "id": 1,
+                "text": "Triton hält einen Sonnenschirm, während die Sonne scheint."
+              },
+              {
+                "id": 2,
+                "text": "Luna nimmt ein Ruder in die Hand."
+              },
+              {
+                "id": 3,
+                "text": "Calypso angelt, und blaue Fische schwimmen über ein Fass."
+              },
+              {
+                "id": 4,
+                "text": "Eine schwarze Wolke schiebt sich vor die Sonne."
+              }
+            ],
+            "correctOrder": [
+              1,
+              4,
+              3,
+              2
+            ]
+          }
+        },
+        {
+          "pageId": "2",
+          "pageDescription": "Wunderwelt Sprache 3 - Lesen (p. 16)",
+          "pageCompleted": false,
+          "difficulty": "",
+          "hint": "",
+          "timeLimit": null,
+          "score": null,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Bring die Spielanleitung in die richtige Reihenfolge!",
+          "pageType": "order_story",
+          "pageDetails": {
+            "pageType": "order_story",
+            "referenceTextTitle": "",
+            "referenceText": "",
+            "content": [
+              {
+                "id": 1,
+                "text": "Siegerin oder Sieger ist das Kind, das die meisten Paare gefunden hat."
+              },
+              {
+                "id": 2,
+                "text": "Abwechselnd decken die Kinder zwei Karten auf."
+              },
+              {
+                "id": 3,
+                "text": "Alle Karten werden gut gemischt."
+              },
+              {
+                "id": 4,
+                "text": "Passt ein Paar zusammen, darf das Kind die Karten behalten."
+              },
+              {
+                "id": 5,
+                "text": "Alle Karten werden verdeckt auf den Tisch gelegt."
+              }
+            ],
+            "correctOrder": [
+              3,
+              5,
+              2,
+              4,
+              1
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "chapterId": "4",
+      "chapterTitle": "Kapitel 4: Herausforderung",
+      "chapterDescription": "Beantworte diese Fragen über den gelesenen Text!",
+      "chapterCoverImage": "",
+      "chapterPositionOffset": 0.6,
+      "chapterType": "challenge",
+      "chapterCompleted": false,
+      "pages": [
+        {
+          "pageId": "1",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "easy",
+          "hint": "TODO",
+          "timeLimit": 30,
+          "score": 10,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Wähle die passende Antwort aus!",
+          "pageType": "quiz",
+          "pageDetails": {
+            "pageType": "quiz",
+            "quizType": "true_or_false",
+            "referenceTextTitle": "",
+            "referenceText": "",
+            "question": "Nimmt Luna ein Ruder?",
+            "answers": [
+              {
+                "id": 1,
+                "answer": "Ja",
+                "isCorrect": true
+              },
+              {
+                "id": 2,
+                "answer": "Nein",
+                "isCorrect": false
+              }
+            ]
+          }
+        },
+        {
+          "pageId": "2",
+          "pageDescription": "",
+          "pageCompleted": false,
+          "difficulty": "easy",
+          "hint": "TODO",
+          "timeLimit": 30,
+          "score": 10,
+          "feedback": {
+            "correct": "",
+            "incorrect": ""
+          },
+          "taskDefinition": "Wähle die passende Antwort aus!",
+          "pageType": "quiz",
+          "pageDetails": {
+            "pageType": "quiz",
+            "quizType": "single_choice",
+            "referenceTextTitle": "",
+            "referenceText": "",
+            "question": "Wieviele blaue Fische schwimmen über ein Fass?",
+            "answers": [
+              {
+                "id": 1,
+                "answer": "2",
+                "isCorrect": false
+              },
+              {
+                "id": 2,
+                "answer": "1",
+                "isCorrect": true
+              },
+              {
+                "id": 3,
+                "answer": "3",
+                "isCorrect": false
+              },
+              {
+                "id": 4,
+                "answer": "4",
+                "isCorrect": false
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

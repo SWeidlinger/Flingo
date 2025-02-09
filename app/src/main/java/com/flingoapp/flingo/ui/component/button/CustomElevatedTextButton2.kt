@@ -50,7 +50,7 @@ import com.flingoapp.flingo.ui.toDp
 @Composable
 fun CustomElevatedTextButton2(
     modifier: Modifier = Modifier,
-    textModifier: Modifier = Modifier,
+    textModifier: Modifier = modifier,
     @DrawableRes icon: Int? = null,
     text: String,
     elevation: Dp = 8.dp,

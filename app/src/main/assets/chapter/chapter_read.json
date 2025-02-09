@@ -1,0 +1,77 @@
+{
+  "chapterId": "1",
+  "chapterTitle": "Leseteil",
+  "chapterDescription": "Lies die Geschichte.",
+  "chapterCoverImage": "",
+  "chapterPositionOffset": 0.2,
+  "chapterType": "read",
+  "chapterCompleted": false,
+  "pages": [
+    {
+      "pageId": "1",
+      "pageDescription": "",
+      "pageCompleted": false,
+      "difficulty": "medium",
+      "hint": "",
+      "timeLimit": null,
+      "score": null,
+      "feedback": {
+        "correct": "",
+        "incorrect": ""
+      },
+      "taskDefinition": "",
+      "pageType": "read",
+      "pageDetails": {
+        "pageType": "read",
+        "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.",
+        "images": [
+          "circus_image"
+        ]
+      }
+    },
+    {
+      "pageId": "2",
+      "pageDescription": "",
+      "pageCompleted": false,
+      "difficulty": "medium",
+      "hint": "",
+      "timeLimit": null,
+      "score": null,
+      "feedback": {
+        "correct": "",
+        "incorrect": ""
+      },
+      "taskDefinition": "",
+      "pageType": "read",
+      "pageDetails": {
+        "pageType": "read",
+        "content": "In dem Dorf lebte auch eine kleines Pony namens Peppi, das sehr unglücklich war.",
+        "images": [
+          "pony"
+        ]
+      }
+    },
+    {
+      "pageId": "3",
+      "pageDescription": "",
+      "pageCompleted": false,
+      "difficulty": "easy",
+      "hint": "",
+      "timeLimit": null,
+      "score": null,
+      "feedback": {
+        "correct": "",
+        "incorrect": ""
+      },
+      "taskDefinition": "",
+      "pageType": "read",
+      "pageDetails": {
+        "pageType": "read",
+        "content": "Es hatte früher einem alten Mann gehört.",
+        "images": [
+          "old_man"
+        ]
+      }
+    }
+  ]
+}

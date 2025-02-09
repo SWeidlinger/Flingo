@@ -5,14 +5,18 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.GenericShape
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlin.random.Random
@@ -76,7 +80,7 @@ fun PaperSnippet(
             }
             .padding(16.dp)
     ) {
-        Text(
+        AutoResizableText(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = text,
             color = textColor,

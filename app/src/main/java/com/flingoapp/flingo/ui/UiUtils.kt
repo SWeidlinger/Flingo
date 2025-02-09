@@ -369,7 +369,7 @@ fun AutoResizableText(
         softWrap = false,
         style = resizableTextStyle,
         onTextLayout = { result ->
-            if (result.didOverflowWidth) {
+            if (result.didOverflowWidth || result.didOverflowHeight) {
                 if (fontSize.isUnspecified) {
                     resizableTextStyle = resizableTextStyle.copy(
                         fontSize = defaultFontSize

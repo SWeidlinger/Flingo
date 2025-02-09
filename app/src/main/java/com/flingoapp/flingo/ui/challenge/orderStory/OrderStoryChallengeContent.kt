@@ -43,11 +43,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.book.page.PageDetails
+import com.flingoapp.flingo.navigation.NavigationAction
+import com.flingoapp.flingo.ui.AutoResizableText
+import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.PaperSnippet
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.lighten
-import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodel.MainAction
 import kotlinx.coroutines.delay
@@ -198,7 +201,8 @@ fun OrderStoryChallengeContent(
                                                 .toString()
                                                 .toInt()
 
-                                        val draggedContent = getContentFromId(draggedItemId, pageDetails)
+                                        val draggedContent =
+                                            getContentFromId(draggedItemId, pageDetails)
 
                                         val draggedFromResultMap = moveSnippet(
                                             snippet = draggedContent,
@@ -218,7 +222,8 @@ fun OrderStoryChallengeContent(
                                                 val newContent = startingSnippetMap[index]
 
                                                 startingSnippetMap[index] = previousContent
-                                                startingSnippetMap[indexCurrentDragStartList] = newContent
+                                                startingSnippetMap[indexCurrentDragStartList] =
+                                                    newContent
                                             }
 
                                             indexCurrentDragStartList = -1
@@ -367,7 +372,8 @@ fun OrderStoryChallengeContent(
                                                 .toString()
                                                 .toInt()
 
-                                        val draggedContent = getContentFromId(draggedContentId, pageDetails)
+                                        val draggedContent =
+                                            getContentFromId(draggedContentId, pageDetails)
 
                                         val draggedFromStartingMap = moveSnippet(
                                             snippet = draggedContent,
@@ -387,7 +393,8 @@ fun OrderStoryChallengeContent(
                                                 val newContent = resultSnippetMap[index]
 
                                                 resultSnippetMap[index] = previousContent
-                                                resultSnippetMap[indexCurrentDragResultList] = newContent
+                                                resultSnippetMap[indexCurrentDragResultList] =
+                                                    newContent
                                             }
 
                                             indexCurrentDragResultList = -1
@@ -417,7 +424,7 @@ fun OrderStoryChallengeContent(
                             }
                         ),
                 ) {
-                    Text(
+                    AutoResizableText(
                         modifier = Modifier
                             .fillMaxSize()
                             .wrapContentSize(Alignment.Center),
@@ -469,4 +476,15 @@ private fun getMapIdForContent(
     if (collection.isEmpty()) return null
 
     return collection.first()
+}
+
+@CustomPreview
+@Composable
+private fun OrderStoryChallengeContentPreview() {
+    OrderStoryChallengeContent(
+        onNavigate = {},
+        onAction = {},
+        onPageCompleted = {},
+        pageDetails = MockData.pageDetailsOrderStory
+    )
 }

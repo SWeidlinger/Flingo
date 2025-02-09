@@ -28,10 +28,10 @@ import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.model.book.Chapter
 import com.flingoapp.flingo.data.model.book.page.Page
 import com.flingoapp.flingo.data.model.book.page.PageDetails
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.component.CustomHighlightedText
 import com.flingoapp.flingo.ui.component.pageIndicator.CustomPageIndicator
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
-import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.MainAction
 import kotlinx.coroutines.launch
@@ -63,6 +63,9 @@ fun ReadChapterContent(
                 //TODO: remove after testing
                 onAction(MainAction.BookAction.CompleteChapter)
                 onNavigate(NavigationAction.Up())
+            },
+            onSettingsLongClick = {
+                onAction(MainAction.PersonalizationAction.ToggleDebugMode)
             }
         )
     }) { innerPadding ->

@@ -42,16 +42,16 @@ import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.book.Book
 import com.flingoapp.flingo.data.model.book.Chapter
 import com.flingoapp.flingo.data.model.book.ChapterType
+import com.flingoapp.flingo.navigation.NavigationAction
+import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
-import com.flingoapp.flingo.navigation.NavigationDestination
-import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.BookUiState
+import com.flingoapp.flingo.viewmodel.MainAction
 
 @Composable
 fun ChapterSelectionScreen(
@@ -120,7 +120,10 @@ private fun ChapterSelectionContent(
                     showPath = !showPath
                 },
                 showLives = true,
-                currentLives = currentLives
+                currentLives = currentLives,
+                onSettingsLongClick = {
+                    onAction(MainAction.PersonalizationAction.ToggleDebugMode)
+                }
             )
         }) { innerPadding ->
         if (chapters.isEmpty()) {

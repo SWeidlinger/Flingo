@@ -73,11 +73,12 @@ fun FlingoApp(
                             .padding(16.dp)
                             .fillMaxWidth(0.5f),
                         fontSize = 12.sp,
-                        text = "Provider: ${personalizationUiState.currentModel}\n" +
+                        text = "Provider: ${personalizationUiState.currentModel.provider}\n" +
                                 "Model: ${personalizationUiState.currentModel.model}\n" +
                                 "Last Response time (s): ${
                                     personalizationUiState.lastResponseTime?.toDouble()?.div(1000.0)
                                 }\n" +
+                                "Used data: ${personalizationUiState.childName.toString()}, ${personalizationUiState.childAge.toString()}, ${personalizationUiState.childInterest.toString()}\n" +
                                 "Prompt:\n" +
                                 "${personalizationUiState.usedPrompt}"
 

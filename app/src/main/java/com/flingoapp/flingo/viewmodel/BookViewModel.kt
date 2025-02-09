@@ -34,16 +34,19 @@ class BookViewModel : ViewModel() {
             MainAction.BookAction.CompleteChapter -> completeChapter()
             is MainAction.BookAction.FetchBooks -> fetchBooks(action.booksJson)
             is MainAction.BookAction.CompletePage -> completePage(action.pageIndex)
-            is MainAction.BookAction.AddBook -> addBook(action.bookJson)
+            is MainAction.BookAction.AddBook -> addBook(
+                bookJson = action.bookJson,
+                author = action.author
+            )
         }
     }
 
-    private fun addBook(bookJson: String) {
+    private fun addBook(bookJson: String, author: String) {
         viewModelScope.launch {
             val book = parseJson(bookJson) ?: return@launch
 
             val newBookList = _uiState.value.books.toMutableList()
-            newBookList.add(book)
+            newBookList.add(book.copy(author = author))
             updateUiState(
                 _uiState.value.copy(
                     books = newBookList,
