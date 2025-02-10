@@ -51,6 +51,7 @@ fun NavHostComposable(
     userViewModel: UserViewModel,
     personalizationViewModel: PersonalizationViewModel
 ) {
+    //TODO move to individual screens
     val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle()
     val bookUiState by bookViewModel.uiState.collectAsStateWithLifecycle()
     val userUiState by userViewModel.uiState.collectAsStateWithLifecycle()
@@ -67,6 +68,8 @@ fun NavHostComposable(
         Log.d("NavHostComposable", "currentDestinationRoute: $currentDestinationRoute")
         Log.d("NavHostComposable", "previousDestinationRoute: $previousDestinationRoute")
     }
+
+    Log.e("NavHostComposable", "in NavHostComposable")
 
     NavHost(
         modifier = modifier,
@@ -110,6 +113,9 @@ fun NavHostComposable(
                 }
             }
         ) {
+
+            Log.e("NavHostComposable", "in home")
+
             HomeScreen(
                 bookUiState = bookUiState,
                 userUiState = userUiState,
@@ -127,6 +133,9 @@ fun NavHostComposable(
         }
 
         composable<NavigationDestination.ChapterSelection> { backStackEntry ->
+            Log.e("NavHostComposable", "in chapterSelection")
+
+
             val args = backStackEntry.toRoute<NavigationDestination.ChapterSelection>()
             bookViewModel.onAction(MainAction.BookAction.SelectBook(args.bookIndex))
 
@@ -142,11 +151,15 @@ fun NavHostComposable(
                         it
                     )
                 },
-                onNavigate = { processNavigation(it, navController) }
+                onNavigate = { processNavigation(it, navController) },
+                personalizationUiState = personalizationUiState
             )
         }
 
         composable<NavigationDestination.Chapter> { backStackEntry ->
+            Log.e("NavHostComposable", "in chapter")
+
+
             val args = backStackEntry.toRoute<NavigationDestination.Chapter>()
             bookViewModel.onAction(MainAction.BookAction.SelectChapter(args.chapterIndex))
 
@@ -167,6 +180,9 @@ fun NavHostComposable(
         }
 
         composable<NavigationDestination.ChallengeFinished> { backStackEntry ->
+            Log.e("NavHostComposable", "in challengeFinished")
+
+
             val args = backStackEntry.toRoute<NavigationDestination.ChallengeFinished>()
 
             ChallengeFinishedScreen(
@@ -197,6 +213,8 @@ fun NavHostComposable(
                 )
             }
         ) { backStackEntry ->
+            Log.e("NavHostComposable", "in InterestSelection")
+
             val args = backStackEntry.toRoute<NavigationDestination.InterestSelection>()
 
             InterestSelectionScreen(
@@ -233,6 +251,8 @@ fun NavHostComposable(
         }
 
         composable<NavigationDestination.Settings> {
+            Log.e("NavHostComposable", "in settings")
+
             SettingsScreen(
                 personalizationUiState = personalizationUiState,
                 onAction = {

@@ -195,38 +195,42 @@ fun HomeScreen(
                     )
                 }
 
-                CustomElevatedTextButton2(
+                Box(
                     modifier = Modifier
                         .padding(16.dp)
                         .align(Alignment.BottomEnd)
-                        .then(
-                            if (personalizationUiState.isLoading) {
-                                Modifier.animatedBorder(
-                                    strokeWidth = 3.dp,
-                                    shape = CircleShape,
-                                    durationMillis = 1500
-                                )
-                            } else {
-                                Modifier
-                            }
-                        )
-                        .onGloballyPositioned {
-                            buttonPosition = it.positionOnScreen()
-                            buttonSize = it.size
-                        },
-                    textModifier = Modifier.padding(horizontal = 8.dp),
-                    fontSize = 24.sp,
-                    shape = CircleShape,
-                    elevation = 6.dp,
-                    isPressed = personalizationUiState.isLoading,
-                    backgroundColor = if (personalizationUiState.isError) FlingoColors.Error else Color.White,
-                    text = "Überrasch mich!",
-                    icon = personalizationUiState.currentModel.iconRes,
-                    onClick = {
-                        previousBookCount = bookUiState.books.size
-                        onAction(MainAction.PersonalizationAction.GenerateBook)
-                    }
-                )
+                ) {
+                    CustomElevatedTextButton2(
+                        modifier = Modifier
+                            .then(
+                                if (personalizationUiState.isLoading) {
+                                    Modifier.animatedBorder(
+                                        strokeWidth = 3.dp,
+                                        shape = CircleShape,
+                                        durationMillis = 1500
+                                    )
+                                } else {
+                                    Modifier
+                                }
+                            )
+                            .onGloballyPositioned {
+                                buttonPosition = it.positionOnScreen()
+                                buttonSize = it.size
+                            },
+                        textModifier = Modifier.padding(horizontal = 8.dp),
+                        fontSize = 24.sp,
+                        shape = CircleShape,
+                        elevation = 6.dp,
+                        isPressed = personalizationUiState.isLoading,
+                        backgroundColor = if (personalizationUiState.isError) FlingoColors.Error else Color.White,
+                        text = "Überrasch mich!",
+                        icon = personalizationUiState.currentModel.iconRes,
+                        onClick = {
+                            previousBookCount = bookUiState.books.size
+                            onAction(MainAction.PersonalizationAction.GenerateBook)
+                        }
+                    )
+                }
             }
         }
     }

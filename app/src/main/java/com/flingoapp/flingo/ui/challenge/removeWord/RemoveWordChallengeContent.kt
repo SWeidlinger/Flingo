@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,14 +29,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.model.book.page.PageDetails
+import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
 import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton
-import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.MainAction
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.emitter.Emitter
@@ -46,6 +50,7 @@ fun RemoveWordChallengeContent(
     onNavigate: (NavigationAction) -> Unit,
     onAction: (MainAction) -> Unit,
     pageDetails: PageDetails.RemoveWordPageDetails,
+    pagerState: PagerState,
     onPageCompleted: (score: Int) -> Unit
 ) {
     var currentSelectedWord by remember { mutableStateOf("") }
@@ -53,6 +58,8 @@ fun RemoveWordChallengeContent(
     var buttonColor by remember { mutableStateOf(FlingoColors.Primary) }
     var continueButtonText by remember { mutableStateOf("Fertig") }
     var continueButtonPressed by remember { mutableStateOf(false) }
+
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = isCorrectAnswer) {
         if (isCorrectAnswer == false) {
@@ -113,7 +120,14 @@ fun RemoveWordChallengeContent(
                 shape = CircleShape,
                 onClick = {
                     if (isCorrectAnswer == true) {
-                        onNavigate(NavigationAction.Up())
+                        coroutineScope.launch {
+                            val nextPage = pagerState.currentPage + 1
+                            if (nextPage < pagerState.pageCount) {
+                                pagerState.animateScrollToPage(nextPage)
+                            } else {
+                                onNavigate(NavigationAction.Up())
+                            }
+                        }
                     } else if (currentSelectedWord != "") {
                         if (currentSelectedWord.removeSuffix(",") == pageDetails.answer) {
                             buttonColor = FlingoColors.Success
@@ -170,6 +184,7 @@ private fun RemoveWordChallengeContentPreview() {
                 content = "Das ist ein Test",
                 answer = "Test"
             ),
+            pagerState = rememberPagerState { 0 },
             onPageCompleted = {}
         )
     }

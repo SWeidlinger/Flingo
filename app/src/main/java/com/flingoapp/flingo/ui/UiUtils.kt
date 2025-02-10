@@ -3,7 +3,6 @@ package com.flingoapp.flingo.ui
 import android.graphics.BlurMaskFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
-import android.util.Log
 import androidx.annotation.RawRes
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -379,8 +378,6 @@ fun AutoResizableText(
                 resizableTextStyle = resizableTextStyle.copy(
                     fontSize = resizableTextStyle.fontSize * 0.95
                 )
-
-                Log.e("UIUtils", "current fontsize: ${resizableTextStyle.fontSize}")
             } else {
                 shouldDraw = true
             }

@@ -38,15 +38,42 @@ class BookViewModel : ViewModel() {
                 bookJson = action.bookJson,
                 author = action.author
             )
+            is MainAction.BookAction.AddChapter -> addChapter(
+                chapterJson = action.chapterJson,
+                author = action.author
+            )
         }
     }
 
     private fun addBook(bookJson: String, author: String) {
         viewModelScope.launch {
-            val book = parseJson(bookJson) ?: return@launch
+            val book = parseJsonToBook(bookJson) ?: return@launch
 
             val newBookList = _uiState.value.books.toMutableList()
             newBookList.add(book.copy(author = author))
+            updateUiState(
+                _uiState.value.copy(
+                    books = newBookList,
+                    isLoading = false
+                )
+            )
+        }
+    }
+
+    //TODO: improve, simplify, fix logic of having no chapters in uiState
+    private fun addChapter(chapterJson: String, author: String) {
+        //TODO: use author to show which model created chapter
+        viewModelScope.launch {
+            val chapter = parseJsonToChapter(chapterJson) ?: return@launch
+
+            val currentBook = getCurrentBook() ?: return@launch
+            val highestChapterId = currentBook.chapters.maxOf { it.id.toInt() }
+            val newBook = currentBook.copy(
+                chapters = currentBook.chapters + chapter.copy(id = (highestChapterId + 1).toString())
+            )
+
+            val newBookList = _uiState.value.books.toMutableList()
+            newBookList[_uiState.value.currentBookId ?: return@launch] = newBook
             updateUiState(
                 _uiState.value.copy(
                     books = newBookList,
@@ -60,7 +87,7 @@ class BookViewModel : ViewModel() {
         viewModelScope.launch {
             updateUiState(_uiState.value.copy(isLoading = true))
 
-            val books = bookJsonList.mapNotNull { parseJson(it) }
+            val books = bookJsonList.mapNotNull { parseJsonToBook(it) }
 
             updateUiState(
                 _uiState.value.copy(
@@ -72,7 +99,7 @@ class BookViewModel : ViewModel() {
         }
     }
 
-    private fun parseJson(json: String): Book? {
+    private fun parseJsonToBook(json: String): Book? {
         updateUiState(_uiState.value.copy(isLoading = true, isError = false))
         return try {
             val deserializer = Json { ignoreUnknownKeys = true }
@@ -80,6 +107,22 @@ class BookViewModel : ViewModel() {
             updateUiState(_uiState.value.copy(isLoading = false))
 
             book
+        } catch (e: Exception) {
+            Log.e(TAG, "Error: ${e.message}")
+            updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+
+            null
+        }
+    }
+
+    private fun parseJsonToChapter(json: String): Chapter? {
+        updateUiState(_uiState.value.copy(isLoading = true, isError = false))
+        return try {
+            val deserializer = Json { ignoreUnknownKeys = true }
+            val chapter = deserializer.decodeFromString<Chapter>(json)
+            updateUiState(_uiState.value.copy(isLoading = false))
+
+            chapter
         } catch (e: Exception) {
             Log.e(TAG, "Error: ${e.message}")
             updateUiState(_uiState.value.copy(isLoading = false, isError = true))

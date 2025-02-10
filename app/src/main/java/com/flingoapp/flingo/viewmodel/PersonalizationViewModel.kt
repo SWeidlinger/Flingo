@@ -3,12 +3,17 @@ package com.flingoapp.flingo.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.flingoapp.flingo.data.model.book.Chapter
 import com.flingoapp.flingo.data.network.GenAiModel
 import com.flingoapp.flingo.di.GenAiModule
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 data class PersonalizationUiState(
     val isLoading: Boolean = false,
@@ -44,6 +49,19 @@ class PersonalizationViewModel(
                     "\n" +
                     "The text must be in German and should enhance the motivation of <name> to read while making learning more enjoyable."
 
+        private const val INSTRUCTION_PROMPT_CHAPTER =
+            "You are a renowned children's book author specializing in personalized educational content. Your task is to generate a single chapter based on an existing JSON that contains multiple chapters.\n" +
+                    "\n" +
+                    "First, select the a suitable chapter from the given list.\n" +
+                    "Then, generate a new JSON object of that chapter, adapting the content to match the child's preferences while maintaining the original structure.\n" +
+                    "The child is <age> years old, named <name>, and has a strong interest in <interest>. The goal is to make the chapter engaging, educational, and age-appropriate.\n" +
+                    "\n" +
+                    "Rules:\n" +
+                    "Do not add new fields or game modes—only adapt the selected chapter.\n" +
+                    "The added chapter must not be of chapterType read.\n" +
+                    "Keep the exact same JSON structure except for adding a copy of the pageType field and value to the pageDetails section.\n" +
+                    "The text must be in German and should encourage reading motivation while making learning enjoyable."
+
         private const val FULL_BOOK = "prompt_examples/full_book.json"
     }
 
@@ -53,17 +71,30 @@ class PersonalizationViewModel(
     fun onAction(action: MainAction.PersonalizationAction) {
         when (action) {
             MainAction.PersonalizationAction.GenerateBook -> generateBook()
+            MainAction.PersonalizationAction.GenerateChapter -> generateChapter()
             is MainAction.PersonalizationAction.ChangeModel -> changeModel(action.model)
             MainAction.PersonalizationAction.ToggleDebugMode -> toggleDebugMode()
         }
     }
 
-    private fun buildPersonalizedPrompt(): String {
+    private enum class InstructionPromptType {
+        BOOK,
+        CHAPTER,
+        PAGE
+    }
+
+    private fun getInstructionPrompt(instructionPromptType: InstructionPromptType): String {
         val name = userViewModel.uiState.value.name
         val age = userViewModel.uiState.value.age
         val interests = userViewModel.uiState.value.selectedInterests
 
-        val personalizedPrompt = INSTRUCTION_PROMPT
+        val usedInstructionPrompt = when (instructionPromptType) {
+            InstructionPromptType.BOOK -> INSTRUCTION_PROMPT
+            InstructionPromptType.CHAPTER -> INSTRUCTION_PROMPT_CHAPTER
+            InstructionPromptType.PAGE -> TODO()
+        }
+
+        val personalizedPrompt = usedInstructionPrompt
             .replace("<age>", age.toString())
             .replace("<name>", name)
             .replace("<interest>", interests.first())
@@ -77,10 +108,7 @@ class PersonalizationViewModel(
             )
         )
 
-        val sourceJson =
-            genAiModule.application.assets.open(FULL_BOOK).bufferedReader().use { it.readText() }
-
-        return personalizedPrompt + sourceJson
+        return personalizedPrompt
     }
 
     private fun changeModel(model: GenAiModel) {
@@ -88,19 +116,19 @@ class PersonalizationViewModel(
         updateUiState(_uiState.value.copy(currentModel = model))
     }
 
-    private fun generateBook() {
-        viewModelScope.launch {
+    private suspend fun getResponse(prompt: String): String? {
+        return withContext(Dispatchers.IO) {
             updateUiState(_uiState.value.copy(isLoading = true))
 
-            val prompt = buildPersonalizedPrompt()
             val startTime = System.currentTimeMillis()
 
             genAiModule.repository.getResponse(prompt)
                 .onFailure { error ->
                     errorHandling(error)
+                    return@withContext null
                 }
-                .onSuccess { book ->
-                    Log.e(TAG, book)
+                .onSuccess { response ->
+                    Log.e(TAG, response)
                     val duration = System.currentTimeMillis() - startTime
 
                     updateUiState(
@@ -110,13 +138,53 @@ class PersonalizationViewModel(
                             lastResponseTime = duration
                         )
                     )
-                    bookViewModel.onAction(
-                        MainAction.BookAction.AddBook(
-                            bookJson = book,
-                            author = _uiState.value.currentModel.provider
-                        )
-                    )
+
+                    return@withContext response
                 }
+
+            null
+        }
+    }
+
+    private fun generateBook() {
+        viewModelScope.launch {
+            val instructionPrompt = getInstructionPrompt(InstructionPromptType.BOOK)
+            val sourceJson = genAiModule.application.assets.open(FULL_BOOK).bufferedReader()
+                .use { it.readText() }
+            val prompt = instructionPrompt + sourceJson
+
+            val response = getResponse(prompt)
+
+            response?.let { bookJson ->
+                bookViewModel.onAction(
+                    MainAction.BookAction.AddBook(
+                        bookJson = bookJson,
+                        author = _uiState.value.currentModel.provider
+                    )
+                )
+            }
+        }
+    }
+
+    private fun generateChapter() {
+        viewModelScope.launch {
+            val instructionPrompt = getInstructionPrompt(InstructionPromptType.CHAPTER)
+            val source = bookViewModel.getCurrentBook()?.chapters ?: return@launch
+
+            val sourceJson = Json.encodeToString<List<Chapter>>(source)
+            Log.e(TAG, sourceJson)
+            val prompt = instructionPrompt + sourceJson
+
+            val response = getResponse(prompt)
+
+            response?.let { chapterJson ->
+                bookViewModel.onAction(
+                    MainAction.BookAction.AddChapter(
+                        chapterJson = chapterJson,
+                        author = _uiState.value.currentModel.provider
+                    )
+                )
+            }
         }
     }
 

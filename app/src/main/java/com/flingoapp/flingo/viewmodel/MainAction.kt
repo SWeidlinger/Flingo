@@ -22,10 +22,12 @@ sealed interface MainAction {
         data class CompletePage(val pageIndex: Int) : BookAction
         data class FetchBooks(val booksJson: List<String>) : BookAction
         data class AddBook(val bookJson: String, val author: String) : BookAction
+        data class AddChapter(val chapterJson: String, val author: String) : BookAction
     }
 
     sealed interface PersonalizationAction: MainAction{
         data object GenerateBook : PersonalizationAction
+        data object GenerateChapter : PersonalizationAction
         data class ChangeModel(val model: GenAiModel) : PersonalizationAction
         data object ToggleDebugMode: PersonalizationAction
     }

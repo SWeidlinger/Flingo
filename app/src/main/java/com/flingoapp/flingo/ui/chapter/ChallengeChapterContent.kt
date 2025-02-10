@@ -133,6 +133,7 @@ fun ChallengeChapterContent(
                                 onNavigate = onNavigate,
                                 pageDetails = pageInPager.details as PageDetails.RemoveWordPageDetails,
                                 onAction = onAction,
+                                pagerState = pagerState,
                                 onPageCompleted = { score ->
                                     onAction(MainAction.BookAction.CompletePage(pageIndex))
                                     completedPages.add(currentPage)

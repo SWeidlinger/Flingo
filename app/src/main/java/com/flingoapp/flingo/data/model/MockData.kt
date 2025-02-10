@@ -95,7 +95,7 @@ object MockData {
         description = "This is a description",
         positionOffset = 0.0f,
         isCompleted = false,
-        pages = arrayListOf(page, page, page)
+        pages = arrayListOf(page, page.copy(id = "2"), page.copy(id = "3"))
     )
 
     val book = Book(
@@ -106,6 +106,6 @@ object MockData {
         title = "This is a book",
         description = "This is a description",
         coverImage = "Cover Image",
-        chapters = arrayListOf(chapter, chapter, chapter)
+        chapters = arrayListOf(chapter, chapter.copy(id = "2"), chapter.copy(id = "3"))
     )
 }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
@@ -23,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,6 +38,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.model.MockData
@@ -46,16 +49,25 @@ import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
+import com.flingoapp.flingo.ui.animatedBorder
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
+import com.flingoapp.flingo.ui.component.button.CustomElevatedButton2
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.BookUiState
 import com.flingoapp.flingo.viewmodel.MainAction
+import com.flingoapp.flingo.viewmodel.PersonalizationUiState
+import nl.dionsegijn.konfetti.compose.KonfettiView
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun ChapterSelectionScreen(
     bookUiState: BookUiState,
+    personalizationUiState: PersonalizationUiState,
     currentLives: Int,
     book: Book?,
     onAction: (MainAction) -> Unit,
@@ -84,7 +96,8 @@ fun ChapterSelectionScreen(
                 chapters = book.chapters,
                 onAction = onAction,
                 currentLives = currentLives,
-                onNavigate = onNavigate
+                onNavigate = onNavigate,
+                isGeneratingChapter = personalizationUiState.isLoading
             )
         }
     }
@@ -101,6 +114,7 @@ private fun ChapterSelectionContent(
     book: Book,
     chapters: List<Chapter>,
     currentLives: Int,
+    isGeneratingChapter: Boolean,
     onAction: (MainAction) -> Unit,
     onNavigate: (NavigationAction) -> Unit
 ) {
@@ -258,6 +272,90 @@ private fun ChapterSelectionContent(
                         )
                     }
                 }
+
+                item {
+                    var buttonPosition by remember { mutableStateOf(Offset.Zero) }
+                    var buttonSize by remember { mutableStateOf(IntSize.Zero) }
+
+                    var previousChapterCount by remember { mutableIntStateOf(chapters.size) }
+
+                    //TODO: fix confetti
+                    if (chapters.size > previousChapterCount) {
+                        KonfettiView(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            parties = listOf(
+                                Party(
+                                    position = Position.Absolute(
+                                        x = buttonPosition.x + buttonSize.width / 2,
+                                        y = buttonPosition.y
+                                    ),
+                                    emitter = Emitter(
+                                        duration = 1000,
+                                        timeUnit = TimeUnit.MILLISECONDS
+                                    ).perSecond(200),
+                                    spread = 90,
+                                    angle = -90
+                                )
+                            )
+                        )
+                    }
+
+                    CustomElevatedButton2(
+                        modifier = Modifier
+                            .size(
+                                DpSize(
+                                    chapterButtonSize.dp,
+                                    chapterButtonSize.dp
+                                )
+                            )
+                            .then(
+                                if (isGeneratingChapter) {
+                                    Modifier.animatedBorder(
+                                        strokeWidth = 3.dp,
+                                        shape = CircleShape,
+                                        durationMillis = 1500
+                                    )
+                                } else {
+                                    Modifier
+                                }
+                            )
+                            .onGloballyPositioned {
+                                buttonPosition = it.positionInParent()
+                                buttonSize = it.size
+                            },
+                        shape = CircleShape,
+                        elevation = 15.dp,
+                        isPressed = isGeneratingChapter,
+                        backgroundColor = FlingoColors.LightGray,
+                        onClick = {
+                            previousChapterCount = chapters.size
+                            onAction(MainAction.PersonalizationAction.GenerateChapter)
+                        },
+                        buttonContent = {
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Icon(
+                                    modifier = Modifier.size((chapterButtonSize / 1.75).dp),
+                                    tint = FlingoColors.Text,
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = "Generate new chapter"
+                                )
+
+                                AutoResizableText(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .padding(horizontal = 24.dp),
+                                    text = "Generate Chapter",
+                                    style = MaterialTheme.typography.headlineLarge.copy(fontSize = 42.sp),
+                                    color = FlingoColors.Text
+                                )
+                            }
+                        }
+                    )
+                }
             }
         }
     }
@@ -270,6 +368,7 @@ private fun ChapterSelectionScreenPreview() {
         ChapterSelectionContent(
             book = MockData.book,
             chapters = MockData.book.chapters,
+            isGeneratingChapter = false,
             currentLives = 3,
             onAction = {},
             onNavigate = {}

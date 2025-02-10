@@ -8,13 +8,19 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -179,7 +185,7 @@ fun CustomElevatedButton2(
             }
     ) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .border(
                     if (addOutline) 1.dp else 0.dp,
                     if (addOutline) shadowColor else Color.Transparent,
@@ -330,6 +336,33 @@ private fun CustomElevatedButtonCircle2Preview() {
             onClick = {},
             buttonContent = {
                 Text(text = "Click Me!", fontSize = 24.sp)
+            }
+        )
+    }
+}
+
+@CustomPreview
+@Composable
+private fun CustomElevatedButtonRound2Preview() {
+    FlingoTheme {
+        CustomElevatedButton2(
+            modifier = Modifier.size(100.dp),
+            shape = CircleShape,
+            isPressed = false,
+            backgroundColor = FlingoColors.Success,
+            onClick = { },
+            buttonContent = {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        modifier = Modifier.size((100 / 1.75).dp),
+                        tint = Color.White,
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Generate new chapter"
+                    )
+                }
             }
         )
     }
