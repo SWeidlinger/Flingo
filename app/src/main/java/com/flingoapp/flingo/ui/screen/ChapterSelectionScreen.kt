@@ -131,7 +131,7 @@ private fun ChapterSelectionContent(
                     unlockAll = !unlockAll
                 },
                 onSettingsClick = {
-                    showPath = !showPath
+                    onNavigate(NavigationAction.Screen(NavigationDestination.Settings))
                 },
                 showLives = true,
                 currentLives = currentLives,

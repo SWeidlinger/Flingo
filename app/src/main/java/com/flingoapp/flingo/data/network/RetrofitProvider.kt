@@ -27,18 +27,16 @@ object RetrofitProviderImpl : RetrofitProvider {
             .baseUrl(baseUrl)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
 
-        if (BuildConfig.DEBUG) {
-            //only add logging interceptor in debug mode
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .build()
+        val okHttpClientBuilder = OkHttpClient.Builder()
+            .connectTimeout(90, TimeUnit.SECONDS)
+            .writeTimeout(90, TimeUnit.SECONDS)
+            .readTimeout(90, TimeUnit.SECONDS)
 
-            retrofitBuilder.client(okHttpClient)
+        if (BuildConfig.DEBUG) {
+            okHttpClientBuilder.addInterceptor(loggingInterceptor)
         }
 
-        return retrofitBuilder.build()
+        val okHttpClient = okHttpClientBuilder.build()
+        return retrofitBuilder.client(okHttpClient).build()
     }
 }
