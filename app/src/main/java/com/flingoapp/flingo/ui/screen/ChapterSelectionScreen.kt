@@ -38,13 +38,14 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.flingoapp.flingo.data.model.Book
+import com.flingoapp.flingo.data.model.Chapter
+import com.flingoapp.flingo.data.model.ChapterType
 import com.flingoapp.flingo.data.model.MockData
-import com.flingoapp.flingo.data.model.book.Book
-import com.flingoapp.flingo.data.model.book.Chapter
-import com.flingoapp.flingo.data.model.book.ChapterType
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.AutoResizableText
@@ -55,6 +56,7 @@ import com.flingoapp.flingo.ui.component.button.CustomElevatedButton2
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import com.flingoapp.flingo.ui.toPx
 import com.flingoapp.flingo.viewmodel.BookUiState
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.PersonalizationUiState
@@ -149,10 +151,16 @@ private fun ChapterSelectionContent(
                 text = "No chapters found for book ${book.title}",
             )
         } else {
-            var lazyRowHeight by remember { mutableStateOf(0.dp) }
+            var lazyRowHeight by remember { mutableIntStateOf(0) }
             val chapterButtonSize = 300
-            val maxButtonOffset = lazyRowHeight - (chapterButtonSize.dp * 2f)
+            val chapterButtonElevationOffset = 14.dp
+            val chapterButtonElevationOffsetPixel = chapterButtonElevationOffset.toPx()
+            val maxButtonOffset by
+            remember { derivedStateOf { lazyRowHeight - ((chapterButtonSize + chapterButtonElevationOffsetPixel) * 2f) } }
             val chapterButtonCoordinateHashMap = remember { HashMap<Int, Offset>() }
+
+            Log.e("LazyRowHeight", lazyRowHeight.toString())
+            Log.e("MaxButtonOffset", maxButtonOffset.toString())
 
             //TODO: fix paths not scrolling and add some variation to it not just straight line
             LazyRow(
@@ -160,7 +168,7 @@ private fun ChapterSelectionContent(
                     .padding(innerPadding)
                     .fillMaxSize()
                     .onGloballyPositioned { layoutCoordinates ->
-                        lazyRowHeight = layoutCoordinates.size.height.dp
+                        lazyRowHeight = layoutCoordinates.size.height
                     }
                     .drawBehind {
                         if (!showPath) {
@@ -212,7 +220,10 @@ private fun ChapterSelectionContent(
                     //Box used to not apply offset to the button, as it can mess up the layout
                     Box(
                         modifier = Modifier
-                            .offset(y = maxButtonOffset * chapter.positionOffset)
+                            .offset {
+                                val y = (maxButtonOffset * chapter.positionOffset).toInt()
+                                IntOffset(0, y)
+                            }
                             .onGloballyPositioned { layoutCoordinates ->
                                 chapterButtonCoordinateHashMap[index] =
                                     layoutCoordinates.positionInParent()
@@ -221,7 +232,7 @@ private fun ChapterSelectionContent(
                         CustomElevatedButton(
                             size = DpSize(chapterButtonSize.dp, chapterButtonSize.dp),
                             shape = CircleShape,
-                            elevation = 15.dp,
+                            elevation = chapterButtonElevationOffset,
                             isPressed = chapter.isCompleted,
                             enabled = !isChapterLocked,
                             backgroundColor =
@@ -301,60 +312,72 @@ private fun ChapterSelectionContent(
                         )
                     }
 
-                    CustomElevatedButton2(
+                    Box(
                         modifier = Modifier
-                            .size(
-                                DpSize(
-                                    chapterButtonSize.dp,
-                                    chapterButtonSize.dp
-                                )
-                            )
-                            .then(
-                                if (isGeneratingChapter) {
-                                    Modifier.animatedBorder(
-                                        strokeWidth = 3.dp,
-                                        shape = CircleShape,
-                                        durationMillis = 1500
-                                    )
-                                } else {
-                                    Modifier
-                                }
-                            )
-                            .onGloballyPositioned {
-                                buttonPosition = it.positionInParent()
-                                buttonSize = it.size
-                            },
-                        shape = CircleShape,
-                        elevation = 15.dp,
-                        isPressed = isGeneratingChapter,
-                        backgroundColor = FlingoColors.LightGray,
-                        onClick = {
-                            previousChapterCount = chapters.size
-                            onAction(MainAction.PersonalizationAction.GenerateChapter)
-                        },
-                        buttonContent = {
-                            Column(
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Icon(
-                                    modifier = Modifier.size((chapterButtonSize / 1.75).dp),
-                                    tint = FlingoColors.Text,
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "Generate new chapter"
-                                )
-
-                                AutoResizableText(
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                        .padding(horizontal = 24.dp),
-                                    text = "Generate Chapter",
-                                    style = MaterialTheme.typography.headlineLarge.copy(fontSize = 42.sp),
-                                    color = FlingoColors.Text
-                                )
+                            .offset {
+                                val y = (maxButtonOffset * 0.5).toInt()
+                                IntOffset(0, y)
                             }
-                        }
-                    )
+//                            .onGloballyPositioned { layoutCoordinates ->
+//                                chapterButtonCoordinateHashMap[index] =
+//                                    layoutCoordinates.positionInParent()
+//                            }
+                    ) {
+                        CustomElevatedButton2(
+                            modifier = Modifier
+                                .size(
+                                    DpSize(
+                                        chapterButtonSize.dp,
+                                        chapterButtonSize.dp
+                                    )
+                                )
+                                .then(
+                                    if (isGeneratingChapter) {
+                                        Modifier.animatedBorder(
+                                            strokeWidth = 3.dp,
+                                            shape = CircleShape,
+                                            durationMillis = 1500
+                                        )
+                                    } else {
+                                        Modifier
+                                    }
+                                )
+                                .onGloballyPositioned {
+                                    buttonPosition = it.positionInParent()
+                                    buttonSize = it.size
+                                },
+                            shape = CircleShape,
+                            elevation = chapterButtonElevationOffset,
+                            isPressed = isGeneratingChapter,
+                            backgroundColor = FlingoColors.LightGray,
+                            onClick = {
+                                previousChapterCount = chapters.size
+                                onAction(MainAction.PersonalizationAction.GenerateChapter)
+                            },
+                            buttonContent = {
+                                Column(
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Icon(
+                                        modifier = Modifier.size((chapterButtonSize / 1.75).dp),
+                                        tint = FlingoColors.Text,
+                                        imageVector = Icons.Default.Add,
+                                        contentDescription = "Generate new chapter"
+                                    )
+
+                                    AutoResizableText(
+                                        modifier = Modifier
+                                            .padding(16.dp)
+                                            .padding(horizontal = 24.dp),
+                                        text = "Generate Chapter",
+                                        style = MaterialTheme.typography.headlineLarge.copy(fontSize = 42.sp),
+                                        color = FlingoColors.Text
+                                    )
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }

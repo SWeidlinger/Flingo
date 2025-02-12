@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.model.MockData
-import com.flingoapp.flingo.data.model.book.Book
+import com.flingoapp.flingo.data.model.Book
 import com.flingoapp.flingo.data.network.GenAiModel
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton

@@ -31,7 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.model.MockData
-import com.flingoapp.flingo.data.model.book.page.Page
+import com.flingoapp.flingo.data.model.page.Page
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme

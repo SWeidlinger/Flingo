@@ -1,11 +1,9 @@
 package com.flingoapp.flingo.data.model
 
-import com.flingoapp.flingo.data.model.book.Book
-import com.flingoapp.flingo.data.model.book.Chapter
-import com.flingoapp.flingo.data.model.book.Feedback
-import com.flingoapp.flingo.data.model.book.page.Page
-import com.flingoapp.flingo.data.model.book.page.PageDetails
-import com.flingoapp.flingo.data.model.book.page.PageType
+import com.flingoapp.flingo.data.model.page.Feedback
+import com.flingoapp.flingo.data.model.page.Page
+import com.flingoapp.flingo.data.model.page.PageDetails
+import com.flingoapp.flingo.data.model.page.PageType
 
 object MockData {
     val pageDetailsRemoveWord = PageDetails.RemoveWordPageDetails(
@@ -91,7 +89,7 @@ object MockData {
     val chapter = Chapter(
         id = "1",
         title = "This is a chapter",
-        type = com.flingoapp.flingo.data.model.book.ChapterType.CHALLENGE,
+        type = ChapterType.CHALLENGE,
         description = "This is a description",
         positionOffset = 0.0f,
         isCompleted = false,

@@ -12,7 +12,6 @@
       "chapterTitle": "Kapitel 1",
       "chapterDescription": "Beantworte diese Fragen über den gelesenen Text!",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.6,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [
@@ -101,7 +100,6 @@
       "chapterTitle": "Kapitel 2",
       "chapterDescription": "Beantworte diese Fragen über den gelesenen Text!",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.6,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [

@@ -3,8 +3,8 @@ package com.flingoapp.flingo.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flingoapp.flingo.data.model.book.Book
-import com.flingoapp.flingo.data.model.book.Chapter
+import com.flingoapp.flingo.data.model.Book
+import com.flingoapp.flingo.data.model.Chapter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

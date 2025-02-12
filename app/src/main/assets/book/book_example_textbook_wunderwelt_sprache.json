@@ -12,7 +12,6 @@
       "chapterTitle": "Leseteil",
       "chapterDescription": "Lies die Geschichte.",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.2,
       "chapterType": "read",
       "chapterCompleted": false,
       "pages": [
@@ -89,7 +88,6 @@
       "chapterTitle": "Spielkonzept 1: Überflüssiges Wort",
       "chapterDescription": "Streiche die überflüssen und sinnstörenden Wörter durch. (Wunderwelt Sprache 3 - Lesen und Sprechen - S. 30)",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.6,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [
@@ -185,7 +183,6 @@
       "chapterTitle": "Spielkonzept 2: Beantworte Fragen",
       "chapterDescription": "Beantworte mit Hilfe des Textes die gestellten Fragen.",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.2,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [
@@ -337,7 +334,6 @@
       "chapterTitle": "Spielkonzept 3: Ordne die Geschichte",
       "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.6,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [

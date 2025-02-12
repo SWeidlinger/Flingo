@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.model.MockData
-import com.flingoapp.flingo.data.model.book.page.Page
+import com.flingoapp.flingo.data.model.page.Page
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoColors

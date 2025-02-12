@@ -7,8 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.flingoapp.flingo.data.model.book.Chapter
-import com.flingoapp.flingo.data.model.book.ChapterType
+import com.flingoapp.flingo.data.model.Chapter
+import com.flingoapp.flingo.data.model.ChapterType
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.BookUiState

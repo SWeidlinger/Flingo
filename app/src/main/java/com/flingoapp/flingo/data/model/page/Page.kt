@@ -1,6 +1,5 @@
-package com.flingoapp.flingo.data.model.book.page
+package com.flingoapp.flingo.data.model.page
 
-import com.flingoapp.flingo.data.model.book.Feedback
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -32,4 +31,16 @@ data class Page(
     @SerialName("taskDefinition") val taskDefinition: String,
     @SerialName("pageType") val type: PageType,
     @Serializable(with = PageDetailsSerializer::class) @SerialName("pageDetails") val details: PageDetails
+)
+
+/**
+ * Feedback data class
+ *
+ * @property correct string showed, if page got completed correctly
+ * @property incorrect string showed, if page got completed incorrectly
+ */
+@Serializable
+data class Feedback(
+    @SerialName("correct") val correct: String? = null,
+    @SerialName("incorrect") val incorrect: String? = null
 )

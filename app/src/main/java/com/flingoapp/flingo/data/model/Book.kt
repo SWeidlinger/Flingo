@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.data.model.book
+package com.flingoapp.flingo.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

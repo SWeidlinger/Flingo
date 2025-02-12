@@ -22,10 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.data.model.MockData
-import com.flingoapp.flingo.data.model.book.Chapter
-import com.flingoapp.flingo.data.model.book.page.Page
-import com.flingoapp.flingo.data.model.book.page.PageDetails
-import com.flingoapp.flingo.data.model.book.page.PageType
+import com.flingoapp.flingo.data.model.Chapter
+import com.flingoapp.flingo.data.model.page.Page
+import com.flingoapp.flingo.data.model.page.PageDetails
+import com.flingoapp.flingo.data.model.page.PageType
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.challenge.orderStory.OrderStoryChallengeContent

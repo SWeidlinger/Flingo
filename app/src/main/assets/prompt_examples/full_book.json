@@ -12,7 +12,6 @@
       "chapterTitle": "Kapitel 1: Lesen",
       "chapterDescription": "Lies die Geschichte.",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.2,
       "chapterType": "read",
       "chapterCompleted": false,
       "pages": [
@@ -89,7 +88,6 @@
       "chapterTitle": "Kapitel 2: Herausforderung",
       "chapterDescription": "Entferne das unnötige Wort.",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.6,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [
@@ -137,7 +135,6 @@
       "chapterTitle": "Kapitel 3: Herausforderung",
       "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.6,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [
@@ -241,7 +238,6 @@
       "chapterTitle": "Kapitel 4: Herausforderung",
       "chapterDescription": "Beantworte diese Fragen über den gelesenen Text!",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.6,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [

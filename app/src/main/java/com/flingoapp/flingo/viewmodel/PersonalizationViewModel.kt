@@ -3,7 +3,7 @@ package com.flingoapp.flingo.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flingoapp.flingo.data.model.book.Chapter
+import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.network.GenAiModel
 import com.flingoapp.flingo.di.GenAiModule
 import kotlinx.coroutines.Dispatchers

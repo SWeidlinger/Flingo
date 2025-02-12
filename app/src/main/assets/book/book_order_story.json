@@ -12,7 +12,6 @@
       "chapterTitle": "Kapitel 1",
       "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.6,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [
@@ -67,7 +66,6 @@
       "chapterTitle": "Kapitel 2",
       "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.2,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [
@@ -117,7 +115,6 @@
       "chapterTitle": "Kapitel 3",
       "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.2,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [
@@ -162,7 +159,6 @@
       "chapterTitle": "Kapitel 4",
       "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
       "chapterCoverImage": "",
-      "chapterPositionOffset": 0.2,
       "chapterType": "challenge",
       "chapterCompleted": false,
       "pages": [

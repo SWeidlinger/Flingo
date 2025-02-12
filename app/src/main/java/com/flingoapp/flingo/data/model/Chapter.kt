@@ -1,8 +1,9 @@
-package com.flingoapp.flingo.data.model.book
+package com.flingoapp.flingo.data.model
 
-import com.flingoapp.flingo.data.model.book.page.Page
+import com.flingoapp.flingo.data.model.page.Page
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.random.Random
 
 /**
  * Chapter data class representing one chapter in a book
@@ -24,10 +25,10 @@ data class Chapter(
     @SerialName("chapterType") val type: ChapterType,
     @SerialName("chapterDescription") val description: String,
     @SerialName("chapterCoverImage") val coverImage: String? = null,
-    @SerialName("chapterPositionOffset") val positionOffset: Float,
     //TODO: make immutable
     @SerialName("chapterCompleted") var isCompleted: Boolean,
-    @SerialName("pages") val pages: List<Page>? = listOf()
+    @SerialName("pages") val pages: List<Page>? = listOf(),
+    val positionOffset: Float = Random.nextFloat(),
 )
 
 /**

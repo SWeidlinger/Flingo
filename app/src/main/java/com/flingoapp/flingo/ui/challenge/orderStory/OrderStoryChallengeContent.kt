@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.flingoapp.flingo.data.model.MockData
-import com.flingoapp.flingo.data.model.book.page.PageDetails
+import com.flingoapp.flingo.data.model.page.PageDetails
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
