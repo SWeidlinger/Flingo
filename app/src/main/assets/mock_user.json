@@ -21,7 +21,6 @@
           "chapterTitle": "Kapitel 1",
           "chapterDescription": "Lies die Geschichte.",
           "chapterCoverImage": "",
-          "chapterPositionOffset": 0.2,
           "chapterType": "read",
           "chapterCompleted": false,
           "pages": [
@@ -98,7 +97,6 @@
           "chapterTitle": "Kapitel 2",
           "chapterDescription": "Entferne das unnötige Wort.",
           "chapterCoverImage": "",
-          "chapterPositionOffset": 0.6,
           "chapterType": "challenge",
           "chapterCompleted": false,
           "pages": [
@@ -129,7 +127,6 @@
           "chapterTitle": "Kapitel 3",
           "chapterDescription": "Entferne das unnötige Wort.",
           "chapterCoverImage": "",
-          "chapterPositionOffset": 0.8,
           "chapterType": "challenge",
           "chapterCompleted": false,
           "pages": [
@@ -171,7 +168,6 @@
           "chapterTitle": "Kapitel 1",
           "chapterDescription": "Beantworte diese Fragen über den gelesenen Text!",
           "chapterCoverImage": "",
-          "chapterPositionOffset": 0.6,
           "chapterType": "challenge",
           "chapterCompleted": false,
           "pages": [
@@ -260,7 +256,6 @@
           "chapterTitle": "Kapitel 2",
           "chapterDescription": "Beantworte diese Fragen über den gelesenen Text!",
           "chapterCoverImage": "",
-          "chapterPositionOffset": 0.6,
           "chapterType": "challenge",
           "chapterCompleted": false,
           "pages": [
@@ -360,7 +355,6 @@
           "chapterTitle": "Kapitel 1",
           "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
           "chapterCoverImage": "",
-          "chapterPositionOffset": 0.6,
           "chapterType": "challenge",
           "chapterCompleted": false,
           "pages": [
@@ -415,7 +409,6 @@
           "chapterTitle": "Kapitel 2",
           "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
           "chapterCoverImage": "",
-          "chapterPositionOffset": 0.2,
           "chapterType": "challenge",
           "chapterCompleted": false,
           "pages": [
@@ -465,7 +458,6 @@
           "chapterTitle": "Kapitel 3",
           "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
           "chapterCoverImage": "",
-          "chapterPositionOffset": 0.2,
           "chapterType": "challenge",
           "chapterCompleted": false,
           "pages": [
@@ -510,7 +502,6 @@
           "chapterTitle": "Kapitel 4",
           "chapterDescription": "Bring die Geschichte in die richtige Reihenfolge!",
           "chapterCoverImage": "",
-          "chapterPositionOffset": 0.2,
           "chapterType": "challenge",
           "chapterCompleted": false,
           "pages": [

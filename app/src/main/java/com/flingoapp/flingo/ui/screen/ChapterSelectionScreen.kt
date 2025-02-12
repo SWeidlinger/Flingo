@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
@@ -56,7 +57,7 @@ import com.flingoapp.flingo.ui.component.button.CustomElevatedButton2
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.ui.toPx
+import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.viewmodel.BookUiState
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.PersonalizationUiState
@@ -151,16 +152,14 @@ private fun ChapterSelectionContent(
                 text = "No chapters found for book ${book.title}",
             )
         } else {
+            val density = LocalDensity.current
             var lazyRowHeight by remember { mutableIntStateOf(0) }
-            val chapterButtonSize = 300
+            val chapterButtonSize = 300.dp
             val chapterButtonElevationOffset = 14.dp
-            val chapterButtonElevationOffsetPixel = chapterButtonElevationOffset.toPx()
+            //+8.dp to add padding to the bottom of button to compensate for the elevation offset of elevated button
             val maxButtonOffset by
-            remember { derivedStateOf { lazyRowHeight - ((chapterButtonSize + chapterButtonElevationOffsetPixel) * 2f) } }
+            remember { derivedStateOf { lazyRowHeight.toDp(density) - (chapterButtonSize + chapterButtonElevationOffset + 8.dp) } }
             val chapterButtonCoordinateHashMap = remember { HashMap<Int, Offset>() }
-
-            Log.e("LazyRowHeight", lazyRowHeight.toString())
-            Log.e("MaxButtonOffset", maxButtonOffset.toString())
 
             //TODO: fix paths not scrolling and add some variation to it not just straight line
             LazyRow(
@@ -183,12 +182,12 @@ private fun ChapterSelectionContent(
                             if (firstButtonCoordinates == null || secondButtonCoordinates == null) return@drawBehind
 
                             val centerButtonCoordinate = Offset(
-                                x = firstButtonCoordinates.x + (chapterButtonSize / 2),
-                                y = firstButtonCoordinates.y + (chapterButtonSize / 2)
+                                x = firstButtonCoordinates.x + (chapterButtonSize.toPx() / 2),
+                                y = firstButtonCoordinates.y + (chapterButtonSize.toPx() / 2)
                             )
                             val centerSecondButtonCoordinate = Offset(
-                                x = secondButtonCoordinates.x + (chapterButtonSize / 2),
-                                y = secondButtonCoordinates.y + (chapterButtonSize / 2)
+                                x = secondButtonCoordinates.x + (chapterButtonSize.toPx() / 2),
+                                y = secondButtonCoordinates.y + (chapterButtonSize.toPx() / 2)
                             )
 
                             drawLine(
@@ -221,7 +220,7 @@ private fun ChapterSelectionContent(
                     Box(
                         modifier = Modifier
                             .offset {
-                                val y = (maxButtonOffset * chapter.positionOffset).toInt()
+                                val y = (maxButtonOffset * chapter.positionOffset).toPx().toInt()
                                 IntOffset(0, y)
                             }
                             .onGloballyPositioned { layoutCoordinates ->
@@ -230,7 +229,7 @@ private fun ChapterSelectionContent(
                             }
                     ) {
                         CustomElevatedButton(
-                            size = DpSize(chapterButtonSize.dp, chapterButtonSize.dp),
+                            size = DpSize(chapterButtonSize, chapterButtonSize),
                             shape = CircleShape,
                             elevation = chapterButtonElevationOffset,
                             isPressed = chapter.isCompleted,
@@ -258,7 +257,7 @@ private fun ChapterSelectionContent(
 
                                     if (showButtonIcon) {
                                         Icon(
-                                            modifier = Modifier.size((chapterButtonSize / 1.75).dp),
+                                            modifier = Modifier.size(chapterButtonSize / 1.75f),
                                             tint = if (chapter.type == ChapterType.CHALLENGE || chapter.isCompleted) Color.White
                                             else Color.Black,
                                             imageVector = if (chapter.isCompleted) Icons.Default.Check else Icons.Default.Lock,
@@ -315,7 +314,7 @@ private fun ChapterSelectionContent(
                     Box(
                         modifier = Modifier
                             .offset {
-                                val y = (maxButtonOffset * 0.5).toInt()
+                                val y = (maxButtonOffset * 0.5f).toPx().toInt()
                                 IntOffset(0, y)
                             }
 //                            .onGloballyPositioned { layoutCoordinates ->
@@ -326,10 +325,7 @@ private fun ChapterSelectionContent(
                         CustomElevatedButton2(
                             modifier = Modifier
                                 .size(
-                                    DpSize(
-                                        chapterButtonSize.dp,
-                                        chapterButtonSize.dp
-                                    )
+                                    DpSize(chapterButtonSize, chapterButtonSize)
                                 )
                                 .then(
                                     if (isGeneratingChapter) {
@@ -360,7 +356,7 @@ private fun ChapterSelectionContent(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Icon(
-                                        modifier = Modifier.size((chapterButtonSize / 1.75).dp),
+                                        modifier = Modifier.size(chapterButtonSize / 1.75f),
                                         tint = FlingoColors.Text,
                                         imageVector = Icons.Default.Add,
                                         contentDescription = "Generate new chapter"

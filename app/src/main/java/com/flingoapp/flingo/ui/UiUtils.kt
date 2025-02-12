@@ -50,6 +50,7 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -86,6 +87,8 @@ fun Dp.toPx() = with(LocalDensity.current) { this@toPx.toPx() }
  */
 @Composable
 fun Int.toDp() = with(LocalDensity.current) { this@toDp.toDp() }
+
+fun Int.toDp(density: Density) = with(density) { this@toDp.toDp() }
 
 /**
  * Helper function to convert sp to dp
