@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.ui.chapter
+package com.flingoapp.flingo.ui.screen
 
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,8 +10,10 @@ import androidx.compose.ui.Modifier
 import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.model.ChapterType
 import com.flingoapp.flingo.navigation.NavigationAction
-import com.flingoapp.flingo.viewmodel.MainAction
+import com.flingoapp.flingo.ui.chapter.ChallengeChapterContent
+import com.flingoapp.flingo.ui.chapter.ReadChapterContent
 import com.flingoapp.flingo.viewmodel.BookUiState
+import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.UserUiState
 
 @Composable

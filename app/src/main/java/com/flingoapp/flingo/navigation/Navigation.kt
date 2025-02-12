@@ -18,7 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.toRoute
 import com.flingoapp.flingo.BuildConfig
-import com.flingoapp.flingo.ui.chapter.ChapterScreen
+import com.flingoapp.flingo.ui.screen.ChapterScreen
 import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
 import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screen.HomeScreen
