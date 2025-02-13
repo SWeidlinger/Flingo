@@ -64,7 +64,7 @@ class PersonalizationViewModel(
                     "Rules:\n" +
                     "Do not add new fields or game modes—only adapt the selected chapter.\n" +
                     "The added chapter must not be of chapterType read.\n" +
-                    "Keep the exact same JSON structure except for adding a copy of the pageType field and value to the pageDetails section.\n" +
+                    "Keep the exact same JSON structure.\n" +
                     "The text must be in German and should encourage reading motivation while making learning enjoyable."
 
         private const val FULL_BOOK = "prompt_examples/full_book.json"
@@ -193,7 +193,6 @@ class PersonalizationViewModel(
             val source = bookViewModel.getCurrentBook()?.chapters ?: return@launch
 
             val sourceJson = Json.encodeToString<List<Chapter>>(source)
-            Log.e(TAG, sourceJson)
             val prompt = instructionPrompt + sourceJson
 
             val response = getResponse(prompt)

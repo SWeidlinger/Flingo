@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.data.model.page
 
+import PageDetails
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -7,7 +8,6 @@ import kotlinx.serialization.Serializable
  * Page data class
  *
  * @property id of this page
- * @property type of this page defined by [PageType]
  * @property description of this page
  * @property isCompleted completion parameter
  * @property difficulty of this page, right now not explicitly defined but will be (easy, medium, hard)
@@ -29,8 +29,7 @@ data class Page(
     @SerialName("score") val score: Int?,
     @SerialName("feedback") val feedback: Feedback?,
     @SerialName("taskDefinition") val taskDefinition: String,
-    @SerialName("pageType") val type: PageType,
-    @Serializable(with = PageDetailsSerializer::class) @SerialName("pageDetails") val details: PageDetails
+    @SerialName("pageDetails") val details: PageDetails
 )
 
 /**

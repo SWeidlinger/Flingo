@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.ui.chapter
 
+import PageDetails
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,7 +28,6 @@ import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.model.page.Page
-import com.flingoapp.flingo.data.model.page.PageDetails
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.component.CustomHighlightedText
 import com.flingoapp.flingo.ui.component.pageIndicator.CustomPageIndicator
@@ -82,7 +82,7 @@ fun ReadChapterContent(
                 userScrollEnabled = false
             ) { page ->
                 val currentPage = pages[page]
-                val details = currentPage.details as PageDetails.ReadPageDetails
+                val details = currentPage.details as PageDetails.Read
 
                 val content = details.content.split(" ")
                 var currentWordIndex by remember { mutableIntStateOf(0) }

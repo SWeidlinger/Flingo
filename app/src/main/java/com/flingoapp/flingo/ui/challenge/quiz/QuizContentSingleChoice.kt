@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.ui.challenge.quiz
 
+import PageDetails
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -22,7 +23,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.model.MockData
-import com.flingoapp.flingo.data.model.page.PageDetails
 import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.ButtonProgressAnimation
@@ -36,7 +36,7 @@ import com.flingoapp.flingo.viewmodel.MainAction
 @Composable
 fun QuizContentSingleChoice(
     modifier: Modifier = Modifier,
-    pageDetails: PageDetails.QuizPageDetails,
+    pageDetails: PageDetails.Quiz,
     onAction: (MainAction) -> Unit,
     buttonProgressAnimation: ButtonProgressAnimation = ButtonProgressAnimation.LEFT_TO_RIGHT,
     onQuestionAnswered: (correctAnswer: Boolean) -> Unit,
@@ -112,8 +112,8 @@ private fun QuizContentSingleChoicePreview2() {
             modifier = Modifier.fillMaxSize(),
             pageDetails = MockData.pageDetailsQuizSingleChoice.copy(
                 answers = arrayListOf(
-                    PageDetails.QuizPageDetails.Companion.Answer(id = 1, "Answer 1", true),
-                    PageDetails.QuizPageDetails.Companion.Answer(id = 2, "Answer 2", false),
+                    PageDetails.Quiz.Answer(id = 1, "Answer 1", true),
+                    PageDetails.Quiz.Answer(id = 2, "Answer 2", false),
                 )
             ),
             onAction = {},
@@ -130,9 +130,9 @@ private fun QuizContentSingleChoicePreview3() {
             modifier = Modifier.fillMaxSize(),
             pageDetails = MockData.pageDetailsQuizSingleChoice.copy(
                 answers = arrayListOf(
-                    PageDetails.QuizPageDetails.Companion.Answer(id = 1, "Answer 1", true),
-                    PageDetails.QuizPageDetails.Companion.Answer(id = 2, "Answer 2", false),
-                    PageDetails.QuizPageDetails.Companion.Answer(id = 3, "Answer 3", false),
+                    PageDetails.Quiz.Answer(id = 1, "Answer 1", true),
+                    PageDetails.Quiz.Answer(id = 2, "Answer 2", false),
+                    PageDetails.Quiz.Answer(id = 3, "Answer 3", false),
                 )
             ),
             onAction = {},
@@ -149,10 +149,10 @@ private fun QuizContentSingleChoicePreview4() {
             modifier = Modifier.fillMaxSize(),
             pageDetails = MockData.pageDetailsQuizSingleChoice.copy(
                 answers = arrayListOf(
-                    PageDetails.QuizPageDetails.Companion.Answer(id = 1, "Answer 1", true),
-                    PageDetails.QuizPageDetails.Companion.Answer(id = 2, "Answer 2", false),
-                    PageDetails.QuizPageDetails.Companion.Answer(id = 3, "Answer 3", false),
-                    PageDetails.QuizPageDetails.Companion.Answer(id = 4, "Answer 4", false),
+                    PageDetails.Quiz.Answer(id = 1, "Answer 1", true),
+                    PageDetails.Quiz.Answer(id = 2, "Answer 2", false),
+                    PageDetails.Quiz.Answer(id = 3, "Answer 3", false),
+                    PageDetails.Quiz.Answer(id = 4, "Answer 4", false),
                 )
             ),
             onAction = {},

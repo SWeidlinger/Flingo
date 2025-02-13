@@ -28,9 +28,8 @@
             "incorrect": ""
           },
           "taskDefinition": "",
-          "pageType": "read",
           "pageDetails": {
-            "pageType": "read",
+            "pageDetailsType": "read",
             "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.",
             "images": [
               "circus_image"
@@ -50,9 +49,8 @@
             "incorrect": ""
           },
           "taskDefinition": "",
-          "pageType": "read",
           "pageDetails": {
-            "pageType": "read",
+            "pageDetailsType": "read",
             "content": "In dem Dorf lebte auch eine kleines Pony namens Peppi, das sehr unglücklich war.",
             "images": [
               "pony"
@@ -72,9 +70,8 @@
             "incorrect": ""
           },
           "taskDefinition": "",
-          "pageType": "read",
           "pageDetails": {
-            "pageType": "read",
+            "pageDetailsType": "read",
             "content": "Es hatte früher einem alten Mann gehört.",
             "images": [
               "old_man"
@@ -101,9 +98,8 @@
           "score": null,
           "feedback": {},
           "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
-          "pageType": "remove_word",
           "pageDetails": {
-            "pageType": "remove_word",
+            "pageDetailsType": "remove_word",
             "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
             "answer": "fangen"
           }
@@ -118,9 +114,8 @@
           "score": null,
           "feedback": {},
           "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
-          "pageType": "remove_word",
           "pageDetails": {
-            "pageType": "remove_word",
+            "pageDetailsType": "remove_word",
             "content": "Ein Orchester ist eine Gruppe von Musikern Astronauten, die unter der Leitung eines Dirigenten spielen.",
             "answer": "Astronauten"
           }
@@ -135,9 +130,8 @@
           "score": null,
           "feedback": {},
           "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
-          "pageType": "remove_word",
           "pageDetails": {
-            "pageType": "remove_word",
+            "pageDetailsType": "remove_word",
             "content": "Der Papagei ist ein großer Sessel Vogel, der ein leuchtend farbiges Federkleid besitzt.",
             "answer": "Sessel"
           }
@@ -152,9 +146,8 @@
           "score": null,
           "feedback": {},
           "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
-          "pageType": "remove_word",
           "pageDetails": {
-            "pageType": "remove_word",
+            "pageDetailsType": "remove_word",
             "content": "Die Preiselbeere ist ein wild brüllender wachsender Zwergstrauch im Gebirge und auf der Heide.",
             "answer": "brüllender"
           }
@@ -169,9 +162,8 @@
           "score": null,
           "feedback": {},
           "taskDefinition": "Streiche die überflüssen und sinnstörenden Wörter durch.",
-          "pageType": "remove_word",
           "pageDetails": {
-            "pageType": "remove_word",
+            "pageDetailsType": "remove_word",
             "content": "Riesen sind in Märchen und Sagen wichtige kleine Persönlichkeiten.",
             "answer": "kleine"
           }
@@ -199,9 +191,8 @@
             "incorrect": ""
           },
           "taskDefinition": "Beantworte mit Hilfe des Textes die gestellten Fragen.",
-          "pageType": "quiz",
           "pageDetails": {
-            "pageType": "quiz",
+            "pageDetailsType": "quiz",
             "quizType": "single_choice",
             "referenceTextTitle": "Das Zirkuspony",
             "referenceText": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.\nIn dem Dorf lebte auch ein kleines Pony namens Peppi, das sehr unglücklich war. Es hatte früher einem alten Mann gehört.\nAls es nicht mehr arbeiten konnte, weil es zu schwach war, jagte er es fort. Seither trabte es einsam durch die Straßen.\n„Niemand braucht mich mehr. Ich bin ja so allein,“ seufzte das Tier.\nAls der Abend hereinbrach, versammelten sich alle Dorfbewohner im Zirkuszelt.\n\nAuch Peppi schlich neugierig hinein.\nDie Vorstellung war ein großer Erfolg.\nBesonders jubelten die Kinder dem Pferd Rosi zu.\nDer Zirkusdirektor verkündete:\n„Alle Kinder dürfen jetzt auf Rosi reiten!“\n\nBereits kurze Zeit später war das Zirkuspferd vollkommen erschöpft.\n„Das schaffe ich nicht jeden Tag. Ich brauche eine Pause!“, jammerte Rosi. Da fiel der Blick des Zirkusdirektors auf das kleine Pony, das schüchtern im Hintergrund stand.\n„Vielleicht kann ich euch helfen?“, flüsterte Peppi.\n\n„Ich bin zwar zu schwach, um einen Wagen zu ziehen, aber die Kinder können noch immer auf mir reiten.“\nVon diesem Tag an hatte Peppi seinen Platz im Zirkus Marissimo und wieder eine wichtige Aufgabe.",
@@ -233,9 +224,8 @@
             "incorrect": ""
           },
           "taskDefinition": "Beantworte mit Hilfe des Textes die gestellten Fragen.",
-          "pageType": "quiz",
           "pageDetails": {
-            "pageType": "quiz",
+            "pageDetailsType": "quiz",
             "quizType": "single_choice",
             "referenceTextTitle": "Das Zirkuspony",
             "referenceText": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.\nIn dem Dorf lebte auch ein kleines Pony namens Peppi, das sehr unglücklich war. Es hatte früher einem alten Mann gehört.\nAls es nicht mehr arbeiten konnte, weil es zu schwach war, jagte er es fort. Seither trabte es einsam durch die Straßen.\n„Niemand braucht mich mehr. Ich bin ja so allein,“ seufzte das Tier.\nAls der Abend hereinbrach, versammelten sich alle Dorfbewohner im Zirkuszelt.\n\nAuch Peppi schlich neugierig hinein.\nDie Vorstellung war ein großer Erfolg.\nBesonders jubelten die Kinder dem Pferd Rosi zu.\nDer Zirkusdirektor verkündete:\n„Alle Kinder dürfen jetzt auf Rosi reiten!“\n\nBereits kurze Zeit später war das Zirkuspferd vollkommen erschöpft.\n„Das schaffe ich nicht jeden Tag. Ich brauche eine Pause!“, jammerte Rosi. Da fiel der Blick des Zirkusdirektors auf das kleine Pony, das schüchtern im Hintergrund stand.\n„Vielleicht kann ich euch helfen?“, flüsterte Peppi.\n\n„Ich bin zwar zu schwach, um einen Wagen zu ziehen, aber die Kinder können noch immer auf mir reiten.“\nVon diesem Tag an hatte Peppi seinen Platz im Zirkus Marissimo und wieder eine wichtige Aufgabe.",
@@ -272,9 +262,8 @@
             "incorrect": ""
           },
           "taskDefinition": "Beantworte ob der Satz richtig oder falsch ist.",
-          "pageType": "quiz",
           "pageDetails": {
-            "pageType": "quiz",
+            "pageDetailsType": "quiz",
             "quizType": "true_or_false",
             "referenceTextTitle": "",
             "referenceText": "",
@@ -306,9 +295,8 @@
             "incorrect": ""
           },
           "taskDefinition": "Beantworte ob der Satz richtig oder falsch ist.",
-          "pageType": "quiz",
           "pageDetails": {
-            "pageType": "quiz",
+            "pageDetailsType": "quiz",
             "quizType": "true_or_false",
             "referenceTextTitle": "",
             "referenceText": "",
@@ -350,9 +338,8 @@
             "incorrect": ""
           },
           "taskDefinition": "Bring die Spielanleitung in die richtige Reihenfolge!",
-          "pageType": "order_story",
           "pageDetails": {
-            "pageType": "order_story",
+            "pageDetailsType": "order_story",
             "referenceTextTitle": "",
             "referenceText": "",
             "content": [
@@ -399,9 +386,8 @@
             "incorrect": ""
           },
           "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
-          "pageType": "order_story",
           "pageDetails": {
-            "pageType": "order_story",
+            "pageDetailsType": "order_story",
             "referenceTextTitle": "Eine Bootsfahrt",
             "referenceText": "Die drei Außerirdischen machen einen Ausflug mit dem Ruderboot.\nDie Sonne strahlt am Himmel.\nTriton hält einen getupften Sonnenschirm über alle.\nCalypso versucht, mit der Angel einen kleinen, roten Fisch zu fangen.\nAuf dem Meeresgrund befinden sich ein leeres Fass und eine alte Flasche.\nÜber dem Fass schwimmen zwei blaue Fische nach links.\nEin großer, grüner Fisch verfolgt sie.\nPlötzlich schiebt sich eine große, schwarze Wolke neben die Sonne.\nLuna schnappt sich ein Ruder.",
             "content": [

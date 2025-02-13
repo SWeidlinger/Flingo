@@ -28,9 +28,8 @@
             "incorrect": ""
           },
           "taskDefinition": "Wähle die passende Antwort aus!",
-          "pageType": "quiz",
           "pageDetails": {
-            "pageType": "quiz",
+            "pageDetailsType": "quiz",
             "quizType": "true_or_false",
             "referenceTextTitle": "",
             "referenceText": "",
@@ -62,9 +61,8 @@
             "incorrect": ""
           },
           "taskDefinition": "Wähle die passende Antwort aus!",
-          "pageType": "quiz",
           "pageDetails": {
-            "pageType": "quiz",
+            "pageDetailsType": "quiz",
             "quizType": "single_choice",
             "referenceTextTitle": "",
             "referenceText": "",
@@ -116,9 +114,8 @@
             "incorrect": ""
           },
           "taskDefinition": "Wähle die passende Antwort aus!",
-          "pageType": "quiz",
           "pageDetails": {
-            "pageType": "quiz",
+            "pageDetailsType": "quiz",
             "quizType": "true_or_false",
             "referenceTextTitle": "",
             "referenceText": "",
@@ -150,9 +147,8 @@
             "incorrect": ""
           },
           "taskDefinition": "Wähle die passende Antwort aus!",
-          "pageType": "quiz",
           "pageDetails": {
-            "pageType": "quiz",
+            "pageDetailsType": "quiz",
             "quizType": "single_choice",
             "referenceTextTitle": "",
             "referenceText": "",

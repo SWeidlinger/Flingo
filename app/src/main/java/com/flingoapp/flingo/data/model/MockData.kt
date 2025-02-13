@@ -1,28 +1,30 @@
 package com.flingoapp.flingo.data.model
 
+import PageDetails
+import PageDetailsType
 import com.flingoapp.flingo.data.model.page.Feedback
 import com.flingoapp.flingo.data.model.page.Page
-import com.flingoapp.flingo.data.model.page.PageDetails
-import com.flingoapp.flingo.data.model.page.PageType
 
 object MockData {
-    val pageDetailsRemoveWord = PageDetails.RemoveWordPageDetails(
+    val pageDetailsRemoveWord = PageDetails.RemoveWord(
         content = "Content",
-        answer = "Answer"
+        answer = "Answer",
+        type = PageDetailsType.REMOVE_WORD
     )
 
-    val pageDetailsQuizSingleChoice = PageDetails.QuizPageDetails(
-        quizType = PageDetails.QuizPageDetails.Companion.QuizType.SINGLE_CHOICE,
+    val pageDetailsQuizSingleChoice = PageDetails.Quiz(
+        type = PageDetailsType.QUIZ,
+        quizType = PageDetails.Quiz.QuizType.SINGLE_CHOICE,
         question = "Question",
         referenceTextTitle = "Reference Text Title",
         referenceText = "Reference Text",
         answers = arrayListOf(
-            PageDetails.QuizPageDetails.Companion.Answer(
+            PageDetails.Quiz.Answer(
                 id = 1,
                 answer = "Answer 1",
                 isCorrect = true
             ),
-            PageDetails.QuizPageDetails.Companion.Answer(
+            PageDetails.Quiz.Answer(
                 id = 2,
                 answer = "Answer 2",
                 isCorrect = false
@@ -30,18 +32,19 @@ object MockData {
         )
     )
 
-    val pageDetailsQuizTrueOrFalse = PageDetails.QuizPageDetails(
-        quizType = PageDetails.QuizPageDetails.Companion.QuizType.TRUE_OR_FALSE,
+    val pageDetailsQuizTrueOrFalse = PageDetails.Quiz(
+        type = PageDetailsType.QUIZ,
+        quizType = PageDetails.Quiz.QuizType.TRUE_OR_FALSE,
         question = "Question",
         referenceTextTitle = "Reference Text Title",
         referenceText = "Reference Text",
         answers = arrayListOf(
-            PageDetails.QuizPageDetails.Companion.Answer(
+            PageDetails.Quiz.Answer(
                 id = 1,
                 answer = "Answer 1",
                 isCorrect = true
             ),
-            PageDetails.QuizPageDetails.Companion.Answer(
+            PageDetails.Quiz.Answer(
                 id = 2,
                 answer = "Answer 2",
                 isCorrect = false
@@ -49,17 +52,18 @@ object MockData {
         )
     )
 
-    val pageDetailsOrderStory = PageDetails.OrderStoryPageDetails(
+    val pageDetailsOrderStory = PageDetails.OrderStory(
+        type = PageDetailsType.ORDER_STORY,
         content = arrayListOf(
-            PageDetails.OrderStoryPageDetails.Companion.Content(
+            PageDetails.OrderStory.Content(
                 id = 1,
                 text = "Content 1"
             ),
-            PageDetails.OrderStoryPageDetails.Companion.Content(
+            PageDetails.OrderStory.Content(
                 id = 2,
                 text = "Content 2"
             ),
-            PageDetails.OrderStoryPageDetails.Companion.Content(
+            PageDetails.OrderStory.Content(
                 id = 3,
                 text = "Content 3"
             )
@@ -82,7 +86,6 @@ object MockData {
             incorrect = "This is incorrect"
         ),
         taskDefinition = "This is a task definition",
-        type = PageType.ORDER_STORY,
         details = pageDetailsOrderStory
     )
 

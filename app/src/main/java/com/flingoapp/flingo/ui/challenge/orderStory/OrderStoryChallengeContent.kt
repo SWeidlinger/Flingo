@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.ui.challenge.orderStory
 
+import PageDetails
 import android.content.ClipData
 import android.content.ClipDescription
 import android.util.Log
@@ -44,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.flingoapp.flingo.data.model.MockData
-import com.flingoapp.flingo.data.model.page.PageDetails
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
@@ -65,17 +65,17 @@ import java.util.concurrent.TimeUnit
 fun OrderStoryChallengeContent(
     modifier: Modifier = Modifier,
     onNavigate: (NavigationAction) -> Unit,
-    pageDetails: PageDetails.OrderStoryPageDetails,
+    pageDetails: PageDetails.OrderStory,
     onAction: (MainAction) -> Unit,
     onPageCompleted: (score: Int) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
 
     val startingSnippetMap = remember {
-        mutableStateMapOf<Int, PageDetails.OrderStoryPageDetails.Companion.Content?>()
+        mutableStateMapOf<Int, PageDetails.OrderStory.Content?>()
     }
     val resultSnippetMap = remember {
-        mutableStateMapOf<Int, PageDetails.OrderStoryPageDetails.Companion.Content?>()
+        mutableStateMapOf<Int, PageDetails.OrderStory.Content?>()
     }
     //initialization of the two maps
     LaunchedEffect(Unit) {
@@ -95,7 +95,7 @@ fun OrderStoryChallengeContent(
     var lockCurrentDragSnippet by remember { mutableStateOf(false) }
 
     fun moveSnippet(
-        snippet: PageDetails.OrderStoryPageDetails.Companion.Content?,
+        snippet: PageDetails.OrderStory.Content?,
         dragPosition: Int,
         moveToResultMap: Boolean
     ): Boolean {
@@ -462,14 +462,14 @@ fun OrderStoryChallengeContent(
 
 private fun getContentFromId(
     givenId: Int,
-    pageDetails: PageDetails.OrderStoryPageDetails
-): PageDetails.OrderStoryPageDetails.Companion.Content? {
+    pageDetails: PageDetails.OrderStory
+): PageDetails.OrderStory.Content? {
     return pageDetails.content.find { givenId == it.id }
 }
 
 private fun getMapIdForContent(
-    content: PageDetails.OrderStoryPageDetails.Companion.Content?,
-    map: SnapshotStateMap<Int, PageDetails.OrderStoryPageDetails.Companion.Content?>
+    content: PageDetails.OrderStory.Content?,
+    map: SnapshotStateMap<Int, PageDetails.OrderStory.Content?>
 ): Int? {
     val collection = map.filterValues { it?.id == content?.id }.keys
 

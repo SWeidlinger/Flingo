@@ -3,6 +3,7 @@ package com.flingoapp.flingo.data.model
 import com.flingoapp.flingo.data.model.page.Page
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlin.random.Random
 
 /**
@@ -28,7 +29,7 @@ data class Chapter(
     //TODO: make immutable
     @SerialName("chapterCompleted") var isCompleted: Boolean,
     @SerialName("pages") val pages: List<Page>? = listOf(),
-    val positionOffset: Float = Random.nextFloat(),
+    @Transient val positionOffset: Float = Random.nextFloat(),
 )
 
 /**

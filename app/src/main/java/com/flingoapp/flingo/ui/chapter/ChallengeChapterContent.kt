@@ -1,5 +1,7 @@
 package com.flingoapp.flingo.ui.chapter
 
+import PageDetails
+import PageDetailsType
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,11 +23,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.Chapter
+import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.page.Page
-import com.flingoapp.flingo.data.model.page.PageDetails
-import com.flingoapp.flingo.data.model.page.PageType
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.challenge.orderStory.OrderStoryChallengeContent
@@ -101,7 +101,7 @@ fun ChallengeChapterContent(
                             .padding(bottom = 8.dp, top = 16.dp),
                         pagerState = pagerState,
                         pages = pages,
-                        showPageControlButtons = currentPage.type == PageType.QUIZ
+                        showPageControlButtons = currentPage.details.type == PageDetailsType.QUIZ
                     )
 
 
@@ -126,12 +126,12 @@ fun ChallengeChapterContent(
 
                     //TODO: add possibility to save the state of a challenge state, and what got answered
                     // so if user goes back to a previous page, the state is saved
-                    when (pageInPager.type) {
-                        PageType.REMOVE_WORD -> {
+                    when (pageInPager.details.type) {
+                        PageDetailsType.REMOVE_WORD -> {
                             RemoveWordChallengeContent(
                                 modifier = Modifier.fillMaxSize(),
                                 onNavigate = onNavigate,
-                                pageDetails = pageInPager.details as PageDetails.RemoveWordPageDetails,
+                                pageDetails = pageInPager.details as PageDetails.RemoveWord,
                                 onAction = onAction,
                                 pagerState = pagerState,
                                 onPageCompleted = { score ->
@@ -141,11 +141,11 @@ fun ChallengeChapterContent(
                             )
                         }
 
-                        PageType.QUIZ -> {
+                        PageDetailsType.QUIZ -> {
                             QuizChallengeContent(
                                 modifier = Modifier.fillMaxSize(),
                                 onNavigate = onNavigate,
-                                pageDetails = pageInPager.details as PageDetails.QuizPageDetails,
+                                pageDetails = pageInPager.details as PageDetails.Quiz,
                                 taskDefinitionTopBarWidth = taskDefinitionWidth.toDp(),
                                 onAction = onAction,
                                 onPageCompleted = { pageScore ->
@@ -155,11 +155,11 @@ fun ChallengeChapterContent(
                             )
                         }
 
-                        PageType.ORDER_STORY -> {
+                        PageDetailsType.ORDER_STORY -> {
                             OrderStoryChallengeContent(
                                 modifier = Modifier.fillMaxSize(),
                                 onNavigate = onNavigate,
-                                pageDetails = pageInPager.details as PageDetails.OrderStoryPageDetails,
+                                pageDetails = pageInPager.details as PageDetails.OrderStory,
                                 onAction = onAction,
                                 onPageCompleted = { pageScore ->
                                     onAction(MainAction.BookAction.CompletePage(pageIndex))

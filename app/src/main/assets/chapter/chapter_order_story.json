@@ -19,9 +19,8 @@
         "incorrect": ""
       },
       "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
-      "pageType": "order_story",
       "pageDetails": {
-        "pageType": "order_story",
+        "pageDetailsType": "order_story",
         "referenceTextTitle": "",
         "referenceText": "",
         "content": [

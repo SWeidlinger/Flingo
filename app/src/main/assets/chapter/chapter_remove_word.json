@@ -19,9 +19,8 @@
         "incorrect": "Versuchs nochmal! Was machen Maulwürfe nicht?"
       },
       "taskDefinition": "Lies den Satz und klicke auf das unpassende Wort!",
-      "pageType": "remove_word",
       "pageDetails": {
-        "pageType": "remove_word",
+        "pageDetailsType": "remove_word",
         "content": "Maulwürfe werfen fangen häufig Erdhügel auf.",
         "answer": "fangen"
       }

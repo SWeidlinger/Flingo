@@ -1,131 +1,109 @@
-package com.flingoapp.flingo.data.model.page
-
-import kotlinx.serialization.KSerializer
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.descriptors.buildClassSerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.json.JsonDecoder
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.Transient
+import kotlinx.serialization.json.JsonClassDiscriminator
 
-sealed class PageDetails {
+@OptIn(ExperimentalSerializationApi::class)
+@Serializable
+@JsonClassDiscriminator("pageDetailsType")
+sealed interface PageDetails {
+    @SerialName("pageDetailsType")
+    val type: PageDetailsType
+
     @Serializable
-    data class ReadPageDetails(
+    @SerialName("read")
+    data class Read(
+        @Transient @SerialName("pageDetailsType") override val type: PageDetailsType = PageDetailsType.READ,
         val content: String,
-        val images: ArrayList<String>
-    ) : PageDetails()
+        val images: List<String>,
+    ) : PageDetails
 
     @Serializable
-    data class RemoveWordPageDetails(
+    @SerialName("remove_word")
+    data class RemoveWord(
+        @Transient @SerialName("pageDetailsType") override val type: PageDetailsType = PageDetailsType.REMOVE_WORD,
         val content: String,
         val answer: String
-    ) : PageDetails()
+    ) : PageDetails
 
     @Serializable
-    data class OrderStoryPageDetails(
-        val content: ArrayList<Content>,
-        val correctOrder: ArrayList<Int>,
+    @SerialName("order_story")
+    data class OrderStory(
+        @Transient @SerialName("pageDetailsType") override val type: PageDetailsType = PageDetailsType.ORDER_STORY,
+        val content: List<Content>,
+        val correctOrder: List<Int>,
         val referenceTextTitle: String,
-        val referenceText: String,
-    ) : PageDetails() {
-        companion object {
-            @Serializable
-            data class Content(
-                val id: Int,
-                val text: String
-            )
-        }
+        val referenceText: String
+    ) : PageDetails {
+        @Serializable
+        data class Content(
+            val id: Int,
+            val text: String
+        )
     }
 
     @Serializable
-    data class QuizPageDetails(
+    @SerialName("quiz")
+    data class Quiz(
+        @Transient @SerialName("pageDetailsType") override val type: PageDetailsType = PageDetailsType.QUIZ,
         val quizType: QuizType,
         val question: String,
         val referenceTextTitle: String,
         val referenceText: String,
-        val answers: ArrayList<Answer>
-    ) : PageDetails() {
-        companion object {
-            @Serializable
-            enum class QuizType {
-                @SerialName("true_or_false")
-                TRUE_OR_FALSE,
+        val answers: List<Answer>
+    ) : PageDetails {
+        @Serializable
+        enum class QuizType {
+            @SerialName("true_or_false")
+            TRUE_OR_FALSE,
 
-                @SerialName("single_choice")
-                SINGLE_CHOICE
-            }
-
-            @Serializable
-            data class Answer(
-                val id: Int,
-                val answer: String,
-                val isCorrect: Boolean
-            )
+            @SerialName("single_choice")
+            SINGLE_CHOICE
         }
+
+        @Serializable
+        data class Answer(
+            val id: Int,
+            val answer: String,
+            val isCorrect: Boolean
+        )
     }
 }
 
-object PageDetailsSerializer : KSerializer<PageDetails> {
-    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("PageDetails")
+/**
+ * Page type enum can either be remove word type, context based questions type, change character type,
+ * currently not in use
+ *
+ * @constructor Create empty Page type
+ */
+@Serializable
+enum class PageDetailsType {
+    /**
+     * Reading page
+     *
+     */
+    @SerialName("read")
+    READ,
 
-    override fun deserialize(decoder: Decoder): PageDetails {
-        require(decoder is JsonDecoder)
-        val element = decoder.decodeJsonElement()
-        val jsonObject = element.jsonObject
+    /**
+     * Remove Word type
+     *
+     */
+    @SerialName("remove_word")
+    REMOVE_WORD,
 
-        val pageType = jsonObject["pageType"]?.jsonPrimitive?.contentOrNull
-            ?: throw IllegalArgumentException("Missing pageType in PageDetails")
+    /**
+     * Context Based Questions type
+     *
+     */
+    @SerialName("quiz")
+    QUIZ,
 
-        return when (pageType) {
-            "read" -> decoder.json.decodeFromJsonElement(
-                PageDetails.ReadPageDetails.serializer(),
-                element
-            )
-
-            "remove_word" -> decoder.json.decodeFromJsonElement(
-                PageDetails.RemoveWordPageDetails.serializer(),
-                element
-            )
-
-            "order_story" -> decoder.json.decodeFromJsonElement(
-                PageDetails.OrderStoryPageDetails.serializer(),
-                element
-            )
-
-            "quiz" -> decoder.json.decodeFromJsonElement(
-                PageDetails.QuizPageDetails.serializer(),
-                element
-            )
-
-            else -> throw IllegalArgumentException("Unknown pageType: $pageType")
-        }
-    }
-
-    override fun serialize(encoder: Encoder, value: PageDetails) {
-        when (value) {
-            is PageDetails.ReadPageDetails -> encoder.encodeSerializableValue(
-                PageDetails.ReadPageDetails.serializer(),
-                value
-            )
-
-            is PageDetails.RemoveWordPageDetails -> encoder.encodeSerializableValue(
-                PageDetails.RemoveWordPageDetails.serializer(),
-                value
-            )
-
-            is PageDetails.OrderStoryPageDetails -> encoder.encodeSerializableValue(
-                PageDetails.OrderStoryPageDetails.serializer(),
-                value
-            )
-
-            is PageDetails.QuizPageDetails -> encoder.encodeSerializableValue(
-                PageDetails.QuizPageDetails.serializer(),
-                value
-            )
-        }
-    }
+    /**
+     * Order Story type
+     *
+     */
+    @SerialName("order_story")
+    ORDER_STORY
 }

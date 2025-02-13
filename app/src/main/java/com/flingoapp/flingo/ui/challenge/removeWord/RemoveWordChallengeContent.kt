@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.ui.challenge.removeWord
 
+import PageDetails
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.flingoapp.flingo.data.model.page.PageDetails
+import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
@@ -49,7 +50,7 @@ fun RemoveWordChallengeContent(
     modifier: Modifier = Modifier,
     onNavigate: (NavigationAction) -> Unit,
     onAction: (MainAction) -> Unit,
-    pageDetails: PageDetails.RemoveWordPageDetails,
+    pageDetails: PageDetails.RemoveWord,
     pagerState: PagerState,
     onPageCompleted: (score: Int) -> Unit
 ) {
@@ -180,10 +181,7 @@ private fun RemoveWordChallengeContentPreview() {
             modifier = Modifier.fillMaxSize(),
             onNavigate = {},
             onAction = {},
-            pageDetails = PageDetails.RemoveWordPageDetails(
-                content = "Das ist ein Test",
-                answer = "Test"
-            ),
+            pageDetails = MockData.pageDetailsRemoveWord,
             pagerState = rememberPagerState { 0 },
             onPageCompleted = {}
         )

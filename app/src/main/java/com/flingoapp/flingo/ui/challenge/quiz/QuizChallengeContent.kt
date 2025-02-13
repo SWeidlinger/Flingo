@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.ui.challenge.quiz
 
+import PageDetails
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,7 +28,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.model.MockData
-import com.flingoapp.flingo.data.model.page.PageDetails
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
@@ -46,7 +46,7 @@ fun QuizChallengeContent(
     modifier: Modifier = Modifier,
     onNavigate: (NavigationAction) -> Unit,
     onAction: (MainAction) -> Unit,
-    pageDetails: PageDetails.QuizPageDetails,
+    pageDetails: PageDetails.Quiz,
     taskDefinitionTopBarWidth: Dp,
     onPageCompleted: (score: Int) -> Unit
 ) {
@@ -116,7 +116,7 @@ fun QuizChallengeContent(
             }
 
             when (pageDetails.quizType) {
-                PageDetails.QuizPageDetails.Companion.QuizType.TRUE_OR_FALSE -> {
+                PageDetails.Quiz.QuizType.TRUE_OR_FALSE -> {
                     QuizContentTrueOrFalse(
                         modifier = Modifier
                             .fillMaxHeight()
@@ -141,7 +141,7 @@ fun QuizChallengeContent(
                     )
                 }
 
-                PageDetails.QuizPageDetails.Companion.QuizType.SINGLE_CHOICE -> {
+                PageDetails.Quiz.QuizType.SINGLE_CHOICE -> {
                     QuizContentSingleChoice(
                         modifier = Modifier
                             .fillMaxHeight()
