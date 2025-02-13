@@ -225,6 +225,7 @@ fun HomeScreen(
                         backgroundColor = if (personalizationUiState.isError) FlingoColors.Error else Color.White,
                         text = "Überrasch mich!",
                         icon = personalizationUiState.currentModel.iconRes,
+                        enabled = personalizationUiState.isConnectedToNetwork,
                         onClick = {
                             previousBookCount = bookUiState.books.size
                             onAction(MainAction.PersonalizationAction.GenerateBook)

@@ -42,7 +42,8 @@ fun FlingoApp(
             PersonalizationViewModel(
                 genAiModule = MainApplication.appModule.genAiModule,
                 bookViewModel = bookViewModel,
-                userViewModel = userViewModel
+                userViewModel = userViewModel,
+                connectivityObserver = MainApplication.connectivityObserver
             )
         }
     ),

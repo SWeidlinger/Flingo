@@ -4,11 +4,14 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flingoapp.flingo.data.model.Chapter
+import com.flingoapp.flingo.data.network.ConnectivityObserver
 import com.flingoapp.flingo.data.network.GenAiModel
 import com.flingoapp.flingo.di.GenAiModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,6 +19,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 data class PersonalizationUiState(
+    val isConnectedToNetwork: Boolean = false,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val isSuccess: Boolean = false,
@@ -34,6 +38,7 @@ class PersonalizationViewModel(
     //should be handled differently, viewmodel should not depend on other viewmodel but fine for now
     private val bookViewModel: BookViewModel,
     private val userViewModel: UserViewModel,
+    connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
     companion object {
         private const val TAG = "PersonalizationViewModel"
@@ -65,8 +70,24 @@ class PersonalizationViewModel(
         private const val FULL_BOOK = "prompt_examples/full_book.json"
     }
 
+    private val isConnected = connectivityObserver
+        .isConnected
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000L),
+            false
+        )
+
     private val _uiState = MutableStateFlow(PersonalizationUiState())
     val uiState = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            isConnected.collect { connected ->
+                updateUiState(_uiState.value.copy(isConnectedToNetwork = connected))
+            }
+        }
+    }
 
     fun onAction(action: MainAction.PersonalizationAction) {
         when (action) {

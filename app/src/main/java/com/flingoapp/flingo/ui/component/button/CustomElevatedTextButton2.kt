@@ -64,6 +64,7 @@ fun CustomElevatedTextButton2(
     addOutline: Boolean = true,
     isTextStrikethrough: Boolean = false,
     backgroundColor: Color = Color.White,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     CustomElevatedButton2(
@@ -72,6 +73,7 @@ fun CustomElevatedTextButton2(
         addOutline = addOutline,
         backgroundColor = backgroundColor,
         shadowColor = backgroundColor.darken(0.3f),
+        enabled = enabled,
         shape = shape,
         isPressed = isPressed,
         pressedColor = pressedColor,
