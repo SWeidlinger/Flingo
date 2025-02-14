@@ -1,12 +1,14 @@
 package com.flingoapp.flingo.ui.component
 
 import android.util.Log
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -15,7 +17,9 @@ import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
@@ -23,6 +27,7 @@ import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.getBoundingBoxesForRange
 import com.flingoapp.flingo.ui.inflate
 import com.flingoapp.flingo.ui.lighten
+import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
 /**
@@ -39,75 +44,73 @@ fun CustomHighlightedText(
     modifier: Modifier = Modifier,
     content: List<String>,
     currentWordIndex: Int,
+    enabled: Boolean = true,
     highlightColor: Color = MaterialTheme.colorScheme.primary,
     textStyle: TextStyle = MaterialTheme.typography.headlineLarge
 ) {
     if (content.isEmpty()) return
 
-    // Derive the parts of the text from the content list.
-    // Clamp the index to valid bounds.
-    val safeIndex = currentWordIndex.coerceIn(0, content.lastIndex)
-    val readWords = content.take(safeIndex)
-    val currentWord = content[safeIndex]
-    val unreadWords =
-        if (safeIndex < content.lastIndex) content.drop(safeIndex + 1) else emptyList()
+    val readWords = content.take(currentWordIndex)
+    val currentWord =
+        if (currentWordIndex < 0 || readWords.lastIndex == content.lastIndex) "" else content[currentWordIndex]
+    val unreadWords = if (currentWordIndex < 0) content else
+        if (currentWordIndex < content.lastIndex && readWords.lastIndex != content.lastIndex) content.drop(
+            currentWordIndex + 1
+        ) else emptyList()
 
     // State for the bounding box path of the current word.
     var currentWordBoundingBoxPath by remember { mutableStateOf(Path()) }
 
     // Build an annotated string with styling for read, current, and unread words
     val annotatedText = buildAnnotatedString {
-        readWords.forEachIndexed { index, word ->
-            if (index > 0) append(" ")
-            withStyle(style = SpanStyle(color = Color.LightGray)) {
-                append(word)
+        if (currentWordIndex >= 0) {
+            readWords.forEachIndexed { index, word ->
+                if (index > 0) append(" ")
+                withStyle(style = SpanStyle(color = Color.LightGray)) {
+                    append(word)
+                }
+            }
+
+            if (readWords.isNotEmpty()) append(" ")
+            if (content.lastIndex == readWords.lastIndex) return@buildAnnotatedString
+
+
+            withStyle(
+                style = SpanStyle(
+                    color = if (enabled) highlightColor.lighten(0.2f) else FlingoColors.Text
+                )
+            ) {
+                pushStringAnnotation(tag = "click", annotation = currentWord)
+                append(currentWord)
+                pop()
             }
         }
 
-        if (readWords.isNotEmpty()) append(" ")
-
-        withStyle(style = SpanStyle(color = highlightColor.lighten(0.2f))) {
-            pushStringAnnotation(tag = "click", annotation = currentWord)
-            append(currentWord)
-            pop()
-        }
-
-        unreadWords.forEach { word ->
-            append(" ")
-            withStyle(style = SpanStyle(color = Color.Black)) {
+        unreadWords.forEachIndexed { index, word ->
+            if (index > 0 || currentWordIndex >= 0) append(" ")
+            withStyle(style = SpanStyle(color = FlingoColors.Text)) {
                 append(word)
             }
         }
     }
 
-    //TODO: replace ClickableText with basic text
-    ClickableText(
-        modifier = modifier.drawBehind {
-            //TODO: add animated bounding box morphing and moving in place to make it more dynamic and
-            // playful
-            drawPath(
-                path = currentWordBoundingBoxPath,
-                style = Fill,
-                color = highlightColor.copy(alpha = 0.2f)
-            )
-        },
+    var layoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
+    val updatedAnnotatedText by rememberUpdatedState(newValue = annotatedText)
+
+    BasicText(
         text = annotatedText,
         style = textStyle,
-        onClick = { offset ->
-            val safeOffset =
-                if (offset >= annotatedText.length) annotatedText.length - 1 else offset
-
-            annotatedText.getStringAnnotations(tag = "click", start = safeOffset, end = safeOffset)
-                .firstOrNull()?.let {
-                    Log.e("READSCREEN", "Clicked on ${it.item}")
-                }
-        },
         onTextLayout = { textLayout ->
+            if (currentWordIndex < 0 || readWords.lastIndex == content.lastIndex) return@BasicText
+
+            layoutResult = textLayout
             val readText = if (readWords.isNotEmpty()) readWords.joinToString(" ") + " " else ""
             val currentWordStartIndex = readText.length
+
             val currentWordEndIndex = (currentWordStartIndex + currentWord.length)
                 .coerceAtMost(annotatedText.length - 1)
 
+            // Get bounding boxes for each character in the current word.
             val charBoundingBoxes = textLayout.getBoundingBoxesForRange(
                 start = currentWordStartIndex,
                 end = currentWordEndIndex
@@ -115,6 +118,7 @@ fun CustomHighlightedText(
 
             val cornerRadius = CornerRadius(x = 20f, y = 20f)
 
+            //TODO: fix additional space added, by line spacing
             currentWordBoundingBoxPath = Path().apply {
                 charBoundingBoxes.forEachIndexed { index, rect ->
                     val leftRadius = if (index == 0) cornerRadius else CornerRadius.Zero
@@ -122,7 +126,7 @@ fun CustomHighlightedText(
                         if (index == charBoundingBoxes.lastIndex) cornerRadius else CornerRadius.Zero
                     addRoundRect(
                         RoundRect(
-                            rect.inflate(horizontalDelta = 8f, verticalDelta = 5f),
+                            rect = rect.inflate(horizontalDelta = 8f, verticalDelta = 5f),
                             topLeft = leftRadius,
                             topRight = rightRadius,
                             bottomRight = rightRadius,
@@ -131,7 +135,38 @@ fun CustomHighlightedText(
                     )
                 }
             }
-        }
+        },
+        modifier = modifier
+            // Handle taps manually.
+            .pointerInput(Unit) {
+                detectTapGestures { tapOffset ->
+                    layoutResult?.let { textLayout ->
+                        // Get the character offset corresponding to the tap.
+                        val tappedOffset = textLayout.getOffsetForPosition(tapOffset)
+                        val safeOffset = if (tappedOffset >= updatedAnnotatedText.length)
+                            updatedAnnotatedText.length - 1
+                        else tappedOffset
+
+                        // Look for annotations tagged as "click".
+                        updatedAnnotatedText.getStringAnnotations(
+                            tag = "click",
+                            start = safeOffset,
+                            end = safeOffset
+                        ).firstOrNull()?.let { annotation ->
+                            Log.e("CustomHighlightedText", "Clicked on ${annotation.item}")
+                        }
+                    }
+                }
+            }
+            // Draw the animated bounding box behind the text.
+            .drawBehind {
+                if (currentWordIndex < 0 || !enabled) return@drawBehind
+                drawPath(
+                    path = currentWordBoundingBoxPath,
+                    style = Fill,
+                    color = highlightColor.copy(alpha = 0.2f)
+                )
+            }
     )
 }
 
@@ -141,7 +176,7 @@ private fun CustomHighlightedTextPreview() {
     FlingoTheme {
         CustomHighlightedText(
             content = listOf("Hello", "World!", "This", "is", "a", "test"),
-            currentWordIndex = 1
+            currentWordIndex = 0
         )
     }
 }

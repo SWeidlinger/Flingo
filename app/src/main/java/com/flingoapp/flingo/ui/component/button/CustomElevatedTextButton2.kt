@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -81,7 +82,9 @@ fun CustomElevatedTextButton2(
         buttonContent = {
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = if (showSpeakerIcon || fill) textModifier.fillMaxWidth() else textModifier
+                modifier = if (showSpeakerIcon || fill) textModifier
+                    .fillMaxWidth()
+                    .padding(16.dp) else textModifier.padding(16.dp)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

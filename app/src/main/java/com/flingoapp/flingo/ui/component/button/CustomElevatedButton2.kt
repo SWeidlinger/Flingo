@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -93,6 +92,7 @@ fun CustomElevatedButton2(
 //    clickSound: Int? = R.raw.button_click,
     clickSound: Int? = null,
     onClick: () -> Unit,
+    buttonAlignment: Alignment = Alignment.Center,
     buttonContent: @Composable () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -227,7 +227,7 @@ fun CustomElevatedButton2(
             // used to alleviate the content shift a bit
             Box(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .align(buttonAlignment)
                     .offset {
                         val y =
                             if (buttonState == ButtonState2.PRESSED || !enabled || isPressed) 0

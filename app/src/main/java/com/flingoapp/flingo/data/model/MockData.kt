@@ -6,6 +6,11 @@ import com.flingoapp.flingo.data.model.page.Feedback
 import com.flingoapp.flingo.data.model.page.Page
 
 object MockData {
+    val pageDetailsRead = PageDetails.Read(
+        content = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        images = arrayListOf("Image 1", "Image 2")
+    )
+
     val pageDetailsRemoveWord = PageDetails.RemoveWord(
         content = "Content",
         answer = "Answer",

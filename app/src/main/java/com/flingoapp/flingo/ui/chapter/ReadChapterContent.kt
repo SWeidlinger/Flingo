@@ -1,40 +1,65 @@
 package com.flingoapp.flingo.ui.chapter
 
 import PageDetails
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.model.Chapter
+import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.page.Page
 import com.flingoapp.flingo.navigation.NavigationAction
+import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.CustomHighlightedText
-import com.flingoapp.flingo.ui.component.pageIndicator.CustomPageIndicator
+import com.flingoapp.flingo.ui.component.button.CustomElevatedButton2
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
+import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
+import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.viewmodel.MainAction
 import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
 
 /**
  * Read screen used to display chapters with the [com.flingoapp.flingo.data.model.ChapterType.READ] type
@@ -52,7 +77,19 @@ fun ReadChapterContent(
 ) {
     val pagerState = rememberPagerState { pages.size }
 
+    val safePages = pages.map { it.details as PageDetails.Read }
+
     val coroutineScope = rememberCoroutineScope()
+    val wordIndexList = remember {
+        mutableStateListOf<Int>().apply {
+            repeat(safePages.size) { add(0) }
+        }
+    }
+    val wordCountList = remember {
+        mutableStateListOf<Int>().apply {
+            repeat(safePages.size) { add(safePages[it].content.split(" ").size) }
+        }
+    }
 
     Scaffold(topBar = {
         CustomTopBar(
@@ -69,101 +106,221 @@ fun ReadChapterContent(
             }
         )
     }) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .padding(horizontal = 32.dp)
         ) {
-            HorizontalPager(
-                state = pagerState,
+            var rowHeight by remember { mutableIntStateOf(0) }
+
+            Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(2f),
-                userScrollEnabled = false
-            ) { page ->
-                val currentPage = pages[page]
-                val details = currentPage.details as PageDetails.Read
-
-                val content = details.content.split(" ")
-                var currentWordIndex by remember { mutableIntStateOf(0) }
-
-                val image = when (details.images[0]) {
-                    "circus_image" -> {
-                        painterResource(id = R.drawable.circus_image)
-                    }
-
-                    "pony" -> {
-                        painterResource(id = R.drawable.pony)
-                    }
-
-                    "old_man" -> {
-                        painterResource(id = R.drawable.old_man)
-                    }
-
-                    else -> {
-                        painterResource(id = R.drawable.circus_image)
-                    }
-                }
-
-                Column(
+                    .onGloballyPositioned {
+                        rowHeight = it.size.height
+                    },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                VerticalPager(
+                    state = pagerState,
                     modifier = Modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        modifier = Modifier
-                            .weight(2f)
-                            .padding(top = 16.dp)
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = null
-                            ) {
-                                if (currentWordIndex < content.size - 1) {
-                                    currentWordIndex += 1
-                                } else if (pagerState.currentPage < pagerState.pageCount) {
-                                    if (pagerState.currentPage == pagerState.pageCount - 1) {
-                                        onAction(MainAction.BookAction.CompleteChapter)
-                                        onNavigate(NavigationAction.Up())
-                                    }
+                        .weight(1f)
+                        .fillMaxHeight(),
+                    userScrollEnabled = true,
+                    contentPadding = PaddingValues(
+                        start = 32.dp, end = 32.dp,
+                        top = (rowHeight / 3).toDp(),
+                    ),
+                    horizontalAlignment = Alignment.Start,
+                    pageSize = PageSize.Fill
+                ) { pageIndex ->
+                    val currentPage = pages[pageIndex]
+                    val details = currentPage.details as PageDetails.Read
 
-                                    coroutineScope.launch {
-                                        pagerState.animateScrollToPage(page + 1)
-                                    }
-                                }
-                            },
-                        painter = image,
-                        contentDescription = "Additional Image"
-                    )
+                    val content = details.content.split(" ")
+                    val pageOffset =
+                        ((pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction).absoluteValue
 
                     CustomHighlightedText(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(
-                                top = 64.dp,
-                                start = 32.dp,
-                                end = 32.dp
-                            ),
+                        modifier = Modifier.graphicsLayer {
+                            val alphaValue = lerp(
+                                start = 0f,
+                                stop = 1f,
+                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                            )
+                            alpha = alphaValue
+                        },
                         content = content,
-                        currentWordIndex = currentWordIndex,
+                        currentWordIndex = wordIndexList[pageIndex],
+                        enabled = pageIndex == pagerState.currentPage,
                         textStyle = MaterialTheme.typography.headlineLarge.copy(fontSize = 32.sp)
+                    )
+                }
+
+                AnimatedContent(
+                    modifier = Modifier
+                        .weight(0.75f)
+                        .fillMaxHeight()
+                        .padding(vertical = 64.dp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) {
+                            wordIndexList[pagerState.currentPage] += 1
+                            if (wordIndexList[pagerState.currentPage] >= wordCountList[pagerState.currentPage]) {
+                                if (pagerState.currentPage == pagerState.pageCount - 1) {
+                                    onAction(MainAction.BookAction.CompleteChapter)
+                                    onNavigate(NavigationAction.Up())
+                                } else {
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                                    }
+                                }
+                            }
+                        },
+                    targetState = safePages[pagerState.currentPage].images.first(),
+                    transitionSpec = {
+                        //TODO: improve
+                        ContentTransform(
+                            targetContentEnter = fadeIn(),
+                            initialContentExit = fadeOut()
+                        )
+                    }
+                ) { targetState ->
+                    val image = when (targetState) {
+                        "circus_image" -> {
+                            painterResource(id = R.drawable.circus_image)
+                        }
+
+                        "pony" -> {
+                            painterResource(id = R.drawable.pony)
+                        }
+
+                        "old_man" -> {
+                            painterResource(id = R.drawable.old_man)
+                        }
+
+                        else -> {
+                            painterResource(id = R.drawable.circus_image)
+                        }
+                    }
+
+                    Image(
+                        modifier = Modifier,
+                        painter = image,
+                        contentDescription = "Additional Image"
                     )
                 }
             }
 
-            CustomPageIndicator(
-                pagerState = pagerState,
-                modifier = Modifier.fillMaxWidth(),
-                pages = pages
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            endY = 80f,
+                            colors = listOf(
+                                Color.Transparent,
+                                MaterialTheme.colorScheme.background
+                            )
+                        )
+                    )
+                    .padding(top = 64.dp, bottom = 16.dp)
+            ) {
+                ReadingProgressBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    pageCount = safePages.size,
+                    pagerState = pagerState,
+                    wordIndexList = wordIndexList,
+                    wordCountList = wordCountList
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ReadingProgressBar(
+    modifier: Modifier = Modifier,
+    pageCount: Int,
+    pagerState: PagerState,
+    wordIndexList: List<Int>,
+    wordCountList: List<Int>
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        repeat(pageCount) { index ->
+            val progressAnimation by animateFloatAsState(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow
+                ),
+                targetValue = (wordIndexList[index].toFloat() / wordCountList[index])
+            )
+
+            ReadingProgressBarSection(
+                modifier = modifier.weight(1f),
+                isPressed = pagerState.targetPage == index,
+                progress = progressAnimation,
+                onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                }
             )
         }
     }
 }
 
-@Preview
+@Composable
+fun ReadingProgressBarSection(
+    modifier: Modifier = Modifier,
+    isPressed: Boolean,
+    progress: Float,
+    onClick: () -> Unit
+) {
+    CustomElevatedButton2(
+        modifier = modifier.height(40.dp),
+        buttonAlignment = Alignment.CenterStart,
+        elevation = 6.dp,
+        shape = RoundedCornerShape(50),
+        onClick = onClick,
+        isPressed = isPressed,
+        backgroundColor = if (progress > 0.95f) FlingoColors.Success else FlingoColors.LightGray,
+        buttonContent = {
+            Box(
+                modifier = Modifier
+                    .height(40.dp)
+                    .background(FlingoColors.Success)
+                    .fillMaxWidth(progress)
+            )
+        }
+    )
+}
+
+@CustomPreview
 @Composable
 private fun ReadScreenPreview() {
     FlingoTheme {
-
+        ReadChapterContent(
+            chapter = MockData.chapter,
+            pages = MockData.chapter.copy(
+                pages =
+                listOf(
+                    MockData.page.copy(id = "1", details = MockData.pageDetailsRead),
+                    MockData.page.copy(id = "2", details = MockData.pageDetailsRead),
+                    MockData.page.copy(id = "3", details = MockData.pageDetailsRead)
+                )
+            ).pages!!,
+            onAction = {},
+            onNavigate = {}
+        )
     }
 }
