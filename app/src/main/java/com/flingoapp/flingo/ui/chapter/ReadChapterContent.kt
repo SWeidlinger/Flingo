@@ -298,7 +298,13 @@ fun ReadingProgressBarSection(
             Box(
                 modifier = Modifier
                     .height(40.dp)
-                    .background(FlingoColors.Success)
+                    .background(
+                        FlingoColors.Success,
+                        shape = RoundedCornerShape(
+                            topEndPercent = 50,
+                            bottomEndPercent = 50
+                        )
+                    )
                     .fillMaxWidth(progress)
             )
         }
