@@ -1,10 +1,12 @@
 package com.flingoapp.flingo.viewmodel
 
+import PageDetails
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flingoapp.flingo.data.model.Book
 import com.flingoapp.flingo.data.model.Chapter
+import com.flingoapp.flingo.data.model.page.Page
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -16,7 +18,8 @@ data class BookUiState(
     val isError: Boolean = false,
     val books: List<Book> = listOf(),
     val currentBookId: Int? = null,
-    val currentChapterId: Int? = null
+    val currentChapterId: Int? = null,
+    val currentPageId: Int? = null
 )
 
 class BookViewModel : ViewModel() {
@@ -38,10 +41,14 @@ class BookViewModel : ViewModel() {
                 bookJson = action.bookJson,
                 author = action.author
             )
+
             is MainAction.BookAction.AddChapter -> addChapter(
                 chapterJson = action.chapterJson,
                 author = action.author
             )
+
+            is MainAction.BookAction.SelectPage -> selectPage(action.pageIndex)
+            is MainAction.BookAction.AddImage -> addImage(action.imageUrl, action.author)
         }
     }
 
@@ -70,6 +77,37 @@ class BookViewModel : ViewModel() {
             val highestChapterId = currentBook.chapters.maxOf { it.id.toInt() }
             val newBook = currentBook.copy(
                 chapters = currentBook.chapters + chapter.copy(id = (highestChapterId + 1).toString())
+            )
+
+            val newBookList = _uiState.value.books.toMutableList()
+            newBookList[_uiState.value.currentBookId ?: return@launch] = newBook
+            updateUiState(
+                _uiState.value.copy(
+                    books = newBookList,
+                    isLoading = false
+                )
+            )
+        }
+    }
+
+    //TODO: improve this, currently it is so messy
+    private fun addImage(imageUrl: String, author: String) {
+        viewModelScope.launch {
+            val currentBook = getCurrentBook() ?: return@launch
+            val currentChapter = getCurrentChapter() ?: return@launch
+            val currentPage = getCurrentPage() ?: return@launch
+
+            val newDetails = currentPage.details as PageDetails.Read
+            val newPage = currentPage.copy(details = newDetails.copy(imageUrl = imageUrl))
+            val newPages = currentChapter.pages?.toMutableList() ?: return@launch
+            newPages[_uiState.value.currentPageId ?: return@launch] = newPage
+
+            val newChapter = currentChapter.copy(pages = newPages)
+            val newChapterList = currentBook.chapters.toMutableList()
+            newChapterList[_uiState.value.currentChapterId ?: return@launch] = newChapter
+
+            val newBook = currentBook.copy(
+                chapters = newChapterList
             )
 
             val newBookList = _uiState.value.books.toMutableList()
@@ -139,6 +177,10 @@ class BookViewModel : ViewModel() {
         updateUiState(_uiState.value.copy(currentChapterId = chapterIndex))
     }
 
+    private fun selectPage(pageIndex: Int) {
+        updateUiState(_uiState.value.copy(currentPageId = pageIndex))
+    }
+
     private fun completeChapter() {
         val currentChapter = getCurrentChapter()
         currentChapter?.let { it.isCompleted = true }
@@ -147,6 +189,11 @@ class BookViewModel : ViewModel() {
     private fun completePage(pageIndex: Int) {
         val currentPage = getCurrentChapter()?.pages?.get(pageIndex)
         currentPage?.isCompleted = true
+    }
+
+    fun getCurrentPage(): Page? {
+        val currentChapter = getCurrentChapter()
+        return currentChapter?.pages?.get(_uiState.value.currentPageId ?: return null)
     }
 
     fun getCurrentChapter(): Chapter? {

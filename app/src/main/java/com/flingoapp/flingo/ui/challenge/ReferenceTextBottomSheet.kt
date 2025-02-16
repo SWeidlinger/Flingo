@@ -42,22 +42,7 @@ fun ReferenceTextBottomSheet(
     currentPage: Page,
     watchTime: Int = 10,
 ) {
-    val referenceTitle: String
-    val referenceText: String
-
-    when (currentPage.details) {
-        is PageDetails.Quiz -> {
-            referenceTitle = currentPage.details.referenceTextTitle
-            referenceText = currentPage.details.referenceText
-        }
-
-        is PageDetails.OrderStory -> {
-            referenceTitle = currentPage.details.referenceTextTitle
-            referenceText = currentPage.details.referenceText
-        }
-
-        else -> return
-    }
+    //TODO: implement in challenge that the reading task for this exercise is shown on pressing this
 
     var showReferenceText by remember { mutableStateOf(false) }
 
@@ -114,7 +99,7 @@ fun ReferenceTextBottomSheet(
                                 topEnd = 20.dp
                             )
                         ),
-                    text = referenceText,
+                    text = "",
                     color = FlingoColors.Text,
                 )
 

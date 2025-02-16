@@ -21,8 +21,6 @@
       "taskDefinition": "Bring die Geschichte in die richtige Reihenfolge!",
       "pageDetails": {
         "pageDetailsType": "order_story",
-        "referenceTextTitle": "",
-        "referenceText": "",
         "content": [
           {
             "id": 1,

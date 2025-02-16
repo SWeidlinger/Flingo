@@ -75,7 +75,7 @@ fun FlingoApp(
                             .fillMaxWidth(0.5f),
                         fontSize = 12.sp,
                         text = "Provider: ${personalizationUiState.currentModel.provider}\n" +
-                                "Model: ${personalizationUiState.currentModel.model}\n" +
+                                "Model: ${personalizationUiState.currentModel.textModel}\n" +
                                 "Last response time (s): ${
                                     personalizationUiState.lastResponseTime?.toDouble()?.div(1000.0)
                                 }\n" +

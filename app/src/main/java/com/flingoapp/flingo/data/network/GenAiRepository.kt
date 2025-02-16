@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.data.network
 
 interface GenAiRepository {
-    suspend fun getResponse(prompt: String): Result<String>
+    suspend fun getTextResponse(prompt: String): Result<String>
+    suspend fun getImageResponse(prompt: String): Result<String>
 }

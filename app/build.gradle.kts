@@ -97,7 +97,8 @@ dependencies {
     implementation(libs.lottie.compose)
 
     //Coil
-    implementation(libs.coil)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     //extended icons
     implementation(libs.androidx.material.icons.extended)

@@ -8,7 +8,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -29,9 +28,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -41,10 +42,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import coil3.compose.AsyncImage
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.model.MockData
@@ -89,6 +94,11 @@ fun ReadChapterContent(
         mutableStateListOf<Int>().apply {
             repeat(safePages.size) { add(safePages[it].content.split(" ").size) }
         }
+    }
+
+    //TODO: remove
+    LaunchedEffect(pagerState.currentPage) {
+        onAction(MainAction.BookAction.SelectPage(pagerState.currentPage))
     }
 
     Scaffold(topBar = {
@@ -136,10 +146,7 @@ fun ReadChapterContent(
                     horizontalAlignment = Alignment.Start,
                     pageSize = PageSize.Fill
                 ) { pageIndex ->
-                    val currentPage = pages[pageIndex]
-                    val details = currentPage.details as PageDetails.Read
-
-                    val content = details.content.split(" ")
+                    val content = safePages[pageIndex].content.split(" ")
                     val pageOffset =
                         ((pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction).absoluteValue
 
@@ -163,7 +170,8 @@ fun ReadChapterContent(
                     modifier = Modifier
                         .weight(0.75f)
                         .fillMaxHeight()
-                        .padding(vertical = 64.dp)
+                        .padding(top = 32.dp, bottom = 128.dp)
+                        .align(Alignment.CenterVertically)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null
@@ -180,38 +188,32 @@ fun ReadChapterContent(
                                 }
                             }
                         },
-                    targetState = safePages[pagerState.currentPage].images.first(),
+                    targetState = safePages[pagerState.currentPage].imageUrl,
                     transitionSpec = {
                         //TODO: improve
                         ContentTransform(
                             targetContentEnter = fadeIn(),
                             initialContentExit = fadeOut()
                         )
+                    },
+                    contentAlignment = Alignment.Center
+                ) { imageUrl ->
+                    var imageLoadingFailed by remember(imageUrl) { mutableStateOf(false) }
+
+                    if (imageLoadingFailed) {
+                        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_eyes_loading))
+
+                        LottieAnimation(
+                            composition = composition,
+                            iterations = LottieConstants.IterateForever
+                        )
+                    } else {
+                        AsyncImage(
+                            model = imageUrl,
+                            contentDescription = "additional image",
+                            onError = { imageLoadingFailed = true },
+                        )
                     }
-                ) { targetState ->
-                    val image = when (targetState) {
-                        "circus_image" -> {
-                            painterResource(id = R.drawable.circus_image)
-                        }
-
-                        "pony" -> {
-                            painterResource(id = R.drawable.pony)
-                        }
-
-                        "old_man" -> {
-                            painterResource(id = R.drawable.old_man)
-                        }
-
-                        else -> {
-                            painterResource(id = R.drawable.circus_image)
-                        }
-                    }
-
-                    Image(
-                        modifier = Modifier,
-                        painter = image,
-                        contentDescription = "Additional Image"
-                    )
                 }
             }
 

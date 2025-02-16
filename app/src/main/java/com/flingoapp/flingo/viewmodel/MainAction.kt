@@ -18,11 +18,13 @@ sealed interface MainAction {
     sealed interface BookAction : MainAction {
         data class SelectBook(val bookIndex: Int) : BookAction
         data class SelectChapter(val chapterIndex: Int) : BookAction
+        data class SelectPage(val pageIndex: Int) : BookAction
         data object CompleteChapter : BookAction
         data class CompletePage(val pageIndex: Int) : BookAction
         data class FetchBooks(val booksJson: List<String>) : BookAction
         data class AddBook(val bookJson: String, val author: String) : BookAction
         data class AddChapter(val chapterJson: String, val author: String) : BookAction
+        data class AddImage(val imageUrl: String, val author: String) : BookAction
     }
 
     sealed interface PersonalizationAction: MainAction{
@@ -30,5 +32,6 @@ sealed interface MainAction {
         data object GenerateChapter : PersonalizationAction
         data class ChangeModel(val model: GenAiModel) : PersonalizationAction
         data object ToggleDebugMode: PersonalizationAction
+        data class GenerateImage(val context: String): PersonalizationAction
     }
 }

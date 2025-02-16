@@ -3,6 +3,7 @@ package com.flingoapp.flingo.data.model.page
 import PageDetails
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 /**
  * Page data class
@@ -29,7 +30,8 @@ data class Page(
     @SerialName("score") val score: Int?,
     @SerialName("feedback") val feedback: Feedback?,
     @SerialName("taskDefinition") val taskDefinition: String,
-    @SerialName("pageDetails") val details: PageDetails
+    @SerialName("pageDetails") val details: PageDetails,
+    @Transient val imageUrl: String? = null
 )
 
 /**

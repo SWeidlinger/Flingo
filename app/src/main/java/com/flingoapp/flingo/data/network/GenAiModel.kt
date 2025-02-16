@@ -4,17 +4,20 @@ import com.flingoapp.flingo.R
 
 enum class GenAiModel(
     val provider: String,
-    val model: String,
+    val textModel: String,
+    val imageModel: String,
     val iconRes: Int
 ) {
     OPEN_AI(
         provider = "OpenAI",
-        model = "gpt-4o",
+        textModel = "gpt-4o",
+        imageModel = "dall-e-2",
         iconRes = R.drawable.openai_icon
     ),
     GOOGLE_AI(
         provider = "Google",
-        model = "gemini-2.0-flash",
+        textModel = "gemini-2.0-flash",
+        imageModel = "imagen-3",
         iconRes = R.drawable.google_gemini
-    );
+    )
 }

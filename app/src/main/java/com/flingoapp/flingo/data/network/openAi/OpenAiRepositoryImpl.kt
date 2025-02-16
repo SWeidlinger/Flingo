@@ -13,25 +13,22 @@ class OpenAiRepositoryImpl(
         private const val TAG = "OpenAiRepositoryImpl"
     }
 
-    override suspend fun getResponse(prompt: String): Result<String> {
+    override suspend fun getTextResponse(prompt: String): Result<String> {
         return try {
-            val request = OpenAiRequest(
-                model = GenAiModel.OPEN_AI.model,
+            val request = OpenAiTextRequest(
+                model = GenAiModel.OPEN_AI.textModel,
                 messages = listOf(
                     Message(
                         role = "user",
                         content = prompt
                     )
-                ),
-                responseFormat = ResponseFormat(
-                    type = "json_object"
                 )
             )
 
             val startTime = System.currentTimeMillis()
 
             val response = withContext(Dispatchers.IO) {
-                openAiService.getResponse(request)
+                openAiService.getTextResponse(request)
             }
 
             val answer = response.choices.firstOrNull()?.message?.content ?: "No response"
@@ -41,6 +38,30 @@ class OpenAiRepositoryImpl(
 
             Result.success(answer)
 
+        } catch (e: Exception) {
+            Log.e(TAG, "API call failed: ${e.message}")
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getImageResponse(prompt: String): Result<String> {
+        return try {
+            val request = OpenAiImageRequest(
+                model = GenAiModel.OPEN_AI.imageModel,
+                prompt = prompt
+            )
+
+            val startTime = System.currentTimeMillis()
+            val response = withContext(Dispatchers.IO) {
+                openAiService.getImageResponse(request)
+            }
+
+            val answer = response.data.firstOrNull()?.url ?: "No response"
+
+            val elapsedTime = System.currentTimeMillis() - startTime
+            Log.d(TAG, "API Response took: $elapsedTime ms")
+
+            Result.success(answer)
         } catch (e: Exception) {
             Log.e(TAG, "API call failed: ${e.message}")
             Result.failure(e)

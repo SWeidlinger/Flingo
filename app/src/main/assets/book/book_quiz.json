@@ -31,8 +31,6 @@
           "pageDetails": {
             "pageDetailsType": "quiz",
             "quizType": "true_or_false",
-            "referenceTextTitle": "",
-            "referenceText": "",
             "question": "Nimmt Luna ein Ruder?",
             "answers": [
               {
@@ -64,8 +62,6 @@
           "pageDetails": {
             "pageDetailsType": "quiz",
             "quizType": "single_choice",
-            "referenceTextTitle": "",
-            "referenceText": "",
             "question": "Wieviele blaue Fische schwimmen über ein Fass?",
             "answers": [
               {
@@ -117,8 +113,6 @@
           "pageDetails": {
             "pageDetailsType": "quiz",
             "quizType": "true_or_false",
-            "referenceTextTitle": "",
-            "referenceText": "",
             "question": "Nimmt Luna ein Ruder?",
             "answers": [
               {
@@ -150,8 +144,6 @@
           "pageDetails": {
             "pageDetailsType": "quiz",
             "quizType": "single_choice",
-            "referenceTextTitle": "",
-            "referenceText": "",
             "question": "Wieviele blaue Fische schwimmen über ein Fass?",
             "answers": [
               {

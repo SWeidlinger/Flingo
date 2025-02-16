@@ -12,7 +12,14 @@ interface OpenAiService {
         "Authorization: Bearer ${BuildConfig.OPENAI_API_KEY}"
     )
     @POST("v1/chat/completions")
-    suspend fun getResponse(@Body request: OpenAiRequest): OpenAiResponse
+    suspend fun getTextResponse(@Body request: OpenAiTextRequest): OpenAiTextResponse
+
+    @Headers(
+        "Content-Type: application/json",
+        "Authorization: Bearer ${BuildConfig.OPENAI_API_KEY}"
+    )
+    @POST("v1/images/generations")
+    suspend fun getImageResponse(@Body request: OpenAiImageRequest): OpenAiImageResponse
 
     companion object {
         private const val BASE_URL = "https://api.openai.com/"

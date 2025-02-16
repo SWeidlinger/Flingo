@@ -8,7 +8,7 @@ import com.flingoapp.flingo.data.model.page.Page
 object MockData {
     val pageDetailsRead = PageDetails.Read(
         content = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-        images = arrayListOf("Image 1", "Image 2")
+        imageUrl = "Image 1"
     )
 
     val pageDetailsRemoveWord = PageDetails.RemoveWord(
@@ -21,8 +21,6 @@ object MockData {
         type = PageDetailsType.QUIZ,
         quizType = PageDetails.Quiz.QuizType.SINGLE_CHOICE,
         question = "Question",
-        referenceTextTitle = "Reference Text Title",
-        referenceText = "Reference Text",
         answers = arrayListOf(
             PageDetails.Quiz.Answer(
                 id = 1,
@@ -41,8 +39,6 @@ object MockData {
         type = PageDetailsType.QUIZ,
         quizType = PageDetails.Quiz.QuizType.TRUE_OR_FALSE,
         question = "Question",
-        referenceTextTitle = "Reference Text Title",
-        referenceText = "Reference Text",
         answers = arrayListOf(
             PageDetails.Quiz.Answer(
                 id = 1,
@@ -73,9 +69,7 @@ object MockData {
                 text = "Content 3"
             )
         ),
-        correctOrder = arrayListOf(1, 2, 3),
-        referenceTextTitle = "Reference Text Title",
-        referenceText = "Reference Text"
+        correctOrder = arrayListOf(1, 2, 3)
     )
 
     val page = Page(

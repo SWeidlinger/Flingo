@@ -16,7 +16,7 @@ sealed interface PageDetails {
     data class Read(
         @Transient @SerialName("pageDetailsType") override val type: PageDetailsType = PageDetailsType.READ,
         val content: String,
-        val images: List<String>,
+        val imageUrl: String,
     ) : PageDetails
 
     @Serializable
@@ -32,9 +32,7 @@ sealed interface PageDetails {
     data class OrderStory(
         @Transient @SerialName("pageDetailsType") override val type: PageDetailsType = PageDetailsType.ORDER_STORY,
         val content: List<Content>,
-        val correctOrder: List<Int>,
-        val referenceTextTitle: String,
-        val referenceText: String
+        val correctOrder: List<Int>
     ) : PageDetails {
         @Serializable
         data class Content(
@@ -49,8 +47,6 @@ sealed interface PageDetails {
         @Transient @SerialName("pageDetailsType") override val type: PageDetailsType = PageDetailsType.QUIZ,
         val quizType: QuizType,
         val question: String,
-        val referenceTextTitle: String,
-        val referenceText: String,
         val answers: List<Answer>
     ) : PageDetails {
         @Serializable
