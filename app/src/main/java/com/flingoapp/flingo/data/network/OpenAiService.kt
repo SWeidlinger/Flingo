@@ -1,7 +1,10 @@
-package com.flingoapp.flingo.data.network.openAi
+package com.flingoapp.flingo.data.network
 
 import com.flingoapp.flingo.BuildConfig
-import com.flingoapp.flingo.data.network.RetrofitProviderImpl
+import com.flingoapp.flingo.data.model.OpenAiImageRequest
+import com.flingoapp.flingo.data.model.OpenAiImageResponse
+import com.flingoapp.flingo.data.model.OpenAiTextRequest
+import com.flingoapp.flingo.data.model.OpenAiTextResponse
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST

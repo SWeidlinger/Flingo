@@ -160,7 +160,7 @@ fun HomeScreen(
                                 onNavigate(
                                     NavigationAction.Screen(
                                         destination = NavigationDestination.ChapterSelection(
-                                            bookIndex = bookIndex
+                                            bookId = bookUiState.books[bookIndex].id
                                         )
                                     )
                                 )

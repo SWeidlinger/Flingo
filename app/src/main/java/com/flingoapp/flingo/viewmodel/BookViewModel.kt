@@ -1,39 +1,50 @@
 package com.flingoapp.flingo.viewmodel
 
 import PageDetails
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flingoapp.flingo.data.model.Book
 import com.flingoapp.flingo.data.model.Chapter
-import com.flingoapp.flingo.data.model.page.Page
+import com.flingoapp.flingo.data.repository.BookRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 
 data class BookUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val books: List<Book> = listOf(),
-    val currentBookId: Int? = null,
-    val currentChapterId: Int? = null,
+    val currentBookId: String? = null,
+    val currentChapterId: String? = null,
     val currentPageId: Int? = null
 )
 
-class BookViewModel : ViewModel() {
+class BookViewModel(
+    private val bookRepository: BookRepository
+) : ViewModel() {
     companion object {
         private const val TAG = "BookViewModel"
     }
 
+    private val books: StateFlow<List<Book>> = bookRepository.books
+
     private val _uiState = MutableStateFlow(BookUiState())
     val uiState = _uiState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            books.collect {
+                updateUiState(_uiState.value.copy(books = it))
+            }
+        }
+    }
+
     fun onAction(action: MainAction.BookAction) {
         when (action) {
-            is MainAction.BookAction.SelectBook -> selectBook(action.bookIndex)
-            is MainAction.BookAction.SelectChapter -> selectChapter(action.chapterIndex)
+            is MainAction.BookAction.SelectBook -> selectBook(action.bookId)
+            is MainAction.BookAction.SelectChapter -> selectChapter(action.chapterId)
             MainAction.BookAction.CompleteChapter -> completeChapter()
             is MainAction.BookAction.FetchBooks -> fetchBooks(action.booksJson)
             is MainAction.BookAction.CompletePage -> completePage(action.pageIndex)
@@ -54,70 +65,64 @@ class BookViewModel : ViewModel() {
 
     private fun addBook(bookJson: String, author: String) {
         viewModelScope.launch {
-            val book = parseJsonToBook(bookJson) ?: return@launch
-
-            val newBookList = _uiState.value.books.toMutableList()
-            newBookList.add(book.copy(author = author))
-            updateUiState(
-                _uiState.value.copy(
-                    books = newBookList,
-                    isLoading = false
-                )
-            )
+            updateUiState(_uiState.value.copy(isLoading = true))
+            bookRepository.fetchBook(bookJson)
+                .onFailure {
+                    updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+                }.onSuccess { book ->
+                    val bookWithAuthor = book.copy(author = author)
+                    bookRepository.addBook(bookWithAuthor)
+                        .onFailure {
+                            updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+                        }.onSuccess {
+                            updateUiState(_uiState.value.copy(isLoading = false, isError = false))
+                        }
+                }
         }
     }
 
-    //TODO: improve, simplify, fix logic of having no chapters in uiState
     private fun addChapter(chapterJson: String, author: String) {
-        //TODO: use author to show which model created chapter
         viewModelScope.launch {
-            val chapter = parseJsonToChapter(chapterJson) ?: return@launch
-
-            val currentBook = getCurrentBook() ?: return@launch
-            val highestChapterId = currentBook.chapters.maxOf { it.id.toInt() }
-            val newBook = currentBook.copy(
-                chapters = currentBook.chapters + chapter.copy(id = (highestChapterId + 1).toString())
-            )
-
-            val newBookList = _uiState.value.books.toMutableList()
-            newBookList[_uiState.value.currentBookId ?: return@launch] = newBook
-            updateUiState(
-                _uiState.value.copy(
-                    books = newBookList,
-                    isLoading = false
-                )
-            )
+            updateUiState(_uiState.value.copy(isLoading = true))
+            bookRepository.fetchChapter(chapterJson)
+                .onFailure {
+                    updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+                }.onSuccess { chapter ->
+                    val chapterWithAuthor = chapter.copy(author = author)
+                    //TODO: needs to be evaluated how to best handle not having a corresponding book
+                    bookRepository.addChapter(
+                        chapter = chapterWithAuthor,
+                        bookId = _uiState.value.currentBookId.toString()
+                    )
+                        .onFailure {
+                            updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+                        }.onSuccess {
+                            updateUiState(_uiState.value.copy(isLoading = false, isError = false))
+                        }
+                }
         }
     }
 
-    //TODO: improve this, currently it is so messy
+    //TODO: rework functionality and add image author
     private fun addImage(imageUrl: String, author: String) {
         viewModelScope.launch {
-            val currentBook = getCurrentBook() ?: return@launch
-            val currentChapter = getCurrentChapter() ?: return@launch
-            val currentPage = getCurrentPage() ?: return@launch
+            val currentPage = bookRepository.getPage(
+                chapterId = _uiState.value.currentChapterId.toString(),
+                bookId = _uiState.value.currentBookId.toString(),
+                pageId = _uiState.value.currentPageId.toString()
+            ).getOrThrow()
 
             val newDetails = currentPage.details as PageDetails.Read
             val newPage = currentPage.copy(details = newDetails.copy(imageUrl = imageUrl))
-            val newPages = currentChapter.pages?.toMutableList() ?: return@launch
-            newPages[_uiState.value.currentPageId ?: return@launch] = newPage
 
-            val newChapter = currentChapter.copy(pages = newPages)
-            val newChapterList = currentBook.chapters.toMutableList()
-            newChapterList[_uiState.value.currentChapterId ?: return@launch] = newChapter
-
-            val newBook = currentBook.copy(
-                chapters = newChapterList
+            bookRepository.updatePage(
+                page = newPage,
+                bookId = _uiState.value.currentBookId.toString(),
+                chapterId = _uiState.value.currentChapterId.toString()
             )
-
-            val newBookList = _uiState.value.books.toMutableList()
-            newBookList[_uiState.value.currentBookId ?: return@launch] = newBook
-            updateUiState(
-                _uiState.value.copy(
-                    books = newBookList,
-                    isLoading = false
-                )
-            )
+                .onFailure {
+                    updateUiState(_uiState.value.copy(isError = true))
+                }
         }
     }
 
@@ -125,56 +130,29 @@ class BookViewModel : ViewModel() {
         viewModelScope.launch {
             updateUiState(_uiState.value.copy(isLoading = true))
 
-            val books = bookJsonList.mapNotNull { parseJsonToBook(it) }
-
-            updateUiState(
-                _uiState.value.copy(
-                    isLoading = false,
-                    isError = false,
-                    books = books
-                )
-            )
-        }
-    }
-
-    private fun parseJsonToBook(json: String): Book? {
-        updateUiState(_uiState.value.copy(isLoading = true, isError = false))
-        return try {
-            val deserializer = Json { ignoreUnknownKeys = true }
-            val book = deserializer.decodeFromString<Book>(json)
+            val books = bookJsonList.map { bookRepository.fetchBook(it) }
+            books.forEach { book ->
+                book.onFailure {
+                    updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+                }
+                    .onSuccess { safeBook ->
+                        bookRepository.addBook(safeBook).onFailure {
+                            updateUiState(
+                                _uiState.value.copy(isLoading = false, isError = true)
+                            )
+                        }
+                    }
+            }
             updateUiState(_uiState.value.copy(isLoading = false))
-
-            book
-        } catch (e: Exception) {
-            Log.e(TAG, "Error: ${e.message}")
-            updateUiState(_uiState.value.copy(isLoading = false, isError = true))
-
-            null
         }
     }
 
-    private fun parseJsonToChapter(json: String): Chapter? {
-        updateUiState(_uiState.value.copy(isLoading = true, isError = false))
-        return try {
-            val deserializer = Json { ignoreUnknownKeys = true }
-            val chapter = deserializer.decodeFromString<Chapter>(json)
-            updateUiState(_uiState.value.copy(isLoading = false))
-
-            chapter
-        } catch (e: Exception) {
-            Log.e(TAG, "Error: ${e.message}")
-            updateUiState(_uiState.value.copy(isLoading = false, isError = true))
-
-            null
-        }
+    private fun selectBook(bookId: String) {
+        updateUiState(_uiState.value.copy(currentBookId = bookId))
     }
 
-    private fun selectBook(bookIndex: Int) {
-        updateUiState(_uiState.value.copy(currentBookId = bookIndex))
-    }
-
-    private fun selectChapter(chapterIndex: Int) {
-        updateUiState(_uiState.value.copy(currentChapterId = chapterIndex))
+    private fun selectChapter(chapterId: String) {
+        updateUiState(_uiState.value.copy(currentChapterId = chapterId))
     }
 
     private fun selectPage(pageIndex: Int) {
@@ -182,28 +160,57 @@ class BookViewModel : ViewModel() {
     }
 
     private fun completeChapter() {
-        val currentChapter = getCurrentChapter()
-        currentChapter?.let { it.isCompleted = true }
+        viewModelScope.launch {
+            val currentChapter = bookRepository.getChapter(
+                chapterId = _uiState.value.currentChapterId.toString(),
+                bookId = _uiState.value.currentBookId.toString()
+            )
+
+            currentChapter.onSuccess {
+                val newChapter = it.copy(isCompleted = true)
+                bookRepository.updateChapter(
+                    chapter = newChapter,
+                    bookId = _uiState.value.currentBookId.toString()
+                )
+                    .onFailure {
+                        updateUiState(_uiState.value.copy(isError = true))
+                    }
+            }
+        }
     }
 
     private fun completePage(pageIndex: Int) {
-        val currentPage = getCurrentChapter()?.pages?.get(pageIndex)
-        currentPage?.isCompleted = true
+        viewModelScope.launch {
+            val currentPage = bookRepository.getPage(
+                chapterId = _uiState.value.currentChapterId.toString(),
+                bookId = _uiState.value.currentBookId.toString(),
+                pageId = pageIndex.toString()
+            )
+
+            currentPage.onSuccess {
+                val newPage = it.copy(isCompleted = true)
+                bookRepository.updatePage(
+                    page = newPage,
+                    bookId = _uiState.value.currentBookId.toString(),
+                    chapterId = _uiState.value.currentChapterId.toString()
+                )
+                    .onFailure {
+                        updateUiState(_uiState.value.copy(isError = true))
+                    }
+            }
+        }
     }
 
-    fun getCurrentPage(): Page? {
-        val currentChapter = getCurrentChapter()
-        return currentChapter?.pages?.get(_uiState.value.currentPageId ?: return null)
+    //TODO: getting the book should be handled differently, and these functions should probably be removed
+    fun getCurrentBook(): Book {
+        return bookRepository.getBook(_uiState.value.currentBookId.toString()).getOrThrow()
     }
 
-    fun getCurrentChapter(): Chapter? {
-        val currentBook = getCurrentBook()
-        return currentBook?.chapters?.get(_uiState.value.currentChapterId ?: return null)
-    }
-
-    fun getCurrentBook(): Book? {
-        val currentBookId = _uiState.value.currentBookId
-        return _uiState.value.books[currentBookId ?: return null]
+    fun getCurrentChapter(): Chapter {
+        return bookRepository.getChapter(
+            bookId = _uiState.value.currentBookId.toString(),
+            chapterId = _uiState.value.currentChapterId.toString()
+        ).getOrThrow()
     }
 
     private fun updateUiState(newState: BookUiState) {

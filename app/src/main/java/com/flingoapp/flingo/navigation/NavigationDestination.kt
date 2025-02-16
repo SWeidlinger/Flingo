@@ -14,20 +14,20 @@ sealed interface NavigationDestination {
     /**
      * Chapter selection
      *
-     * @property bookIndex
+     * @property bookId
      * @constructor Create empty Chapter selection
      */
     @Serializable
-    data class ChapterSelection(val bookIndex: Int) : NavigationDestination
+    data class ChapterSelection(val bookId: String) : NavigationDestination
 
     /**
      * Chapter
      *
-     * @property chapterIndex
+     * @property chapterId
      * @constructor Create empty Chapter
      */
     @Serializable
-    data class Chapter(val chapterIndex: Int) : NavigationDestination
+    data class Chapter(val chapterId: String) : NavigationDestination
 
     /**
      * Challenge finished screen

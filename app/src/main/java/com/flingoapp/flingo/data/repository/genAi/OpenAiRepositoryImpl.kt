@@ -1,8 +1,12 @@
-package com.flingoapp.flingo.data.network.openAi
+package com.flingoapp.flingo.data.repository.genAi
 
 import android.util.Log
-import com.flingoapp.flingo.data.network.GenAiModel
-import com.flingoapp.flingo.data.network.GenAiRepository
+import com.flingoapp.flingo.data.model.GenAiModel
+import com.flingoapp.flingo.data.model.Message
+import com.flingoapp.flingo.data.model.OpenAiImageRequest
+import com.flingoapp.flingo.data.model.OpenAiTextRequest
+import com.flingoapp.flingo.data.model.ResponseFormat
+import com.flingoapp.flingo.data.network.OpenAiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -22,6 +26,9 @@ class OpenAiRepositoryImpl(
                         role = "user",
                         content = prompt
                     )
+                ),
+                responseFormat = ResponseFormat(
+                    type = "json_object"
                 )
             )
 

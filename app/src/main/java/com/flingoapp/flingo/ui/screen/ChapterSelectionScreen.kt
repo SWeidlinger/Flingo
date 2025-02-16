@@ -244,7 +244,7 @@ private fun ChapterSelectionContent(
                             onClick = {
                                 onNavigate(
                                     NavigationAction.Screen(
-                                        destination = NavigationDestination.Chapter(chapterIndex = index)
+                                        destination = NavigationDestination.Chapter(chapterId = chapter.id)
                                     )
                                 )
                             },

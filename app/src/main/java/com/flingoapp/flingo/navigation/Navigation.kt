@@ -18,8 +18,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.toRoute
 import com.flingoapp.flingo.BuildConfig
-import com.flingoapp.flingo.ui.screen.ChapterScreen
 import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
+import com.flingoapp.flingo.ui.screen.ChapterScreen
 import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screen.HomeScreen
 import com.flingoapp.flingo.ui.screen.InterestSelectionScreen
@@ -137,7 +137,7 @@ fun NavHostComposable(
 
 
             val args = backStackEntry.toRoute<NavigationDestination.ChapterSelection>()
-            bookViewModel.onAction(MainAction.BookAction.SelectBook(args.bookIndex))
+            bookViewModel.onAction(MainAction.BookAction.SelectBook(args.bookId))
 
             ChapterSelectionScreen(
                 bookUiState = bookUiState,
@@ -161,7 +161,7 @@ fun NavHostComposable(
 
 
             val args = backStackEntry.toRoute<NavigationDestination.Chapter>()
-            bookViewModel.onAction(MainAction.BookAction.SelectChapter(args.chapterIndex))
+            bookViewModel.onAction(MainAction.BookAction.SelectChapter(args.chapterId))
 
             ChapterScreen(
                 bookUiState = bookUiState,

@@ -4,8 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flingoapp.flingo.data.model.Chapter
+import com.flingoapp.flingo.data.model.GenAiModel
 import com.flingoapp.flingo.data.network.ConnectivityObserver
-import com.flingoapp.flingo.data.network.GenAiModel
+import com.flingoapp.flingo.data.repository.BookRepository
 import com.flingoapp.flingo.di.GenAiModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,6 +40,7 @@ class PersonalizationViewModel(
     //should be handled differently, viewmodel should not depend on other viewmodel but fine for now
     private val bookViewModel: BookViewModel,
     private val userViewModel: UserViewModel,
+    private val bookRepository: BookRepository,
     connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
     companion object {
@@ -129,7 +131,9 @@ class PersonalizationViewModel(
     private fun generateChapter() {
         viewModelScope.launch {
             val instructionPrompt = getPersonalizedPrompt(InstructionPromptType.CHAPTER)
-            val source = bookViewModel.getCurrentBook()?.chapters ?: return@launch
+            val source =
+                bookRepository.getBook(bookViewModel.uiState.value.currentBookId ?: return@launch)
+                    .getOrThrow().chapters
 
             val sourceJson = Json.encodeToString<List<Chapter>>(source)
             val prompt = instructionPrompt + sourceJson

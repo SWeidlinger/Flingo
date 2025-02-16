@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.data.network
+package com.flingoapp.flingo.data.model
 
 import com.flingoapp.flingo.R
 

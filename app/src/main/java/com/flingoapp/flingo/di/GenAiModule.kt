@@ -1,11 +1,11 @@
 package com.flingoapp.flingo.di
 
 import android.app.Application
-import com.flingoapp.flingo.data.network.GenAiModel
-import com.flingoapp.flingo.data.network.GenAiRepository
-import com.flingoapp.flingo.data.network.google.GoogleAiRepositoryImpl
-import com.flingoapp.flingo.data.network.openAi.OpenAiRepositoryImpl
-import com.flingoapp.flingo.data.network.openAi.OpenAiService
+import com.flingoapp.flingo.data.model.GenAiModel
+import com.flingoapp.flingo.data.repository.genAi.GenAiRepository
+import com.flingoapp.flingo.data.repository.genAi.GoogleAiRepositoryImpl
+import com.flingoapp.flingo.data.repository.genAi.OpenAiRepositoryImpl
+import com.flingoapp.flingo.data.network.OpenAiService
 
 interface GenAiModule {
     val application: Application

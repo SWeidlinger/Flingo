@@ -1,11 +1,9 @@
-package com.flingoapp.flingo.data.network.google
+package com.flingoapp.flingo.data.repository.genAi
 
 import android.util.Log
 import com.flingoapp.flingo.BuildConfig
-import com.flingoapp.flingo.data.network.GenAiModel
-import com.flingoapp.flingo.data.network.GenAiRepository
-import com.flingoapp.flingo.data.network.openAi.OpenAiRepositoryImpl
-import com.flingoapp.flingo.data.network.openAi.OpenAiService
+import com.flingoapp.flingo.data.model.GenAiModel
+import com.flingoapp.flingo.data.network.OpenAiService
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import com.google.ai.client.generativeai.type.generationConfig

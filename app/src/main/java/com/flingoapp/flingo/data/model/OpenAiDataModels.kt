@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.data.network.openAi
+package com.flingoapp.flingo.data.model
 
 import kotlinx.serialization.Required
 import kotlinx.serialization.SerialName
@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class OpenAiTextRequest(
     val model: String,
     val messages: List<Message>,
-    @Required @SerialName("response_format") val responseFormat: String = "json_object"
+    @SerialName("response_format")val responseFormat: ResponseFormat
 )
 
 @Serializable
@@ -47,4 +47,9 @@ data class Message(
 @Serializable
 data class Choice(
     val message: Message
+)
+
+@Serializable
+data class ResponseFormat(
+    val type: String,
 )

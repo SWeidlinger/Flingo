@@ -4,6 +4,7 @@ import PageDetails
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import java.util.UUID
 
 /**
  * Page data class
@@ -20,7 +21,7 @@ import kotlinx.serialization.Transient
  */
 @Serializable
 data class Page(
-    @SerialName("pageId") val id: String,
+    @Transient val id: String = UUID.randomUUID().toString(),
     @SerialName("pageDescription") val description: String,
     //TODO: make immutable
     @SerialName("pageCompleted") var isCompleted: Boolean,
@@ -30,8 +31,7 @@ data class Page(
     @SerialName("score") val score: Int?,
     @SerialName("feedback") val feedback: Feedback?,
     @SerialName("taskDefinition") val taskDefinition: String,
-    @SerialName("pageDetails") val details: PageDetails,
-    @Transient val imageUrl: String? = null
+    @SerialName("pageDetails") val details: PageDetails
 )
 
 /**

@@ -4,6 +4,7 @@ import com.flingoapp.flingo.data.model.page.Page
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import java.util.UUID
 import kotlin.random.Random
 
 /**
@@ -21,7 +22,8 @@ import kotlin.random.Random
  */
 @Serializable
 data class Chapter(
-    @SerialName("chapterId") val id: String,
+    @Transient val author: String = "Author",
+    @Transient val id: String = UUID.randomUUID().toString(),
     @SerialName("chapterTitle") val title: String,
     @SerialName("chapterType") val type: ChapterType,
     @SerialName("chapterDescription") val description: String,

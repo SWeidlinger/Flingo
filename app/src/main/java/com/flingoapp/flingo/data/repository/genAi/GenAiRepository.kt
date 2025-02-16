@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.data.network
+package com.flingoapp.flingo.data.repository.genAi
 
 interface GenAiRepository {
     suspend fun getTextResponse(prompt: String): Result<String>

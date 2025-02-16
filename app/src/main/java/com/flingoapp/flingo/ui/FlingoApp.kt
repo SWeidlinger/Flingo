@@ -43,7 +43,8 @@ fun FlingoApp(
                 genAiModule = MainApplication.appModule.genAiModule,
                 bookViewModel = bookViewModel,
                 userViewModel = userViewModel,
-                connectivityObserver = MainApplication.connectivityObserver
+                connectivityObserver = MainApplication.connectivityObserver,
+                bookRepository = MainApplication.bookRepository
             )
         }
     ),

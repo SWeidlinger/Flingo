@@ -1,6 +1,6 @@
 package com.flingoapp.flingo.viewmodel
 
-import com.flingoapp.flingo.data.network.GenAiModel
+import com.flingoapp.flingo.data.model.GenAiModel
 
 /**
  * Main intent used to handle any actions which are accessible and executable from the composables
@@ -16,8 +16,8 @@ sealed interface MainAction {
     }
 
     sealed interface BookAction : MainAction {
-        data class SelectBook(val bookIndex: Int) : BookAction
-        data class SelectChapter(val chapterIndex: Int) : BookAction
+        data class SelectBook(val bookId: String) : BookAction
+        data class SelectChapter(val chapterId: String) : BookAction
         data class SelectPage(val pageIndex: Int) : BookAction
         data object CompleteChapter : BookAction
         data class CompletePage(val pageIndex: Int) : BookAction
