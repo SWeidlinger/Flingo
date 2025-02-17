@@ -7,6 +7,12 @@ import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.model.page.Page
 import kotlinx.serialization.json.Json
 
+interface BookDataSource {
+    suspend fun getBook(data: String): Result<Book>
+    suspend fun getChapter(data: String): Result<Chapter>
+    suspend fun getPage(data: String): Result<Page>
+}
+
 class BookDataSourceJsonImpl(
     val context: Context
 ) : BookDataSource {

@@ -7,7 +7,6 @@ import com.flingoapp.flingo.data.model.Book
 import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.repository.BookRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -28,14 +27,12 @@ class BookViewModel(
         private const val TAG = "BookViewModel"
     }
 
-    private val books: StateFlow<List<Book>> = bookRepository.books
-
     private val _uiState = MutableStateFlow(BookUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            books.collect {
+            bookRepository.books.collect {
                 updateUiState(_uiState.value.copy(books = it))
             }
         }
