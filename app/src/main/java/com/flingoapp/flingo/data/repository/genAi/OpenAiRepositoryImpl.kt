@@ -35,10 +35,15 @@ class OpenAiRepositoryImpl(
             val startTime = System.currentTimeMillis()
 
             val response = withContext(Dispatchers.IO) {
-                openAiService.getTextResponse(request)
+                try {
+                    openAiService.getTextResponse(request)
+                } catch (e: Exception) {
+                    Log.e(TAG, "API call failed: ${e.message}")
+                    null
+                }
             }
 
-            val answer = response.choices.firstOrNull()?.message?.content ?: "No response"
+            val answer = response?.choices?.firstOrNull()?.message?.content ?: "No response"
 
             val elapsedTime = System.currentTimeMillis() - startTime
             Log.d(TAG, "API Response took: $elapsedTime ms")

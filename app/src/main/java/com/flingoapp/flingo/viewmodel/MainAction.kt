@@ -31,6 +31,7 @@ sealed interface MainAction {
     sealed interface PersonalizationAction: MainAction{
         data object GenerateBook : PersonalizationAction
         data object GenerateChapter : PersonalizationAction
+        data object GeneratePage : PersonalizationAction
         data class ChangeModel(val model: GenAiModel) : PersonalizationAction
         data object ToggleDebugMode: PersonalizationAction
         data class GenerateImage(val context: String): PersonalizationAction

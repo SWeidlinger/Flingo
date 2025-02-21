@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
@@ -40,7 +39,6 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.data.model.Book
@@ -51,26 +49,17 @@ import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.AutoResizableText
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.animatedBorder
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
-import com.flingoapp.flingo.ui.component.button.CustomElevatedButton2
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.viewmodel.BookUiState
 import com.flingoapp.flingo.viewmodel.MainAction
-import com.flingoapp.flingo.viewmodel.PersonalizationUiState
-import nl.dionsegijn.konfetti.compose.KonfettiView
-import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.core.emitter.Emitter
-import java.util.concurrent.TimeUnit
 
 @Composable
 fun ChapterSelectionScreen(
     bookUiState: BookUiState,
-    personalizationUiState: PersonalizationUiState,
     currentLives: Int,
     book: Book?,
     onAction: (MainAction) -> Unit,
@@ -99,8 +88,7 @@ fun ChapterSelectionScreen(
                 chapters = book.chapters,
                 onAction = onAction,
                 currentLives = currentLives,
-                onNavigate = onNavigate,
-                isGeneratingChapter = personalizationUiState.isLoading
+                onNavigate = onNavigate
             )
         }
     }
@@ -117,7 +105,6 @@ private fun ChapterSelectionContent(
     book: Book,
     chapters: List<Chapter>,
     currentLives: Int,
-    isGeneratingChapter: Boolean,
     onAction: (MainAction) -> Unit,
     onNavigate: (NavigationAction) -> Unit
 ) {
@@ -219,6 +206,7 @@ private fun ChapterSelectionContent(
                     //Box used to not apply offset to the button, as it can mess up the layout
                     Box(
                         modifier = Modifier
+                            .animateItem()
                             .offset {
                                 val y = (maxButtonOffset * chapter.positionOffset).toPx().toInt()
                                 IntOffset(0, y)
@@ -282,99 +270,6 @@ private fun ChapterSelectionContent(
                         )
                     }
                 }
-
-                item {
-                    var buttonPosition by remember { mutableStateOf(Offset.Zero) }
-                    var buttonSize by remember { mutableStateOf(IntSize.Zero) }
-
-                    var previousChapterCount by remember { mutableIntStateOf(chapters.size) }
-
-                    //TODO: fix confetti
-                    if (chapters.size > previousChapterCount) {
-                        KonfettiView(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            parties = listOf(
-                                Party(
-                                    position = Position.Absolute(
-                                        x = buttonPosition.x + buttonSize.width / 2,
-                                        y = buttonPosition.y
-                                    ),
-                                    emitter = Emitter(
-                                        duration = 1000,
-                                        timeUnit = TimeUnit.MILLISECONDS
-                                    ).perSecond(200),
-                                    spread = 90,
-                                    angle = -90
-                                )
-                            )
-                        )
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .offset {
-                                val y = (maxButtonOffset * 0.5f).toPx().toInt()
-                                IntOffset(0, y)
-                            }
-//                            .onGloballyPositioned { layoutCoordinates ->
-//                                chapterButtonCoordinateHashMap[index] =
-//                                    layoutCoordinates.positionInParent()
-//                            }
-                    ) {
-                        CustomElevatedButton2(
-                            modifier = Modifier
-                                .size(
-                                    DpSize(chapterButtonSize, chapterButtonSize)
-                                )
-                                .then(
-                                    if (isGeneratingChapter) {
-                                        Modifier.animatedBorder(
-                                            strokeWidth = 3.dp,
-                                            shape = CircleShape,
-                                            durationMillis = 1500
-                                        )
-                                    } else {
-                                        Modifier
-                                    }
-                                )
-                                .onGloballyPositioned {
-                                    buttonPosition = it.positionInParent()
-                                    buttonSize = it.size
-                                },
-                            shape = CircleShape,
-                            elevation = chapterButtonElevationOffset,
-                            isPressed = isGeneratingChapter,
-                            backgroundColor = FlingoColors.LightGray,
-                            onClick = {
-                                previousChapterCount = chapters.size
-                                onAction(MainAction.PersonalizationAction.GenerateChapter)
-                            },
-                            buttonContent = {
-                                Column(
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Icon(
-                                        modifier = Modifier.size(chapterButtonSize / 1.75f),
-                                        tint = FlingoColors.Text,
-                                        imageVector = Icons.Default.Add,
-                                        contentDescription = "Generate new chapter"
-                                    )
-
-                                    AutoResizableText(
-                                        modifier = Modifier
-                                            .padding(16.dp)
-                                            .padding(horizontal = 24.dp),
-                                        text = "Generate Chapter",
-                                        style = MaterialTheme.typography.headlineLarge.copy(fontSize = 42.sp),
-                                        color = FlingoColors.Text
-                                    )
-                                }
-                            }
-                        )
-                    }
-                }
             }
         }
     }
@@ -387,7 +282,6 @@ private fun ChapterSelectionScreenPreview() {
         ChapterSelectionContent(
             book = MockData.book,
             chapters = MockData.book.chapters,
-            isGeneratingChapter = false,
             currentLives = 3,
             onAction = {},
             onNavigate = {}

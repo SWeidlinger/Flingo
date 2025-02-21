@@ -151,8 +151,7 @@ fun NavHostComposable(
                         it
                     )
                 },
-                onNavigate = { processNavigation(it, navController) },
-                personalizationUiState = personalizationUiState
+                onNavigate = { processNavigation(it, navController) }
             )
         }
 

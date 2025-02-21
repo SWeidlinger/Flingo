@@ -10,27 +10,16 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionOnScreen
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
@@ -38,21 +27,13 @@ import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.animatedBorder
 import com.flingoapp.flingo.ui.component.BookItem
-import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton2
 import com.flingoapp.flingo.ui.component.topbar.CustomHomeScreenTopBar
-import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.BookUiState
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.PersonalizationUiState
 import com.flingoapp.flingo.viewmodel.UserUiState
-import nl.dionsegijn.konfetti.compose.KonfettiView
-import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.core.emitter.Emitter
-import java.util.concurrent.TimeUnit
 import kotlin.math.absoluteValue
 
 /**
@@ -167,70 +148,6 @@ fun HomeScreen(
                             }
                         )
                     }
-                }
-
-                var buttonPosition by remember { mutableStateOf(Offset.Zero) }
-                var buttonSize by remember { mutableStateOf(IntSize.Zero) }
-
-                var previousBookCount by remember { mutableIntStateOf(bookUiState.books.size) }
-
-                if (bookUiState.books.size > previousBookCount) {
-                    KonfettiView(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        parties = listOf(
-                            Party(
-                                position = Position.Absolute(
-                                    x = buttonPosition.x + buttonSize.width / 2,
-                                    y = buttonPosition.y
-                                ),
-                                emitter = Emitter(
-                                    duration = 1000,
-                                    timeUnit = TimeUnit.MILLISECONDS
-                                ).perSecond(200),
-                                spread = 90,
-                                angle = -90
-                            )
-                        )
-                    )
-                }
-
-                Box(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.BottomEnd)
-                ) {
-                    CustomElevatedTextButton2(
-                        modifier = Modifier
-                            .then(
-                                if (personalizationUiState.isLoading) {
-                                    Modifier.animatedBorder(
-                                        strokeWidth = 3.dp,
-                                        shape = CircleShape,
-                                        durationMillis = 1500
-                                    )
-                                } else {
-                                    Modifier
-                                }
-                            )
-                            .onGloballyPositioned {
-                                buttonPosition = it.positionOnScreen()
-                                buttonSize = it.size
-                            },
-                        textModifier = Modifier.padding(horizontal = 8.dp),
-                        fontSize = 24.sp,
-                        shape = CircleShape,
-                        elevation = 6.dp,
-                        isPressed = personalizationUiState.isLoading,
-                        backgroundColor = if (personalizationUiState.isError) FlingoColors.Error else Color.White,
-                        text = "Überrasch mich!",
-                        icon = personalizationUiState.currentModel.iconRes,
-                        enabled = personalizationUiState.isConnectedToNetwork,
-                        onClick = {
-                            previousBookCount = bookUiState.books.size
-                            onAction(MainAction.PersonalizationAction.GenerateBook)
-                        }
-                    )
                 }
             }
         }

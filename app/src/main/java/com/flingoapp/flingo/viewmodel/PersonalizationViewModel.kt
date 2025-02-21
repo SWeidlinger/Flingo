@@ -7,6 +7,7 @@ import com.flingoapp.flingo.data.model.GenAiModel
 import com.flingoapp.flingo.data.network.ConnectivityObserver
 import com.flingoapp.flingo.data.repository.PersonalizationRepository
 import com.flingoapp.flingo.di.GenAiModule
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -67,6 +68,7 @@ class PersonalizationViewModel(
         when (action) {
             MainAction.PersonalizationAction.GenerateBook -> generateBook()
             MainAction.PersonalizationAction.GenerateChapter -> generateChapter()
+            MainAction.PersonalizationAction.GeneratePage -> generatePage()
             is MainAction.PersonalizationAction.ChangeModel -> changeModel(action.model)
             MainAction.PersonalizationAction.ToggleDebugMode -> toggleDebugMode()
             is MainAction.PersonalizationAction.GenerateImage -> generateImage(action.context)
@@ -75,7 +77,13 @@ class PersonalizationViewModel(
 
     private fun generateBook() {
         viewModelScope.launch {
-            updateUiState(_uiState.value.copy(isLoading = true))
+            updateUiState(
+                _uiState.value.copy(
+                    isLoading = true,
+                    isError = false,
+                    isSuccess = false
+                )
+            )
             val startTime = System.currentTimeMillis()
 
             val generatedBook = personalizationRepository.generateBook(getPersonalizationAspects())
@@ -105,7 +113,13 @@ class PersonalizationViewModel(
 
     private fun generateChapter() {
         viewModelScope.launch {
-            updateUiState(_uiState.value.copy(isLoading = true))
+            updateUiState(
+                _uiState.value.copy(
+                    isLoading = true,
+                    isError = false,
+                    isSuccess = false
+                )
+            )
             val startTime = System.currentTimeMillis()
 
             val currentBook = bookViewModel.getCurrentBook()
@@ -137,7 +151,13 @@ class PersonalizationViewModel(
 
     private fun generatePage() {
         viewModelScope.launch {
-            updateUiState(_uiState.value.copy(isLoading = true))
+            updateUiState(
+                _uiState.value.copy(
+                    isLoading = true,
+                    isError = false,
+                    isSuccess = false
+                )
+            )
             val startTime = System.currentTimeMillis()
 
             val currentChapter = bookViewModel.getCurrentChapter()
@@ -169,7 +189,12 @@ class PersonalizationViewModel(
 
     private fun generateImage(context: String) {
         viewModelScope.launch {
-            updateUiState(_uiState.value.copy(isLoading = true))
+            updateUiState(
+                _uiState.value.copy(
+                    isLoading = true,
+                    isError = false
+                )
+            )
             val startTime = System.currentTimeMillis()
 
             val generatedImage = personalizationRepository.generateImage()
@@ -199,7 +224,17 @@ class PersonalizationViewModel(
 
     private fun errorHandling(error: Throwable) {
         Log.e(TAG, "Error: ${error.message}")
-        updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+        updateUiState(
+            _uiState.value.copy(
+                isLoading = false,
+                isError = true,
+                isSuccess = false
+            )
+        )
+        viewModelScope.launch {
+            delay(3000)
+            updateUiState(_uiState.value.copy(isError = false))
+        }
     }
 
     private fun toggleDebugMode() {
