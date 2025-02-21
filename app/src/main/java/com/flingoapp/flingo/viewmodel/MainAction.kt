@@ -24,6 +24,7 @@ sealed interface MainAction {
         data class FetchBooks(val booksJson: List<String>) : BookAction
         data class AddBook(val bookJson: String, val author: String) : BookAction
         data class AddChapter(val chapterJson: String, val author: String) : BookAction
+        data class AddPage(val pageJson: String, val author: String) : BookAction
         data class AddImage(val imageUrl: String, val author: String) : BookAction
     }
 

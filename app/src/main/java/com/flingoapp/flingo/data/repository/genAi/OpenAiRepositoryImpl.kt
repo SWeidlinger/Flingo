@@ -44,7 +44,6 @@ class OpenAiRepositoryImpl(
             Log.d(TAG, "API Response took: $elapsedTime ms")
 
             Result.success(answer)
-
         } catch (e: Exception) {
             Log.e(TAG, "API call failed: ${e.message}")
             Result.failure(e)

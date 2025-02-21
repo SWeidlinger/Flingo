@@ -24,7 +24,9 @@ import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -61,7 +63,6 @@ import com.flingoapp.flingo.ui.component.button.CustomElevatedButton2
 import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.viewmodel.MainAction
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -138,20 +139,26 @@ fun ReadChapterContent(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight(),
-                    userScrollEnabled = true,
+                    userScrollEnabled = false,
                     contentPadding = PaddingValues(
-                        start = 32.dp, end = 32.dp,
-                        top = (rowHeight / 3).toDp(),
+                        start = 32.dp,
+                        end = 32.dp,
+                        top = 32.dp,
+                        bottom = 128.dp
+//                        top = (rowHeight / 3).toDp(),
                     ),
                     horizontalAlignment = Alignment.Start,
-                    pageSize = PageSize.Fill
+                    pageSize = PageSize.Fill,
+                    pageSpacing = 16.dp
                 ) { pageIndex ->
                     val content = safePages[pageIndex].content.split(" ")
                     val pageOffset =
                         ((pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction).absoluteValue
 
                     CustomHighlightedText(
-                        modifier = Modifier.graphicsLayer {
+                        modifier = Modifier
+                            .verticalScroll(rememberScrollState())
+                            .graphicsLayer {
                             val alphaValue = lerp(
                                 start = 0f,
                                 stop = 1f,

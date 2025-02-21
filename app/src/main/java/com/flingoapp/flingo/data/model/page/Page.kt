@@ -22,6 +22,7 @@ import java.util.UUID
 @Serializable
 data class Page(
     @Transient val id: String = UUID.randomUUID().toString(),
+    @Transient val author: String = "Author",
     @SerialName("pageDescription") val description: String,
     //TODO: make immutable
     @SerialName("pageCompleted") var isCompleted: Boolean,

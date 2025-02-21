@@ -57,6 +57,10 @@ class BookViewModel(
 
             is MainAction.BookAction.SelectPage -> selectPage(action.pageIndex)
             is MainAction.BookAction.AddImage -> addImage(action.imageUrl, action.author)
+            is MainAction.BookAction.AddPage -> addPage(
+                pageJson = action.pageJson,
+                author = action.author
+            )
         }
     }
 
@@ -89,6 +93,29 @@ class BookViewModel(
                     //TODO: needs to be evaluated how to best handle not having a corresponding book
                     bookRepository.addChapter(
                         chapter = chapterWithAuthor,
+                        bookId = _uiState.value.currentBookId.toString()
+                    )
+                        .onFailure {
+                            updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+                        }.onSuccess {
+                            updateUiState(_uiState.value.copy(isLoading = false, isError = false))
+                        }
+                }
+        }
+    }
+
+    private fun addPage(pageJson: String, author: String) {
+        viewModelScope.launch {
+            updateUiState(_uiState.value.copy(isLoading = true))
+            bookRepository.fetchPage(pageJson)
+                .onFailure {
+                    updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+                }.onSuccess { page ->
+                    val pageWithAuthor = page.copy(author = author)
+                    //TODO: needs to be evaluated how to best handle not having a corresponding book
+                    bookRepository.addPage(
+                        page = pageWithAuthor,
+                        chapterId = _uiState.value.currentChapterId.toString(),
                         bookId = _uiState.value.currentBookId.toString()
                     )
                         .onFailure {

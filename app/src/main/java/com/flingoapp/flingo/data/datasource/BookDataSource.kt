@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.data.repository
+package com.flingoapp.flingo.data.datasource
 
 import android.content.Context
 import android.util.Log

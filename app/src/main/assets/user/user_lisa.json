@@ -1,0 +1,11 @@
+{
+  "name": "Lisa",
+  "age": 8,
+  "created": "2024-06-01",
+  "language": "de",
+  "profileImage": "",
+  "currentLives": 5,
+  "currentReadingStreak": 9,
+  "selectedInterests": ["Magie"],
+  "books": []
+}

@@ -1,12 +1,16 @@
 package com.flingoapp.flingo.di
 
 import android.app.Application
+import com.flingoapp.flingo.data.datasource.BookDataSource
+import com.flingoapp.flingo.data.datasource.BookDataSourceJsonImpl
+import com.flingoapp.flingo.data.datasource.PersonalizationDataSource
+import com.flingoapp.flingo.data.datasource.PersonalizationDataSourceImpl
 import com.flingoapp.flingo.data.network.AndroidConnectivityObserver
 import com.flingoapp.flingo.data.network.ConnectivityObserver
-import com.flingoapp.flingo.data.repository.BookDataSource
-import com.flingoapp.flingo.data.repository.BookDataSourceJsonImpl
 import com.flingoapp.flingo.data.repository.BookRepository
 import com.flingoapp.flingo.data.repository.BookRepositoryImpl
+import com.flingoapp.flingo.data.repository.PersonalizationRepository
+import com.flingoapp.flingo.data.repository.PersonalizationRepositoryImpl
 
 class MainApplication : Application() {
     companion object {
@@ -14,6 +18,8 @@ class MainApplication : Application() {
         lateinit var connectivityObserver: ConnectivityObserver
         lateinit var bookDataSource: BookDataSource
         lateinit var bookRepository: BookRepository
+        lateinit var personalizationDataSource: PersonalizationDataSource
+        lateinit var personalizationRepository: PersonalizationRepository
     }
 
     override fun onCreate() {
@@ -22,6 +28,13 @@ class MainApplication : Application() {
         connectivityObserver = AndroidConnectivityObserver(this)
         bookDataSource = BookDataSourceJsonImpl(this)
         bookRepository = BookRepositoryImpl(bookDataSource)
+
+        personalizationDataSource = PersonalizationDataSourceImpl(this)
+        personalizationRepository = PersonalizationRepositoryImpl(
+            genAiModule = appModule.genAiModule,
+            personalizationDataSource = personalizationDataSource,
+            bookRepository = bookRepository
+        )
     }
 }
 
