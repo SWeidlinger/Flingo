@@ -17,6 +17,7 @@ loggingInterceptor = "4.12.0"
 lottieCompose = "6.1.0"
 materialIconsExtended = "1.7.8"
 navigationCompose = "2.8.7"
+playServicesMlkitTextRecognition = "19.0.1"
 retrofit = "2.11.0"
 riveAndroid = "9.6.5"
 serialization = "1.6.3"
@@ -63,6 +64,7 @@ composeIcons-octicons = { module = "br.com.devsrsouza.compose.icons:octicons", v
 composeIcons-simpleIcons = { module = "br.com.devsrsouza.compose.icons:simple-icons", version.ref = "composeIcons" }
 composeIcons-tablerIcons = { module = "br.com.devsrsouza.compose.icons:tabler-icons", version.ref = "composeIcons" }
 
+play-services-mlkit-text-recognition = { module = "com.google.android.gms:play-services-mlkit-text-recognition", version.ref = "playServicesMlkitTextRecognition" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 rive-android = { module = "app.rive:rive-android", version.ref = "riveAndroid" }

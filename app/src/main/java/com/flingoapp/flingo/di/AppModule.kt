@@ -1,6 +1,7 @@
 package com.flingoapp.flingo.di
 
 import android.app.Application
+import android.content.Context
 import com.flingoapp.flingo.data.datasource.BookDataSource
 import com.flingoapp.flingo.data.datasource.BookDataSourceJsonImpl
 import com.flingoapp.flingo.data.datasource.PersonalizationDataSource
@@ -29,7 +30,7 @@ class MainApplication : Application() {
         bookDataSource = BookDataSourceJsonImpl(this)
         bookRepository = BookRepositoryImpl(bookDataSource)
 
-        personalizationDataSource = PersonalizationDataSourceImpl(this)
+        personalizationDataSource = PersonalizationDataSourceImpl()
         personalizationRepository = PersonalizationRepositoryImpl(
             genAiModule = appModule.genAiModule,
             personalizationDataSource = personalizationDataSource,
@@ -43,9 +44,9 @@ interface AppModule {
 }
 
 class AppModuleImpl(
-    private val application: Application
+    val context: Context
 ) : AppModule {
     override val genAiModule: GenAiModule by lazy {
-        GenAiModuleImpl(application)
+        GenAiModuleImpl(context)
     }
 }

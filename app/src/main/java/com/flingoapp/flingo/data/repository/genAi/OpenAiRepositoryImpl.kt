@@ -1,11 +1,11 @@
 package com.flingoapp.flingo.data.repository.genAi
 
 import android.util.Log
-import com.flingoapp.flingo.data.model.GenAiModel
-import com.flingoapp.flingo.data.model.Message
-import com.flingoapp.flingo.data.model.OpenAiImageRequest
-import com.flingoapp.flingo.data.model.OpenAiTextRequest
-import com.flingoapp.flingo.data.model.ResponseFormat
+import com.flingoapp.flingo.data.model.genAi.GenAiModel
+import com.flingoapp.flingo.data.model.genAi.Message
+import com.flingoapp.flingo.data.model.genAi.OpenAiImageRequest
+import com.flingoapp.flingo.data.model.genAi.OpenAiTextRequest
+import com.flingoapp.flingo.data.model.genAi.ResponseFormat
 import com.flingoapp.flingo.data.network.OpenAiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

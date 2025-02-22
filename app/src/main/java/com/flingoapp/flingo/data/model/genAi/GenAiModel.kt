@@ -1,4 +1,4 @@
-package com.flingoapp.flingo.data.model
+package com.flingoapp.flingo.data.model.genAi
 
 import com.flingoapp.flingo.R
 

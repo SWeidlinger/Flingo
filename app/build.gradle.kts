@@ -122,4 +122,7 @@ dependencies {
 
     //gemini
     implementation(libs.generativeai)
+
+    //OCR
+    implementation(libs.play.services.mlkit.text.recognition)
 }

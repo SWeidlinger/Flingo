@@ -1,5 +1,11 @@
 package com.flingoapp.flingo.ui
 
+import android.net.Uri
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -25,6 +31,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionOnScreen
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,11 +51,15 @@ import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.MainViewModel
 import com.flingoapp.flingo.viewmodel.PersonalizationViewModel
 import com.flingoapp.flingo.viewmodel.UserViewModel
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 /**
@@ -79,6 +90,8 @@ fun FlingoApp(
     var fabPosition by remember { mutableStateOf(Offset.Unspecified) }
     var fabSize by remember { mutableStateOf(IntSize.Zero) }
 
+    val context = LocalContext.current
+
     FlingoTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -97,9 +110,84 @@ fun FlingoApp(
 
                 val personalizationUiState by personalizationViewModel.uiState.collectAsState()
 
+                var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+                val photoPickerLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.PickVisualMedia(),
+                    onResult = { uri ->
+                        selectedImageUri = uri
+                    }
+                )
+
+                LaunchedEffect(selectedImageUri) {
+                    Log.e("FlingoApp", "$selectedImageUri")
+                }
+
                 LaunchedEffect(personalizationUiState.isSuccess) {
                     if (personalizationUiState.isSuccess) {
                         shootConfetti = true
+                    }
+                }
+
+                var isScanningText by remember { mutableStateOf(false) }
+
+                val onClickAction: () -> Unit = when (currentVisibleScreen) {
+                    CurrentVisibleScreen.SCREEN_HOME -> {
+                        {
+                            if (selectedImageUri == null) {
+                                photoPickerLauncher.launch(
+                                    PickVisualMediaRequest(
+                                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
+                                )
+                            } else {
+                                //TODO: add OCR and extract text
+                                var imageToOcr: InputImage? = null
+                                try {
+                                    imageToOcr =
+                                        InputImage.fromFilePath(context, selectedImageUri!!)
+                                } catch (e: IOException) {
+                                    e.printStackTrace()
+                                }
+
+                                isScanningText = true
+
+                                imageToOcr?.let {
+                                    TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+                                        .process(it)
+                                        .addOnSuccessListener { result ->
+                                            isScanningText = false
+
+                                            Log.e("FlingoApp", result.text)
+
+                                            personalizationViewModel.onAction(
+                                                MainAction.PersonalizationAction.GenerateBook(
+                                                    scannedText = result.text
+                                                )
+                                            )
+                                        }.addOnFailureListener {
+                                            isScanningText = false
+
+                                            Toast.makeText(
+                                                context,
+                                                "OCR failed",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                }
+                            }
+                        }
+                    }
+
+                    CurrentVisibleScreen.SCREEN_CHAPTER_SELECTION -> {
+                        { personalizationViewModel.onAction(MainAction.PersonalizationAction.GenerateChapter) }
+                    }
+
+                    CurrentVisibleScreen.SCREEN_CHALLENGE -> {
+                        { personalizationViewModel.onAction(MainAction.PersonalizationAction.GeneratePage) }
+                    }
+
+                    null -> {
+                        {}
                     }
                 }
 
@@ -133,20 +221,10 @@ fun FlingoApp(
                         elevation = 6.dp,
                         isPressed = personalizationUiState.isLoading,
                         backgroundColor = if (personalizationUiState.isError) FlingoColors.Error else Color.White,
-                        text = "$buttonText!",
+                        text = buttonText,
                         icon = personalizationUiState.currentModel.iconRes,
                         enabled = personalizationUiState.isConnectedToNetwork,
-                        onClick = {
-                            val action: MainAction.PersonalizationAction? =
-                                when (currentVisibleScreen) {
-                                    CurrentVisibleScreen.SCREEN_HOME -> MainAction.PersonalizationAction.GenerateBook
-                                    CurrentVisibleScreen.SCREEN_CHAPTER_SELECTION -> MainAction.PersonalizationAction.GenerateChapter
-                                    CurrentVisibleScreen.SCREEN_CHALLENGE -> MainAction.PersonalizationAction.GeneratePage
-                                    null -> null
-                                }
-
-                            action?.let { personalizationViewModel.onAction(action = it) }
-                        }
+                        onClick = onClickAction
                     )
                 }
             }

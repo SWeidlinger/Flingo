@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.flingoapp.flingo.data.model.GenAiModel
+import com.flingoapp.flingo.data.model.genAi.GenAiModel
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton2
 import com.flingoapp.flingo.ui.component.button.CustomIconButton

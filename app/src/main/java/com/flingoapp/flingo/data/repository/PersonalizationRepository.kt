@@ -45,7 +45,21 @@ class PersonalizationRepositoryImpl(
     override val generatedResults = _generatedResults.asStateFlow()
 
     override suspend fun generateBook(personalizationAspects: PersonalizationAspects): Result<Book> {
-        val prompt = personalizationDataSource.getPersonalizedBookPrompt(personalizationAspects)
+        //split text into parts
+
+
+        //adapt parts to user preferences
+
+        //generate image prompts for parts
+
+        //generate bookJSON with reading part
+
+        //generate challenge chapters for book
+
+        val prompt = personalizationDataSource.getPersonalizedBookPrompt(
+            genAiModule.basePrompts,
+            personalizationAspects
+        )
         _usedPrompts.update {
             it + prompt
         }
@@ -66,6 +80,7 @@ class PersonalizationRepositoryImpl(
         sourceBook: Book
     ): Result<Chapter> {
         val prompt = personalizationDataSource.getPersonalizedChapterPrompt(
+            genAiModule.basePrompts,
             personalizationAspects,
             sourceBook
         )
@@ -89,6 +104,7 @@ class PersonalizationRepositoryImpl(
         sourceChapter: Chapter
     ): Result<Page> {
         val prompt = personalizationDataSource.getPersonalizedPagePrompt(
+            genAiModule.basePrompts,
             personalizationAspects,
             sourceChapter
         )

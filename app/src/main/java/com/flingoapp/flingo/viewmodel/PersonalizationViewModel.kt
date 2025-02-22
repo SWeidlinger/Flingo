@@ -3,7 +3,7 @@ package com.flingoapp.flingo.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flingoapp.flingo.data.model.GenAiModel
+import com.flingoapp.flingo.data.model.genAi.GenAiModel
 import com.flingoapp.flingo.data.network.ConnectivityObserver
 import com.flingoapp.flingo.data.repository.PersonalizationRepository
 import com.flingoapp.flingo.di.GenAiModule
@@ -11,6 +11,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -58,15 +59,17 @@ class PersonalizationViewModel(
 
     init {
         viewModelScope.launch {
-            isConnected.collect { connected ->
-                updateUiState(_uiState.value.copy(isConnectedToNetwork = connected))
+            combine(isConnected, genAiModule.currentModel) { connected, model ->
+                _uiState.value.copy(isConnectedToNetwork = connected, currentModel = model)
+            }.collect { newState ->
+                updateUiState(newState)
             }
         }
     }
 
     fun onAction(action: MainAction.PersonalizationAction) {
         when (action) {
-            MainAction.PersonalizationAction.GenerateBook -> generateBook()
+            is MainAction.PersonalizationAction.GenerateBook -> generateBook(action.scannedText)
             MainAction.PersonalizationAction.GenerateChapter -> generateChapter()
             MainAction.PersonalizationAction.GeneratePage -> generatePage()
             is MainAction.PersonalizationAction.ChangeModel -> changeModel(action.model)
@@ -75,7 +78,7 @@ class PersonalizationViewModel(
         }
     }
 
-    private fun generateBook() {
+    private fun generateBook(scannedText: String) {
         viewModelScope.launch {
             updateUiState(
                 _uiState.value.copy(
@@ -219,7 +222,6 @@ class PersonalizationViewModel(
 
     private fun changeModel(model: GenAiModel) {
         genAiModule.setModelRepository(model)
-        updateUiState(_uiState.value.copy(currentModel = model))
     }
 
     private fun errorHandling(error: Throwable) {
