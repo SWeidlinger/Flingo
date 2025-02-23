@@ -33,7 +33,6 @@ data class PersonalizationUiState(
     val childInterest: String? = null,
 )
 
-//TODO: refactor, move getting API responses to a service, since not needed in viewmodel
 class PersonalizationViewModel(
     private val genAiModule: GenAiModule,
     //should be handled differently, viewmodel should not depend on other viewmodel but fine for now
@@ -89,7 +88,10 @@ class PersonalizationViewModel(
             )
             val startTime = System.currentTimeMillis()
 
-            val generatedBook = personalizationRepository.generateBook(getPersonalizationAspects())
+            val generatedBook = personalizationRepository.generateBook(
+                scannedText = scannedText,
+                personalizationAspects = getPersonalizationAspects()
+            )
 
             generatedBook
                 .onFailure {

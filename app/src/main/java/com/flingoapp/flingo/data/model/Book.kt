@@ -3,6 +3,7 @@ package com.flingoapp.flingo.data.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import java.util.Calendar
 import java.util.UUID
 
 /**
@@ -22,9 +23,9 @@ import java.util.UUID
 data class Book(
     @Transient val id: String = UUID.randomUUID().toString(),
     @SerialName("author") val author: String,
-    @SerialName("date") val date: String,
-    @SerialName("language") val language: String,
-    @SerialName("version") val version: String,
+    @SerialName("date") val date: String = Calendar.getInstance().time.toString(),
+    @SerialName("language") val language: String = "de",
+    @SerialName("version") val version: String = "1.0",
     @SerialName("title") val title: String,
     @SerialName("description") val description: String,
     @SerialName("coverImage") val coverImage: String?,

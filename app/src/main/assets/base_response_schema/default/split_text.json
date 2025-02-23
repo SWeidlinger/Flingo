@@ -1,0 +1,26 @@
+{
+  "name": "split_text",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "The title of the story."
+      },
+      "text_parts": {
+        "type": "array",
+        "description": "An array consisting of individual text segments.",
+        "items": {
+          "type": "string",
+          "description": "A single part of the text."
+        }
+      }
+    },
+    "required": [
+      "title",
+      "text_parts"
+    ],
+    "additionalProperties": false
+  }
+}

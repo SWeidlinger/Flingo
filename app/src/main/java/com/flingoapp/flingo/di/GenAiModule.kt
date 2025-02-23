@@ -1,9 +1,9 @@
 package com.flingoapp.flingo.di
 
 import android.content.Context
-import com.flingoapp.flingo.data.model.genAi.GenAiBasePrompts
-import com.flingoapp.flingo.data.model.genAi.GenAiBasePromptsDefaultImpl
 import com.flingoapp.flingo.data.model.genAi.GenAiModel
+import com.flingoapp.flingo.data.model.genAi.GenAiRequestBuilder
+import com.flingoapp.flingo.data.model.genAi.GenAiRequestBuilderDefaultImpl
 import com.flingoapp.flingo.data.network.OpenAiService
 import com.flingoapp.flingo.data.repository.genAi.GenAiRepository
 import com.flingoapp.flingo.data.repository.genAi.GoogleAiRepositoryImpl
@@ -16,9 +16,9 @@ import kotlinx.coroutines.flow.update
 interface GenAiModule {
     val currentModel: StateFlow<GenAiModel>
     val repository: GenAiRepository
-    val basePrompts: GenAiBasePrompts
+    val basePrompts: GenAiRequestBuilder
     fun setModelRepository(genAiModel: GenAiModel)
-    fun setBasePrompts(genAiBasePrompts: GenAiBasePrompts)
+    fun setBasePrompts(genAiRequestBuilder: GenAiRequestBuilder)
 }
 
 class GenAiModuleImpl(private val context: Context) : GenAiModule {
@@ -27,7 +27,7 @@ class GenAiModuleImpl(private val context: Context) : GenAiModule {
     }
 
     private lateinit var modelRepository: GenAiRepository
-    lateinit var currentBasePrompts: GenAiBasePrompts
+    lateinit var currentBasePrompts: GenAiRequestBuilder
 
     private var _currentModel = MutableStateFlow(GenAiModel.OPEN_AI)
     override val currentModel = _currentModel.asStateFlow()
@@ -42,13 +42,13 @@ class GenAiModuleImpl(private val context: Context) : GenAiModule {
             return modelRepository
         }
 
-    override val basePrompts: GenAiBasePrompts
+    override val basePrompts: GenAiRequestBuilder
         get() {
             if (!this::currentBasePrompts.isInitialized) {
                 //TODO: refactor this is messy
 
                 //currently always uses default base prompt implementation
-                setBasePrompts(GenAiBasePromptsDefaultImpl(context))
+                setBasePrompts(GenAiRequestBuilderDefaultImpl(context))
             }
 
             return currentBasePrompts
@@ -62,8 +62,8 @@ class GenAiModuleImpl(private val context: Context) : GenAiModule {
         }
     }
 
-    override fun setBasePrompts(genAiBasePrompts: GenAiBasePrompts) {
-        currentBasePrompts = genAiBasePrompts
+    override fun setBasePrompts(genAiRequestBuilder: GenAiRequestBuilder) {
+        currentBasePrompts = genAiRequestBuilder
     }
 }
 

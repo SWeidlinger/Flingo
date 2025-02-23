@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Context
 import com.flingoapp.flingo.data.datasource.BookDataSource
 import com.flingoapp.flingo.data.datasource.BookDataSourceJsonImpl
-import com.flingoapp.flingo.data.datasource.PersonalizationDataSource
-import com.flingoapp.flingo.data.datasource.PersonalizationDataSourceImpl
+//import com.flingoapp.flingo.data.datasource.PersonalizationDataSource
+//import com.flingoapp.flingo.data.datasource.PersonalizationDataSourceImpl
 import com.flingoapp.flingo.data.network.AndroidConnectivityObserver
 import com.flingoapp.flingo.data.network.ConnectivityObserver
 import com.flingoapp.flingo.data.repository.BookRepository
@@ -19,7 +19,7 @@ class MainApplication : Application() {
         lateinit var connectivityObserver: ConnectivityObserver
         lateinit var bookDataSource: BookDataSource
         lateinit var bookRepository: BookRepository
-        lateinit var personalizationDataSource: PersonalizationDataSource
+//        lateinit var personalizationDataSource: PersonalizationDataSource
         lateinit var personalizationRepository: PersonalizationRepository
     }
 
@@ -30,10 +30,10 @@ class MainApplication : Application() {
         bookDataSource = BookDataSourceJsonImpl(this)
         bookRepository = BookRepositoryImpl(bookDataSource)
 
-        personalizationDataSource = PersonalizationDataSourceImpl()
+//        personalizationDataSource = PersonalizationDataSourceImpl()
         personalizationRepository = PersonalizationRepositoryImpl(
             genAiModule = appModule.genAiModule,
-            personalizationDataSource = personalizationDataSource,
+//            personalizationDataSource = personalizationDataSource,
             bookRepository = bookRepository
         )
     }

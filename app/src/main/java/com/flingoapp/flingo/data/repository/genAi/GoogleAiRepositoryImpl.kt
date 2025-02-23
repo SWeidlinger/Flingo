@@ -2,7 +2,7 @@ package com.flingoapp.flingo.data.repository.genAi
 
 import android.util.Log
 import com.flingoapp.flingo.BuildConfig
-import com.flingoapp.flingo.data.model.genAi.GenAiModel
+import com.flingoapp.flingo.data.model.genAi.GenAiRequest
 import com.flingoapp.flingo.data.network.OpenAiService
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
@@ -10,15 +10,19 @@ import com.google.ai.client.generativeai.type.generationConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class GoogleAiRepositoryImpl: GenAiRepository {
+class GoogleAiRepositoryImpl : GenAiRepository {
     companion object {
-        private const val TAG = "OpenAiRepositoryImpl"
+        private const val TAG = "GoogleAiRepositoryImpl"
     }
 
-    override suspend fun getTextResponse(prompt: String): Result<String> {
+    override suspend fun getTextResponse(model: String, request: GenAiRequest): Result<String> {
+        val promptWithContent = request.prompt + "\n" + request.content
+
+        Log.e(TAG, "Sending request to GoogleAIAPi with: $promptWithContent")
+
         return try {
             val generativeModel = GenerativeModel(
-                modelName = GenAiModel.GOOGLE_AI.textModel,
+                modelName = model,
                 apiKey = BuildConfig.GEMINI_API_KEY,
                 generationConfig = generationConfig {
                     responseMimeType = "application/json"
@@ -32,7 +36,7 @@ class GoogleAiRepositoryImpl: GenAiRepository {
             val response = withContext(Dispatchers.IO) {
                 generativeModel.generateContent(
                     content("user") {
-                        text(prompt)
+                        text(promptWithContent)
                     }
                 )
             }
@@ -50,8 +54,11 @@ class GoogleAiRepositoryImpl: GenAiRepository {
         }
     }
 
-    override suspend fun getImageResponse(prompt: String): Result<String> {
+    override suspend fun getImageResponse(model: String, request: GenAiRequest): Result<String> {
         //TODO: change to google implementation, once Imagen 3 is available in the generativeAI SDK
-        return OpenAiRepositoryImpl(OpenAiService.instance).getImageResponse(prompt)
+        return OpenAiRepositoryImpl(OpenAiService.instance).getImageResponse(
+            model = model,
+            request = request
+        )
     }
 }

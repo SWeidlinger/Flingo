@@ -15,7 +15,11 @@ import kotlinx.coroutines.flow.update
 interface PersonalizationRepository {
     val usedPrompts: StateFlow<List<String>>
     val generatedResults: StateFlow<List<String>>
-    suspend fun generateBook(personalizationAspects: PersonalizationAspects): Result<Book>
+    suspend fun generateBook(
+        scannedText: String,
+        personalizationAspects: PersonalizationAspects
+    ): Result<Book>
+
     suspend fun generateChapter(
         personalizationAspects: PersonalizationAspects,
         sourceBook: Book
@@ -31,7 +35,7 @@ interface PersonalizationRepository {
 
 class PersonalizationRepositoryImpl(
     private val genAiModule: GenAiModule,
-    private val personalizationDataSource: PersonalizationDataSource,
+//    private val personalizationDataSource: PersonalizationDataSource,
     private val bookRepository: BookRepository
 ) : PersonalizationRepository {
     companion object {
@@ -44,11 +48,27 @@ class PersonalizationRepositoryImpl(
     private val _generatedResults = MutableStateFlow<List<String>>(emptyList())
     override val generatedResults = _generatedResults.asStateFlow()
 
-    override suspend fun generateBook(personalizationAspects: PersonalizationAspects): Result<Book> {
+    override suspend fun generateBook(
+        scannedText: String,
+        personalizationAspects: PersonalizationAspects
+    ): Result<Book> {
         //split text into parts
+        val splitTextRequest = genAiModule.basePrompts.splitTextRequest(
+            content = scannedText,
+            personalizationAspects = null
+        )
 
+        _usedPrompts.update {
+            it + splitTextRequest.toString()
+        }
+
+        val splitText = genAiModule.repository.getTextResponse(
+            model = genAiModule.currentModel.value.smallTextModel,
+            request = splitTextRequest
+        ).getOrThrow()
 
         //adapt parts to user preferences
+
 
         //generate image prompts for parts
 
@@ -56,15 +76,13 @@ class PersonalizationRepositoryImpl(
 
         //generate challenge chapters for book
 
-        val prompt = personalizationDataSource.getPersonalizedBookPrompt(
-            genAiModule.basePrompts,
-            personalizationAspects
+        val finalBook = Book(
+            author = TODO(),
+            title = TODO(),
+            description = TODO(),
+            coverImage = TODO(),
+            chapters = TODO()
         )
-        _usedPrompts.update {
-            it + prompt
-        }
-
-        val response = genAiModule.repository.getTextResponse(prompt).getOrThrow()
 
         return try {
             val book = bookRepository.fetchBook(response).getOrThrow()
@@ -88,7 +106,10 @@ class PersonalizationRepositoryImpl(
             it + prompt
         }
 
-        val response = genAiModule.repository.getTextResponse(prompt).getOrThrow()
+        val response = genAiModule.repository.getTextResponse(
+            model = genAiModule.currentModel.value.textModel,
+            prompt = prompt
+        ).getOrThrow()
 
         return try {
             val chapter = bookRepository.fetchChapter(response).getOrThrow()
@@ -112,7 +133,10 @@ class PersonalizationRepositoryImpl(
             it + prompt
         }
 
-        val response = genAiModule.repository.getTextResponse(prompt).getOrThrow()
+        val response = genAiModule.repository.getTextResponse(
+            prompt = prompt,
+            model = genAiModule.currentModel.value.textModel
+        ).getOrThrow()
 
         return try {
             val page = bookRepository.fetchPage(response).getOrThrow()

@@ -24,44 +24,6 @@
         "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien.",
         "imageUrl": "circus_image"
       }
-    },
-    {
-      "pageId": "2",
-      "pageDescription": "",
-      "pageCompleted": false,
-      "difficulty": "medium",
-      "hint": "",
-      "timeLimit": null,
-      "score": null,
-      "feedback": {
-        "correct": "",
-        "incorrect": ""
-      },
-      "taskDefinition": "",
-      "pageDetails": {
-        "pageDetailsType": "read",
-        "content": "In dem Dorf lebte auch eine kleines Pony namens Peppi, das sehr unglücklich war.",
-        "imageUrl": "pony"
-      }
-    },
-    {
-      "pageId": "3",
-      "pageDescription": "",
-      "pageCompleted": false,
-      "difficulty": "easy",
-      "hint": "",
-      "timeLimit": null,
-      "score": null,
-      "feedback": {
-        "correct": "",
-        "incorrect": ""
-      },
-      "taskDefinition": "",
-      "pageDetails": {
-        "pageDetailsType": "read",
-        "content": "Es hatte früher einem alten Mann gehört.",
-        "imageUrl": "old_man"
-      }
     }
   ]
 }

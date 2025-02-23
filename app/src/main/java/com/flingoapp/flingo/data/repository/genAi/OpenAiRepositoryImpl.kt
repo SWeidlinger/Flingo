@@ -1,7 +1,7 @@
 package com.flingoapp.flingo.data.repository.genAi
 
 import android.util.Log
-import com.flingoapp.flingo.data.model.genAi.GenAiModel
+import com.flingoapp.flingo.data.model.genAi.GenAiRequest
 import com.flingoapp.flingo.data.model.genAi.Message
 import com.flingoapp.flingo.data.model.genAi.OpenAiImageRequest
 import com.flingoapp.flingo.data.model.genAi.OpenAiTextRequest
@@ -17,18 +17,27 @@ class OpenAiRepositoryImpl(
         private const val TAG = "OpenAiRepositoryImpl"
     }
 
-    override suspend fun getTextResponse(prompt: String): Result<String> {
+    override suspend fun getTextResponse(
+        model: String,
+        request: GenAiRequest
+    ): Result<String> {
+        //TODO: find better way where to handle this
+        val promptWithContent = request.prompt + "\n" + request.content
+
+        Log.e(TAG, "Sending request to OpenAI API with: $promptWithContent")
+
         return try {
-            val request = OpenAiTextRequest(
-                model = GenAiModel.OPEN_AI.textModel,
+            val textRequest = OpenAiTextRequest(
+                model = model,
                 messages = listOf(
                     Message(
                         role = "user",
-                        content = prompt
+                        content = promptWithContent
                     )
                 ),
                 responseFormat = ResponseFormat(
-                    type = "json_object"
+                    type = if (request.jsonResponseScheme == null) "json_object" else "json_scheme",
+                    schema = request.jsonResponseScheme
                 )
             )
 
@@ -36,7 +45,7 @@ class OpenAiRepositoryImpl(
 
             val response = withContext(Dispatchers.IO) {
                 try {
-                    openAiService.getTextResponse(request)
+                    openAiService.getTextResponse(textRequest)
                 } catch (e: Exception) {
                     Log.e(TAG, "API call failed: ${e.message}")
                     null
@@ -55,16 +64,20 @@ class OpenAiRepositoryImpl(
         }
     }
 
-    override suspend fun getImageResponse(prompt: String): Result<String> {
+    override suspend fun getImageResponse(model: String, request: GenAiRequest): Result<String> {
+        val promptWithContent = request.prompt + "\n" + request.content
+
+        Log.e(TAG, "Sending request to OpenAI API with: $promptWithContent")
+
         return try {
-            val request = OpenAiImageRequest(
-                model = GenAiModel.OPEN_AI.imageModel,
-                prompt = prompt
+            val imageRequest = OpenAiImageRequest(
+                model = model,
+                prompt = promptWithContent
             )
 
             val startTime = System.currentTimeMillis()
             val response = withContext(Dispatchers.IO) {
-                openAiService.getImageResponse(request)
+                openAiService.getImageResponse(imageRequest)
             }
 
             val answer = response.data.firstOrNull()?.url ?: "No response"

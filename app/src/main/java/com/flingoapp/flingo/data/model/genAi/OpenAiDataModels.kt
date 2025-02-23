@@ -52,4 +52,5 @@ data class Choice(
 @Serializable
 data class ResponseFormat(
     val type: String,
+    @SerialName("json_schema") val schema: String? = null
 )
