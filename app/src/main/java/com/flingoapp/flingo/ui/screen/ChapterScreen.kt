@@ -43,7 +43,6 @@ fun ChapterScreen(
                 text = "This chapter contains no pages!"
             )
         } else {
-
             when (chapter.type) {
                 ChapterType.CHALLENGE -> {
                     ChallengeChapterContent(

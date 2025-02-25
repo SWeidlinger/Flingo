@@ -45,7 +45,7 @@ class BookViewModel(
             MainAction.BookAction.CompleteChapter -> completeChapter()
             is MainAction.BookAction.FetchBooks -> fetchBooks(action.booksJson)
             is MainAction.BookAction.CompletePage -> completePage(action.pageIndex)
-            is MainAction.BookAction.AddBook -> addBook(
+            is MainAction.BookAction.AddBookJson -> addBookJson(
                 bookJson = action.bookJson,
                 author = action.author
             )
@@ -61,10 +61,28 @@ class BookViewModel(
                 pageJson = action.pageJson,
                 author = action.author
             )
+
+            is MainAction.BookAction.AddBook -> addBook(
+                book = action.book,
+                author = action.author
+            )
         }
     }
 
-    private fun addBook(bookJson: String, author: String) {
+    private fun addBook(book: Book, author: String) {
+        viewModelScope.launch {
+            val bookWithAuthor = book.copy(author = author)
+            bookRepository.addBook(bookWithAuthor)
+                .onFailure {
+                    updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+                }.onSuccess {
+                    updateUiState(_uiState.value.copy(isLoading = false, isError = false))
+                }
+        }
+    }
+
+    //TODO: refactor
+    private fun addBookJson(bookJson: String, author: String) {
         viewModelScope.launch {
             updateUiState(_uiState.value.copy(isLoading = true))
             bookRepository.fetchBook(bookJson)

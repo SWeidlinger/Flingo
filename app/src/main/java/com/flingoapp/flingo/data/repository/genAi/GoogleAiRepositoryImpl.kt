@@ -2,7 +2,9 @@ package com.flingoapp.flingo.data.repository.genAi
 
 import android.util.Log
 import com.flingoapp.flingo.BuildConfig
+import com.flingoapp.flingo.data.model.genAi.GenAiImageModel
 import com.flingoapp.flingo.data.model.genAi.GenAiRequest
+import com.flingoapp.flingo.data.model.genAi.GenAiTextModel
 import com.flingoapp.flingo.data.network.OpenAiService
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
@@ -15,14 +17,14 @@ class GoogleAiRepositoryImpl : GenAiRepository {
         private const val TAG = "GoogleAiRepositoryImpl"
     }
 
-    override suspend fun getTextResponse(model: String, request: GenAiRequest): Result<String> {
+    override suspend fun getTextResponse(model: GenAiTextModel, request: GenAiRequest): Result<String> {
         val promptWithContent = request.prompt + "\n" + request.content
 
         Log.e(TAG, "Sending request to GoogleAIAPi with: $promptWithContent")
 
         return try {
             val generativeModel = GenerativeModel(
-                modelName = model,
+                modelName = model.modelName,
                 apiKey = BuildConfig.GEMINI_API_KEY,
                 generationConfig = generationConfig {
                     responseMimeType = "application/json"
@@ -54,7 +56,7 @@ class GoogleAiRepositoryImpl : GenAiRepository {
         }
     }
 
-    override suspend fun getImageResponse(model: String, request: GenAiRequest): Result<String> {
+    override suspend fun getImageResponse(model: GenAiImageModel, request: GenAiRequest): Result<String> {
         //TODO: change to google implementation, once Imagen 3 is available in the generativeAI SDK
         return OpenAiRepositoryImpl(OpenAiService.instance).getImageResponse(
             model = model,

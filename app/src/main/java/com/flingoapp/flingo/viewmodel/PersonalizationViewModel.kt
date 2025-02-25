@@ -3,7 +3,7 @@ package com.flingoapp.flingo.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flingoapp.flingo.data.model.genAi.GenAiModel
+import com.flingoapp.flingo.data.model.genAi.GenAiProvider
 import com.flingoapp.flingo.data.network.ConnectivityObserver
 import com.flingoapp.flingo.data.repository.PersonalizationRepository
 import com.flingoapp.flingo.di.GenAiModule
@@ -23,7 +23,7 @@ data class PersonalizationUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val isSuccess: Boolean = false,
-    val currentModel: GenAiModel = GenAiModel.OPEN_AI,
+    val currentModel: GenAiProvider = GenAiProvider.OPEN_AI,
     //debug specific
     val isDebug: Boolean = false,
     val lastResponseTime: Long? = null,
@@ -31,6 +31,7 @@ data class PersonalizationUiState(
     val childName: String? = null,
     val childAge: Int? = null,
     val childInterest: String? = null,
+    val generateImages: Boolean = false
 )
 
 class PersonalizationViewModel(
@@ -74,6 +75,7 @@ class PersonalizationViewModel(
             is MainAction.PersonalizationAction.ChangeModel -> changeModel(action.model)
             MainAction.PersonalizationAction.ToggleDebugMode -> toggleDebugMode()
             is MainAction.PersonalizationAction.GenerateImage -> generateImage(action.context)
+            MainAction.PersonalizationAction.ToggleGenerateImages -> toggleGenerateImages()
         }
     }
 
@@ -90,6 +92,7 @@ class PersonalizationViewModel(
 
             val generatedBook = personalizationRepository.generateBook(
                 scannedText = scannedText,
+                generateImages = uiState.value.generateImages,
                 personalizationAspects = getPersonalizationAspects()
             )
 
@@ -100,7 +103,7 @@ class PersonalizationViewModel(
                 }.onSuccess { book ->
                     bookViewModel.onAction(
                         MainAction.BookAction.AddBook(
-                            bookJson = Json.encodeToString(book),
+                            book = book,
                             author = _uiState.value.currentModel.provider
                         )
                     )
@@ -222,7 +225,7 @@ class PersonalizationViewModel(
         }
     }
 
-    private fun changeModel(model: GenAiModel) {
+    private fun changeModel(model: GenAiProvider) {
         genAiModule.setModelRepository(model)
     }
 
@@ -244,6 +247,11 @@ class PersonalizationViewModel(
     private fun toggleDebugMode() {
         val currentState = _uiState.value.isDebug
         updateUiState(_uiState.value.copy(isDebug = !currentState))
+    }
+
+    private fun toggleGenerateImages(){
+        val currentState = _uiState.value.generateImages
+        updateUiState(_uiState.value.copy(generateImages = !currentState))
     }
 
     private fun getPersonalizationAspects(): PersonalizationAspects {

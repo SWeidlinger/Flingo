@@ -1,0 +1,21 @@
+{
+  "name": "image_prompts",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "image_prompts": {
+        "type": "array",
+        "description": "An array consisting of the individual image prompts.",
+        "items": {
+          "type": "string",
+          "description": "A single image prompt for the corresponding text part."
+        }
+      }
+    },
+    "required": [
+      "image_prompts"
+    ],
+    "additionalProperties": false
+  }
+}

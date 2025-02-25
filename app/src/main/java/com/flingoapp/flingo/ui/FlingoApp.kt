@@ -11,10 +11,17 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -39,10 +47,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil3.compose.AsyncImage
 import com.flingoapp.flingo.di.MainApplication
 import com.flingoapp.flingo.di.viewModelFactory
 import com.flingoapp.flingo.navigation.NavHostComposable
 import com.flingoapp.flingo.navigation.NavigationDestination
+import com.flingoapp.flingo.ui.component.button.CustomElevatedButton2
 import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton2
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
@@ -96,21 +106,23 @@ fun FlingoApp(
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             floatingActionButton = {
+                //TODO: should probably be moved to individual screens
                 val currentBackStackEntry by navHostController.currentBackStackEntryAsState()
                 //don't show fab if not on predefined screens
                 val currentVisibleScreen =
                     getCurrentScreen(currentBackStackEntry?.destination?.route)
                 val isFabVisible = currentVisibleScreen != null
 
+                var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+
                 val buttonText = when (currentVisibleScreen) {
                     CurrentVisibleScreen.SCREEN_CHAPTER_SELECTION -> "Neues Kapitel"
                     CurrentVisibleScreen.SCREEN_CHALLENGE -> "Neue Seite"
-                    else -> "Neues Buch"
+                    else -> if (selectedImageUri == null) "Buch auswählen" else "Neues Buch"
                 }
 
                 val personalizationUiState by personalizationViewModel.uiState.collectAsState()
 
-                var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
                 val photoPickerLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.PickVisualMedia(),
                     onResult = { uri ->
@@ -140,7 +152,6 @@ fun FlingoApp(
                                     )
                                 )
                             } else {
-                                //TODO: add OCR and extract text
                                 var imageToOcr: InputImage? = null
                                 try {
                                     imageToOcr =
@@ -192,46 +203,107 @@ fun FlingoApp(
                 }
 
                 AnimatedVisibility(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .onGloballyPositioned {
-                            fabPosition = it.positionOnScreen()
-                            fabSize = it.size
-                        },
+                    modifier = Modifier.padding(16.dp),
                     visible = isFabVisible,
                     enter = fadeIn() + scaleIn(),
                     exit = fadeOut() + scaleOut()
                 ) {
-                    CustomElevatedTextButton2(
-                        modifier = Modifier
-                            .then(
-                                if (personalizationUiState.isLoading) {
-                                    Modifier.animatedBorder(
-                                        strokeWidth = 3.dp,
-                                        shape = CircleShape,
-                                        durationMillis = 1500
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        if (currentVisibleScreen == CurrentVisibleScreen.SCREEN_HOME) {
+                            AnimatedVisibility(
+                                visible = selectedImageUri != null,
+                                enter = fadeIn() + scaleIn() + slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }),
+                                exit = fadeOut() + scaleOut() + slideOutHorizontally(targetOffsetX = { fullWidth -> fullWidth }),
+                            ) {
+                                CustomElevatedButton2(
+                                    modifier = Modifier
+                                        .height(fabSize.height.toDp())
+                                        .width(fabSize.height.toDp())
+                                        .then(
+                                            if (isScanningText) {
+                                                Modifier.animatedBorder(
+                                                    strokeWidth = 3.dp,
+                                                    shape = CircleShape,
+                                                    durationMillis = 1500,
+                                                    colors = listOf(
+                                                        Color.Transparent,
+                                                        FlingoColors.Text
+                                                    )
+                                                )
+                                            } else {
+                                                Modifier
+                                            }
+                                        ),
+                                    shape = CircleShape,
+                                    isPressed = isScanningText || personalizationUiState.isLoading,
+                                    addOutline = true,
+                                    elevation = 4.dp,
+                                    backgroundColor = Color.White,
+                                    onClick = {
+                                        if (personalizationUiState.isLoading || isScanningText) return@CustomElevatedButton2
+
+                                        photoPickerLauncher.launch(
+                                            PickVisualMediaRequest(
+                                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                                            )
+                                        )
+                                    }
+                                ) {
+                                    AsyncImage(
+                                        modifier = Modifier
+                                            .padding(8.dp)
+                                            .clip(CircleShape),
+                                        model = selectedImageUri,
+                                        contentDescription = "Selected image"
                                     )
-                                } else {
-                                    Modifier
                                 }
-                            ),
-                        textModifier = Modifier.padding(horizontal = 8.dp),
-                        fontSize = 24.sp,
-                        shape = CircleShape,
-                        elevation = 6.dp,
-                        isPressed = personalizationUiState.isLoading,
-                        backgroundColor = if (personalizationUiState.isError) FlingoColors.Error else Color.White,
-                        text = buttonText,
-                        icon = personalizationUiState.currentModel.iconRes,
-                        enabled = personalizationUiState.isConnectedToNetwork,
-                        onClick = onClickAction
-                    )
+                            }
+                        }
+
+                        CustomElevatedTextButton2(
+                            modifier = Modifier
+                                .onGloballyPositioned {
+                                    fabPosition = it.positionOnScreen()
+                                    fabSize = it.size
+                                }
+                                .then(
+                                    if (personalizationUiState.isLoading) {
+                                        Modifier.animatedBorder(
+                                            strokeWidth = 3.dp,
+                                            shape = CircleShape,
+                                            durationMillis = 1500
+                                        )
+                                    } else {
+                                        Modifier
+                                    }
+                                ),
+                            textModifier = Modifier.padding(horizontal = 8.dp),
+                            fontSize = 24.sp,
+                            shape = CircleShape,
+                            elevation = 4.dp,
+                            isPressed = personalizationUiState.isLoading || isScanningText,
+                            backgroundColor = if (personalizationUiState.isError) FlingoColors.Error else Color.White,
+                            text = buttonText,
+                            icon = personalizationUiState.currentModel.iconRes,
+                            enabled = personalizationUiState.isConnectedToNetwork,
+                            onClick = {
+                                if (personalizationUiState.isLoading || isScanningText) return@CustomElevatedTextButton2
+
+                                onClickAction()
+                            }
+                        )
+                    }
                 }
             }
         ) { innerPadding ->
             Box {
                 NavHostComposable(
-                    modifier = Modifier.padding(innerPadding),
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .consumeWindowInsets(innerPadding),
                     navController = navHostController,
                     mainViewModel = mainViewModel,
                     bookViewModel = bookViewModel,

@@ -10,6 +10,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -93,7 +94,7 @@ fun CustomElevatedButton2(
     clickSound: Int? = null,
     onClick: () -> Unit,
     buttonAlignment: Alignment = Alignment.Center,
-    buttonContent: @Composable () -> Unit
+    buttonContent: @Composable BoxScope.() -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current

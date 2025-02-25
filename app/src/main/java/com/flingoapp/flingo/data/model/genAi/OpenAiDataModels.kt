@@ -3,12 +3,13 @@ package com.flingoapp.flingo.data.model.genAi
 import kotlinx.serialization.Required
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 @Serializable
 data class OpenAiTextRequest(
     val model: String,
     val messages: List<Message>,
-    @SerialName("response_format")val responseFormat: ResponseFormat
+    @SerialName("response_format") val responseFormat: ResponseFormat
 )
 
 @Serializable
@@ -52,5 +53,5 @@ data class Choice(
 @Serializable
 data class ResponseFormat(
     val type: String,
-    @SerialName("json_schema") val schema: String? = null
+    @SerialName("json_schema") val schema: JsonElement? = null
 )

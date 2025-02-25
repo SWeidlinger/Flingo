@@ -25,7 +25,7 @@ data class Page(
     @Transient val author: String = "Author",
     @SerialName("pageDescription") val description: String,
     //TODO: make immutable
-    @SerialName("pageCompleted") var isCompleted: Boolean,
+    @SerialName("pageCompleted") var isCompleted: Boolean = false,
     @SerialName("difficulty") val difficulty: String,
     @SerialName("hint") val hint: String,
     @SerialName("timeLimit") val timeLimit: Int?,

@@ -16,6 +16,7 @@ sealed interface PageDetails {
     data class Read(
         @Transient @SerialName("pageDetailsType") override val type: PageDetailsType = PageDetailsType.READ,
         val content: String,
+        @Transient val originalContent: String = "",
         val imageUrl: String,
     ) : PageDetails
 

@@ -113,7 +113,6 @@ fun NavHostComposable(
                 }
             }
         ) {
-
             Log.e("NavHostComposable", "in home")
 
             HomeScreen(
@@ -134,7 +133,6 @@ fun NavHostComposable(
 
         composable<NavigationDestination.ChapterSelection> { backStackEntry ->
             Log.e("NavHostComposable", "in chapterSelection")
-
 
             val args = backStackEntry.toRoute<NavigationDestination.ChapterSelection>()
             bookViewModel.onAction(MainAction.BookAction.SelectBook(args.bookId))
@@ -158,7 +156,6 @@ fun NavHostComposable(
         composable<NavigationDestination.Chapter> { backStackEntry ->
             Log.e("NavHostComposable", "in chapter")
 
-
             val args = backStackEntry.toRoute<NavigationDestination.Chapter>()
             bookViewModel.onAction(MainAction.BookAction.SelectChapter(args.chapterId))
 
@@ -180,7 +177,6 @@ fun NavHostComposable(
 
         composable<NavigationDestination.ChallengeFinished> { backStackEntry ->
             Log.e("NavHostComposable", "in challengeFinished")
-
 
             val args = backStackEntry.toRoute<NavigationDestination.ChallengeFinished>()
 

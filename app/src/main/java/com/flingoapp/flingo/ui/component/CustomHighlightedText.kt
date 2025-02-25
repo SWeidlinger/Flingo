@@ -59,7 +59,8 @@ fun CustomHighlightedText(
     currentWordIndex: Int,
     enabled: Boolean = true,
     highlightColor: Color = MaterialTheme.colorScheme.primary,
-    textStyle: TextStyle = MaterialTheme.typography.headlineLarge
+    textStyle: TextStyle = MaterialTheme.typography.headlineLarge,
+    lineCount: (Int) -> Unit = {}
 ) {
     if (content.isEmpty()) return
 
@@ -99,8 +100,8 @@ fun CustomHighlightedText(
 
     // vertical shift
     val shiftY by infiniteTransition.animateFloat(
-        initialValue = -1f,
-        targetValue = 1f,
+        initialValue = -2f,
+        targetValue = 2f,
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 2000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
@@ -108,8 +109,8 @@ fun CustomHighlightedText(
     )
     // horizontal shift
     val shiftX by infiniteTransition.animateFloat(
-        initialValue = -1f,
-        targetValue = 1f,
+        initialValue = -2f,
+        targetValue = 2f,
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 2000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
@@ -117,17 +118,16 @@ fun CustomHighlightedText(
     )
 
     val tiltAngle by infiniteTransition.animateFloat(
-        initialValue = -1f,
-        targetValue = 1f,
+        initialValue = -2f,
+        targetValue = 2f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2000, easing = LinearEasing),
+            animation = tween(durationMillis = 3000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )
 
     val baseInflateHorizontal = 8f
     val baseInflateVertical = 5f
-
 
     val animatedInflateHorizontal by infiniteTransition.animateFloat(
         initialValue = baseInflateHorizontal,
@@ -192,6 +192,8 @@ fun CustomHighlightedText(
         style = textStyle,
         onTextLayout = { textLayout ->
             if (currentWordIndex < 0 || readWords.lastIndex == content.lastIndex) return@BasicText
+
+            lineCount(textLayout.lineCount)
 
             layoutResult = textLayout
             val readText = if (readWords.isNotEmpty()) readWords.joinToString(" ") + " " else ""
