@@ -251,7 +251,8 @@ class GenAiRequestBuilderDefaultImpl(val context: Context) : GenAiRequestBuilder
         return basePrompt
             .replace("<age>", personalizationAspects.age.toString())
             .replace("<name>", personalizationAspects.name)
-            .replace("<interest>", personalizationAspects.interests.first())
+            .replace("<interest>", personalizationAspects.interests.joinToString(", "))
+            .replace("<image_style>", personalizationAspects.imageStyle)
     }
 
     override fun addPageAmountToPrompt(prompt: String, amount: Int): String {

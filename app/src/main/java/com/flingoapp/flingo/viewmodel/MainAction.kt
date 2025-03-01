@@ -1,11 +1,14 @@
 package com.flingoapp.flingo.viewmodel
 
 import PageDetailsType
+import android.content.Context
 import com.flingoapp.flingo.data.model.Book
 import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.model.genAi.GenAiModelPerformance
 import com.flingoapp.flingo.data.model.genAi.GenAiProvider
 import com.flingoapp.flingo.data.model.page.Page
+import com.flingoapp.flingo.ui.screen.UserImageStyle
+import com.flingoapp.flingo.ui.screen.UserInterest
 
 /**
  * Main intent used to handle any actions which are accessible and executable from the composables
@@ -16,8 +19,11 @@ sealed interface MainAction {
     sealed interface UserAction : MainAction {
         data object IncreaseLives : UserAction
         data object DecreaseLives : UserAction
-        data class SelectInterest(val interest: String) : UserAction
+        data class SelectInterest(val interest: UserInterest) : UserAction
+        data class RemoveInterest(val interest: UserInterest) : UserAction
+        data class SelectImageStyle(val imageStyle: UserImageStyle) : UserAction
         data class FetchUser(val userJson: String) : UserAction
+        data class SwitchUser(val context: Context) : UserAction
     }
 
     sealed interface BookAction : MainAction {

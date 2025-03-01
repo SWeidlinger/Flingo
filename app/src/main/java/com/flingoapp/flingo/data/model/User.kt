@@ -23,6 +23,7 @@ data class User(
     @SerialName("profileImage") val profileImage: String? = null,
     @SerialName("currentLives") val currentLives: Int,
     @SerialName("currentReadingStreak") val currentReadingStreak: Int,
-    @SerialName("selectedInterests") val selectedInterests: ArrayList<String>,
+    @SerialName("selectedInterests") val selectedInterests: List<String>,
+    @SerialName("selectedImageStyle") val selectedImageStyle: String,
     @SerialName("book") val books: List<Book>? = listOf()
 )

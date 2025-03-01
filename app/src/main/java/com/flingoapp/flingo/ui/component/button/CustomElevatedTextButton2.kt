@@ -1,6 +1,7 @@
 package com.flingoapp.flingo.ui.component.button
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -53,6 +55,7 @@ fun CustomElevatedTextButton2(
     modifier: Modifier = Modifier,
     textModifier: Modifier = modifier,
     @DrawableRes icon: Int? = null,
+    profileImage: Painter? = null,
     text: String,
     elevation: Dp = 8.dp,
     showSpeakerIcon: Boolean = false,
@@ -109,8 +112,17 @@ fun CustomElevatedTextButton2(
                         ),
                         color = textColor
                     )
-                }
 
+                    profileImage?.let {
+                        Image(
+                            modifier = Modifier
+                                .padding(start = 6.dp)
+                                .size(fontSize.toDp() * 1.5f),
+                            painter = it,
+                            contentDescription = "Profile Image",
+                        )
+                    }
+                }
 
                 if (showSpeakerIcon) {
                     Icon(

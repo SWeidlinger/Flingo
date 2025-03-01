@@ -61,8 +61,9 @@ fun HomeScreen(
                 userName = userUiState.name,
                 currentStreak = userUiState.currentReadingStreak,
                 currentLives = userUiState.currentLives,
+                userProfileImage = userUiState.profileImage,
                 onUserClick = {
-                    onNavigate(NavigationAction.Screen(NavigationDestination.InterestSelection))
+                    onNavigate(NavigationAction.Screen(NavigationDestination.User))
                 },
                 onStreakClick = {
                     onNavigate(NavigationAction.Screen(NavigationDestination.StreakAndStars))

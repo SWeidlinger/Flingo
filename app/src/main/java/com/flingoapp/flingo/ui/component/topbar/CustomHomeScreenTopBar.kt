@@ -29,9 +29,10 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.ui.CustomPreview
-import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton
+import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton2
 import com.flingoapp.flingo.ui.component.button.CustomIconButton
 import com.flingoapp.flingo.ui.lighten
 import com.flingoapp.flingo.ui.theme.FlingoColors
@@ -52,6 +53,7 @@ import com.flingoapp.flingo.ui.toDp
 fun CustomHomeScreenTopBar(
     modifier: Modifier = Modifier,
     userName: String,
+    userProfileImage: String?,
     currentStreak: Int,
     currentLives: Int,
     onStreakClick: () -> Unit,
@@ -71,16 +73,25 @@ fun CustomHomeScreenTopBar(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            val profileImage = when (userProfileImage) {
+                "flingo_pink" -> painterResource(id = R.drawable.flingo_pink)
+                else -> painterResource(id = R.drawable.flingo_orange)
+            }
+
             // user profile button
-            CustomElevatedTextButton(
+            CustomElevatedTextButton2(
+                textModifier = Modifier
+                    .padding(4.dp)
+                    .padding(horizontal = 4.dp),
                 shape = RoundedCornerShape(
-                    topEndPercent = 20,
-                    bottomEndPercent = 20
+                    topEndPercent = 100,
+                    bottomEndPercent = 100
                 ),
-                fontSize = 32,
+                fontSize = 32.sp,
                 text = userName,
                 onClick = { onUserClick() },
-                elevation = 6.dp
+                elevation = 6.dp,
+                profileImage = profileImage
             )
 
             var iconButtonSize by remember { mutableStateOf(IntSize.Zero) }
@@ -179,7 +190,8 @@ private fun CustomHomeScreenTopBarPreview() {
             onSettingsClick = {},
             onSettingsLongClick = {},
             onStreakClick = {},
-            onAwardClick = {}
+            onAwardClick = {},
+            userProfileImage = "flingo_pink"
         )
     }
 }

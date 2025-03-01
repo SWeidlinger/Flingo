@@ -106,6 +106,9 @@ fun FlingoApp(
 
     val context = LocalContext.current
 
+    val personalizationUiState by personalizationViewModel.uiState.collectAsState()
+    val userUiState by userViewModel.uiState.collectAsState()
+
     FlingoTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -124,8 +127,6 @@ fun FlingoApp(
                     CurrentVisibleScreen.SCREEN_CHALLENGE -> "Neue Seite"
                     else -> if (selectedImageUri == null) "Buch auswählen" else "Neues Buch"
                 }
-
-                val personalizationUiState by personalizationViewModel.uiState.collectAsState()
 
                 val photoPickerLauncher = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.PickVisualMedia(),
@@ -355,8 +356,6 @@ fun FlingoApp(
                     personalizationViewModel = personalizationViewModel
                 )
 
-                val personalizationUiState by personalizationViewModel.uiState.collectAsState()
-
                 val modelPerformance by MainApplication.appModule.genAiModule.modelPerformance.collectAsState()
 
                 if (personalizationUiState.isDebug) {
@@ -370,12 +369,16 @@ fun FlingoApp(
                         text = "Provider: ${personalizationUiState.currentModel.provider}\n" +
                                 "Text model: ${MainApplication.appModule.genAiModule.currentTextModel}\n" +
                                 "Image model: ${MainApplication.appModule.genAiModule.currentImageModel}\n" +
+                                "Selected interests: ${userUiState.selectedInterests.joinToString(", ")}\n" +
+                                "Selected image style: ${userUiState.selectedImageStyle}\n" +
                                 "Model performance: $modelPerformance\n" +
                                 "Generate images: ${personalizationUiState.generateImages}\n" +
                                 "Last response time (s): ${
                                     personalizationUiState.lastResponseTime?.toDouble()?.div(1000.0)
                                 }\n" +
-                                "Used data: ${personalizationUiState.childName.toString()}, ${personalizationUiState.childAge.toString()}, ${personalizationUiState.childInterest.toString()}\n" +
+                                "Used data: ${personalizationUiState.childName.toString()}, ${personalizationUiState.childAge.toString()}, ${
+                                    userUiState.selectedInterests.joinToString(", ")
+                                }\n" +
                                 "Prompt:\n" +
                                 "${personalizationUiState.usedPrompt}"
 

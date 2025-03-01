@@ -2,10 +2,11 @@
   "name": "Lisa",
   "age": 8,
   "created": "2024-06-01",
-  "language": "de",
-  "profileImage": "",
+  "language": "german",
+  "profileImage": "flingo_pink",
   "currentLives": 5,
   "currentReadingStreak": 9,
   "selectedInterests": ["Magie"],
+  "selectedImageStyle": "Realistisch",
   "books": []
 }

@@ -1,11 +1,12 @@
 {
   "name": "Jakob",
-  "age": 7,
+  "age": 6,
   "created": "2024-06-01",
-  "language": "de",
-  "profileImage": "",
+  "language": "german",
+  "profileImage": "flingo_orange",
   "currentLives": 5,
   "currentReadingStreak": 23,
   "selectedInterests": ["Superhelden"],
+  "selectedImageStyle": "Comic",
   "books": []
 }

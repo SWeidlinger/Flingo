@@ -22,7 +22,7 @@ import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
 import com.flingoapp.flingo.ui.screen.ChapterScreen
 import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screen.HomeScreen
-import com.flingoapp.flingo.ui.screen.InterestSelectionScreen
+import com.flingoapp.flingo.ui.screen.UserScreen
 import com.flingoapp.flingo.ui.screen.SettingsScreen
 import com.flingoapp.flingo.ui.screen.StreakAndStarsScreen
 import com.flingoapp.flingo.viewmodel.BookViewModel
@@ -85,7 +85,7 @@ fun NavHostComposable(
                     )
                 } else if (isRoute(
                         previousDestinationRoute,
-                        NavigationDestination.InterestSelection
+                        NavigationDestination.User
                     )
                 ) {
                     slideIntoContainer(
@@ -102,7 +102,7 @@ fun NavHostComposable(
                         AnimatedContentTransitionScope.SlideDirection.Down,
                         tween(NAVIGATION_ANIMATION_DURATION)
                     )
-                } else if (isRoute(currentDestinationRoute, NavigationDestination.InterestSelection)
+                } else if (isRoute(currentDestinationRoute, NavigationDestination.User)
                 ) {
                     slideOutOfContainer(
                         AnimatedContentTransitionScope.SlideDirection.Right,
@@ -194,7 +194,7 @@ fun NavHostComposable(
             )
         }
 
-        composable<NavigationDestination.InterestSelection>(
+        composable<NavigationDestination.User>(
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Right,
@@ -210,9 +210,9 @@ fun NavHostComposable(
         ) { backStackEntry ->
             Log.e("NavHostComposable", "in InterestSelection")
 
-            val args = backStackEntry.toRoute<NavigationDestination.InterestSelection>()
+            val args = backStackEntry.toRoute<NavigationDestination.User>()
 
-            InterestSelectionScreen(
+            UserScreen(
                 userUiState = userUiState,
                 onAction = {
                     processAction(

@@ -38,7 +38,6 @@ data class PersonalizationUiState(
     val usedPrompt: String? = null,
     val childName: String? = null,
     val childAge: Int? = null,
-    val childInterest: String? = null,
     val generateImages: Boolean = false
 )
 
@@ -428,7 +427,8 @@ class PersonalizationViewModel(
         return PersonalizationAspects(
             age = userViewModel.uiState.value.age,
             interests = userViewModel.uiState.value.selectedInterests,
-            name = userViewModel.uiState.value.name
+            name = userViewModel.uiState.value.name,
+            imageStyle = userViewModel.uiState.value.selectedImageStyle
         )
     }
 
@@ -442,8 +442,10 @@ class PersonalizationViewModel(
     }
 }
 
+//TODO: add specific prompts to interests and image styles
 data class PersonalizationAspects(
     val age: Int,
     val name: String,
-    val interests: List<String>
+    val interests: List<String>,
+    val imageStyle: String
 )

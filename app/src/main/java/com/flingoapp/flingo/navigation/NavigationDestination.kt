@@ -43,7 +43,7 @@ sealed interface NavigationDestination {
      * @constructor Create empty InterestSelection
      */
     @Serializable
-    data object InterestSelection : NavigationDestination
+    data object User : NavigationDestination
 
     @Serializable
     data object StreakAndStars : NavigationDestination
