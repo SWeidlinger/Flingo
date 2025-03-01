@@ -4,25 +4,43 @@ import com.flingoapp.flingo.R
 
 enum class GenAiProvider(
     val provider: String,
-    val textModel: GenAiTextModel,
-    val smallTextModel: GenAiTextModel,
-    val imageModel: GenAiImageModel,
+    private val accurateTextModel: GenAiTextModel,
+    private val fastTextModel: GenAiTextModel,
+    private val accurateImageModel: GenAiImageModel,
+    private val fastImageModel: GenAiImageModel,
     val iconRes: Int
 ) {
     OPEN_AI(
         provider = "OpenAI",
-        textModel = GenAiTextModel.OpenAi.GPT_4O,
-        smallTextModel = GenAiTextModel.OpenAi.GPT_4O_MINI,
-        imageModel = GenAiImageModel.OpenAi.DALL_E_2,
+        accurateTextModel = GenAiTextModel.OpenAi.GPT_4O,
+        fastTextModel = GenAiTextModel.OpenAi.GPT_4O_MINI,
+        accurateImageModel = GenAiImageModel.OpenAi.DALL_E_3,
+        fastImageModel = GenAiImageModel.OpenAi.DALL_E_2,
         iconRes = R.drawable.openai_icon
     ),
     GOOGLE_AI(
         provider = "Google",
-        textModel = GenAiTextModel.Google.GEMINI_2_FLASH,
-        smallTextModel = GenAiTextModel.Google.GEMINI_2_FLASH,
-        imageModel = GenAiImageModel.Google.IMAGEN_3,
+        accurateTextModel = GenAiTextModel.Google.GEMINI_2_PRO,
+        fastTextModel = GenAiTextModel.Google.GEMINI_2_FLASH,
+        accurateImageModel = GenAiImageModel.Google.IMAGEN_3,
+        fastImageModel = GenAiImageModel.Google.IMAGEN_3_FAST,
         iconRes = R.drawable.google_gemini
-    )
+    );
+
+    //TODO: refactor could be implemented in a better way
+    fun getTextModel(modelPerformance: GenAiModelPerformance): GenAiTextModel {
+        return when (modelPerformance) {
+            GenAiModelPerformance.ACCURATE -> accurateTextModel
+            GenAiModelPerformance.FAST -> fastTextModel
+        }
+    }
+
+    fun getImageModel(modelPerformance: GenAiModelPerformance): GenAiImageModel {
+        return when (modelPerformance) {
+            GenAiModelPerformance.ACCURATE -> accurateImageModel
+            GenAiModelPerformance.FAST -> fastImageModel
+        }
+    }
 }
 
 sealed interface GenAiTextModel {
@@ -38,6 +56,7 @@ sealed interface GenAiTextModel {
     enum class Google(
         override val modelName: String
     ) : GenAiTextModel {
+        GEMINI_2_PRO("gemini-2.0-pro-exp-02-05"),
         GEMINI_2_FLASH("gemini-2.0-flash")
     }
 }
@@ -50,7 +69,7 @@ sealed interface GenAiImageModel {
         override val modelName: String,
         override val size: String
     ) : GenAiImageModel {
-        DALL_E_2("dall-e-2", "256x256"),
+        DALL_E_2("dall-e-2", "512x512"),
         DALL_E_3("dall-e-3", "1024x1024")
     }
 
@@ -58,6 +77,12 @@ sealed interface GenAiImageModel {
         override val modelName: String,
         override val size: String
     ) : GenAiImageModel {
-        IMAGEN_3("imagen-3.0-generate-002", "")
+        IMAGEN_3("imagen-3.0-generate-002", ""),
+        IMAGEN_3_FAST("imagen-3.0-fast-generate-001", "")
     }
+}
+
+enum class GenAiModelPerformance(val displayName: String) {
+    ACCURATE("accurate"),
+    FAST("fast")
 }

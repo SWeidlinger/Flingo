@@ -35,6 +35,12 @@ class BookDataSourceJsonImpl(
 
     override suspend fun parseChapter(data: String): Result<Chapter> {
         return try {
+            //TODO: remove special cases
+            if (data.startsWith("[")) {
+                //special handling since GEMINI decides to return a list instead of a object
+                val chapters = getJsonDeserializer().decodeFromString<List<Chapter>>(data)
+                return Result.success(chapters.first())
+            }
             val chapter = getJsonDeserializer().decodeFromString<Chapter>(data)
             Result.success(chapter)
         } catch (e: Exception) {

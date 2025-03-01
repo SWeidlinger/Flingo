@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.flingoapp.flingo.data.model.Book
 import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.model.ChapterType
+import com.flingoapp.flingo.data.model.genAi.GenAiModelPerformance
 import com.flingoapp.flingo.data.model.genAi.GenAiProvider
 import com.flingoapp.flingo.data.network.ConnectivityObserver
 import com.flingoapp.flingo.data.repository.PersonalizationRepository
@@ -66,7 +67,7 @@ class PersonalizationViewModel(
 
     init {
         viewModelScope.launch {
-            combine(isConnected, genAiModule.currentModel) { connected, model ->
+            combine(isConnected, genAiModule.currentModelProvider) { connected, model ->
                 _uiState.value.copy(isConnectedToNetwork = connected, currentModel = model)
             }.collect { newState ->
                 updateUiState(newState)
@@ -85,7 +86,7 @@ class PersonalizationViewModel(
             is MainAction.PersonalizationAction.GenerateImage -> generateImage(action.context)
             MainAction.PersonalizationAction.ToggleGenerateImages -> toggleGenerateImages()
             is MainAction.PersonalizationAction.GenerateChapterFromText -> generateChapterFromText(action.pageDetailsType)
-
+            is MainAction.PersonalizationAction.ChangeModelPerformance -> changeModelPerformance(action.modelPerformance)
         }
     }
 
@@ -204,7 +205,7 @@ class PersonalizationViewModel(
             return@launch
         }.onSuccess { (title, pages) ->
             val chapter = Chapter(
-                author = genAiModule.currentModel.value.provider,
+                author = genAiModule.currentModelProvider.value.provider,
                 title = title,
                 type = ChapterType.CHALLENGE,
                 description = "",
@@ -392,6 +393,10 @@ class PersonalizationViewModel(
 
     private fun changeModel(model: GenAiProvider) {
         genAiModule.setModelRepository(model)
+    }
+
+    private fun changeModelPerformance(modelPerformance: GenAiModelPerformance) {
+        genAiModule.setModelPerformance(modelPerformance)
     }
 
     private fun errorHandling(error: Throwable) {

@@ -19,7 +19,6 @@ class MainApplication : Application() {
         lateinit var connectivityObserver: ConnectivityObserver
         lateinit var bookDataSource: BookDataSource
         lateinit var bookRepository: BookRepository
-//        lateinit var personalizationDataSource: PersonalizationDataSource
         lateinit var personalizationRepository: PersonalizationRepository
     }
 
@@ -30,10 +29,8 @@ class MainApplication : Application() {
         bookDataSource = BookDataSourceJsonImpl(this)
         bookRepository = BookRepositoryImpl(bookDataSource)
 
-//        personalizationDataSource = PersonalizationDataSourceImpl()
         personalizationRepository = PersonalizationRepositoryImpl(
             genAiModule = appModule.genAiModule,
-//            personalizationDataSource = personalizationDataSource,
             bookRepository = bookRepository
         )
     }

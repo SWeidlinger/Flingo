@@ -3,6 +3,7 @@ package com.flingoapp.flingo.viewmodel
 import PageDetailsType
 import com.flingoapp.flingo.data.model.Book
 import com.flingoapp.flingo.data.model.Chapter
+import com.flingoapp.flingo.data.model.genAi.GenAiModelPerformance
 import com.flingoapp.flingo.data.model.genAi.GenAiProvider
 import com.flingoapp.flingo.data.model.page.Page
 
@@ -41,6 +42,7 @@ sealed interface MainAction {
         data class GenerateChapterFromText(val pageDetailsType: PageDetailsType) : PersonalizationAction
         data class GeneratePage(val sourceChapter: Chapter, val sourceBook: Book) : PersonalizationAction
         data class ChangeModel(val model: GenAiProvider) : PersonalizationAction
+        data class ChangeModelPerformance(val modelPerformance: GenAiModelPerformance) : PersonalizationAction
         data object ToggleDebugMode : PersonalizationAction
         data object ToggleGenerateImages : PersonalizationAction
         data class GenerateImage(val context: String) : PersonalizationAction

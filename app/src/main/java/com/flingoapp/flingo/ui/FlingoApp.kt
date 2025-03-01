@@ -357,15 +357,21 @@ fun FlingoApp(
 
                 val personalizationUiState by personalizationViewModel.uiState.collectAsState()
 
+                val modelPerformance by MainApplication.appModule.genAiModule.modelPerformance.collectAsState()
+
                 if (personalizationUiState.isDebug) {
                     Text(
                         modifier = Modifier
+                            .padding(innerPadding)
                             .align(Alignment.BottomStart)
                             .padding(16.dp)
                             .fillMaxWidth(0.5f),
                         fontSize = 12.sp,
                         text = "Provider: ${personalizationUiState.currentModel.provider}\n" +
-                                "Model: ${personalizationUiState.currentModel.textModel}\n" +
+                                "Text model: ${MainApplication.appModule.genAiModule.currentTextModel}\n" +
+                                "Image model: ${MainApplication.appModule.genAiModule.currentImageModel}\n" +
+                                "Model performance: $modelPerformance\n" +
+                                "Generate images: ${personalizationUiState.generateImages}\n" +
                                 "Last response time (s): ${
                                     personalizationUiState.lastResponseTime?.toDouble()?.div(1000.0)
                                 }\n" +

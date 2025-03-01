@@ -108,7 +108,7 @@ class PersonalizationRepositoryImpl(
                         content = readPageDetails[index].content,
                         originalContent = readPageDetails[index].originalContent,
                         imageData = readPageDetails[index].imageData,
-                        isFromVertexAi = genAiModule.currentModel.value.provider == "Google"
+                        isFromVertexAi = genAiModule.currentModelProvider.value.provider == "Google"
                     )
                 )
 
@@ -116,7 +116,7 @@ class PersonalizationRepositoryImpl(
             }
 
             val readChapter = Chapter(
-                author = genAiModule.currentModel.value.provider,
+                author = genAiModule.currentModelProvider.value.provider,
                 title = bookTitle,
                 type = ChapterType.READ,
                 description = "",
@@ -126,7 +126,7 @@ class PersonalizationRepositoryImpl(
             )
 
             val finalBook = Book(
-                author = genAiModule.currentModel.value.provider,
+                author = genAiModule.currentModelProvider.value.provider,
                 title = bookTitle,
                 description = "",
                 coverImage = "",
@@ -160,7 +160,7 @@ class PersonalizationRepositoryImpl(
         }
 
         val originalSplitTextResponse = genAiModule.repository.getTextResponse(
-            model = genAiModule.currentModel.value.smallTextModel,
+            model = genAiModule.currentTextModel,
             request = splitTextRequest
         ).getOrThrow()
 
@@ -174,7 +174,7 @@ class PersonalizationRepositoryImpl(
         }
 
         val personalizedTextPartsResponse = genAiModule.repository.getTextResponse(
-            model = genAiModule.currentModel.value.textModel,
+            model = genAiModule.currentTextModel,
             request = personalizeTextPartsRequest
         ).getOrThrow()
 
@@ -187,7 +187,7 @@ class PersonalizationRepositoryImpl(
         }
 
         val imagePromptResponse = genAiModule.repository.getTextResponse(
-            model = genAiModule.currentModel.value.textModel,
+            model = genAiModule.currentTextModel,
             request = imageGenerationPromptRequest
         ).getOrThrow()
 
@@ -246,7 +246,7 @@ class PersonalizationRepositoryImpl(
             }
 
             val response = genAiModule.repository.getTextResponse(
-                model = genAiModule.currentModel.value.textModel,
+                model = genAiModule.currentTextModel,
                 request = requestPageDetails
             ).getOrThrow()
 
@@ -330,7 +330,7 @@ class PersonalizationRepositoryImpl(
             val generatedPages = mutableListOf<Page>()
             generatedPageDetails.forEach {
                 val page = Page(
-                    author = genAiModule.currentModel.value.provider,
+                    author = genAiModule.currentModelProvider.value.provider,
                     description = "",
                     difficulty = "easy",
                     hint = "",
@@ -365,11 +365,11 @@ class PersonalizationRepositoryImpl(
         }
 
         val response = genAiModule.repository.getTextResponse(
-            model = genAiModule.currentModel.value.textModel,
+            model = genAiModule.currentTextModel,
             request = request
         ).getOrThrow()
 
-        Log.e(TAG, "Response from ${genAiModule.currentModel.value.provider}: \n $response")
+        Log.e(TAG, "Response from ${genAiModule.currentModelProvider.value.provider}: \n $response")
 
         return try {
             val book = bookRepository.fetchBook(response).getOrThrow()
@@ -398,7 +398,7 @@ class PersonalizationRepositoryImpl(
             val pages = pagesResult.second
 
             val generatedChapter = Chapter(
-                author = genAiModule.currentModel.value.provider,
+                author = genAiModule.currentModelProvider.value.provider,
                 title = title,
                 type = ChapterType.CHALLENGE,
                 description = "",
@@ -428,7 +428,7 @@ class PersonalizationRepositoryImpl(
         }
 
         val response = genAiModule.repository.getTextResponse(
-            model = genAiModule.currentModel.value.textModel,
+            model = genAiModule.currentTextModel,
             request = request
         ).getOrThrow()
 
@@ -456,7 +456,7 @@ class PersonalizationRepositoryImpl(
         }
 
         val response = genAiModule.repository.getTextResponse(
-            model = genAiModule.currentModel.value.textModel,
+            model = genAiModule.currentTextModel,
             request = request
         ).getOrThrow()
 
@@ -483,7 +483,7 @@ class PersonalizationRepositoryImpl(
 
                     // Call the suspend function concurrently
                     genAiModule.repository.getImageResponse(
-                        model = genAiModule.currentModel.value.imageModel,
+                        model = genAiModule.currentImageModel,
                         request = imageGenerationRequest
                     ).getOrThrow()
                 }

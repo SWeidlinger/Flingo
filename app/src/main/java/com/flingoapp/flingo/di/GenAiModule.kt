@@ -1,9 +1,12 @@
 package com.flingoapp.flingo.di
 
 import android.content.Context
+import com.flingoapp.flingo.data.model.genAi.GenAiImageModel
+import com.flingoapp.flingo.data.model.genAi.GenAiModelPerformance
 import com.flingoapp.flingo.data.model.genAi.GenAiProvider
 import com.flingoapp.flingo.data.model.genAi.GenAiRequestBuilder
 import com.flingoapp.flingo.data.model.genAi.GenAiRequestBuilderDefaultImpl
+import com.flingoapp.flingo.data.model.genAi.GenAiTextModel
 import com.flingoapp.flingo.data.network.OpenAiService
 import com.flingoapp.flingo.data.repository.genAi.GenAiRepository
 import com.flingoapp.flingo.data.repository.genAi.GoogleAiRepositoryImpl
@@ -14,11 +17,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 interface GenAiModule {
-    val currentModel: StateFlow<GenAiProvider>
+    val currentModelProvider: StateFlow<GenAiProvider>
+    val currentTextModel: GenAiTextModel
+    val currentImageModel: GenAiImageModel
     val repository: GenAiRepository
     val basePrompts: GenAiRequestBuilder
+    val modelPerformance: StateFlow<GenAiModelPerformance>
     fun setModelRepository(genAiProvider: GenAiProvider)
     fun setBasePrompts(genAiRequestBuilder: GenAiRequestBuilder)
+    fun setModelPerformance(modelPerformance: GenAiModelPerformance)
 }
 
 class GenAiModuleImpl(private val context: Context) : GenAiModule {
@@ -29,13 +36,22 @@ class GenAiModuleImpl(private val context: Context) : GenAiModule {
     private lateinit var modelRepository: GenAiRepository
     private lateinit var currentBasePrompts: GenAiRequestBuilder
 
-    private var _currentModel = MutableStateFlow(GenAiProvider.OPEN_AI)
-    override val currentModel = _currentModel.asStateFlow()
+    //Default value for model performance
+    private var _modelPerformance = MutableStateFlow(GenAiModelPerformance.ACCURATE)
+    override var modelPerformance = _modelPerformance.asStateFlow()
+
+    private var _currentModelProvider = MutableStateFlow(GenAiProvider.OPEN_AI)
+    override val currentModelProvider = _currentModelProvider.asStateFlow()
+
+    override val currentTextModel: GenAiTextModel
+        get() = _currentModelProvider.value.getTextModel(_modelPerformance.value)
+    override val currentImageModel: GenAiImageModel
+        get() = _currentModelProvider.value.getImageModel(_modelPerformance.value)
 
     override val repository: GenAiRepository
         get() {
             if (!this::modelRepository.isInitialized) {
-                _currentModel.update { GenAiProvider.OPEN_AI }
+                _currentModelProvider.update { GenAiProvider.OPEN_AI }
                 setModelRepository(GenAiProvider.OPEN_AI)
             }
 
@@ -55,7 +71,7 @@ class GenAiModuleImpl(private val context: Context) : GenAiModule {
         }
 
     override fun setModelRepository(genAiProvider: GenAiProvider) {
-        _currentModel.update { genAiProvider }
+        _currentModelProvider.update { genAiProvider }
         modelRepository = when (genAiProvider) {
             GenAiProvider.OPEN_AI -> OpenAiRepositoryImpl(openAiService)
             GenAiProvider.GOOGLE_AI -> GoogleAiRepositoryImpl()
@@ -64,6 +80,10 @@ class GenAiModuleImpl(private val context: Context) : GenAiModule {
 
     override fun setBasePrompts(genAiRequestBuilder: GenAiRequestBuilder) {
         currentBasePrompts = genAiRequestBuilder
+    }
+
+    override fun setModelPerformance(modelPerformance: GenAiModelPerformance) {
+        _modelPerformance.update { modelPerformance }
     }
 }
 
