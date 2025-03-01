@@ -31,7 +31,7 @@
           "pageDetails": {
             "pageDetailsType": "read",
             "content": "Der weltberühmte Zirkus Marissimo lagerte einmal in einem kleinen Dorf in Italien. In dem Dorf lebte auch ein kleines Pony namens Peppi, das sehr unglücklich war. Es hatte früher einem alten Mann gehört. Als es nicht mehr arbeiten konnte, weil es zu schwach war, jagte er es fort. Seither trabte es einsam durch die Straßen. \"Niemand braucht mich mehr. Ich bin ja so allein\", seufzte das Tier.",
-            "imageUrl": "circus_image"
+            "imageData": "circus_image"
           }
         },
         {
@@ -50,7 +50,7 @@
           "pageDetails": {
             "pageDetailsType": "read",
             "content": "Als der Abend hereinbrach, versammelten sich alle Dorfbewohner im Zirkuszelt. Auch Peppi schlich neugierig hinein. Die Vorstellung war ein großer Erfolg. Besonders jubelten die Kinder dem Pferd Rosi zu. Der Zirkusdirektor verkündete: \"Alle Kinder dürfen jetzt auf Rosi reiten!\"",
-            "imageUrl": "pony"
+            "imageData": "pony"
           }
         },
         {
@@ -69,7 +69,7 @@
           "pageDetails": {
             "pageDetailsType": "read",
             "content": "Bereits kurze Zeit später war das Zirkuspferd vollkommen erschöpft. \"Das schaffe ich nicht jeden Tag. Ich brauche eine Pause!\", jammerte Rosi.",
-            "imageUrl": "old_man"
+            "imageData": "old_man"
           }
         },
         {
@@ -88,7 +88,7 @@
           "pageDetails": {
             "pageDetailsType": "read",
             "content": "Da fiel der Blick des Zirkusdirektors auf das kleine Pony, das schüchtern im Hintergrund stand. \"Vielleicht kann ich euch helfen?\", flüsterte Peppi. \"Ich bin zwar zu schwach, um einen Wagen zu ziehen, doch die Kinder können noch immer auf mir reiten.\" Von diesem Tag an hatte Peppi seinen Platz im Zirkus Marissimo und wieder eine wichtige Aufgabe.",
-            "imageUrl": "old_man"
+            "imageData": "old_man"
           }
         }
       ]
@@ -210,12 +210,10 @@
             "question": "Wie heißt der weltberühmte Zirkus?",
             "answers": [
               {
-                "id": 1,
                 "answer": "Marissimo",
                 "isCorrect": true
               },
               {
-                "id": 2,
                 "answer": "Morissomo",
                 "isCorrect": false
               }
@@ -241,17 +239,14 @@
             "question": "Wann fand die Zirkusvorstellung statt?",
             "answers": [
               {
-                "id": 1,
                 "answer": "in der Früh",
                 "isCorrect": false
               },
               {
-                "id": 2,
                 "answer": "am Abend",
                 "isCorrect": true
               },
               {
-                "id": 3,
                 "answer": "Mittags",
                 "isCorrect": true
               }
@@ -277,12 +272,10 @@
             "question": "In der Blumenhandlung bekomme ich täglich frisches Gebäck.",
             "answers": [
               {
-                "id": 1,
                 "answer": "Richtig",
                 "isCorrect": false
               },
               {
-                "id": 2,
                 "answer": "Falsch",
                 "isCorrect": true
               }
@@ -308,12 +301,10 @@
             "question": "Wien ist die Hauptstadt von Österreich.",
             "answers": [
               {
-                "id": 1,
                 "answer": "Richtig",
                 "isCorrect": true
               },
               {
-                "id": 2,
                 "answer": "Falsch",
                 "isCorrect": false
               }

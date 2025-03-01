@@ -236,6 +236,9 @@ private fun ChapterSelectionContent(
                                     )
                                 )
                             },
+                            onLongClick = {
+                                onAction(MainAction.PersonalizationAction.GenerateChapter(chapter))
+                            },
                             buttonContent = {
                                 Column(
                                     verticalArrangement = Arrangement.Center,

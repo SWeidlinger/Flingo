@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flingoapp.flingo.data.model.Book
 import com.flingoapp.flingo.data.model.Chapter
+import com.flingoapp.flingo.data.model.ChapterType
+import com.flingoapp.flingo.data.model.page.Page
 import com.flingoapp.flingo.data.repository.BookRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -50,27 +52,44 @@ class BookViewModel(
                 author = action.author
             )
 
-            is MainAction.BookAction.AddChapter -> addChapter(
+            is MainAction.BookAction.AddChapterJson -> addChapterJson(
                 chapterJson = action.chapterJson,
-                author = action.author
+                author = action.author,
+                bookId = action.bookId
             )
 
             is MainAction.BookAction.SelectPage -> selectPage(action.pageIndex)
             is MainAction.BookAction.AddImage -> addImage(action.imageUrl, action.author)
-            is MainAction.BookAction.AddPage -> addPage(
+            is MainAction.BookAction.AddPageJson -> addPageJson(
                 pageJson = action.pageJson,
-                author = action.author
+                author = action.author,
+                chapterId = action.chapterId,
+                bookId = action.bookId
             )
 
             is MainAction.BookAction.AddBook -> addBook(
                 book = action.book,
                 author = action.author
             )
+
+            is MainAction.BookAction.AddChapter -> addChapter(
+                chapter = action.chapter,
+                author = action.author,
+                bookId = action.bookId
+            )
+
+            is MainAction.BookAction.AddPage -> addPage(
+                page = action.page,
+                author = action.author,
+                chapterId = action.chapterId,
+                bookId = action.bookId
+            )
         }
     }
 
     private fun addBook(book: Book, author: String) {
         viewModelScope.launch {
+            updateUiState(_uiState.value.copy(isLoading = true))
             val bookWithAuthor = book.copy(author = author)
             bookRepository.addBook(bookWithAuthor)
                 .onFailure {
@@ -81,7 +100,6 @@ class BookViewModel(
         }
     }
 
-    //TODO: refactor
     private fun addBookJson(bookJson: String, author: String) {
         viewModelScope.launch {
             updateUiState(_uiState.value.copy(isLoading = true))
@@ -89,58 +107,63 @@ class BookViewModel(
                 .onFailure {
                     updateUiState(_uiState.value.copy(isLoading = false, isError = true))
                 }.onSuccess { book ->
-                    val bookWithAuthor = book.copy(author = author)
-                    bookRepository.addBook(bookWithAuthor)
-                        .onFailure {
-                            updateUiState(_uiState.value.copy(isLoading = false, isError = true))
-                        }.onSuccess {
-                            updateUiState(_uiState.value.copy(isLoading = false, isError = false))
-                        }
+                    addBook(book, author)
                 }
         }
     }
 
-    private fun addChapter(chapterJson: String, author: String) {
+    private fun addChapter(chapter: Chapter, author: String, bookId: String) {
+        viewModelScope.launch {
+            updateUiState(_uiState.value.copy(isLoading = true))
+            val chapterWithAuthor = chapter.copy(author = author)
+            bookRepository.addChapter(
+                chapter = chapterWithAuthor,
+                bookId = bookId
+            ).onFailure {
+                updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+            }.onSuccess {
+                updateUiState(_uiState.value.copy(isLoading = false, isError = false))
+            }
+        }
+    }
+
+    private fun addChapterJson(chapterJson: String, author: String, bookId: String) {
         viewModelScope.launch {
             updateUiState(_uiState.value.copy(isLoading = true))
             bookRepository.fetchChapter(chapterJson)
                 .onFailure {
                     updateUiState(_uiState.value.copy(isLoading = false, isError = true))
                 }.onSuccess { chapter ->
-                    val chapterWithAuthor = chapter.copy(author = author)
-                    //TODO: needs to be evaluated how to best handle not having a corresponding book
-                    bookRepository.addChapter(
-                        chapter = chapterWithAuthor,
-                        bookId = _uiState.value.currentBookId.toString()
-                    )
-                        .onFailure {
-                            updateUiState(_uiState.value.copy(isLoading = false, isError = true))
-                        }.onSuccess {
-                            updateUiState(_uiState.value.copy(isLoading = false, isError = false))
-                        }
+                    addChapter(chapter, author, bookId)
                 }
         }
     }
 
-    private fun addPage(pageJson: String, author: String) {
+    private fun addPage(page: Page, author: String, chapterId: String, bookId: String) {
+        viewModelScope.launch {
+            updateUiState(_uiState.value.copy(isLoading = true))
+            val pageWithAuthor = page.copy(author = author)
+
+            bookRepository.addPage(
+                page = pageWithAuthor,
+                chapterId = chapterId,
+                bookId = bookId
+            ).onFailure {
+                updateUiState(_uiState.value.copy(isLoading = false, isError = true))
+            }.onSuccess {
+                updateUiState(_uiState.value.copy(isLoading = false, isError = false))
+            }
+        }
+    }
+
+    private fun addPageJson(pageJson: String, author: String, chapterId: String, bookId: String) {
         viewModelScope.launch {
             updateUiState(_uiState.value.copy(isLoading = true))
             bookRepository.fetchPage(pageJson)
                 .onFailure {
                     updateUiState(_uiState.value.copy(isLoading = false, isError = true))
                 }.onSuccess { page ->
-                    val pageWithAuthor = page.copy(author = author)
-                    //TODO: needs to be evaluated how to best handle not having a corresponding book
-                    bookRepository.addPage(
-                        page = pageWithAuthor,
-                        chapterId = _uiState.value.currentChapterId.toString(),
-                        bookId = _uiState.value.currentBookId.toString()
-                    )
-                        .onFailure {
-                            updateUiState(_uiState.value.copy(isLoading = false, isError = true))
-                        }.onSuccess {
-                            updateUiState(_uiState.value.copy(isLoading = false, isError = false))
-                        }
+                    addPage(page, author, chapterId, bookId)
                 }
         }
     }
@@ -155,7 +178,7 @@ class BookViewModel(
             ).getOrThrow()
 
             val newDetails = currentPage.details as PageDetails.Read
-            val newPage = currentPage.copy(details = newDetails.copy(imageUrl = imageUrl))
+            val newPage = currentPage.copy(details = newDetails.copy(imageData = imageUrl))
 
             bookRepository.updatePage(
                 page = newPage,
@@ -253,6 +276,14 @@ class BookViewModel(
             bookId = _uiState.value.currentBookId.toString(),
             chapterId = _uiState.value.currentChapterId.toString()
         ).getOrThrow()
+    }
+
+    fun getReadingPages(bookId: String): List<Page>? {
+        val book = bookRepository.getBook(bookId).getOrThrow()
+
+        val readChapter: Chapter? = book.chapters.find { it.type == ChapterType.READ }
+
+        return readChapter?.pages
     }
 
     private fun updateUiState(newState: BookUiState) {

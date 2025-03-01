@@ -56,11 +56,6 @@ fun ChallengeChapterContent(
     val completedPages = remember { mutableStateListOf<Page>() }
 
     val pagerState = rememberPagerState { pages.size }
-    val currentPage by remember {
-        derivedStateOf {
-            pages[pagerState.currentPage]
-        }
-    }
 
     var taskDefinitionWidth by remember {
         mutableIntStateOf(0)
@@ -83,8 +78,8 @@ fun ChallengeChapterContent(
             modifier = Modifier.fillMaxSize(),
             topBar = {
                 CustomChallengeTopBar(
-                    taskDefinition = currentPage.taskDefinition,
-                    hint = currentPage.hint,
+                    taskDefinition = pages[pagerState.currentPage].taskDefinition,
+                    hint = pages[pagerState.currentPage].hint,
                     navigateUp = { onNavigate(NavigationAction.Up()) },
                     currentLives = currentLives,
                     taskDefinitionWidth = { width ->
@@ -101,15 +96,8 @@ fun ChallengeChapterContent(
                             .padding(bottom = 8.dp, top = 16.dp),
                         pagerState = pagerState,
                         pages = pages,
-                        showPageControlButtons = currentPage.details.type == PageDetailsType.QUIZ
+                        showPageControlButtons = pages[pagerState.currentPage].details.type == PageDetailsType.QUIZ
                     )
-
-
-//                    ReferenceTextBottomSheet(
-//                        modifier = Modifier
-//                            .align(Alignment.BottomCenter),
-//                        currentPage = currentPage
-//                    )
                 }
             }
         ) { innerPadding ->
@@ -136,7 +124,7 @@ fun ChallengeChapterContent(
                                 pagerState = pagerState,
                                 onPageCompleted = { score ->
                                     onAction(MainAction.BookAction.CompletePage(pageIndex))
-                                    completedPages.add(currentPage)
+                                    completedPages.add(pages[pagerState.currentPage])
                                 }
                             )
                         }
@@ -150,7 +138,7 @@ fun ChallengeChapterContent(
                                 onAction = onAction,
                                 onPageCompleted = { pageScore ->
                                     onAction(MainAction.BookAction.CompletePage(pageIndex))
-                                    completedPages.add(currentPage)
+                                    completedPages.add(pages[pagerState.currentPage])
                                 }
                             )
                         }
@@ -163,7 +151,7 @@ fun ChallengeChapterContent(
                                 onAction = onAction,
                                 onPageCompleted = { pageScore ->
                                     onAction(MainAction.BookAction.CompletePage(pageIndex))
-                                    completedPages.add(currentPage)
+                                    completedPages.add(pages[pagerState.currentPage])
                                 }
                             )
                         }

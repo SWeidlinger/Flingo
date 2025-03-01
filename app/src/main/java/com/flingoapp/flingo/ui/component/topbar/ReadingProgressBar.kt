@@ -46,6 +46,8 @@ fun ReadingProgressBar(
         horizontalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         repeat(pageCount) { index ->
+            if (index >= wordIndexList.size && index >= wordCountList.size) return
+
             val progressAnimation by animateFloatAsState(
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioLowBouncy,

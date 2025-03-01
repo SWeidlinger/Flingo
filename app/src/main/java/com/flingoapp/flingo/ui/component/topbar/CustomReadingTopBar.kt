@@ -75,8 +75,7 @@ fun CustomReadingTopBar(
             ReadingProgressBar(
                 modifier = Modifier
                     .weight(1f)
-                    .height(75.dp)
-                ,
+                    .height(75.dp),
                 pageCount = pageCount,
                 pagerState = pagerState,
                 wordIndexList = wordIndexList,

@@ -87,6 +87,7 @@ fun CustomChallengeTopBar(
                     taskDefinitionWidth(layoutCoordinates.size.width)
                 },
             elevation = 5.dp,
+            fontSize = 36,
             text = taskDefinition,
             showSpeakerIcon = true,
             onClick = {

@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.ui.challenge.quiz
 
+import PageDetails
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.wrapContentSize
@@ -80,7 +81,7 @@ fun QuizContentTrueOrFalse(
                     isQuestionAnswered = true
                     isButtonTrueSelected = isButtonTrue
 
-                    onQuestionAnswered(correctAnswer?.id == answer.id)
+                    onQuestionAnswered(answer.isCorrect)
                 }
             )
         }

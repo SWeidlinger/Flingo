@@ -112,8 +112,8 @@ private fun QuizContentSingleChoicePreview2() {
             modifier = Modifier.fillMaxSize(),
             pageDetails = MockData.pageDetailsQuizSingleChoice.copy(
                 answers = arrayListOf(
-                    PageDetails.Quiz.Answer(id = 1, "Answer 1", true),
-                    PageDetails.Quiz.Answer(id = 2, "Answer 2", false),
+                    PageDetails.Quiz.Answer("Answer 1", true),
+                    PageDetails.Quiz.Answer("Answer 2", false),
                 )
             ),
             onAction = {},
@@ -130,9 +130,9 @@ private fun QuizContentSingleChoicePreview3() {
             modifier = Modifier.fillMaxSize(),
             pageDetails = MockData.pageDetailsQuizSingleChoice.copy(
                 answers = arrayListOf(
-                    PageDetails.Quiz.Answer(id = 1, "Answer 1", true),
-                    PageDetails.Quiz.Answer(id = 2, "Answer 2", false),
-                    PageDetails.Quiz.Answer(id = 3, "Answer 3", false),
+                    PageDetails.Quiz.Answer("Answer 1", true),
+                    PageDetails.Quiz.Answer("Answer 2", false),
+                    PageDetails.Quiz.Answer("Answer 3", false),
                 )
             ),
             onAction = {},
@@ -149,10 +149,10 @@ private fun QuizContentSingleChoicePreview4() {
             modifier = Modifier.fillMaxSize(),
             pageDetails = MockData.pageDetailsQuizSingleChoice.copy(
                 answers = arrayListOf(
-                    PageDetails.Quiz.Answer(id = 1, "Answer 1", true),
-                    PageDetails.Quiz.Answer(id = 2, "Answer 2", false),
-                    PageDetails.Quiz.Answer(id = 3, "Answer 3", false),
-                    PageDetails.Quiz.Answer(id = 4, "Answer 4", false),
+                    PageDetails.Quiz.Answer("Answer 1", true),
+                    PageDetails.Quiz.Answer("Answer 2", false),
+                    PageDetails.Quiz.Answer("Answer 3", false),
+                    PageDetails.Quiz.Answer("Answer 4", false),
                 )
             ),
             onAction = {},

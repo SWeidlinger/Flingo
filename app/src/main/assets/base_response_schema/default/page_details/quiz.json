@@ -1,0 +1,63 @@
+{
+  "name": "pagedetails_quiz",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "chapterTitle": {
+        "type": "string",
+        "description": "The title for this type of exercise and chapter."
+      },
+      "taskDefinition": {
+        "type": "string",
+        "description": "The definition of the what should be done."
+      },
+      "questions": {
+        "type": "array",
+        "description": "A list of different questions about the story.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string",
+              "description": "The given question about the story."
+            },
+            "answers": {
+              "type": "array",
+              "description": "A list of available answers to the question.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": "string",
+                    "description": "The text of the answer."
+                  },
+                  "isCorrect": {
+                    "type": "boolean",
+                    "description": "Indicates if this answer is the correct one."
+                  }
+                },
+                "required": [
+                  "answer",
+                  "isCorrect"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "question",
+            "answers"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "chapterTitle",
+      "taskDefinition",
+      "questions"
+    ],
+    "additionalProperties": false
+  }
+}

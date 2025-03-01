@@ -1,13 +1,12 @@
 package com.flingoapp.flingo.ui.chapter
 
 import PageDetails
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -49,6 +48,7 @@ import com.flingoapp.flingo.R
 import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.page.Page
+import com.flingoapp.flingo.decodeBase64ToImage
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.CustomHighlightedText
@@ -57,7 +57,9 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.MainAction
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.math.absoluteValue
+
 
 /**
  * Read screen used to display chapters with the [com.flingoapp.flingo.data.model.ChapterType.READ] type
@@ -66,7 +68,7 @@ import kotlin.math.absoluteValue
  * @receiver
  * @receiver
  */
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalEncodingApi::class)
 @Composable
 fun ReadChapterContent(
     chapter: Chapter,
@@ -79,23 +81,25 @@ fun ReadChapterContent(
     val safePages = pages.map { it.details as PageDetails.Read }
 
     val coroutineScope = rememberCoroutineScope()
-    val wordIndexList = remember {
+    val wordIndexList = remember(safePages.size) {
         mutableStateListOf<Int>().apply {
             repeat(safePages.size) { add(0) }
         }
     }
-    val wordCountList = remember {
+    val wordCountList = remember(safePages.size) {
         mutableStateListOf<Int>().apply {
             repeat(safePages.size) { add(safePages[it].content.split(" ").size) }
         }
     }
 
+    val readingTextScrollState = rememberScrollState()
+
     //TODO: remove
     LaunchedEffect(pagerState.currentPage) {
         onAction(MainAction.BookAction.SelectPage(pagerState.currentPage))
+        readingTextScrollState.animateScrollTo(0)
     }
 
-    val readingTextScrollState = rememberScrollState()
     var showOriginalContent by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -153,18 +157,12 @@ fun ReadChapterContent(
                 ) { pageIndex ->
                     val content = safePages[pageIndex].content.split(" ")
                     val originalContent = safePages[pageIndex].originalContent.split(" ")
-                    Log.e("TESTT", originalContent.toString())
                     val pageOffset =
                         ((pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction).absoluteValue
 
                     CustomHighlightedText(
                         modifier = Modifier
                             .verticalScroll(readingTextScrollState)
-                            .clickable(
-                                onClick = {
-                                    Log.e("TEST", "onClick")
-//                                showOriginalContent = !showOriginalContent
-                                })
                             .graphicsLayer {
                                 val alphaValue = lerp(
                                     start = 0f,
@@ -206,7 +204,7 @@ fun ReadChapterContent(
                                 showOriginalContent = !showOriginalContent
                             }
                         ),
-                    targetState = safePages[pagerState.currentPage].imageUrl,
+                    targetState = safePages[pagerState.currentPage].imageData,
                     transitionSpec = {
                         //TODO: improve
                         ContentTransform(
@@ -220,7 +218,6 @@ fun ReadChapterContent(
 
                     if (imageLoadingFailed) {
                         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_eyes_loading))
-
                         val animatable = rememberLottieAnimatable()
 
                         LaunchedEffect(composition) {
@@ -244,11 +241,24 @@ fun ReadChapterContent(
                             progress = { animatable.progress }
                         )
                     } else {
-                        AsyncImage(
-                            model = imageUrl,
-                            contentDescription = "additional image",
-                            onError = { imageLoadingFailed = true },
-                        )
+                        if (safePages[pagerState.currentPage].isFromVertexAi) {
+                            //special handling for vertex ai images
+                            val bitmap = decodeBase64ToImage(imageUrl)
+                            if (bitmap == null) {
+                                imageLoadingFailed = true
+                            } else {
+                                Image(
+                                    bitmap = decodeBase64ToImage(imageUrl)!!,
+                                    contentDescription = "additional image",
+                                )
+                            }
+                        } else {
+                            AsyncImage(
+                                model = imageUrl,
+                                contentDescription = "additional image",
+                                onError = { imageLoadingFailed = true },
+                            )
+                        }
                     }
                 }
             }

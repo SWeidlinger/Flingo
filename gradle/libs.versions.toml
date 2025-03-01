@@ -3,7 +3,7 @@ agp = "8.8.1"
 coilCompose = "3.1.0"
 constraintlayoutCompose = "1.1.0"
 explodingcomposable = "1.0.1"
-generativeai = "0.9.0"
+firebaseBom = "33.10.0"
 konfettiCompose = "2.0.5"
 kotlin = "2.1.0"
 coreKtx = "1.15.0"
@@ -23,6 +23,7 @@ riveAndroid = "9.6.5"
 serialization = "1.6.3"
 jetbrainsDokka = "1.9.20"
 composeIcons = "1.1.1"
+gmsGoogleServices = "4.4.2"
 
 [libraries]
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
@@ -33,7 +34,8 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 explodingcomposable = { module = "com.github.omkar-tenkale:ExplodingComposable", version.ref = "explodingcomposable" }
-generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-vertexai = { module = "com.google.firebase:firebase-vertexai" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -75,3 +77,4 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrains-dokka = { id = "org.jetbrains.dokka", version.ref = "jetbrainsDokka" }
+gms-google-services = { id = "com.google.gms.google-services", version.ref = "gmsGoogleServices" }

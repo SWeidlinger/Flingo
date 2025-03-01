@@ -13,3 +13,6 @@ more engaging and relevant for <name>.
 
 The text must be in German and should enhance the motivation of <name> to read while making learning
 more enjoyable.
+
+Content:
+<content>

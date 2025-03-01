@@ -1,5 +1,7 @@
 package com.flingoapp.flingo.data.datasource
 
+import PageDetails
+import PageDetailsType
 import android.content.Context
 import android.util.Log
 import com.flingoapp.flingo.data.model.Book
@@ -8,9 +10,10 @@ import com.flingoapp.flingo.data.model.page.Page
 import kotlinx.serialization.json.Json
 
 interface BookDataSource {
-    suspend fun getBook(data: String): Result<Book>
-    suspend fun getChapter(data: String): Result<Chapter>
-    suspend fun getPage(data: String): Result<Page>
+    suspend fun parseBook(data: String): Result<Book>
+    suspend fun parseChapter(data: String): Result<Chapter>
+    suspend fun parsePage(data: String): Result<Page>
+    suspend fun parsePageDetails(type: PageDetailsType, data: String): Result<PageDetails>
 }
 
 class BookDataSourceJsonImpl(
@@ -20,7 +23,7 @@ class BookDataSourceJsonImpl(
         private const val TAG = "BookDataSourceJsonImpl"
     }
 
-    override suspend fun getBook(data: String): Result<Book> {
+    override suspend fun parseBook(data: String): Result<Book> {
         return try {
             val book = getJsonDeserializer().decodeFromString<Book>(data)
             Result.success(book)
@@ -30,7 +33,7 @@ class BookDataSourceJsonImpl(
         }
     }
 
-    override suspend fun getChapter(data: String): Result<Chapter> {
+    override suspend fun parseChapter(data: String): Result<Chapter> {
         return try {
             val chapter = getJsonDeserializer().decodeFromString<Chapter>(data)
             Result.success(chapter)
@@ -40,10 +43,41 @@ class BookDataSourceJsonImpl(
         }
     }
 
-    override suspend fun getPage(data: String): Result<Page> {
+    override suspend fun parsePage(data: String): Result<Page> {
         return try {
-            val page = getJsonDeserializer().decodeFromString<Page>(data)
+            //TODO: remove special cases
+            val page = if (data.startsWith("[")) {
+                //special handling since GEMINI decides to return a list instead of a object
+                val pages = getJsonDeserializer().decodeFromString<List<Page>>(data)
+                pages.first()
+            } else if (data.contains("chapterTitle")) {
+                //special handling for GEMINI again...
+                val chapter = getJsonDeserializer().decodeFromString<Chapter>(data)
+                chapter.pages?.first()
+            } else {
+                getJsonDeserializer().decodeFromString<Page>(data)
+            }
+
+            if (page == null) {
+                throw Exception("Page is null - Gemini is annoying")
+            }
             Result.success(page)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error: ${e.message}")
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun parsePageDetails(type: PageDetailsType, data: String): Result<PageDetails> {
+        return try {
+            val pageDetails = when (type) {
+                PageDetailsType.READ -> getJsonDeserializer().decodeFromString<PageDetails.Read>(data)
+                PageDetailsType.REMOVE_WORD -> getJsonDeserializer().decodeFromString<PageDetails.RemoveWord>(data)
+                PageDetailsType.QUIZ -> getJsonDeserializer().decodeFromString<PageDetails.Quiz>(data)
+                PageDetailsType.ORDER_STORY -> getJsonDeserializer().decodeFromString<PageDetails.OrderStory>(data)
+            }
+
+            Result.success(pageDetails)
         } catch (e: Exception) {
             Log.e(TAG, "Error: ${e.message}")
             Result.failure(e)

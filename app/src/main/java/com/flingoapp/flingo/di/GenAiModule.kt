@@ -27,7 +27,7 @@ class GenAiModuleImpl(private val context: Context) : GenAiModule {
     }
 
     private lateinit var modelRepository: GenAiRepository
-    lateinit var currentBasePrompts: GenAiRequestBuilder
+    private lateinit var currentBasePrompts: GenAiRequestBuilder
 
     private var _currentModel = MutableStateFlow(GenAiProvider.OPEN_AI)
     override val currentModel = _currentModel.asStateFlow()

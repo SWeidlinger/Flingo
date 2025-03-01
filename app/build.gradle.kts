@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.dokka)
+    alias(libs.plugins.gms.google.services)
 }
 
 android {
@@ -32,12 +33,6 @@ android {
             "String",
             "OPENAI_API_KEY",
             "\"$openApiKey\""
-        )
-        val geminiApiKey: String = localProperties.getProperty("GEMINI_API_KEY")
-        buildConfigField(
-            "String",
-            "GEMINI_API_KEY",
-            "\"$geminiApiKey\""
         )
     }
 
@@ -120,9 +115,10 @@ dependencies {
     implementation(libs.converter.kotlinx.serialization)
     implementation(libs.logging.interceptor)
 
-    //gemini
-    implementation(libs.generativeai)
-
     //OCR
     implementation(libs.play.services.mlkit.text.recognition)
+
+    //Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.vertexai)
 }

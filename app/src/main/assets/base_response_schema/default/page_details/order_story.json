@@ -1,0 +1,56 @@
+{
+  "name": "pagedetails_order_story",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "chapterTitle": {
+        "type": "string",
+        "description": "The title for this type of exercise and chapter."
+      },
+      "taskDefinition": {
+        "type": "string",
+        "description": "The instruction to arrange the story in the correct order."
+      },
+      "content": {
+        "type": "array",
+        "description": "An array of story objects.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "snippets": {
+              "type": "array",
+              "description": "An array of story snippets.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "description": "Unique identifier for each snippet."
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "The text content of the snippet."
+                  }
+                },
+                "required": ["id", "text"],
+                "additionalProperties": false
+              }
+            },
+            "correctOrder": {
+              "type": "array",
+              "description": "An array representing the correct order of the story snippets by their IDs.",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          "required": ["snippets", "correctOrder"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": ["chapterTitle", "taskDefinition", "content"],
+    "additionalProperties": false
+  }
+}

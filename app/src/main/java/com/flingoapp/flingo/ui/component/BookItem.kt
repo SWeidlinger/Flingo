@@ -39,8 +39,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
-import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.Book
+import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.genAi.GenAiProvider
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton
@@ -67,7 +67,8 @@ fun BookItem(
     pagerState: PagerState,
     bookIndex: Int,
     book: Book,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -100,6 +101,7 @@ fun BookItem(
                 onClick()
             }
         },
+        onLongClick = onLongClick,
         buttonContent = {
             Box(contentAlignment = Alignment.Center) {
                 Column(
@@ -247,7 +249,8 @@ private fun BookItemPreview() {
             pagerState = rememberPagerState(pageCount = { 3 }),
             bookIndex = 0,
             book = MockData.book,
-            onClick = {}
+            onClick = {},
+            onLongClick = {}
         )
     }
 }

@@ -58,6 +58,6 @@ sealed interface GenAiImageModel {
         override val modelName: String,
         override val size: String
     ) : GenAiImageModel {
-        IMAGEN_3("imagen-3", "")
+        IMAGEN_3("imagen-3.0-generate-002", "")
     }
 }

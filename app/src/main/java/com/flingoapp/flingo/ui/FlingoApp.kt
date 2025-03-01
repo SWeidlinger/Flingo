@@ -1,5 +1,6 @@
 package com.flingoapp.flingo.ui
 
+import PageDetailsSelectionEntry
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
@@ -40,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionOnScreen
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,6 +57,7 @@ import com.flingoapp.flingo.navigation.NavHostComposable
 import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton2
 import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton2
+import com.flingoapp.flingo.ui.component.button.CustomIconButton2
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.BookViewModel
@@ -142,6 +146,8 @@ fun FlingoApp(
 
                 var isScanningText by remember { mutableStateOf(false) }
 
+                var showPageDetailsSelection by remember { mutableStateOf(false) }
+
                 val onClickAction: () -> Unit = when (currentVisibleScreen) {
                     CurrentVisibleScreen.SCREEN_HOME -> {
                         {
@@ -171,7 +177,7 @@ fun FlingoApp(
                                             Log.e("FlingoApp", result.text)
 
                                             personalizationViewModel.onAction(
-                                                MainAction.PersonalizationAction.GenerateBook(
+                                                MainAction.PersonalizationAction.GenerateBookFromText(
                                                     scannedText = result.text
                                                 )
                                             )
@@ -190,11 +196,19 @@ fun FlingoApp(
                     }
 
                     CurrentVisibleScreen.SCREEN_CHAPTER_SELECTION -> {
-                        { personalizationViewModel.onAction(MainAction.PersonalizationAction.GenerateChapter) }
+                        { showPageDetailsSelection = !showPageDetailsSelection }
                     }
 
                     CurrentVisibleScreen.SCREEN_CHALLENGE -> {
-                        { personalizationViewModel.onAction(MainAction.PersonalizationAction.GeneratePage) }
+                        //TODO: add different logic for readChapter
+                        {
+                            personalizationViewModel.onAction(
+                                MainAction.PersonalizationAction.GeneratePage(
+                                    sourceChapter = bookViewModel.getCurrentChapter(),
+                                    sourceBook = bookViewModel.getCurrentBook()
+                                )
+                            )
+                        }
                     }
 
                     null -> {
@@ -261,6 +275,36 @@ fun FlingoApp(
                                     )
                                 }
                             }
+                        } else if (currentVisibleScreen == CurrentVisibleScreen.SCREEN_CHAPTER_SELECTION) {
+                            AnimatedVisibility(
+                                visible = showPageDetailsSelection,
+                                enter = fadeIn() + scaleIn() + slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }),
+                                exit = fadeOut() + scaleOut() + slideOutHorizontally(targetOffsetX = { fullWidth -> fullWidth })
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    PageDetailsSelectionEntry.entries.forEach { entry ->
+                                        CustomIconButton2(
+                                            modifier = Modifier.size(fabSize.height.toDp()),
+                                            elevation = 4.dp,
+                                            icon = painterResource(entry.iconRes),
+                                            iconContentDescription = entry.name,
+                                            backgroundColor = entry.backgroundColor,
+                                            iconTint = entry.iconTint,
+                                            onClick = {
+                                                personalizationViewModel.onAction(
+                                                    MainAction.PersonalizationAction.GenerateChapterFromText(
+                                                        entry.pageType
+                                                    )
+                                                )
+                                                showPageDetailsSelection = false
+                                            }
+                                        )
+                                    }
+                                }
+                            }
                         }
 
                         CustomElevatedTextButton2(
@@ -286,7 +330,7 @@ fun FlingoApp(
                             elevation = 4.dp,
                             isPressed = personalizationUiState.isLoading || isScanningText,
                             backgroundColor = if (personalizationUiState.isError) FlingoColors.Error else Color.White,
-                            text = buttonText,
+                            text = if (personalizationUiState.isLoading) "Anfertigen..." else buttonText,
                             icon = personalizationUiState.currentModel.iconRes,
                             enabled = personalizationUiState.isConnectedToNetwork,
                             onClick = {
@@ -329,7 +373,7 @@ fun FlingoApp(
                                 "Prompt:\n" +
                                 "${personalizationUiState.usedPrompt}"
 
-                        //TODO: add how many tokens used
+                        //TODO: add how many tokens were used
                     )
                 }
 
@@ -363,20 +407,18 @@ fun FlingoApp(
     }
 }
 
-//TODO: rework this
 private fun getCurrentScreen(route: String?): CurrentVisibleScreen? {
-    return if (route == NavigationDestination.Home::class.qualifiedName) {
-        CurrentVisibleScreen.SCREEN_HOME
-    } else if (NavigationDestination.ChapterSelection::class.qualifiedName?.let {
-            route?.startsWith(it)
-        } == true) {
-        CurrentVisibleScreen.SCREEN_CHAPTER_SELECTION
-    } else if (NavigationDestination.Chapter::class.qualifiedName?.let {
-            route?.startsWith(it)
-        } == true) {
-        CurrentVisibleScreen.SCREEN_CHALLENGE
-    } else {
-        null
+    if (route == null) return null
+
+    val homeRoute = NavigationDestination.Home::class.qualifiedName
+    val chapterSelectionRoute = NavigationDestination.ChapterSelection::class.qualifiedName
+    val chapterRoute = NavigationDestination.Chapter::class.qualifiedName
+
+    return when {
+        route == homeRoute -> CurrentVisibleScreen.SCREEN_HOME
+        chapterSelectionRoute != null && route.startsWith(chapterSelectionRoute) -> CurrentVisibleScreen.SCREEN_CHAPTER_SELECTION
+        chapterRoute != null && route.startsWith(chapterRoute) -> CurrentVisibleScreen.SCREEN_CHALLENGE
+        else -> null
     }
 }
 

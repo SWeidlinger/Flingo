@@ -1,0 +1,45 @@
+{
+  "name": "pagedetails_remove_word",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "chapterTitle": {
+        "type": "string",
+        "description": "The title for this type of exercise and chapter."
+      },
+      "taskDefinition": {
+        "type": "string",
+        "description": "The definition of the what should be done."
+      },
+      "sentences": {
+        "type": "array",
+        "description": "A list of the different sentences where always one word in an individual sentence is not necessary.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "sentence": {
+              "type": "string",
+              "description": "The sentence including the unnecessary word."
+            },
+            "answer": {
+              "type": "string",
+              "description": "The unnecessary word which was added to the sentence."
+            }
+          },
+          "required": [
+            "sentence",
+            "answer"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "chapterTitle",
+      "taskDefinition",
+      "sentences"
+    ],
+    "additionalProperties": false
+  }
+}

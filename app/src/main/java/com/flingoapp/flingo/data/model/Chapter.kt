@@ -29,7 +29,7 @@ data class Chapter(
     @SerialName("chapterDescription") val description: String,
     @SerialName("chapterCoverImage") val coverImage: String? = null,
     //TODO: make immutable
-    @SerialName("chapterCompleted") var isCompleted: Boolean,
+    @Transient @SerialName("chapterCompleted") var isCompleted: Boolean = false,
     @SerialName("pages") val pages: List<Page>? = listOf(),
     @Transient val positionOffset: Float = Random.nextFloat(),
 )

@@ -145,6 +145,9 @@ fun HomeScreen(
                                         )
                                     )
                                 )
+                            },
+                            onLongClick = {
+                                onAction(MainAction.PersonalizationAction.GenerateBook(bookUiState.books[bookIndex]))
                             }
                         )
                     }

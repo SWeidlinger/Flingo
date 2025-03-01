@@ -23,10 +23,12 @@ class OpenAiRepositoryImpl(
         model: GenAiTextModel,
         request: GenAiRequest
     ): Result<String> {
-        //TODO: find better way where to handle this
-        val promptWithContent = request.prompt + "\n\n" + request.content
-
-        Log.e(TAG, "Sending request to OpenAI API with: $promptWithContent")
+        Log.e(
+            TAG, "Sending text request to OpenAI API with:\n" +
+                    request.prompt +
+                    "\nContent of Prompt:\n" +
+                    request.content
+        )
 
         return try {
             val textRequest = OpenAiTextRequest(
@@ -34,7 +36,7 @@ class OpenAiRepositoryImpl(
                 messages = listOf(
                     Message(
                         role = "user",
-                        content = promptWithContent
+                        content = addContentToPrompt(request.prompt, request.content)
                     )
                 ),
                 responseFormat = ResponseFormat(
@@ -59,6 +61,8 @@ class OpenAiRepositoryImpl(
             val elapsedTime = System.currentTimeMillis() - startTime
             Log.d(TAG, "API Response took: $elapsedTime ms")
 
+            Log.e(TAG, "API response:\n $answer")
+
             Result.success(answer)
         } catch (e: Exception) {
             Log.e(TAG, "API call failed: ${e.message}")
@@ -67,14 +71,17 @@ class OpenAiRepositoryImpl(
     }
 
     override suspend fun getImageResponse(model: GenAiImageModel, request: GenAiRequest): Result<String> {
-        val promptWithContent = request.prompt + "\n" + request.content
-
-        Log.e(TAG, "Sending request to OpenAI API with: $promptWithContent")
+        Log.e(
+            TAG, "Sending image request to OpenAI API with:\n" +
+                    request.prompt +
+                    "\nContent of Prompt:\n" +
+                    request.content
+        )
 
         return try {
             val imageRequest = OpenAiImageRequest(
                 model = model.modelName,
-                prompt = promptWithContent,
+                prompt = addContentToPrompt(request.prompt, request.content),
                 size = model.size
             )
 
@@ -93,5 +100,9 @@ class OpenAiRepositoryImpl(
             Log.e(TAG, "API call failed: ${e.message}")
             Result.failure(e)
         }
+    }
+
+    override fun addContentToPrompt(prompt: String, content: String?): String {
+        return prompt.replace("<content>", content ?: "")
     }
 }

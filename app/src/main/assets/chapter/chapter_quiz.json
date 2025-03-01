@@ -25,12 +25,10 @@
         "question": "Nimmt Luna ein Ruder?",
         "answers": [
           {
-            "id": 1,
             "answer": "Ja",
             "isCorrect": true
           },
           {
-            "id": 2,
             "answer": "Nein",
             "isCorrect": false
           }
@@ -56,22 +54,18 @@
         "question": "Wieviele blaue Fische schwimmen über ein Fass?",
         "answers": [
           {
-            "id": 1,
             "answer": "2",
             "isCorrect": false
           },
           {
-            "id": 2,
             "answer": "1",
             "isCorrect": true
           },
           {
-            "id": 3,
             "answer": "3",
             "isCorrect": false
           },
           {
-            "id": 4,
             "answer": "4",
             "isCorrect": false
           }

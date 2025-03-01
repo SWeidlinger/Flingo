@@ -1,5 +1,7 @@
 package com.flingoapp.flingo.data.repository
 
+import PageDetails
+import PageDetailsType
 import com.flingoapp.flingo.data.datasource.BookDataSource
 import com.flingoapp.flingo.data.model.Book
 import com.flingoapp.flingo.data.model.Chapter
@@ -14,6 +16,7 @@ interface BookRepository {
     suspend fun fetchBook(data: String): Result<Book>
     suspend fun fetchChapter(data: String): Result<Chapter>
     suspend fun fetchPage(data: String): Result<Page>
+    suspend fun fetchPageDetails(type: PageDetailsType, data: String): Result<PageDetails>
     fun getBook(id: String): Result<Book>
     fun getChapter(chapterId: String, bookId: String): Result<Chapter>
     fun getPage(pageId: String, chapterId: String, bookId: String): Result<Page>
@@ -38,7 +41,7 @@ class BookRepositoryImpl(
 
     override suspend fun fetchBook(data: String): Result<Book> {
         return try {
-            val book = bookDataSource.getBook(data).getOrThrow()
+            val book = bookDataSource.parseBook(data).getOrThrow()
             Result.success(book)
         } catch (e: Exception) {
             Result.failure(e)
@@ -47,17 +50,27 @@ class BookRepositoryImpl(
 
     override suspend fun fetchChapter(data: String): Result<Chapter> {
         return try {
-            val chapter = bookDataSource.getChapter(data).getOrThrow()
+            val chapter = bookDataSource.parseChapter(data).getOrThrow()
             Result.success(chapter)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
+    //TODO: rework this does not need to have a fetchPage here as well
     override suspend fun fetchPage(data: String): Result<Page> {
         return try {
-            val page = bookDataSource.getPage(data).getOrThrow()
+            val page = bookDataSource.parsePage(data).getOrThrow()
             Result.success(page)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun fetchPageDetails(type: PageDetailsType, data: String): Result<PageDetails> {
+        return try {
+            val pageDetails = bookDataSource.parsePageDetails(type, data).getOrThrow()
+            Result.success(pageDetails)
         } catch (e: Exception) {
             Result.failure(e)
         }
