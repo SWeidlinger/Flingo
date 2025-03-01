@@ -19,6 +19,7 @@ sealed interface MainAction {
     sealed interface UserAction : MainAction {
         data object IncreaseLives : UserAction
         data object DecreaseLives : UserAction
+        data object RefillLives : UserAction
         data class SelectInterest(val interest: UserInterest) : UserAction
         data class RemoveInterest(val interest: UserInterest) : UserAction
         data class SelectImageStyle(val imageStyle: UserImageStyle) : UserAction

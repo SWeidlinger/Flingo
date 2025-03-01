@@ -44,6 +44,7 @@ class UserViewModel : ViewModel() {
             is MainAction.UserAction.FetchUser -> fetchUser(action.userJson)
             is MainAction.UserAction.SwitchUser -> switchUser(action.context)
             is MainAction.UserAction.SelectImageStyle -> selectImageStyle(action.imageStyle)
+            MainAction.UserAction.RefillLives -> refillLives()
         }
     }
 
@@ -102,6 +103,11 @@ class UserViewModel : ViewModel() {
         if (currentLives > 0) {
             updateUiState(_uiState.value.copy(currentLives = currentLives - 1))
         }
+    }
+
+    private fun refillLives(){
+        //TODO: now set to 5 lives
+        updateUiState(_uiState.value.copy(currentLives = 5))
     }
 
     private fun selectInterest(interest: UserInterest) {

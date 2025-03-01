@@ -18,13 +18,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.toRoute
 import com.flingoapp.flingo.BuildConfig
+import com.flingoapp.flingo.ui.screen.AllLivesLostScreen
 import com.flingoapp.flingo.ui.screen.ChallengeFinishedScreen
 import com.flingoapp.flingo.ui.screen.ChapterScreen
 import com.flingoapp.flingo.ui.screen.ChapterSelectionScreen
 import com.flingoapp.flingo.ui.screen.HomeScreen
-import com.flingoapp.flingo.ui.screen.UserScreen
 import com.flingoapp.flingo.ui.screen.SettingsScreen
 import com.flingoapp.flingo.ui.screen.StreakAndStarsScreen
+import com.flingoapp.flingo.ui.screen.UserScreen
 import com.flingoapp.flingo.viewmodel.BookViewModel
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.MainViewModel
@@ -250,6 +251,20 @@ fun NavHostComposable(
 
             SettingsScreen(
                 personalizationUiState = personalizationUiState,
+                onAction = {
+                    processAction(
+                        bookViewModel,
+                        userViewModel,
+                        personalizationViewModel,
+                        it
+                    )
+                },
+                onNavigate = { processNavigation(it, navController) }
+            )
+        }
+
+        composable<NavigationDestination.AllLivesLost> {
+            AllLivesLostScreen(
                 onAction = {
                     processAction(
                         bookViewModel,

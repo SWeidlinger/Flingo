@@ -50,4 +50,7 @@ sealed interface NavigationDestination {
 
     @Serializable
     data object Settings : NavigationDestination
+
+    @Serializable
+    data object AllLivesLost : NavigationDestination
 }

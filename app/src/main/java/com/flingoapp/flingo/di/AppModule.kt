@@ -4,8 +4,6 @@ import android.app.Application
 import android.content.Context
 import com.flingoapp.flingo.data.datasource.BookDataSource
 import com.flingoapp.flingo.data.datasource.BookDataSourceJsonImpl
-//import com.flingoapp.flingo.data.datasource.PersonalizationDataSource
-//import com.flingoapp.flingo.data.datasource.PersonalizationDataSourceImpl
 import com.flingoapp.flingo.data.network.AndroidConnectivityObserver
 import com.flingoapp.flingo.data.network.ConnectivityObserver
 import com.flingoapp.flingo.data.repository.BookRepository

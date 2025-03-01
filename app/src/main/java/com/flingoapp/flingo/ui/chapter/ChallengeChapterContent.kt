@@ -27,6 +27,7 @@ import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.page.Page
 import com.flingoapp.flingo.navigation.NavigationAction
+import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.challenge.orderStory.OrderStoryChallengeContent
 import com.flingoapp.flingo.ui.challenge.quiz.QuizChallengeContent
@@ -70,6 +71,12 @@ fun ChallengeChapterContent(
     LaunchedEffect(chapterCompleted) {
         if (chapterCompleted) {
             onAction(MainAction.BookAction.CompleteChapter)
+        }
+    }
+
+    LaunchedEffect(currentLives) {
+        if (currentLives <= 0) {
+            onNavigate(NavigationAction.Screen(NavigationDestination.AllLivesLost))
         }
     }
 
