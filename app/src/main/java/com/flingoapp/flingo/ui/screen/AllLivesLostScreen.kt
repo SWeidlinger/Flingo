@@ -102,7 +102,7 @@ fun AllLivesLostScreen(
                     modifier = Modifier.weight(1f),
                     resId = R.raw.rive_heart,
                     update = { animation ->
-                        if (index == shakeCounter) {
+                        if (index <= shakeCounter) {
                             animation.play("like")
                         }
                     }

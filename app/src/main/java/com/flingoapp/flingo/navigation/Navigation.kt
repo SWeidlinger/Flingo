@@ -182,7 +182,7 @@ fun NavHostComposable(
             val args = backStackEntry.toRoute<NavigationDestination.ChallengeFinished>()
 
             ChallengeFinishedScreen(
-                mainUiState = mainUiState,
+                bookUiState = bookUiState,
                 onAction = {
                     processAction(
                         bookViewModel,
@@ -320,7 +320,7 @@ private fun processNavigation(
     when (intent) {
         is NavigationAction.Screen -> {
             Log.i("Navigation", "Navigating to ${intent.destination.javaClass.simpleName}")
-            navController.navigate(intent.destination)
+            navController.navigate(intent.destination, intent.navOptions)
         }
 
         is NavigationAction.Up -> {

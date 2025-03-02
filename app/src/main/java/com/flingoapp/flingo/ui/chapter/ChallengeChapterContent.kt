@@ -70,7 +70,7 @@ fun ChallengeChapterContent(
 
     LaunchedEffect(chapterCompleted) {
         if (chapterCompleted) {
-            onAction(MainAction.BookAction.CompleteChapter)
+            onNavigate(NavigationAction.Screen(NavigationDestination.ChallengeFinished))
         }
     }
 

@@ -1,5 +1,7 @@
 package com.flingoapp.flingo.navigation
 
+import androidx.navigation.NavOptions
+
 /**
  * Navigation intent used to handle navigation requests
  *
@@ -12,7 +14,7 @@ sealed interface NavigationAction {
      * @property destination
      * @constructor Create empty Navigate to home
      */
-    data class Screen(val destination: NavigationDestination) : NavigationAction
+    data class Screen(val destination: NavigationDestination, val navOptions: NavOptions? = null) : NavigationAction
 
     /**
      * Navigate up
