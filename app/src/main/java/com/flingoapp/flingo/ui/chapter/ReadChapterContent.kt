@@ -50,6 +50,7 @@ import com.flingoapp.flingo.data.model.MockData
 import com.flingoapp.flingo.data.model.page.Page
 import com.flingoapp.flingo.decodeBase64ToImage
 import com.flingoapp.flingo.navigation.NavigationAction
+import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.CustomHighlightedText
 import com.flingoapp.flingo.ui.component.topbar.CustomReadingTopBar
@@ -98,6 +99,13 @@ fun ReadChapterContent(
     LaunchedEffect(pagerState.currentPage) {
         onAction(MainAction.BookAction.SelectPage(pagerState.currentPage))
         readingTextScrollState.animateScrollTo(0)
+    }
+
+    val completedPages = remember { mutableStateListOf<Int>() }
+    LaunchedEffect(completedPages.size) {
+        if (completedPages.size == safePages.size) {
+            onNavigate(NavigationAction.Screen(NavigationDestination.ChallengeFinished))
+        }
     }
 
     var showOriginalContent by remember { mutableStateOf(false) }
@@ -190,10 +198,8 @@ fun ReadChapterContent(
                             onClick = {
                                 wordIndexList[pagerState.currentPage] += 1
                                 if (wordIndexList[pagerState.currentPage] >= wordCountList[pagerState.currentPage]) {
-                                    if (pagerState.currentPage == pagerState.pageCount - 1) {
-                                        onAction(MainAction.BookAction.CompleteChapter)
-                                        onNavigate(NavigationAction.Up())
-                                    } else {
+                                    completedPages.add(pagerState.currentPage)
+                                    if (pagerState.currentPage < pagerState.pageCount) {
                                         coroutineScope.launch {
                                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
                                         }

@@ -60,7 +60,22 @@ fun CustomHighlightedText(
     enabled: Boolean = true,
     highlightColor: Color = MaterialTheme.colorScheme.primary,
     textStyle: TextStyle = MaterialTheme.typography.headlineLarge,
-    lineCount: (Int) -> Unit = {}
+    lineCount: (Int) -> Unit = {},
+    //animation parameters
+    shiftInitialValue: Float = -2f,
+    shiftTargetValue: Float = 2f,
+    shiftAnimationDuration: Int = 2000,
+    tiltInitialValue: Float = -2f,
+    tiltTargetValue: Float = 2f,
+    tiltAnimationDuration: Int = 3000,
+    inflateHorizontalInitialValue: Float = 8f,
+    inflateHorizontalTargetValue: Float = 11f,
+    inflateVerticalInitialValue: Float = 5f,
+    inflateVerticalTargetValue: Float = 7f,
+    inflateAnimationDuration: Int = 2000,
+    cornerRadiusInitialValue: Float = 15f,
+    cornerRadiusTargetValue: Float = 25f,
+    cornerRadiusAnimationDuration: Int = 2000
 ) {
     if (content.isEmpty()) return
 
@@ -100,56 +115,53 @@ fun CustomHighlightedText(
 
     // vertical shift
     val shiftY by infiniteTransition.animateFloat(
-        initialValue = -2f,
-        targetValue = 2f,
+        initialValue = shiftInitialValue,
+        targetValue = shiftTargetValue,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2000, easing = LinearEasing),
+            animation = tween(durationMillis = shiftAnimationDuration, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )
     // horizontal shift
     val shiftX by infiniteTransition.animateFloat(
-        initialValue = -2f,
-        targetValue = 2f,
+        initialValue = shiftInitialValue,
+        targetValue = shiftTargetValue,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2000, easing = LinearEasing),
+            animation = tween(durationMillis = shiftAnimationDuration, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )
 
     val tiltAngle by infiniteTransition.animateFloat(
-        initialValue = -2f,
-        targetValue = 2f,
+        initialValue = tiltInitialValue,
+        targetValue = tiltTargetValue,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 3000, easing = LinearEasing),
+            animation = tween(durationMillis = tiltAnimationDuration, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )
 
-    val baseInflateHorizontal = 8f
-    val baseInflateVertical = 5f
-
     val animatedInflateHorizontal by infiniteTransition.animateFloat(
-        initialValue = baseInflateHorizontal,
-        targetValue = baseInflateHorizontal + 3f,
+        initialValue = inflateHorizontalInitialValue,
+        targetValue = inflateHorizontalTargetValue,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2000, easing = LinearEasing),
+            animation = tween(durationMillis = inflateAnimationDuration, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )
     val animatedInflateVertical by infiniteTransition.animateFloat(
-        initialValue = baseInflateVertical,
-        targetValue = baseInflateVertical + 2f,
+        initialValue = inflateVerticalInitialValue,
+        targetValue = inflateVerticalTargetValue,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2000, easing = LinearEasing),
+            animation = tween(durationMillis = inflateAnimationDuration, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )
     val animatedCornerRadius by infiniteTransition.animateFloat(
-        initialValue = 15f,
-        targetValue = 25f,
+        initialValue = cornerRadiusInitialValue,
+        targetValue = cornerRadiusTargetValue,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 2000, easing = LinearEasing),
+            animation = tween(durationMillis = cornerRadiusAnimationDuration, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )
