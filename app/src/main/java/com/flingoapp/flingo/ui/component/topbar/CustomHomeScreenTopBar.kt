@@ -1,22 +1,15 @@
 package com.flingoapp.flingo.ui.component.topbar
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,10 +27,7 @@ import com.flingoapp.flingo.R
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton2
 import com.flingoapp.flingo.ui.component.button.CustomIconButton
-import com.flingoapp.flingo.ui.lighten
-import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
-import com.flingoapp.flingo.ui.toDp
 
 /**
  * Custom home screen top bar, used specifically for the HomeScreen, currently not showing the streak as it
@@ -97,56 +87,48 @@ fun CustomHomeScreenTopBar(
             var iconButtonSize by remember { mutableStateOf(IntSize.Zero) }
             var lottieIconSize by remember { mutableStateOf(IntSize.Zero) }
 
-            Row(
-                modifier = Modifier
-                    .height(iconButtonSize.height.toDp())
-                    .background(
-                        color = FlingoColors.LightGray,
-                        shape = RoundedCornerShape(bottomStartPercent = 20, bottomEndPercent = 20)
-                    )
-                    .clickable { onStreakClick() }
-            ) {
-                LottieIconWithText(
-                    modifier = Modifier
-                        .onGloballyPositioned {
-                            lottieIconSize = it.size
-                        }
-                        .fillMaxHeight(),
-                    lottieModifier = Modifier
-                        .offset(0.dp, (-8).dp),
-                    lottieAnimation = R.raw.animation_fire_streak,
-                    animationSpeed = 0.3f,
-                    lottieOnRight = false,
-                    text = currentStreak.toString()
-                )
-
-                VerticalDivider(
-                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp),
-                    thickness = 2.dp,
-                    color = FlingoColors.Text.lighten(0.75f)
-                )
-
-                LottieIconWithText(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(lottieIconSize.width.toDp()),
-                    lottieModifier = Modifier
-                        .offset(0.dp, (-2).dp)
-                        .padding(start = 8.dp),
-                    animationSpeed = 0.3f,
-                    lottieAnimation = R.raw.animation_heartbeat,
-                    lottieOnRight = true,
-                    text = currentLives.toString(),
-                )
-
-                //TODO: could be used in other parts of the application
-//            val context = LocalContext.current
-//            Rive.init(context)
-//            RiveAnimation(
-//                modifier = Modifier.fillMaxSize(),
-//                resId = R.raw.rive_flame
-//            )
-            }
+//            Row(
+//                modifier = Modifier
+//                    .height(iconButtonSize.height.toDp())
+//                    .background(
+//                        color = FlingoColors.LightGray,
+//                        shape = RoundedCornerShape(bottomStartPercent = 20, bottomEndPercent = 20)
+//                    )
+//                    .clickable { onStreakClick() }
+//            ) {
+//                LottieIconWithText(
+//                    modifier = Modifier
+//                        .onGloballyPositioned {
+//                            lottieIconSize = it.size
+//                        }
+//                        .fillMaxHeight(),
+//                    lottieModifier = Modifier
+//                        .offset(0.dp, (-8).dp),
+//                    lottieAnimation = R.raw.animation_fire_streak,
+//                    animationSpeed = 0.3f,
+//                    lottieOnRight = false,
+//                    text = currentStreak.toString()
+//                )
+//
+//                VerticalDivider(
+//                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp),
+//                    thickness = 2.dp,
+//                    color = FlingoColors.Text.lighten(0.75f)
+//                )
+//
+//                LottieIconWithText(
+//                    modifier = Modifier
+//                        .fillMaxHeight()
+//                        .width(lottieIconSize.width.toDp()),
+//                    lottieModifier = Modifier
+//                        .offset(0.dp, (-2).dp)
+//                        .padding(start = 8.dp),
+//                    animationSpeed = 0.3f,
+//                    lottieAnimation = R.raw.animation_heartbeat,
+//                    lottieOnRight = true,
+//                    text = currentLives.toString(),
+//                )
+//            }
 
             Row(
                 modifier = Modifier

@@ -180,7 +180,8 @@ class PersonalizationRepositoryImpl(
 
         //generate image prompts for parts
         val imageGenerationPromptRequest = genAiModule.basePrompts.imageGenerationPromptForText(
-            content = personalizedTextPartsResponse
+            content = personalizedTextPartsResponse,
+            personalizationAspects = personalizationAspects
         )
         _usedPrompts.update {
             it + imageGenerationPromptRequest.toString()

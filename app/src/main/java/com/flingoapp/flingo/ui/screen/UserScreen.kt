@@ -257,19 +257,19 @@ fun UserScreen(
 }
 
 enum class UserInterest(val displayName: String, val prompt: String) {
-    ROBOTS(displayName = "Roboter", prompt = "Roboter"),
-    PIRATES(displayName = "Piraten", prompt = "Piraten"),
-    SUPERHEROS(displayName = "Superhelden", prompt = "Superhelden"),
+    ROBOTS(displayName = "Roboter", prompt = "Robots"),
+    PIRATES(displayName = "Piraten", prompt = "Pirats"),
+    SUPERHEROS(displayName = "Superhelden", prompt = "Superheros"),
     MONSTER(displayName = "Monster", prompt = "Monster"),
-    SPACE(displayName = "Weltraum", prompt = "Weltraum"),
-    MAGIC(displayName = "Magie", prompt = "Magie"),
-    SEAWORLD(displayName = "Meereswelt", prompt = "Meereswelt"),
+    SPACE(displayName = "Weltraum", prompt = "Space"),
+    MAGIC(displayName = "Magie", prompt = "Magic"),
+    SEAWORLD(displayName = "Meereswelt", prompt = "Seaworld"),
     SPORT(displayName = "Sport", prompt = "Sport")
 }
 
 enum class UserImageStyle(val displayName: String, val prompt: String) {
     COMIC(displayName = "Comic", prompt = "Comic"),
-    REALISTIC(displayName = "Realistisch", prompt = "Realistisch")
+    REALISTIC(displayName = "Realistisch", prompt = "Realistic")
 }
 
 @CustomPreview

@@ -45,7 +45,8 @@ interface GenAiRequestBuilder {
     ): GenAiRequest
 
     fun imageGenerationPromptForText(
-        content: String?
+        content: String?,
+        personalizationAspects: PersonalizationAspects?
     ): GenAiRequest
 
     fun addPersonalizationAspects(basePrompt: String, personalizationAspects: PersonalizationAspects?): String
@@ -219,10 +220,17 @@ class GenAiRequestBuilderDefaultImpl(val context: Context) : GenAiRequestBuilder
         )
     }
 
-    override fun imageGenerationPromptForText(content: String?): GenAiRequest {
-        //TODO: add image personalization
+    override fun imageGenerationPromptForText(
+        content: String?,
+        personalizationAspects: PersonalizationAspects?
+    ): GenAiRequest {
+        val personalizedPrompt = addPersonalizationAspects(
+            convertFileToText(IMAGE_GENERATION_PROMPT_FOR_TEXT_RESOURCE),
+            personalizationAspects
+        )
+
         return GenAiRequest(
-            prompt = convertFileToText(IMAGE_GENERATION_PROMPT_FOR_TEXT_RESOURCE),
+            prompt = personalizedPrompt,
             jsonResponseSchema = convertFileToJson(IMAGE_GENERATION_PROMPT_FOR_TEXT_JSON_SCHEMA),
             content = content ?: ""
         )
