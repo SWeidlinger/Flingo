@@ -10,3 +10,4 @@ Keep all the styles of all prompts to be consistent with this theme <image_style
 
 Content:
 <content>
+
