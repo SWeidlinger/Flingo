@@ -60,6 +60,18 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import java.util.concurrent.TimeUnit
 
+/**
+ * Order story challenge content
+ *
+ * @param modifier
+ * @param onNavigate
+ * @param pageDetails
+ * @param onAction
+ * @param onPageCompleted
+ * @receiver
+ * @receiver
+ * @receiver
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OrderStoryChallengeContent(

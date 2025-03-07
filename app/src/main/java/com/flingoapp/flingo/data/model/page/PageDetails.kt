@@ -7,6 +7,11 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.JsonClassDiscriminator
 
+/**
+ * Page details
+ *
+ * @constructor Create empty Page details
+ */
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable
 @JsonClassDiscriminator("pageDetailsType")
@@ -14,6 +19,17 @@ sealed interface PageDetails {
     @SerialName("pageDetailsType")
     val type: PageDetailsType
 
+    /**
+     * Read
+     *
+     * @property type
+     * @property content
+     * @property originalContent
+     * @property imagePrompt
+     * @property imageData
+     * @property isFromVertexAi
+     * @constructor Create empty Read
+     */
     @Serializable
     @SerialName("read")
     data class Read(
@@ -27,6 +43,14 @@ sealed interface PageDetails {
         @Transient val isFromVertexAi: Boolean = false
     ) : PageDetails
 
+    /**
+     * Remove word
+     *
+     * @property type
+     * @property content
+     * @property answer
+     * @constructor Create empty Remove word
+     */
     @Serializable
     @SerialName("remove_word")
     data class RemoveWord(
@@ -35,6 +59,14 @@ sealed interface PageDetails {
         val answer: String
     ) : PageDetails
 
+    /**
+     * Order story
+     *
+     * @property type
+     * @property content
+     * @property correctOrder
+     * @constructor Create empty Order story
+     */
     @Serializable
     @SerialName("order_story")
     data class OrderStory(
@@ -42,6 +74,13 @@ sealed interface PageDetails {
         val content: List<Content>,
         val correctOrder: List<Int>
     ) : PageDetails {
+        /**
+         * Content
+         *
+         * @property id
+         * @property text
+         * @constructor Create empty Content
+         */
         @Serializable
         data class Content(
             val id: Int,
@@ -49,6 +88,15 @@ sealed interface PageDetails {
         )
     }
 
+    /**
+     * Quiz
+     *
+     * @property type
+     * @property quizType
+     * @property question
+     * @property answers
+     * @constructor Create empty Quiz
+     */
     @Serializable
     @SerialName("quiz")
     data class Quiz(
@@ -57,15 +105,37 @@ sealed interface PageDetails {
         val question: String,
         val answers: List<Answer>
     ) : PageDetails {
+        /**
+         * Quiz type
+         *
+         * @constructor Create empty Quiz type
+         */
         @Serializable
         enum class QuizType {
+            /**
+             * True Or False
+             *
+             * @constructor Create empty True Or False
+             */
             @SerialName("true_or_false")
             TRUE_OR_FALSE,
 
+            /**
+             * Single Choice
+             *
+             * @constructor Create empty Single Choice
+             */
             @SerialName("single_choice")
             SINGLE_CHOICE
         }
 
+        /**
+         * Answer
+         *
+         * @property answer
+         * @property isCorrect
+         * @constructor Create empty Answer
+         */
         @Serializable
         data class Answer(
             val answer: String,
@@ -75,42 +145,55 @@ sealed interface PageDetails {
 }
 
 /**
- * Page type enum can either be remove word type, context based questions type, change character type,
- * currently not in use
+ * Page details type
  *
- * @constructor Create empty Page type
+ * @constructor Create empty Page details type
  */
 @Serializable
 enum class PageDetailsType {
     /**
-     * Reading page
+     * Read
      *
+     * @constructor Create empty Read
      */
     @SerialName("read")
     READ,
 
     /**
-     * Remove Word type
+     * Remove Word
      *
+     * @constructor Create empty Remove Word
      */
     @SerialName("remove_word")
     REMOVE_WORD,
 
     /**
-     * Context Based Questions type
+     * Quiz
      *
+     * @constructor Create empty Quiz
      */
     @SerialName("quiz")
     QUIZ,
 
     /**
-     * Order Story type
+     * Order Story
      *
+     * @constructor Create empty Order Story
      */
     @SerialName("order_story")
     ORDER_STORY
 }
 
+/**
+ * Page details selection entry
+ *
+ * @property iconRes
+ * @property title
+ * @property pageType
+ * @property backgroundColor
+ * @property iconTint
+ * @constructor Create empty Page details selection entry
+ */
 enum class PageDetailsSelectionEntry(
     val iconRes: Int,
     val title: String,
@@ -118,6 +201,11 @@ enum class PageDetailsSelectionEntry(
     val backgroundColor: Color,
     val iconTint: Color
 ) {
+    /**
+     * Remove Word
+     *
+     * @constructor Create empty Remove Word
+     */
     REMOVE_WORD(
         iconRes = R.drawable.pagedetails_remove_word_icon,
         title = "Remove Word",
@@ -125,6 +213,12 @@ enum class PageDetailsSelectionEntry(
         backgroundColor = Color(0xFF0094D0),
         iconTint = Color(0xFF56CDFF)
     ),
+
+    /**
+     * Quiz
+     *
+     * @constructor Create empty Quiz
+     */
     QUIZ(
         iconRes = R.drawable.pagedetails_quiz_icon,
         title = "Quiz",
@@ -132,6 +226,12 @@ enum class PageDetailsSelectionEntry(
         backgroundColor = Color(0xFFf7904d),
         iconTint = Color(0xFFFFBB6F)
     ),
+
+    /**
+     * Order Story
+     *
+     * @constructor Create empty Order Story
+     */
     ORDER_STORY(
         iconRes = R.drawable.pagedetails_order_story_icon,
         title = "Order Story",

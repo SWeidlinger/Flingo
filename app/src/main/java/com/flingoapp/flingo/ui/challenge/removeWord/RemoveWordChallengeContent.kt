@@ -44,6 +44,19 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import java.util.concurrent.TimeUnit
 
+/**
+ * Remove word challenge content
+ *
+ * @param modifier
+ * @param onNavigate
+ * @param onAction
+ * @param pageDetails
+ * @param pagerState
+ * @param onPageCompleted
+ * @receiver
+ * @receiver
+ * @receiver
+ */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RemoveWordChallengeContent(

@@ -51,25 +51,9 @@ class MainActivity : ComponentActivity() {
 
     private fun loadMockData(bookViewModel: BookViewModel, userViewModel: UserViewModel) {
         val bookList = mutableListOf<String>()
-        val book1 =
-            assets.open("book/book_example_textbook_wunderwelt_sprache.json").bufferedReader()
+        val exampleBook = assets.open("book/book_example_textbook_wunderwelt_sprache.json").bufferedReader()
                 .use { it.readText() }
-        bookList.add(book1)
-
-//        val book2 =
-//            assets.open("book/book_remove_word.json").bufferedReader()
-//                .use { it.readText() }
-//        bookList.add(book2)
-//
-//        val book3 =
-//            assets.open("book/book_quiz.json").bufferedReader()
-//                .use { it.readText() }
-//        bookList.add(book3)
-//
-//        val book4 =
-//            assets.open("book/book_order_story.json").bufferedReader()
-//                .use { it.readText() }
-//        bookList.add(book4)
+        bookList.add(exampleBook)
 
         val user = assets.open("user/user_jakob.json").bufferedReader().use { it.readText() }
 

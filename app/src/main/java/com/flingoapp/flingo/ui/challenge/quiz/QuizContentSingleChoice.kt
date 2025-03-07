@@ -32,6 +32,17 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.viewmodel.MainAction
 
+/**
+ * Quiz content single choice
+ *
+ * @param modifier
+ * @param pageDetails
+ * @param onAction
+ * @param buttonProgressAnimation
+ * @param onQuestionAnswered
+ * @receiver
+ * @receiver
+ */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun QuizContentSingleChoice(

@@ -16,6 +16,17 @@ import com.flingoapp.flingo.viewmodel.BookUiState
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.UserUiState
 
+/**
+ * Chapter screen
+ *
+ * @param bookUiState
+ * @param userUiState
+ * @param chapter
+ * @param onAction
+ * @param onNavigate
+ * @receiver
+ * @receiver
+ */
 @Composable
 fun ChapterScreen(
     bookUiState: BookUiState,

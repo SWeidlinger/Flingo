@@ -46,6 +46,14 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.MainAction
 import kotlin.math.sqrt
 
+/**
+ * All lives lost screen
+ *
+ * @param onAction
+ * @param onNavigate
+ * @receiver
+ * @receiver
+ */
 @Composable
 fun AllLivesLostScreen(
     onAction: (MainAction) -> Unit,

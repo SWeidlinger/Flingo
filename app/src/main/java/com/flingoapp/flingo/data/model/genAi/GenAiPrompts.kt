@@ -8,23 +8,58 @@ import com.flingoapp.flingo.viewmodel.PersonalizationAspects
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 
+/**
+ * Gen ai request builder, a unified interface for creating different types of genAi requests that cater to various genAI models and frameworks
+ *
+ * @constructor Create empty Gen ai request builder
+ */
 interface GenAiRequestBuilder {
+    /**
+     * Book request
+     *
+     * @param content
+     * @param personalizationAspects
+     * @return
+     */
     //general
     fun bookRequest(
         content: String?,
         personalizationAspects: PersonalizationAspects?
     ): GenAiRequest
 
+    /**
+     * Chapter request
+     *
+     * @param content
+     * @param personalizationAspects
+     * @return
+     */
     fun chapterRequest(
         content: String?,
         personalizationAspects: PersonalizationAspects?
     ): GenAiRequest
 
+    /**
+     * Page request
+     *
+     * @param content
+     * @param personalizationAspects
+     * @return
+     */
     fun pageRequest(
         content: String?,
         personalizationAspects: PersonalizationAspects?
     ): GenAiRequest
 
+    /**
+     * Page details request, generate a reading challenge based on the page details type
+     *
+     * @param type
+     * @param quizType
+     * @param requestPageAmount
+     * @param content
+     * @return
+     */
     fun pageDetailsRequest(
         type: PageDetailsType,
         quizType: PageDetails.Quiz.QuizType? = null,
@@ -32,34 +67,87 @@ interface GenAiRequestBuilder {
         content: String?
     ): GenAiRequest
 
+    /**
+     * Image request
+     *
+     * @param prompt
+     * @return
+     */
     fun imageRequest(prompt: String): GenAiRequest
 
-    //specific
+    /**
+     * Split text request, used for generating a book from text
+     *
+     * @param content
+     * @return
+     *///specific
     fun splitTextRequest(
         content: String?
     ): GenAiRequest
 
+    /**
+     * Personalize text parts, used for generating a book from a text
+     *
+     * @param content
+     * @param personalizationAspects
+     * @return
+     */
     fun personalizeTextParts(
         content: String?,
         personalizationAspects: PersonalizationAspects?
     ): GenAiRequest
 
+    /**
+     * Image generation prompt for text
+     *
+     * @param content
+     * @param personalizationAspects
+     * @return
+     */
     fun imageGenerationPromptForText(
         content: String?,
         personalizationAspects: PersonalizationAspects?
     ): GenAiRequest
 
+    /**
+     * Add personalization aspects
+     *
+     * @param basePrompt
+     * @param personalizationAspects
+     * @return
+     */
     fun addPersonalizationAspects(basePrompt: String, personalizationAspects: PersonalizationAspects?): String
 
+    /**
+     * Add page amount to prompt
+     *
+     * @param prompt
+     * @param amount
+     * @return
+     */
     fun addPageAmountToPrompt(prompt: String, amount: Int): String
 }
 
+/**
+ * Gen ai request
+ *
+ * @property prompt
+ * @property jsonResponseSchema
+ * @property content
+ * @constructor Create empty Gen ai request
+ */
 data class GenAiRequest(
     val prompt: String,
     val jsonResponseSchema: JsonElement? = null,
     val content: String
 )
 
+/**
+ * Gen ai request builder default impl
+ *
+ * @property context
+ * @constructor Create empty Gen ai request builder default impl
+ */
 class GenAiRequestBuilderDefaultImpl(val context: Context) : GenAiRequestBuilder {
     companion object {
         private const val TAG = "GenAiBasePromptsDefaultImpl"

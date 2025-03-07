@@ -24,6 +24,16 @@ import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.viewmodel.MainAction
 
+/**
+ * Quiz content true or false
+ *
+ * @param modifier
+ * @param pageDetails
+ * @param onAction
+ * @param onQuestionAnswered
+ * @receiver
+ * @receiver
+ */
 @Composable
 fun QuizContentTrueOrFalse(
     modifier: Modifier = Modifier,

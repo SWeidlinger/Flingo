@@ -10,10 +10,22 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
+/**
+ * Connectivity observer
+ *
+ * @constructor Create empty Connectivity observer
+ */
 interface ConnectivityObserver {
     val isConnected: Flow<Boolean>
 }
 
+/**
+ * Android connectivity observer to observe network connectivity status and changes
+ *
+ * @constructor
+ *
+ * @param context
+ */
 class AndroidConnectivityObserver(context: Context) : ConnectivityObserver {
     private val connectivityManager = context.getSystemService<ConnectivityManager>()!!
 

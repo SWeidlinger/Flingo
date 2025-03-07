@@ -26,6 +26,14 @@ import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlinx.coroutines.launch
 
+/**
+ * Custom challenge page indicator
+ *
+ * @param modifier
+ * @param pagerState
+ * @param pages
+ * @param showPageControlButtons
+ */
 @Composable
 fun CustomChallengePageIndicator(
     modifier: Modifier = Modifier,

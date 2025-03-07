@@ -29,6 +29,13 @@ import dev.omkartenkale.explodable.ExplosionAnimationSpec
 import dev.omkartenkale.explodable.rememberExplosionController
 import kotlinx.coroutines.delay
 
+/**
+ * Heart explodable
+ *
+ * @param modifier
+ * @param currentLives
+ * @param animationSpeed
+ */
 @Composable
 fun HeartExplodable(
     modifier: Modifier = Modifier,

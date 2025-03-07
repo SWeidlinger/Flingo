@@ -13,6 +13,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+/**
+ * Book ui state
+ *
+ * @property isLoading
+ * @property isError
+ * @property books
+ * @property currentBookId
+ * @property currentChapterId
+ * @property currentPageId
+ * @constructor Create empty Book ui state
+ */
 data class BookUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
@@ -22,6 +33,12 @@ data class BookUiState(
     val currentPageId: Int? = null
 )
 
+/**
+ * Book view model
+ *
+ * @property bookRepository
+ * @constructor Create empty Book view model
+ */
 class BookViewModel(
     private val bookRepository: BookRepository
 ) : ViewModel() {
@@ -40,6 +57,11 @@ class BookViewModel(
         }
     }
 
+    /**
+     * On action
+     *
+     * @param action
+     */
     fun onAction(action: MainAction.BookAction) {
         when (action) {
             is MainAction.BookAction.SelectBook -> selectBook(action.bookId)
@@ -266,11 +288,20 @@ class BookViewModel(
         }
     }
 
-    //TODO: getting the book should be handled differently, and these functions should probably be removed
+    /**
+     * Get current book
+     *
+     * @return
+     *///TODO: getting the book should be handled differently, and these functions should probably be removed
     fun getCurrentBook(): Book {
         return bookRepository.getBook(_uiState.value.currentBookId.toString()).getOrThrow()
     }
 
+    /**
+     * Get current chapter
+     *
+     * @return
+     */
     fun getCurrentChapter(): Chapter {
         return bookRepository.getChapter(
             bookId = _uiState.value.currentBookId.toString(),
@@ -278,6 +309,12 @@ class BookViewModel(
         ).getOrThrow()
     }
 
+    /**
+     * Get reading pages
+     *
+     * @param bookId
+     * @return
+     */
     fun getReadingPages(bookId: String): List<Page>? {
         val book = bookRepository.getBook(bookId).getOrThrow()
 

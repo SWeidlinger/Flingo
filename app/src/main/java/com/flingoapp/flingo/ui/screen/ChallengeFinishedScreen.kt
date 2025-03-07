@@ -35,6 +35,15 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.BookUiState
 import com.flingoapp.flingo.viewmodel.MainAction
 
+/**
+ * Challenge finished screen
+ *
+ * @param bookUiState
+ * @param onAction
+ * @param onNavigate
+ * @receiver
+ * @receiver
+ */
 @Composable
 fun ChallengeFinishedScreen(
     bookUiState: BookUiState,

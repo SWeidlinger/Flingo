@@ -19,6 +19,11 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement
 
 
+/**
+ * Google ai repository impl
+ *
+ * @constructor Create empty Google ai repository impl
+ */
 class GoogleAiRepositoryImpl : GenAiRepository {
     companion object {
         private const val TAG = "GoogleAiRepositoryImpl"
@@ -74,6 +79,13 @@ class GoogleAiRepositoryImpl : GenAiRepository {
         }
     }
 
+    /**
+     * Get image response
+     *
+     * @param model
+     * @param request
+     * @return
+     */
     @OptIn(PublicPreviewAPI::class)
     override suspend fun getImageResponse(model: GenAiImageModel, request: GenAiRequest): Result<String> {
         Log.e(
@@ -116,7 +128,14 @@ class GoogleAiRepositoryImpl : GenAiRepository {
     }
 }
 
-//TODO: move to separate file
+/**
+ * Open a i schema file
+ *
+ * @property name
+ * @property strict
+ * @property schema
+ * @constructor Create empty Open a i schema file
+ *///TODO: move to separate file
 @Serializable
 data class OpenAISchemaFile(
     val name: String,
@@ -124,6 +143,15 @@ data class OpenAISchemaFile(
     val schema: JSONSchema
 )
 
+/**
+ * J s o n schema
+ *
+ * @property type
+ * @property properties
+ * @property required
+ * @property additionalProperties
+ * @constructor Create empty J s o n schema
+ */
 @Serializable
 data class JSONSchema(
     val type: String,
@@ -133,6 +161,17 @@ data class JSONSchema(
 )
 
 
+/**
+ * Schema property
+ *
+ * @property type
+ * @property description
+ * @property items
+ * @property properties
+ * @property required
+ * @property additionalProperties
+ * @constructor Create empty Schema property
+ */
 @Serializable
 data class SchemaProperty(
     val type: String,
@@ -145,6 +184,12 @@ data class SchemaProperty(
 
 // --- Vertex schema conversion functions ---
 
+/**
+ * Convert schema property to vertex schema
+ *
+ * @param prop
+ * @return
+ */
 fun convertSchemaPropertyToVertexSchema(prop: SchemaProperty): Schema {
     return when (prop.type.lowercase()) {
         "string" -> Schema.string(prop.description, nullable = false)
@@ -179,6 +224,12 @@ fun convertSchemaPropertyToVertexSchema(prop: SchemaProperty): Schema {
     }
 }
 
+/**
+ * Convert j s o n schema to vertex schema
+ *
+ * @param jsonSchema
+ * @return
+ */
 fun convertJSONSchemaToVertexSchema(jsonSchema: JSONSchema): Schema {
     if (jsonSchema.type.lowercase() != "object") {
         throw IllegalArgumentException("Root schema must be an object")
@@ -202,6 +253,12 @@ fun convertJSONSchemaToVertexSchema(jsonSchema: JSONSchema): Schema {
     return Schema.obj(properties, optionalProps, "Root schema generated from JSON", nullable = false)
 }
 
+/**
+ * Load vertex schema from json element
+ *
+ * @param jsonElement
+ * @return
+ */
 fun loadVertexSchemaFromJsonElement(jsonElement: JsonElement): Schema {
     val jsonDeserializer = Json { ignoreUnknownKeys = true }
     val openAISchemaFile = jsonDeserializer.decodeFromJsonElement<OpenAISchemaFile>(jsonElement)

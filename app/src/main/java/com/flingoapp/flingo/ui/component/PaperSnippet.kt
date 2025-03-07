@@ -21,6 +21,16 @@ import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlin.random.Random
 
+/**
+ * Paper snippet
+ *
+ * @param text
+ * @param modifier
+ * @param textColor
+ * @param snippetColor
+ * @param onDragEnd
+ * @receiver
+ */
 @Composable
 fun PaperSnippet(
     text: String,

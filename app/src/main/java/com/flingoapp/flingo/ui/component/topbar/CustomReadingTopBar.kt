@@ -30,6 +30,24 @@ import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomIconButton
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 
+/**
+ * Custom reading top bar
+ *
+ * @param modifier
+ * @param title
+ * @param navigateUp
+ * @param pageCount
+ * @param pagerState
+ * @param wordIndexList
+ * @param wordCountList
+ * @param onAwardClick
+ * @param onSettingsClick
+ * @param onSettingsLongClick
+ * @receiver
+ * @receiver
+ * @receiver
+ * @receiver
+ */
 @Composable
 fun CustomReadingTopBar(
     modifier: Modifier = Modifier,

@@ -29,6 +29,17 @@ import com.flingoapp.flingo.R
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.ui.toDp
 
+/**
+ * Lottie icon with text
+ *
+ * @param modifier
+ * @param lottieModifier
+ * @param lottieAnimation
+ * @param text
+ * @param animationSpeed
+ * @param lottieAlignment
+ * @param lottieOnRight
+ */
 @Composable
 fun LottieIconWithText(
     modifier: Modifier = Modifier,

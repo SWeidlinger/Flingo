@@ -11,24 +11,143 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+/**
+ * Book repository
+ *
+ * @constructor Create empty Book repository
+ */
 interface BookRepository {
     val books: StateFlow<List<Book>>
+
+    /**
+     * Fetch book
+     *
+     * @param data
+     * @return
+     */
     suspend fun fetchBook(data: String): Result<Book>
+
+    /**
+     * Fetch chapter
+     *
+     * @param data
+     * @return
+     */
     suspend fun fetchChapter(data: String): Result<Chapter>
+
+    /**
+     * Fetch page
+     *
+     * @param data
+     * @return
+     */
     suspend fun fetchPage(data: String): Result<Page>
+
+    /**
+     * Fetch page details
+     *
+     * @param type
+     * @param data
+     * @return
+     */
     suspend fun fetchPageDetails(type: PageDetailsType, data: String): Result<PageDetails>
+
+    /**
+     * Get book
+     *
+     * @param id
+     * @return
+     */
     fun getBook(id: String): Result<Book>
+
+    /**
+     * Get chapter
+     *
+     * @param chapterId
+     * @param bookId
+     * @return
+     */
     fun getChapter(chapterId: String, bookId: String): Result<Chapter>
+
+    /**
+     * Get page
+     *
+     * @param pageId
+     * @param chapterId
+     * @param bookId
+     * @return
+     */
     fun getPage(pageId: String, chapterId: String, bookId: String): Result<Page>
+
+    /**
+     * Update book
+     *
+     * @param book
+     * @return
+     */
     suspend fun updateBook(book: Book): Result<Unit>
+
+    /**
+     * Update chapter
+     *
+     * @param chapter
+     * @param bookId
+     * @return
+     */
     suspend fun updateChapter(chapter: Chapter, bookId: String): Result<Unit>
+
+    /**
+     * Update page
+     *
+     * @param page
+     * @param bookId
+     * @param chapterId
+     * @return
+     */
     suspend fun updatePage(page: Page, bookId: String, chapterId: String): Result<Unit>
+
+    /**
+     * Delete book
+     *
+     * @param id
+     * @return
+     */
     suspend fun deleteBook(id: String): Result<Unit>
+
+    /**
+     * Add book
+     *
+     * @param book
+     * @return
+     */
     suspend fun addBook(book: Book): Result<Unit>
+
+    /**
+     * Add chapter
+     *
+     * @param chapter
+     * @param bookId
+     * @return
+     */
     suspend fun addChapter(chapter: Chapter, bookId: String): Result<Unit>
+
+    /**
+     * Add page
+     *
+     * @param page
+     * @param chapterId
+     * @param bookId
+     * @return
+     */
     suspend fun addPage(page: Page, chapterId: String, bookId: String): Result<Unit>
 }
 
+/**
+ * Book repository impl
+ *
+ * @property bookDataSource
+ * @constructor Create empty Book repository impl
+ */
 class BookRepositoryImpl(
     private val bookDataSource: BookDataSource
 ) : BookRepository {

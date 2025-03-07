@@ -12,6 +12,12 @@ import com.flingoapp.flingo.data.network.OpenAiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+/**
+ * Open ai repository impl
+ *
+ * @property openAiService
+ * @constructor Create empty Open ai repository impl
+ */
 class OpenAiRepositoryImpl(
     private val openAiService: OpenAiService
 ) : GenAiRepository {

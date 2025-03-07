@@ -12,6 +12,21 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
+/**
+ * User ui state
+ *
+ * @property isLoading
+ * @property isError
+ * @property name
+ * @property age
+ * @property profileImage
+ * @property language
+ * @property currentLives
+ * @property currentReadingStreak
+ * @property selectedInterests
+ * @property selectedImageStyle
+ * @constructor Create empty User ui state
+ */
 data class UserUiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
@@ -25,6 +40,11 @@ data class UserUiState(
     val selectedImageStyle: String = UserImageStyle.COMIC.displayName,
 )
 
+/**
+ * User view model
+ *
+ * @constructor Create empty User view model
+ */
 class UserViewModel : ViewModel() {
     companion object {
         private const val TAG = "UserViewModel"
@@ -35,6 +55,11 @@ class UserViewModel : ViewModel() {
 
     private var previousUser: UserUiState? = null
 
+    /**
+     * On action
+     *
+     * @param action
+     */
     fun onAction(action: MainAction.UserAction) {
         when (action) {
             MainAction.UserAction.IncreaseLives -> increaseLives()

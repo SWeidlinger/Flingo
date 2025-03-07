@@ -9,7 +9,18 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
 
+/**
+ * Retrofit provider
+ *
+ * @constructor Create empty Retrofit provider
+ */
 interface RetrofitProvider {
+    /**
+     * Get instance
+     *
+     * @param baseUrl
+     * @return
+     */
     fun getInstance(baseUrl: String): Retrofit
 }
 

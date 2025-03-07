@@ -21,21 +21,52 @@ import kotlinx.coroutines.flow.update
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+/**
+ * Personalization repository
+ *
+ * @constructor Create empty Personalization repository
+ */
 interface PersonalizationRepository {
     val usedPrompts: StateFlow<List<String>>
     val generatedResults: StateFlow<List<String>>
+
+    /**
+     * Generate book from text
+     *
+     * @param scannedText
+     * @param generateImages
+     * @param personalizationAspects
+     * @return
+     */
     suspend fun generateBookFromText(
         scannedText: String,
         generateImages: Boolean,
         personalizationAspects: PersonalizationAspects
     ): Result<Pair<String, Book>>
 
+    /**
+     * Generate book
+     *
+     * @param sourceBook
+     * @param generateImages
+     * @param personalizationAspects
+     * @return
+     */
     suspend fun generateBook(
         sourceBook: Book,
         generateImages: Boolean,
         personalizationAspects: PersonalizationAspects
     ): Result<Book>
 
+    /**
+     * Generate chapter from text
+     *
+     * @param personalizedText
+     * @param type
+     * @param quizType
+     * @param pageAmount
+     * @return
+     */
     suspend fun generateChapterFromText(
         personalizedText: String,
         type: PageDetailsType,
@@ -43,11 +74,27 @@ interface PersonalizationRepository {
         pageAmount: Int,
     ): Result<Chapter>
 
+    /**
+     * Generate chapter
+     *
+     * @param personalizationAspects
+     * @param sourceChapter
+     * @return
+     */
     suspend fun generateChapter(
         personalizationAspects: PersonalizationAspects,
         sourceChapter: Chapter
     ): Result<Chapter>
 
+    /**
+     * Generate pages from text
+     *
+     * @param personalizedText
+     * @param type
+     * @param quizType
+     * @param pageAmount
+     * @return
+     */
     suspend fun generatePagesFromText(
         personalizedText: String,
         type: PageDetailsType,
@@ -55,17 +102,35 @@ interface PersonalizationRepository {
         pageAmount: Int,
     ): Result<Pair<String, List<Page>>>
 
+    /**
+     * Generate page
+     *
+     * @param personalizationAspects
+     * @param sourceChapter
+     * @return
+     */
     suspend fun generatePage(
         personalizationAspects: PersonalizationAspects,
         sourceChapter: Chapter
     ): Result<Page>
 
+    /**
+     * Generate image
+     *
+     * @return
+     */
     suspend fun generateImage(): Result<Any>
 }
 
+/**
+ * Personalization repository impl
+ *
+ * @property genAiModule
+ * @property bookRepository
+ * @constructor Create empty Personalization repository impl
+ */
 class PersonalizationRepositoryImpl(
     private val genAiModule: GenAiModule,
-//    private val personalizationDataSource: PersonalizationDataSource,
     private val bookRepository: BookRepository
 ) : PersonalizationRepository {
     companion object {

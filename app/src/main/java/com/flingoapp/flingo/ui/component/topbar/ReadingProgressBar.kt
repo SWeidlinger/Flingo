@@ -30,6 +30,15 @@ import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import kotlinx.coroutines.launch
 
+/**
+ * Reading progress bar
+ *
+ * @param modifier
+ * @param pageCount
+ * @param pagerState
+ * @param wordIndexList
+ * @param wordCountList
+ */
 @Composable
 fun ReadingProgressBar(
     modifier: Modifier = Modifier,
@@ -73,6 +82,16 @@ fun ReadingProgressBar(
     }
 }
 
+/**
+ * Reading progress bar section
+ *
+ * @param modifier
+ * @param isPressed
+ * @param progress
+ * @param indexPage
+ * @param onClick
+ * @receiver
+ */
 @Composable
 fun ReadingProgressBarSection(
     modifier: Modifier = Modifier,

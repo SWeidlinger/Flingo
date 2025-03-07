@@ -28,6 +28,15 @@ import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.PersonalizationUiState
 
+/**
+ * Settings screen
+ *
+ * @param onAction
+ * @param onNavigate
+ * @param personalizationUiState
+ * @receiver
+ * @receiver
+ */
 @Composable
 fun SettingsScreen(
     onAction: (MainAction) -> Unit,

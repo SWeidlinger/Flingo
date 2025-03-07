@@ -7,6 +7,12 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import java.io.ByteArrayOutputStream
 
+/**
+ * Decode base64to image
+ *
+ * @param image
+ * @return
+ */
 fun decodeBase64ToImage(image: String): ImageBitmap? {
     val byteArray = Base64.decode(image, Base64.NO_WRAP)
     return if (byteArray.isNotEmpty()) BitmapFactory.decodeByteArray(
@@ -17,6 +23,12 @@ fun decodeBase64ToImage(image: String): ImageBitmap? {
     else null
 }
 
+/**
+ * Bitmap to string
+ *
+ * @param bitmap
+ * @return
+ */
 fun bitmapToString(bitmap: Bitmap): String {
     val outputStream = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)

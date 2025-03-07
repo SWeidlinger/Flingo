@@ -9,7 +9,18 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
+/**
+ * Open ai service
+ *
+ * @constructor Create empty Open ai service
+ */
 interface OpenAiService {
+    /**
+     * Get text response
+     *
+     * @param request
+     * @return
+     */
     @Headers(
         "Content-Type: application/json",
         "Authorization: Bearer ${BuildConfig.OPENAI_API_KEY}"
@@ -17,6 +28,12 @@ interface OpenAiService {
     @POST("v1/chat/completions")
     suspend fun getTextResponse(@Body request: OpenAiTextRequest): OpenAiTextResponse
 
+    /**
+     * Get image response
+     *
+     * @param request
+     * @return
+     */
     @Headers(
         "Content-Type: application/json",
         "Authorization: Bearer ${BuildConfig.OPENAI_API_KEY}"

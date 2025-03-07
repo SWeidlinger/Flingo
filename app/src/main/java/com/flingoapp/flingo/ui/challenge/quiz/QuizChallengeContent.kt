@@ -41,6 +41,19 @@ import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import java.util.concurrent.TimeUnit
 
+/**
+ * Quiz challenge content
+ *
+ * @param modifier
+ * @param onNavigate
+ * @param onAction
+ * @param pageDetails
+ * @param taskDefinitionTopBarWidth
+ * @param onPageCompleted
+ * @receiver
+ * @receiver
+ * @receiver
+ */
 @Composable
 fun QuizChallengeContent(
     modifier: Modifier = Modifier,

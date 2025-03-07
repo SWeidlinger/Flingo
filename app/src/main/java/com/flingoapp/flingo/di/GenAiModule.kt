@@ -16,6 +16,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+/**
+ * Gen ai module
+ *
+ * @constructor Create empty Gen ai module
+ */
 interface GenAiModule {
     val currentModelProvider: StateFlow<GenAiProvider>
     val currentTextModel: GenAiTextModel
@@ -23,11 +28,35 @@ interface GenAiModule {
     val repository: GenAiRepository
     val basePrompts: GenAiRequestBuilder
     val modelPerformance: StateFlow<GenAiModelPerformance>
+
+    /**
+     * Set model repository
+     *
+     * @param genAiProvider
+     */
     fun setModelRepository(genAiProvider: GenAiProvider)
+
+    /**
+     * Set base prompts
+     *
+     * @param genAiRequestBuilder
+     */
     fun setBasePrompts(genAiRequestBuilder: GenAiRequestBuilder)
+
+    /**
+     * Set model performance
+     *
+     * @param modelPerformance
+     */
     fun setModelPerformance(modelPerformance: GenAiModelPerformance)
 }
 
+/**
+ * Gen ai module impl
+ *
+ * @property context
+ * @constructor Create empty Gen ai module impl
+ */
 class GenAiModuleImpl(private val context: Context) : GenAiModule {
     private val openAiService by lazy {
         OpenAiService.instance

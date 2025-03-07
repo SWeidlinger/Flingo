@@ -38,6 +38,15 @@ import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.MainAction
 import com.flingoapp.flingo.viewmodel.UserUiState
 
+/**
+ * User screen
+ *
+ * @param userUiState
+ * @param onAction
+ * @param onNavigate
+ * @receiver
+ * @receiver
+ */
 @Composable
 fun UserScreen(
     userUiState: UserUiState,
@@ -45,22 +54,6 @@ fun UserScreen(
     onNavigate: (NavigationAction) -> Unit
 ) {
     val context = LocalContext.current
-
-    val availableInterests = listOf(
-        "Roboter",
-        "Piraten",
-        "Superhelden",
-        "Monster",
-        "Weltraum",
-        "Magie",
-        "Meereswelt",
-        "Sport"
-    )
-
-    val availableImageStyles = listOf(
-        "Comic",
-        "Realistisch"
-    )
 
     Scaffold(topBar = {
         Box(
@@ -256,19 +249,91 @@ fun UserScreen(
     }
 }
 
+/**
+ * User interest
+ *
+ * @property displayName
+ * @property prompt
+ * @constructor Create empty User interest
+ */
 enum class UserInterest(val displayName: String, val prompt: String) {
+    /**
+     * Robots
+     *
+     * @constructor Create empty Robots
+     */
     ROBOTS(displayName = "Roboter", prompt = "Robots"),
+
+    /**
+     * Pirates
+     *
+     * @constructor Create empty Pirates
+     */
     PIRATES(displayName = "Piraten", prompt = "Pirats"),
+
+    /**
+     * Superheros
+     *
+     * @constructor Create empty Superheros
+     */
     SUPERHEROS(displayName = "Superhelden", prompt = "Superheros"),
+
+    /**
+     * Monster
+     *
+     * @constructor Create empty Monster
+     */
     MONSTER(displayName = "Monster", prompt = "Monster"),
+
+    /**
+     * Space
+     *
+     * @constructor Create empty Space
+     */
     SPACE(displayName = "Weltraum", prompt = "Space"),
+
+    /**
+     * Magic
+     *
+     * @constructor Create empty Magic
+     */
     MAGIC(displayName = "Magie", prompt = "Magic"),
+
+    /**
+     * Seaworld
+     *
+     * @constructor Create empty Seaworld
+     */
     SEAWORLD(displayName = "Meereswelt", prompt = "Seaworld"),
+
+    /**
+     * Sport
+     *
+     * @constructor Create empty Sport
+     */
     SPORT(displayName = "Sport", prompt = "Sport")
 }
 
+/**
+ * User image style
+ *
+ * @property displayName
+ * @property prompt
+ * @constructor Create empty User image style
+ */
 enum class UserImageStyle(val displayName: String, val prompt: String) {
+    /**
+     * Comic
+     *
+     * @constructor Create empty Comic
+     */
     COMIC(displayName = "Comic", prompt = "Comic"),
+
+    /**
+     * Realistic
+     *
+     * @constructor Create empty Realistic
+     */
     REALISTIC(displayName = "Realistisch", prompt = "Realistic")
 }
 

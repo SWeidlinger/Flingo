@@ -18,6 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.flingoapp.flingo.navigation.NavigationAction
 import com.flingoapp.flingo.ui.theme.FlingoColors
 
+/**
+ * Streak and stars screen
+ *
+ * @param onNavigate
+ * @receiver
+ */
 @Composable
 fun StreakAndStarsScreen(
     onNavigate: (NavigationAction) -> Unit

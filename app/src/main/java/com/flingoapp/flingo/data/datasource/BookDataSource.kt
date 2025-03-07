@@ -9,6 +9,11 @@ import com.flingoapp.flingo.data.model.Chapter
 import com.flingoapp.flingo.data.model.page.Page
 import kotlinx.serialization.json.Json
 
+/**
+ * Interface representing a data source for books.
+ *
+ * @constructor Create empty Book data source
+ */
 interface BookDataSource {
     suspend fun parseBook(data: String): Result<Book>
     suspend fun parseChapter(data: String): Result<Chapter>
@@ -16,6 +21,12 @@ interface BookDataSource {
     suspend fun parsePageDetails(type: PageDetailsType, data: String): Result<PageDetails>
 }
 
+/**
+ * Book data source implementation for parsing JSON elements into book objects.
+ *
+ * @property context
+ * @constructor Create empty Book data source json impl
+ */
 class BookDataSourceJsonImpl(
     val context: Context
 ) : BookDataSource {

@@ -11,6 +11,11 @@ import com.flingoapp.flingo.data.repository.BookRepositoryImpl
 import com.flingoapp.flingo.data.repository.PersonalizationRepository
 import com.flingoapp.flingo.data.repository.PersonalizationRepositoryImpl
 
+/**
+ * Main application
+ *
+ * @constructor Create empty Main application
+ */
 class MainApplication : Application() {
     companion object {
         lateinit var appModule: AppModule
@@ -34,10 +39,21 @@ class MainApplication : Application() {
     }
 }
 
+/**
+ * App module
+ *
+ * @constructor Create empty App module
+ */
 interface AppModule {
     val genAiModule: GenAiModule
 }
 
+/**
+ * App module impl
+ *
+ * @property context
+ * @constructor Create empty App module impl
+ */
 class AppModuleImpl(
     val context: Context
 ) : AppModule {

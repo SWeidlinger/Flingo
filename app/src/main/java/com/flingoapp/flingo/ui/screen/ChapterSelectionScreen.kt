@@ -57,6 +57,17 @@ import com.flingoapp.flingo.ui.toDp
 import com.flingoapp.flingo.viewmodel.BookUiState
 import com.flingoapp.flingo.viewmodel.MainAction
 
+/**
+ * Chapter selection screen
+ *
+ * @param bookUiState
+ * @param currentLives
+ * @param book
+ * @param onAction
+ * @param onNavigate
+ * @receiver
+ * @receiver
+ */
 @Composable
 fun ChapterSelectionScreen(
     bookUiState: BookUiState,

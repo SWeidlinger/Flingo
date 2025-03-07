@@ -26,6 +26,22 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+/**
+ * Personalization ui state
+ *
+ * @property isConnectedToNetwork
+ * @property isLoading
+ * @property isError
+ * @property isSuccess
+ * @property currentModel
+ * @property isDebug
+ * @property lastResponseTime
+ * @property usedPrompt
+ * @property childName
+ * @property childAge
+ * @property generateImages
+ * @constructor Create empty Personalization ui state
+ */
 data class PersonalizationUiState(
     val isConnectedToNetwork: Boolean = false,
     val isLoading: Boolean = false,
@@ -41,6 +57,17 @@ data class PersonalizationUiState(
     val generateImages: Boolean = false
 )
 
+/**
+ * Personalization view model
+ *
+ * @property genAiModule
+ * @property bookViewModel
+ * @property userViewModel
+ * @property personalizationRepository
+ * @constructor
+ *
+ * @param connectivityObserver
+ */
 class PersonalizationViewModel(
     private val genAiModule: GenAiModule,
     //should be handled differently, viewmodel should not depend on other viewmodel but fine for now
@@ -74,6 +101,11 @@ class PersonalizationViewModel(
         }
     }
 
+    /**
+     * On action
+     *
+     * @param action
+     */
     fun onAction(action: MainAction.PersonalizationAction) {
         when (action) {
             is MainAction.PersonalizationAction.GenerateBookFromText -> generateBookFromText(action.scannedText)
@@ -442,7 +474,15 @@ class PersonalizationViewModel(
     }
 }
 
-//TODO: add specific prompts to interests and image styles
+/**
+ * Personalization aspects
+ *
+ * @property age
+ * @property name
+ * @property interests
+ * @property imageStyle
+ * @constructor Create empty Personalization aspects
+ *///TODO: add specific prompts to interests and image styles
 data class PersonalizationAspects(
     val age: Int,
     val name: String,
