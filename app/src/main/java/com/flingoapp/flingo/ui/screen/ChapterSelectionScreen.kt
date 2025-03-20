@@ -1,5 +1,7 @@
 package com.flingoapp.flingo.ui.screen
 
+import PageDetailsSelectionEntry
+import PageDetailsType
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,6 +39,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -207,12 +210,16 @@ private fun ChapterSelectionContent(
                     key = { _, chapter -> chapter.id }
                 ) { index, _ ->
                     val chapter = chapters[index]
-                    val isChapterLocked by remember {
-                        derivedStateOf {
-                            if (index == 0 || unlockAll) false
-                            else !chapters[index - 1].isCompleted
-                        }
-                    }
+
+                    //TODO: removed for now, can be activated again if needed
+//                    val isChapterLocked by remember {
+//                        derivedStateOf {
+//                            if (index == 0 || unlockAll) false
+//                            else !chapters[index - 1].isCompleted
+//                        }
+//                    }
+                    val isChapterLocked = false
+                    val pageTypeInChapter = chapter.pages?.first()?.details?.type
 
                     //Box used to not apply offset to the button, as it can mess up the layout
                     Box(
@@ -234,12 +241,21 @@ private fun ChapterSelectionContent(
                             isPressed = chapter.isCompleted,
                             enabled = !isChapterLocked,
                             backgroundColor =
-                            if (chapter.isCompleted) {
-                                FlingoColors.Success
-                            } else {
-                                if (chapter.type == ChapterType.READ) FlingoColors.LightGray
-                                else MaterialTheme.colorScheme.primary
-                            },
+                                if (chapter.isCompleted) {
+                                    FlingoColors.Success
+                                } else {
+                                    when (chapter.type) {
+                                        ChapterType.READ -> FlingoColors.LightGray
+                                        else -> {
+                                            when (pageTypeInChapter) {
+                                                PageDetailsType.ORDER_STORY -> PageDetailsSelectionEntry.ORDER_STORY.backgroundColor
+                                                PageDetailsType.REMOVE_WORD -> PageDetailsSelectionEntry.REMOVE_WORD.backgroundColor
+                                                PageDetailsType.QUIZ -> PageDetailsSelectionEntry.QUIZ.backgroundColor
+                                                else -> MaterialTheme.colorScheme.primary
+                                            }
+                                        }
+                                    }
+                                },
                             onClick = {
                                 onNavigate(
                                     NavigationAction.Screen(
@@ -257,7 +273,16 @@ private fun ChapterSelectionContent(
                                 ) {
                                     val showButtonIcon = chapter.isCompleted || isChapterLocked
 
-                                    if (showButtonIcon) {
+                                    //TODO: refactor
+                                    val pageDetailEntry = PageDetailsSelectionEntry.entries.find { it.pageType == pageTypeInChapter }
+                                    if (chapter.type == ChapterType.CHALLENGE && pageDetailEntry != null) {
+                                        Icon(
+                                            modifier = Modifier.size(chapterButtonSize / 1.5f),
+                                            tint = pageDetailEntry.iconTint,
+                                            painter = painterResource(pageDetailEntry.iconRes),
+                                            contentDescription = if (chapter.isCompleted) "Chapter finished" else "Chapter Locked"
+                                        )
+                                    } else if (showButtonIcon) {
                                         Icon(
                                             modifier = Modifier.size(chapterButtonSize / 1.75f),
                                             tint = if (chapter.type == ChapterType.CHALLENGE || chapter.isCompleted) Color.White
@@ -272,12 +297,12 @@ private fun ChapterSelectionContent(
                                         text = chapter.title,
                                         style = MaterialTheme.typography.headlineLarge.copy(fontSize = 42.sp),
                                         color =
-                                        if (chapter.isCompleted) {
-                                            Color.White
-                                        } else {
-                                            if (chapter.type == ChapterType.CHALLENGE) Color.White
-                                            else FlingoColors.Text
-                                        }
+                                            if (chapter.isCompleted) {
+                                                Color.White
+                                            } else {
+                                                if (chapter.type == ChapterType.CHALLENGE) Color.White
+                                                else FlingoColors.Text
+                                            }
                                     )
                                 }
                             }

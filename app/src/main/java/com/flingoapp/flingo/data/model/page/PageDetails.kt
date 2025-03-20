@@ -210,7 +210,7 @@ enum class PageDetailsSelectionEntry(
         iconRes = R.drawable.pagedetails_remove_word_icon,
         title = "Remove Word",
         pageType = PageDetailsType.REMOVE_WORD,
-        backgroundColor = Color(0xFF0094D0),
+        backgroundColor = Color(0xFF03A9F4),
         iconTint = Color(0xFF56CDFF)
     ),
 
