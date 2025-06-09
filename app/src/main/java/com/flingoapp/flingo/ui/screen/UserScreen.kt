@@ -29,10 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flingoapp.flingo.R
 import com.flingoapp.flingo.navigation.NavigationAction
+import com.flingoapp.flingo.navigation.NavigationDestination
 import com.flingoapp.flingo.ui.CustomPreview
 import com.flingoapp.flingo.ui.component.button.CustomElevatedButton2
 import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton
 import com.flingoapp.flingo.ui.component.button.CustomElevatedTextButton2
+import com.flingoapp.flingo.ui.component.topbar.CustomTopBar
 import com.flingoapp.flingo.ui.theme.FlingoColors
 import com.flingoapp.flingo.ui.theme.FlingoTheme
 import com.flingoapp.flingo.viewmodel.MainAction
@@ -56,23 +58,38 @@ fun UserScreen(
     val context = LocalContext.current
 
     Scaffold(topBar = {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp)
-        ) {
-            CustomElevatedTextButton(
-                modifier = Modifier.align(Alignment.TopEnd),
-                fontSize = 32,
-                elevation = 6.dp,
-                shape = RoundedCornerShape(
-                    topStartPercent = 20,
-                    bottomStartPercent = 20
-                ),
-                onClick = { onNavigate(NavigationAction.Up()) },
-                text = "Zurück"
-            )
-        }
+        CustomTopBar(
+            title = "Profil",
+            navigateUp = { onNavigate(NavigationAction.Up()) },
+            onAwardClick = {
+            },
+            onSettingsClick = {
+                onNavigate(NavigationAction.Screen(NavigationDestination.Settings))
+            },
+            showLives = true,
+            currentLives = 0,
+            onSettingsLongClick = {
+                onAction(MainAction.PersonalizationAction.ToggleDebugMode)
+            }
+        )
+
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(bottom = 24.dp)
+//        ) {
+//            CustomElevatedTextButton(
+//                modifier = Modifier.align(Alignment.TopEnd),
+//                fontSize = 32,
+//                elevation = 6.dp,
+//                shape = RoundedCornerShape(
+//                    topStartPercent = 20,
+//                    bottomStartPercent = 20
+//                ),
+//                onClick = { onNavigate(NavigationAction.Up()) },
+//                text = "Zurück"
+//            )
+//        }
     }) { innerPadding ->
         Row(
             modifier = Modifier
@@ -84,7 +101,7 @@ fun UserScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(1f)
+                    .weight(0.5f)
             ) {
                 val profileImage = when (userUiState.profileImage) {
                     "flingo_pink" -> painterResource(id = R.drawable.flingo_pink)
@@ -104,23 +121,22 @@ fun UserScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Image(
-                                modifier = Modifier
-                                    .weight(2f),
+                                modifier = Modifier.weight(2f),
                                 painter = profileImage,
                                 contentDescription = "Profile Image"
                             )
 
                             Column(
-                                modifier = Modifier
-                                    .weight(1f)
+                                modifier = Modifier.weight(1f)
                             ) {
                                 Text(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .wrapContentSize(Alignment.Center)
-                                        .padding(bottom = 8.dp),
+                                        .padding(bottom = 16.dp),
                                     text = userUiState.name,
                                     style = MaterialTheme.typography.headlineLarge,
+                                    fontWeight = FontWeight.Bold,
                                     fontSize = 56.sp
                                 )
 
@@ -130,17 +146,19 @@ fun UserScreen(
                                         .wrapContentSize(Alignment.Center),
                                     text = "Alter: ${userUiState.age}",
                                     style = MaterialTheme.typography.headlineLarge,
-                                    fontWeight = FontWeight.SemiBold
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 56.sp
                                 )
 
-                                Text(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .wrapContentSize(Alignment.Center),
-                                    text = "Sprache: ${userUiState.language}",
-                                    style = MaterialTheme.typography.headlineLarge,
-                                    fontWeight = FontWeight.SemiBold
-                                )
+//                                Text(
+//                                    modifier = Modifier
+//                                        .fillMaxWidth()
+//                                        .wrapContentSize(Alignment.Center),
+//                                    text = "Sprache: de",
+//                                    style = MaterialTheme.typography.headlineLarge,
+//                                    fontWeight = FontWeight.SemiBold,
+//                                    fontSize = 38.sp
+//                                )
                             }
                         }
                     },
@@ -160,7 +178,7 @@ fun UserScreen(
                 Column(
                     modifier = Modifier
                         .weight(2f)
-                        .padding(bottom = 48.dp)
+                        .padding(bottom = 24.dp)
                 ) {
                     Text(
                         modifier = Modifier
@@ -169,6 +187,7 @@ fun UserScreen(
                             .padding(bottom = 16.dp),
                         text = "Wähle deine Interessen aus!",
                         style = MaterialTheme.typography.headlineLarge,
+                        fontSize = 42.sp
                     )
 
                     FlowRow(
@@ -185,7 +204,7 @@ fun UserScreen(
                                 modifier = Modifier.weight(1f),
                                 elevation = 6.dp,
                                 fill = true,
-                                fontSize = 36.sp,
+                                fontSize = 48.sp,
                                 text = interest.displayName,
                                 pressedColor = if (isSelected) FlingoColors.Primary else Color.White,
                                 textColor = if (isSelected) Color.White else FlingoColors.Text,
@@ -211,6 +230,7 @@ fun UserScreen(
                             .padding(bottom = 16.dp),
                         text = "Wähle den Stil der Bilder aus!",
                         style = MaterialTheme.typography.headlineLarge,
+                        fontSize = 42.sp
                     )
 
                     FlowRow(
@@ -229,7 +249,7 @@ fun UserScreen(
                                     .fillMaxHeight(),
                                 elevation = 6.dp,
                                 fill = true,
-                                fontSize = 36.sp,
+                                fontSize = 48.sp,
                                 text = imageStyle.displayName,
                                 pressedColor = if (isSelected) FlingoColors.Primary else Color.White,
                                 textColor = if (isSelected) Color.White else FlingoColors.Text,
@@ -300,11 +320,11 @@ enum class UserInterest(val displayName: String, val prompt: String) {
     MAGIC(displayName = "Magie", prompt = "Magic"),
 
     /**
-     * Seaworld
+     * Jungle
      *
-     * @constructor Create empty Seaworld
+     * @constructor Create empty Jungle
      */
-    SEAWORLD(displayName = "Meereswelt", prompt = "Seaworld"),
+    JUNGLE(displayName = "Dschungel", prompt = "Jungle"),
 
     /**
      * Sport
