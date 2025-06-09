@@ -105,16 +105,16 @@ fun CustomTopBar(
                     }
 
                     // award button
-                    CustomIconButton(
-                        modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
-                            iconButtonSize = layoutCoordinates.size
-                        },
-                        icon = Icons.Default.Star,
-                        iconPainter = painterResource(id = R.drawable.kid_star),
-                        iconContentDescription = "Awards",
-                        backgroundColor = MaterialTheme.colorScheme.secondary,
-                        onClick = { onAwardClick() }
-                    )
+//                    CustomIconButton(
+//                        modifier = Modifier.onGloballyPositioned { layoutCoordinates ->
+//                            iconButtonSize = layoutCoordinates.size
+//                        },
+//                        icon = Icons.Default.Star,
+//                        iconPainter = painterResource(id = R.drawable.kid_star),
+//                        iconContentDescription = "Awards",
+//                        backgroundColor = MaterialTheme.colorScheme.secondary,
+//                        onClick = { onAwardClick() }
+//                    )
 
                     // settings button
                     CustomIconButton(

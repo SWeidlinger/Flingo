@@ -25,7 +25,7 @@ class OpenAiRepositoryImpl(
         private const val TAG = "OpenAiRepositoryImpl"
     }
 
-    override suspend fun getTextResponse(
+    override suspend fun generateTextResponse(
         model: GenAiTextModel,
         request: GenAiRequest
     ): Result<String> {
@@ -76,7 +76,7 @@ class OpenAiRepositoryImpl(
         }
     }
 
-    override suspend fun getImageResponse(model: GenAiImageModel, request: GenAiRequest): Result<String> {
+    override suspend fun generateImageResponse(model: GenAiImageModel, request: GenAiRequest): Result<String> {
         Log.e(
             TAG, "Sending image request to OpenAI API with:\n" +
                     request.prompt +

@@ -210,8 +210,8 @@ enum class PageDetailsSelectionEntry(
         iconRes = R.drawable.pagedetails_remove_word_icon,
         title = "Remove Word",
         pageType = PageDetailsType.REMOVE_WORD,
-        backgroundColor = Color(0xFF03A9F4),
-        iconTint = Color(0xFF56CDFF)
+        backgroundColor = Color(0xFF0092F5),
+        iconTint = Color(0xFF8ACEFC)
     ),
 
     /**
@@ -224,7 +224,7 @@ enum class PageDetailsSelectionEntry(
         title = "Quiz",
         pageType = PageDetailsType.QUIZ,
         backgroundColor = Color(0xFFf7904d),
-        iconTint = Color(0xFFFFBB6F)
+        iconTint = Color(0xFFFDC195)
     ),
 
     /**
@@ -237,6 +237,6 @@ enum class PageDetailsSelectionEntry(
         title = "Order Story",
         pageType = PageDetailsType.ORDER_STORY,
         backgroundColor = Color(0xFFAB80FF),
-        iconTint = Color(0xFFD5BFFF)
+        iconTint = Color(0xFFE3D3FF)
     ),
 }

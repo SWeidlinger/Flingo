@@ -17,7 +17,7 @@ interface GenAiRepository {
      * @param request
      * @return
      */
-    suspend fun getTextResponse(model: GenAiTextModel, request: GenAiRequest): Result<String>
+    suspend fun generateTextResponse(model: GenAiTextModel, request: GenAiRequest): Result<String>
 
     /**
      * Get image response
@@ -26,7 +26,7 @@ interface GenAiRepository {
      * @param request
      * @return
      */
-    suspend fun getImageResponse(model: GenAiImageModel, request: GenAiRequest): Result<String>
+    suspend fun generateImageResponse(model: GenAiImageModel, request: GenAiRequest): Result<String>
 
     /**
      * Add content to prompt

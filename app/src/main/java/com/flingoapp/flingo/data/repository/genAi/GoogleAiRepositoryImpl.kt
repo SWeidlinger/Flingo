@@ -29,7 +29,7 @@ class GoogleAiRepositoryImpl : GenAiRepository {
         private const val TAG = "GoogleAiRepositoryImpl"
     }
 
-    override suspend fun getTextResponse(model: GenAiTextModel, request: GenAiRequest): Result<String> {
+    override suspend fun generateTextResponse(model: GenAiTextModel, request: GenAiRequest): Result<String> {
         Log.e(
             TAG, "Sending request to GoogleAI API with:\n" +
                     request.prompt +
@@ -87,7 +87,7 @@ class GoogleAiRepositoryImpl : GenAiRepository {
      * @return
      */
     @OptIn(PublicPreviewAPI::class)
-    override suspend fun getImageResponse(model: GenAiImageModel, request: GenAiRequest): Result<String> {
+    override suspend fun generateImageResponse(model: GenAiImageModel, request: GenAiRequest): Result<String> {
         Log.e(
             TAG, "Sending image request to GoogleAi API with:\n" +
                     request.prompt +

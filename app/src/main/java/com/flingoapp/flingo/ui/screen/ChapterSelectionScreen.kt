@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -268,32 +269,38 @@ private fun ChapterSelectionContent(
                             },
                             buttonContent = {
                                 Column(
+                                    modifier = Modifier.fillMaxSize(),
                                     verticalArrangement = Arrangement.Center,
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     val showButtonIcon = chapter.isCompleted || isChapterLocked
 
                                     //TODO: refactor
-                                    val pageDetailEntry = PageDetailsSelectionEntry.entries.find { it.pageType == pageTypeInChapter }
+                                    val pageDetailEntry =
+                                        PageDetailsSelectionEntry.entries.find { it.pageType == pageTypeInChapter }
                                     if (chapter.type == ChapterType.CHALLENGE && pageDetailEntry != null) {
                                         Icon(
-                                            modifier = Modifier.size(chapterButtonSize / 1.5f),
+                                            modifier = Modifier.size((chapterButtonSize / 2)),
                                             tint = pageDetailEntry.iconTint,
                                             painter = painterResource(pageDetailEntry.iconRes),
                                             contentDescription = if (chapter.isCompleted) "Chapter finished" else "Chapter Locked"
                                         )
+
+                                        Spacer(modifier = Modifier.padding(8.dp))
                                     } else if (showButtonIcon) {
                                         Icon(
-                                            modifier = Modifier.size(chapterButtonSize / 1.75f),
+                                            modifier = Modifier.size((chapterButtonSize / 2)),
                                             tint = if (chapter.type == ChapterType.CHALLENGE || chapter.isCompleted) Color.White
                                             else Color.Black,
                                             imageVector = if (chapter.isCompleted) Icons.Default.Check else Icons.Default.Lock,
                                             contentDescription = if (chapter.isCompleted) "Chapter finished" else "Chapter Locked"
                                         )
+
+                                        Spacer(modifier = Modifier.padding(8.dp))
                                     }
 
                                     AutoResizableText(
-                                        modifier = if (showButtonIcon) Modifier.padding(16.dp) else Modifier,
+                                        modifier = Modifier.padding(horizontal = 24.dp),
                                         text = chapter.title,
                                         style = MaterialTheme.typography.headlineLarge.copy(fontSize = 42.sp),
                                         color =

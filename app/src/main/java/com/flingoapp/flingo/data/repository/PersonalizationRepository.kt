@@ -224,7 +224,7 @@ class PersonalizationRepositoryImpl(
             it + splitTextRequest.toString()
         }
 
-        val originalSplitTextResponse = genAiModule.repository.getTextResponse(
+        val originalSplitTextResponse = genAiModule.repository.generateTextResponse(
             model = genAiModule.currentTextModel,
             request = splitTextRequest
         ).getOrThrow()
@@ -238,7 +238,7 @@ class PersonalizationRepositoryImpl(
             it + personalizeTextPartsRequest.toString()
         }
 
-        val personalizedTextPartsResponse = genAiModule.repository.getTextResponse(
+        val personalizedTextPartsResponse = genAiModule.repository.generateTextResponse(
             model = genAiModule.currentTextModel,
             request = personalizeTextPartsRequest
         ).getOrThrow()
@@ -252,7 +252,7 @@ class PersonalizationRepositoryImpl(
             it + imageGenerationPromptRequest.toString()
         }
 
-        val imagePromptResponse = genAiModule.repository.getTextResponse(
+        val imagePromptResponse = genAiModule.repository.generateTextResponse(
             model = genAiModule.currentTextModel,
             request = imageGenerationPromptRequest
         ).getOrThrow()
@@ -311,7 +311,7 @@ class PersonalizationRepositoryImpl(
                 it + requestPageDetails.toString()
             }
 
-            val response = genAiModule.repository.getTextResponse(
+            val response = genAiModule.repository.generateTextResponse(
                 model = genAiModule.currentTextModel,
                 request = requestPageDetails
             ).getOrThrow()
@@ -430,7 +430,7 @@ class PersonalizationRepositoryImpl(
             it + request.toString()
         }
 
-        val response = genAiModule.repository.getTextResponse(
+        val response = genAiModule.repository.generateTextResponse(
             model = genAiModule.currentTextModel,
             request = request
         ).getOrThrow()
@@ -493,7 +493,7 @@ class PersonalizationRepositoryImpl(
             it + request.toString()
         }
 
-        val response = genAiModule.repository.getTextResponse(
+        val response = genAiModule.repository.generateTextResponse(
             model = genAiModule.currentTextModel,
             request = request
         ).getOrThrow()
@@ -521,7 +521,7 @@ class PersonalizationRepositoryImpl(
             it + request.toString()
         }
 
-        val response = genAiModule.repository.getTextResponse(
+        val response = genAiModule.repository.generateTextResponse(
             model = genAiModule.currentTextModel,
             request = request
         ).getOrThrow()
@@ -548,7 +548,7 @@ class PersonalizationRepositoryImpl(
                     _usedPrompts.update { it + imageGenerationRequest.toString() }
 
                     // Call the suspend function concurrently
-                    genAiModule.repository.getImageResponse(
+                    genAiModule.repository.generateImageResponse(
                         model = genAiModule.currentImageModel,
                         request = imageGenerationRequest
                     ).getOrThrow()

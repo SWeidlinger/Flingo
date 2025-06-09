@@ -138,13 +138,13 @@ fun CustomHomeScreenTopBar(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 // award button
-                CustomIconButton(
-                    icon = Icons.Default.Star,
-                    iconPainter = painterResource(id = R.drawable.kid_star),
-                    iconContentDescription = "Awards",
-                    backgroundColor = MaterialTheme.colorScheme.secondary,
-                    onClick = { onAwardClick() }
-                )
+//                CustomIconButton(
+//                    icon = Icons.Default.Star,
+//                    iconPainter = painterResource(id = R.drawable.kid_star),
+//                    iconContentDescription = "Awards",
+//                    backgroundColor = MaterialTheme.colorScheme.secondary,
+//                    onClick = { onAwardClick() }
+//                )
 
                 // settings button
                 CustomIconButton(
